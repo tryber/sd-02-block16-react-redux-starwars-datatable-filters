@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
 import { fetchPlanets } from '../actions';
 
 class Table extends Component {
@@ -11,26 +10,38 @@ class Table extends Component {
     // console.log(this.props);
   }
 
+  planetsFiltered(p) {
+    const { name } = this.props.estado.searchFilterReducer.filters[0];
+    if (!name) return p;
+    return p.filter((planeta) => planeta.name.toLowerCase().includes(name.toLowerCase()));
+  }
+
   tableRender() {
-    const { planets } = this.props.planets;
-    console.log(planets);
+    console.log(this.props);
+    let { planets } = this.props.estado.planets;
+    // console.log(planets);
     const headerTable = planets ? Object.keys(planets[0]) : '';
-    console.log(headerTable);
+    // console.log(headerTable);
+    planets = (this.planetsFiltered(planets));
     if (headerTable) {
       return (
         <table>
-          <tr>
-            {headerTable.map((header) => (
-              header !== 'residents' ? <th key={header}>{header}</th> : null
-            ))}
-          </tr>
-          {planets.map((planeta) => (
+          <thead>
             <tr>
-              {Object.keys(planeta).map((chave) => (
-                chave !== 'residents' ? <td key={planeta[chave]}>{planeta[chave]}</td> : null
+              {headerTable.map((header) => (
+                header !== 'residents' ? <th key={header}>{header}</th> : null
               ))}
             </tr>
-          ))}
+          </thead>
+          <tbody>
+            {planets.map((planeta) => (
+              <tr>
+                {Object.keys(planeta).map((chave) => (
+                  chave !== 'residents' ? <td key={planeta[chave]}>{planeta[chave]}</td> : null
+                ))}
+              </tr>
+            ))}
+          </tbody>
         </table>
       );
     }
@@ -46,9 +57,9 @@ class Table extends Component {
   }
 }
 
-const mapStateToProps = ({ planets }) => (
+const mapStateToProps = (state) => (
   {
-    planets,
+    estado: state,
   }
 );
 

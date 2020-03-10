@@ -6,7 +6,6 @@ const INITIAL_PLANETS_STATE = {
 
 const getPlanets = (state = INITIAL_PLANETS_STATE, action) => {
   // console.log('received action: ', action);
-
   switch (action.type) {
     case REQUEST_PLANETS:
       return {
