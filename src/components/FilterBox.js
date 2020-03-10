@@ -10,9 +10,10 @@ const FilterBox = ({ column, comparison, value }) => (
 
 const mapStateToProps = ({
   data: {
-    filters: [{ numeric_values: { column, comparison, value } }],
+    filters: [{ name }, { numeric_values: { column, comparison, value } }],
   },
 }) => ({
+  name,
   column,
   comparison,
   value,

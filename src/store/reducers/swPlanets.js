@@ -14,6 +14,8 @@ const INITIAL_SW_PLANETS_STATE = {
   filters: [
     {
       name: '',
+    },
+    {
       numeric_values:
       {
         column: '',
@@ -47,7 +49,7 @@ const data = (state = INITIAL_SW_PLANETS_STATE, action) => {
       const { column, comparison, value } = action.filters[0].numeric_values;
       return {
         ...state,
-        filters: [{ name: action.filters[0].name, numeric_values: { column, comparison, value } }],
+        filters: [{ name: action.filters[0].name }, { numeric_values: { column, comparison, value } }],
         results: numFilters(action.results, action.filters, column, comparison, value)
           || action.results,
       };

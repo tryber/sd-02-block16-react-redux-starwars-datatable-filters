@@ -18,9 +18,13 @@ const Selectors = (
         }
         {
           selects.map((num) => (
-            filters.some(({ numeric_values: { column } }) => column === num)
-              ? null
-              : <option key={num} value={num}>{num}</option>
+            filters.map((el) => (el === 'numeric_values' ? el.some(({
+              numeric_values: { column },
+            }) => (
+                column === num
+                  ? null
+                  : <option key={num} value={num}>{num}</option>
+              )) : false))
           ))
         }
       </select>
