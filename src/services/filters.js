@@ -1,20 +1,18 @@
-export const numFilters = (results, column, comparison, value) => {
+const numFilters = (results, filters, column, comparison, value) => {
+  const filterPlanets = results.filter((planet) => planet.name.match(filters[0].name));
   if (column && comparison && value) {
     switch (comparison) {
       case 'maior que':
-        return results.filter((planet) => planet[column] > parseInt(value, 10));
+        return filterPlanets.filter((planet) => planet[column] > parseInt(value, 10));
       case 'menor que':
-        return results.filter((planet) => planet[column] < parseInt(value, 10));
+        return filterPlanets.filter((planet) => planet[column] < parseInt(value, 10));
       case 'igual a':
-        console.log(results.filter((planet) => planet[column] === value));
-        return results.filter((planet) => planet[column] === value);
+        return filterPlanets.filter((planet) => planet[column] === value);
       default:
-        return results;
+        return filterPlanets;
     }
   }
-  return results;
+  return filterPlanets;
 };
 
-export const nameFilters = (results, filters) => (
-  results.filter((planet) => planet.name.match(filters[0].name))
-);
+export default numFilters;

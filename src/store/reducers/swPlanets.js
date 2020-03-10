@@ -2,14 +2,10 @@ import {
   REQUEST_SW_PLANETS,
   REQUEST_SW_PLANETS_SUCCESS,
   REQUEST_SW_PLANETS_FAILURE,
-  FILTER_PLANETS,
   OTHER_FILTERS,
 } from '../actions';
 
-import {
-  numFilters,
-  nameFilters,
-} from '../../services/filters';
+import numFilters from '../../services/filters';
 
 const INITIAL_SW_PLANETS_STATE = {
   isFetching: true,
@@ -47,18 +43,13 @@ const data = (state = INITIAL_SW_PLANETS_STATE, action) => {
         error: action.error,
         isFetching: false,
       };
-    case FILTER_PLANETS:
-      return {
-        ...state,
-        filters: [{ name: action.filters[0].name }],
-        results: nameFilters(action.results, action.filters),
-      };
     case OTHER_FILTERS: {
       const { column, comparison, value } = action.filters[0].numeric_values;
       return {
         ...state,
-        filters: [{ numeric_values: { column, comparison, value } }],
-        results: numFilters(action.results, column, comparison, value) || action.results,
+        filters: [{ name: action.filters[0].name, numeric_values: { column, comparison, value } }],
+        results: numFilters(action.results, action.filters, column, comparison, value)
+          || action.results,
       };
     }
     default:

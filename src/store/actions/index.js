@@ -20,17 +20,9 @@ const receiveSWplanetsFailure = (error) => ({
   error,
 });
 
-const receiveFilterNamePlanets = (results, name) => (
-  {
-    type: FILTER_PLANETS,
-    filters: [{ name }],
-    results,
-  }
-);
-
-const receiveOtherFilters = (results, column, comparison, value) => ({
+const receiveOtherFilters = (results, name, column, comparison, value) => ({
   type: OTHER_FILTERS,
-  filters: [{ numeric_values: { column, comparison, value } }],
+  filters: [{ name, numeric_values: { column, comparison, value } }],
   results,
 });
 
@@ -46,24 +38,18 @@ export function fetchSWplanets() {
   };
 }
 
-export function filterPlanets({ target: { value } }) {
-  const planets = JSON.parse(sessionStorage.getItem('planets'));
-
-  return (dispatch) => (
-    dispatch(receiveFilterNamePlanets(planets, new RegExp(value, 'i')))
-  );
-}
-
 export function filterOther({ target: { value } }, i) {
   if (i === 0) sessionStorage.setItem('filters', JSON.stringify(value));
   if (i === 1) sessionStorage.setItem('compare', JSON.stringify(value));
   if (i === 2) sessionStorage.setItem('value', JSON.stringify(value));
+  if (i === 3) sessionStorage.setItem('name', JSON.stringify(value));
   const planets = JSON.parse(sessionStorage.getItem('planets')) || '';
   const planetsFilter = JSON.parse(sessionStorage.getItem('filters')) || '';
   const planetsCompare = JSON.parse(sessionStorage.getItem('compare')) || '';
-  const planetsValue = JSON.parse(sessionStorage.getItem('value')) || '';
+  const planetsValue = parseInt(JSON.parse(sessionStorage.getItem('value')), 10) || 0;
+  const planetsName = JSON.parse(sessionStorage.getItem('name')) || '';
 
   return (dispatch) => (
-    dispatch(receiveOtherFilters(planets, planetsFilter, planetsCompare, planetsValue))
+    dispatch(receiveOtherFilters(planets, new RegExp(planetsName, 'i'), planetsFilter, planetsCompare, planetsValue))
   );
 }

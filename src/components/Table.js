@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Selectors from './Selectors';
+import FilterBox from './FilterBox';
 import './Table.css';
 
-import { fetchSWplanets, filterPlanets } from '../store/actions';
+import { fetchSWplanets, filterOther } from '../store/actions';
 
 class Table extends Component {
   componentDidMount() {
@@ -38,16 +39,17 @@ class Table extends Component {
 
   render() {
     const {
-      isFetching, results, filterPlanet,
+      isFetching, results, getFilterOther,
     } = this.props;
 
     if (isFetching) return <div>LOADING...</div>;
     return (
       <div>
-        <input type="text" placeholder="Digite o nome do planeta" onChange={(e) => filterPlanet(e)} />
+        <input type="text" placeholder="Digite o nome do planeta" onChange={(e) => getFilterOther(e, 3)} />
         <label htmlFor="values">Choose a filter:</label>
         <Selectors selects={['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water']} i={0} />
         <Selectors selects={['maior que', 'menor que', 'igual a']} i={1} />
+        <FilterBox />
         <table className="table-content">
           <caption>STAR WARS PLANETS</caption>
           <thead>
@@ -83,12 +85,12 @@ const mapStateToProps = ({
 
 const mapDispatchToProps = (dispatch) => ({
   getCurrentSwPlanets: () => dispatch(fetchSWplanets()),
-  filterPlanet: (event) => dispatch(filterPlanets(event)),
+  getFilterOther: (event, i) => dispatch(filterOther(event, i)),
 });
 
 Table.propTypes = {
   getCurrentSwPlanets: PropTypes.func.isRequired,
-  filterPlanet: PropTypes.func.isRequired,
+  getFilterOther: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
   results: PropTypes.instanceOf(Array),
 };
