@@ -1,0 +1,21 @@
+caption {
+  font-size: 50px;
+  font-weight: 800;
+  padding: 20px;
+}
+
+.table-content{  
+  width: 100%;
+}
+
+table, th, td {
+  border: 1px solid black;
+}
+
+td, th {
+  padding: 15px;
+}
+
+.table-values-content {
+  text-align: center;
+}
