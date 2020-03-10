@@ -1,9 +1,14 @@
 const defaultState = {
   data: [],
   error: '',
+  filters: [
+    {
+      name: '',
+    },
+  ],
 };
 
-const data = (state = defaultState, action) => {
+const store = (state = defaultState, action) => {
   switch (action.type) {
     case 'SUCCESS':
       return {
@@ -13,7 +18,14 @@ const data = (state = defaultState, action) => {
       return {
         error: action.error,
       };
+    case 'NAMEFILTER':
+      return {
+        ...state,
+        filters: [{
+          name: action.name,
+        }],
+      };
     default: return state;
   }
 };
-export default data;
+export default store;

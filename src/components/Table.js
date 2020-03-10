@@ -8,10 +8,15 @@ class Table extends React.Component {
   componentDidMount() {
     const { getPlanets } = this.props;
     getPlanets();
+
   }
 
   render() {
-    const { data } = this.props;
+    const { data, filters } = this.props;
+    let filtredResult = data;
+    if (filters) {
+      filtredResult = data.filter((ele) => ele.name.match(new RegExp(filters[0].name, 'i')));
+    }
     return (
       <table border="1px">
         <caption>STAR WARS PLANETS</caption>
@@ -26,17 +31,13 @@ class Table extends React.Component {
           </tr>
         </thead>
         <tbody>
-          {data.map((planet) => <tr key={planet.name}><Cedula planet={planet} /></tr>)}
+          {filtredResult.map((planet) => <tr key={planet.name}><Cedula planet={planet} /></tr>)}
         </tbody>
       </table>
     );
   }
 }
-const mapStateToProps = ({
-  data: results,
-}) => ({
-  data: results,
-});
+const mapStateToProps = ({ data, filters }) => ({ data, filters });
 
 const mapDispatchToProps = (dispatch) => ({
   getPlanets: () => dispatch(fetchSWplanets()),
