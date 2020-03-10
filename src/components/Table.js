@@ -8,15 +8,39 @@ class Table extends Component {
   componentDidMount() {
     const { getPlanets } = this.props;
     getPlanets();
-    console.log(this.props);
+    // console.log(this.props);
+  }
+
+  tableRender() {
+    const { planets } = this.props.planets;
+    console.log(planets);
+    const headerTable = planets ? Object.keys(planets[0]) : '';
+    console.log(headerTable);
+    if (headerTable) {
+      return (
+        <table>
+          <tr>
+            {headerTable.map((header) => (
+              header !== 'residents' ? <th key={header}>{header}</th> : null
+            ))}
+          </tr>
+          {planets.map((planeta) => (
+            <tr>
+              {Object.keys(planeta).map((chave) => (
+                chave !== 'residents' ? <td key={planeta[chave]}>{planeta[chave]}</td> : null
+              ))}
+            </tr>
+          ))}
+        </table>
+      );
+    }
+    return '';
   }
 
   render() {
-    const { planets } = this.props.planets;
-    console.log(planets);
     return (
       <div className="map">
-        A tabela virá aqui
+        {this.tableRender()}
       </div>
     );
   }

@@ -19,7 +19,6 @@ const receivePlanetsFailure = (error) => ({
 });
 
 export function fetchPlanets() {
-  console.log('aqio');
   return (dispatch) => {
     dispatch(requestPlanets());
     return getPlanets()
