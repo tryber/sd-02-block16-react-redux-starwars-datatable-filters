@@ -43,8 +43,6 @@ Table.defaultProps = {
   results: [],
 };
 
-
-
 const mapStateToProps = ({ data: { results } }) => ({ results });
 
 const mapDispatchToProps = (dispatch) => ({
