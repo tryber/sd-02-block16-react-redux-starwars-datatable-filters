@@ -3,18 +3,17 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchSWPlanets } from '../actions';
 
+function renderplanets(param, loading) {
+  if (!loading && param) {
+    return <div>{param[0].name}</div>;
+  }
+  return <div>Loading...</div>;
+}
+
 class Table extends React.Component {
   componentDidMount() {
     const { propriedadeQueNaoInterfere } = this.props;
     propriedadeQueNaoInterfere();
-  }
-
-  renderplanets(param) {
-    if (!param) {
-      return <div>Loading...</div>
-    } else {
-      return <div>{param[0].name}</div>
-    }
   }
 
   render() {
@@ -22,7 +21,7 @@ class Table extends React.Component {
     return (
       <div>
         <h1>StarWars Datatable with Filters</h1>
-        {this.renderplanets(planets)}
+        {renderplanets(planets, isfetching)}
       </div>
     );
   }
