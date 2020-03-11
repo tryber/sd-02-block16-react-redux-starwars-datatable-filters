@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import requestSWAPIdata from '../services/SWAPI';
+import { connect } from 'react-redux';
+import apiReturn from '../actions/index';
 
 const tableTitle = [
   'Name',
@@ -20,13 +21,12 @@ const tableTitle = [
 
 class Table extends React.Component {
   componentDidMount() {
-    requestSWAPIdata().then(
-      (apiInfo) => console.log(apiInfo),
-      (errorMessage) => console.log(errorMessage, 'Não deu'),
-    );
+    const { initialRequisition } = this.props;
+    initialRequisition();
   }
 
   render() {
+    console.log(this.props);
     const { planetsData } = this.props;
     return (
       <div className="allTable">
@@ -66,6 +66,15 @@ class Table extends React.Component {
   }
 }
 
+const mapStateToProps = ({ returnInitialAPI: { isFetching, planetsData } }) => ({
+  isFetching,
+  planetsData,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  initialRequisition: () => dispatch(apiReturn()),
+});
+
 Table.propTypes = {
   planetsData: PropTypes.arrayOf,
 };
@@ -74,4 +83,4 @@ Table.defaultProps = {
   planetsData: [],
 };
 
-export default Table;
+export default connect(mapStateToProps, mapDispatchToProps)(Table);

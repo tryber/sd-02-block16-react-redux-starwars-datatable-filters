@@ -18,7 +18,7 @@ const requestSwapiFailure = (error) => ({
   error,
 });
 
-export const apiReturn = () => (
+const apiReturn = () => (
   (dispatch) => {
     dispatch(requestSwapi());
     return requestSWAPIdata().then(
@@ -27,3 +27,5 @@ export const apiReturn = () => (
     );
   }
 );
+
+export default apiReturn;
