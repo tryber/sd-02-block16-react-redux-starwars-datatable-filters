@@ -8,14 +8,12 @@ import { store } from './store';
 
 function App() {
   return (
-    <div className="App">
-      <Provider store={store}>
-        <header className="App-header">
-          <Request />
-          <Table />
-        </header>
-      </Provider>
-    </div>
+    <Provider store={store} className="App">
+      <div className="App">
+        <Request />
+        <Table />
+      </div>
+    </Provider>
   );
 }
 
