@@ -2,10 +2,28 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchSWPlanets } from '../actions';
+import './Table.css';
 
 function renderplanets(param, loading) {
   if (!loading && param) {
-    return <div>{param[0].name}</div>;
+    console.log(Object.keys(param));
+    return (
+      <table>
+        <thead>
+          <tr>
+            {Object.keys(param[0]).map((item) => (item !== 'residents' ? <th className="tableHeader" key={item}>{item}</th> : null))}
+          </tr>
+        </thead>
+        {param.map((values) => (
+          <tbody key={values.name}>
+            <tr>
+              {Object.values(values)
+                .map((body, index) => (index !== 9 ? <td className="tableData" key={body}>{body}</td> : null))}
+            </tr>
+          </tbody>
+        ))}
+      </table>
+    );
   }
   return <div>Loading...</div>;
 }
@@ -17,11 +35,11 @@ class Table extends React.Component {
   }
 
   render() {
-    const { isfetching, planets } = this.props;
+    const { isfetching, data } = this.props;
     return (
       <div>
         <h1>StarWars Datatable with Filters</h1>
-        {renderplanets(planets, isfetching)}
+        {renderplanets(data, isfetching)}
       </div>
     );
   }
@@ -30,9 +48,9 @@ class Table extends React.Component {
 const mapStateToProps = ({
   planetReducer: {
     isfetching,
-    planets,
+    data,
   },
-}) => ({ isfetching, planets });
+}) => ({ isfetching, data });
 
 const mapDispatchToProps = (dispatch) => ({
   propriedadeQueNaoInterfere: () => dispatch(fetchSWPlanets()),

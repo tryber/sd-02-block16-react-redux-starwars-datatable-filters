@@ -15,7 +15,7 @@ const planetReducer = (state = LOADING_SW_INFO, action) => {
       return {
         ...state,
         isfetching: false,
-        planets: action.planets,
+        data: action.planets,
       };
     case ERROR_SW_PLANETS:
       return {
