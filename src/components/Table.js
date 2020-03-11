@@ -61,6 +61,7 @@ Table.propTypes = {
   results: PropTypes.instanceOf(Array),
   searchPlanetsByName: PropTypes.func.isRequired,
   resultsByName: PropTypes.instanceOf(Array),
+  isFetching: PropTypes.bool.isRequired,
 };
 
 Table.defaultProps = {
@@ -68,7 +69,9 @@ Table.defaultProps = {
   resultsByName: [],
 };
 
-const mapStateToProps = ({ data: { results, isFetching }, SearchByName: { resultsByName } }) => ({ results, resultsByName, isFetching });
+const mapStateToProps = ({ data: { results, isFetching }, SearchByName: { resultsByName } }) => (
+  { results, resultsByName, isFetching }
+);
 
 const mapDispatchToProps = (dispatch) => ({
   getSWAPIPlanets: () => dispatch(fetchSWAPIPlanets()),
