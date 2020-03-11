@@ -4,14 +4,14 @@ import { connect } from 'react-redux';
 import fetchSWplanets from '../store/actions';
 import Cedula from './Cedula';
 
-function compareValue(array, param) {
+function compareValue(array, param, filters) {
   const { value } = array[1].numericValues;
   if (array[1].numericValues.comparison === 'Menor que') {
-    return param.filter((ele) => Number(ele[array[1].numericValues.column]) < Number(value));
+    return param.filter((ele) => (Number(ele[array[1].numericValues.column]) < Number(value) && ele.name.match(new RegExp(filters[0].name, 'i'))));
   } if (array[1].numericValues.comparison === 'Maior que') {
-    return param.filter((ele) => Number(ele[array[1].numericValues.column]) > Number(value));
+    return param.filter((ele) => Number(ele[array[1].numericValues.column]) > Number(value) && ele.name.match(new RegExp(filters[0].name, 'i')));
   } if (array[1].numericValues.comparison === 'Igual a') {
-    return param.filter((ele) => (Number(ele[array[1].numericValues.column]) === Number(value)));
+    return param.filter((ele) => (Number(ele[array[1].numericValues.column]) === Number(value) && ele.name.match(new RegExp(filters[0].name, 'i'))));
   } return param;
 }
 
@@ -27,8 +27,7 @@ class Table extends React.Component {
     if (filters[0].name && results[1] === undefined) {
       filtredResult = filtredResult.filter((ele) => ele.name.match(new RegExp(filters[0].name, 'i')));
     } if (results[1]) {
-      filtredResult = filtredResult.filter((ele) => ele.name.match(new RegExp(filters[0].name, 'i')));
-      filtredResult = compareValue(results, filtredResult);
+      filtredResult = compareValue(results, filtredResult, filters);
     }
     return (
       <table border="1px">
