@@ -1,8 +1,15 @@
+.comp_filter_cont {
+  padding: 1% 0;
+  border-style: solid;
+  border-color: black;
+  width: 40%;
+}
+
 .comp_filter {
   display: flex;
   flex-direction: column;
   justify-content: start;
-  width: 15%;
+  width: 35%;
 }
 
 .comp_filter > .container {
