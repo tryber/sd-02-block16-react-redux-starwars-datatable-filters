@@ -1,0 +1,22 @@
+.mainContainer {
+  width: 100%;
+}
+
+.title {
+  text-align: center;
+  font-size: 36px;
+  font-weight: 700;
+}
+
+.containerTable {
+  table-layout: fixed;
+  width: 100%;
+}
+
+.tableHeader, .tableData {
+  box-sizing: border-box;
+  border: 3px solid black;
+  border-radius: 6px;
+  padding: 0 2px;
+  word-wrap:break-word;
+}
