@@ -8,7 +8,6 @@ class Table extends React.Component {
   componentDidMount() {
     const { getPlanets } = this.props;
     getPlanets();
-
   }
 
   render() {

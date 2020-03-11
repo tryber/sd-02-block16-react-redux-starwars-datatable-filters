@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 
-const Filters = ({ filtredName }) => <input type="text" onChange={({ target: { value } }) => { filtredName(value); }} />;
+const Filters = ({ filtredName }) => (
+  <input type="text" onChange={({ target: { value } }) => { filtredName(value); }} />
+);
 
 const mapDispatchToProps = (dispatch) => ({
   filtredName: (value) => dispatch({ type: 'NAMEFILTER', name: value }),
