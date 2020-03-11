@@ -16,31 +16,15 @@ class Table extends Component {
     return p.filter((planeta) => planeta.name.toLowerCase().includes(name.toLowerCase()));
   }
 
-  verifyComparison(p, c, v) {
-    console.log(this.props);
-    console.log(p, c, v);
-    switch (c) {
-      case 'Maior que': {
-        if (parseFloat(p) > parseFloat(v)) return true;
-        return false;
-      }
-      case 'Menor que': {
-        if (parseFloat(p) < parseFloat(v)) return true;
-        return false;
-      }
-      default: {
-        if (parseFloat(p) === parseFloat(v)) return true;
-        return false;
-      }
-    }
-  }
-
   planetsFilteredBySelect(p) {
     const { column, comparison, valueComparison } = this.props.estado.
       searchFilterReducer.filters[1].numericValues;
-    if (column !== 'coluna' && comparison !== '-' && valueComparison > 0) {
-      return p.filter((planeta) => (
-        this.verifyComparison(planeta[column], comparison, valueComparison)));
+    if (column !== 'coluna' && comparison === 'Maior que' && valueComparison > 0) {
+      return p.filter((planeta) => (parseFloat(planeta[column]) > parseFloat(valueComparison)));
+    } else if (column !== 'coluna' && comparison === 'Menor que' && valueComparison > 0) {
+      return p.filter((planeta) => (parseFloat(planeta[column]) < parseFloat(valueComparison)));
+    } else if (column !== 'coluna' && comparison === 'ou Igual a' && valueComparison > 0) {
+      return p.filter((planeta) => (parseFloat(planeta[column]) === parseFloat(valueComparison)))
     }
     return p;
   }
