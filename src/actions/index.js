@@ -3,6 +3,8 @@ import requestSWAPIdata from '../services/SWAPI';
 export const REQUEST_SWAPI = 'REQUEST_SWAPI';
 export const REQUEST_SWAPI_SUCCESS = 'REQUEST_SWAPI_SUCCESS';
 export const REQUEST_SWAPI_FAILURE = 'REQUEST_SWAPI_FAILURE';
+export const FILTER_PLANETS_WITH_NAME = 'FILTER_PLANETS_WITH_NAME';
+export const FILTER_PLANETS_WITH_NUMBER = 'FILTER_PLANETS_WITH_NUMBER';
 
 const requestSwapi = () => ({
   type: REQUEST_SWAPI,
@@ -16,6 +18,11 @@ const requestSwapiSuccess = (data) => ({
 const requestSwapiFailure = (error) => ({
   type: REQUEST_SWAPI_FAILURE,
   error,
+});
+
+export const filterPlanetsWithName = (planetsData, userValue) => ({
+  type: FILTER_PLANETS_WITH_NAME,
+  filterData: planetsData.filter((planet) => planet.name.toLowerCase().includes(userValue.toLowerCase())),
 });
 
 const apiReturn = () => (

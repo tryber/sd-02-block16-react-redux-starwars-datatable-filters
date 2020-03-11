@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import apiReturn from '../actions/index';
+import apiReturn from '../actions';
 import Loading from './Loading';
 import '../styles/Table.css';
+import Input from './InputTextSearch';
 
 const tableTitle = [
   'Name',
@@ -28,13 +29,18 @@ class Table extends React.Component {
   }
 
   render() {
-    console.log(this.props);
-    const { planetsData, isFetching } = this.props;
+    const { planetsData, isFetching, filteredData } = this.props;
+    const consumerData = filteredData || planetsData;
+    console.log(filteredData);
+    console.log(planetsData);
+    // console.log(typeof filteredData);
     if (isFetching) {
       return <Loading />;
     }
+
     return (
       <div className="allTable">
+        <Input planetsData={planetsData} />
         <table>
 
           <thead>
@@ -46,7 +52,7 @@ class Table extends React.Component {
           </thead>
 
           <tbody>
-            {planetsData.map((planet) => (
+            {consumerData && consumerData.map((planet) => (
               <tr key={`${planet.name} row`}>
                 <td>{planet.name}</td>
                 <td>{planet.rotation_period}</td>
@@ -71,9 +77,15 @@ class Table extends React.Component {
   }
 }
 
-const mapStateToProps = ({ returnInitialAPI: { isFetching, planetsData } }) => ({
+const mapStateToProps = (
+  {
+    returnInitialAPI: { isFetching, planetsData },
+    returnFilterData: { filteredData },
+  },
+) => ({
   isFetching,
   planetsData,
+  filteredData,
 });
 
 const mapDispatchToProps = (dispatch) => ({

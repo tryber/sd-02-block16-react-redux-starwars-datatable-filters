@@ -5,9 +5,15 @@ body {
 }
 
 table {
-  border: 0.1vh solid black;
+  border-bottom: 0.1vh solid black;
+  border-left: 0.1vw solid black;
+  border-right: 0.1vw solid black;
+  border-top: 0.1vh solid black;
 }
 
 tr , td , th {
-  border: 0.1vh solid black;
+  border-bottom: 0.1vh solid black;
+  border-left: 0.1vw solid black;
+  border-right: 0.1vw solid black;
+  border-top: 0.1vh solid black;
 }

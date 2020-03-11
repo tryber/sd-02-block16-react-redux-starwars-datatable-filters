@@ -1,7 +1,6 @@
-.Initial_Loading {
-  align-items: center;
+.App_father {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 15em;
+  align-items: center;
 }
