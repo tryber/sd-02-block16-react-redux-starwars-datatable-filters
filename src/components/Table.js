@@ -5,13 +5,13 @@ import fetchSWplanets from '../store/actions';
 import Cedula from './Cedula';
 
 function compareValue(array, param) {
-  const { value } = array[2].numericValues;
-  if (array[2].numericValues.comparison === 'Menor que') {
-    return param.filter((ele) => Number(ele[array[2].numericValues.column]) < Number(value));
-  } if (array[2].numericValues.comparison === 'Maior que') {
-    return param.filter((ele) => Number(ele[array[2].numericValues.column]) > Number(value));
-  } if (array[2].numericValues.comparison === 'Igual a') {
-    return param.filter((ele) => (Number(ele[array[2].numericValues.column]) === Number(value)));
+  const { value } = array[1].numericValues;
+  if (array[1].numericValues.comparison === 'Menor que') {
+    return param.filter((ele) => Number(ele[array[1].numericValues.column]) < Number(value));
+  } if (array[1].numericValues.comparison === 'Maior que') {
+    return param.filter((ele) => Number(ele[array[1].numericValues.column]) > Number(value));
+  } if (array[1].numericValues.comparison === 'Igual a') {
+    return param.filter((ele) => (Number(ele[array[1].numericValues.column]) === Number(value)));
   } return param;
 }
 
@@ -22,13 +22,13 @@ class Table extends React.Component {
   }
 
   render() {
-    const { data, filters, error } = this.props;
+    const { api: { data, filters, error }, filter: { filters: results } } = this.props;
     let filtredResult = data;
-    if (filters[0].name) {
-      filtredResult = data.filter((ele) => ele.name.match(new RegExp(filters[0].name, 'i')));
-    }
-    if (filters[2]) {
-      filtredResult = compareValue(filters, filtredResult);
+    if (filters[0].name && results[1] === undefined) {
+      filtredResult = filtredResult.filter((ele) => ele.name.match(new RegExp(filters[0].name, 'i')));
+    } if (results[1]) {
+      filtredResult = filtredResult.filter((ele) => ele.name.match(new RegExp(filters[0].name, 'i')));
+      filtredResult = compareValue(results, filtredResult);
     }
     return (
       <table border="1px">
@@ -53,7 +53,7 @@ class Table extends React.Component {
     );
   }
 }
-const mapStateToProps = ({ data, filters, error }) => ({ data, filters, error });
+const mapStateToProps = ({ api, filter }) => ({ api, filter });
 
 const mapDispatchToProps = (dispatch) => ({
   getPlanets: () => dispatch(fetchSWplanets()),

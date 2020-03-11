@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
-import data from './apiReducers';
+import api from './apiReducers';
+import filter from './filtersValues';
 
 const rootReducer = combineReducers({
-  data,
+  api,
+  filter,
 });
 
 export default rootReducer;

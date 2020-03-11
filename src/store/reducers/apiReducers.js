@@ -1,16 +1,10 @@
 const defaultState = {
+  planets: [],
   data: [],
   error: '',
   filters: [
     {
       name: '',
-    },
-    {
-      numericValues: {
-        column: '',
-        comparison: '',
-        value: '',
-      },
     },
   ],
 };
@@ -24,17 +18,6 @@ const store = (state = defaultState, action) => {
     case 'NAMEFILTER':
       return {
         ...state, filters: [{ name: action.name }],
-      };
-    case 'FilterNumber':
-      return {
-        ...state,
-        filters: [...state.filters, {
-          numericValues: {
-            column: action.obj.column,
-            comparison: action.obj.comparison,
-            value: action.obj.value,
-          },
-        }],
       };
     default: return state;
   }

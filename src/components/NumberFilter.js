@@ -11,9 +11,19 @@ class NumberFilter extends React.Component {
       value: '',
     };
     this.selectAndInput = this.selectAndInput.bind(this);
+    this.select = this.select.bind(this);
   }
 
-  selectAndInput(filtred) {
+  select(arrayFilter) {
+    return (
+      <select onChange={({ target: { value } }) => this.setState({ column: value })}>
+        <option>{null}</option>
+        {arrayFilter.map((ele) => <option key={ele} value={ele}>{ele}</option>)}
+      </select>
+    );
+  }
+
+  selectAndInput() {
     const { column, comparison } = this.state;
     return (
       <div>
@@ -31,33 +41,37 @@ class NumberFilter extends React.Component {
           onChange={({ target: { value } }) => this.setState({ value })}
           type="number"
         />
-        <button onClick={() => filtred(this.state)} type="button">Filtrar</button>
       </div>
     );
   }
 
   render() {
     const { filtred } = this.props;
+    const { comparison } = this.state;
     const arrayFilter = ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
     return (
       <div>
-        <select onChange={({ target: { value } }) => this.setState({ column: value })}>
-          <option>{null}</option>
-          {arrayFilter.map((ele) => <option key={ele} value={ele}>{ele}</option>)}
-        </select>
-        {this.selectAndInput(filtred)}
+        {this.select(arrayFilter)}
+        {this.selectAndInput()}
+        <button
+          onClick={() => filtred(this.state)}
+          type="button"
+          disabled={(comparison) ? false : !false}
+        >
+          Filtrar
+        </button>
       </div>
     );
   }
 }
 
-const mapStateToProps = ({ filters }) => ({ filters });
+// const mapStateToProps = () => ({ null });
 
 const mapDispatchToProps = (dispatch) => ({
   filtred: (obj) => dispatch({ type: 'FilterNumber', obj }),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(NumberFilter);
+export default connect(null, mapDispatchToProps)(NumberFilter);
 
 NumberFilter.propTypes = {
   filtredName: PropTypes.func,
