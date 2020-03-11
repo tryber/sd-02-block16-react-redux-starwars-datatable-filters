@@ -6,44 +6,26 @@ import evento from '../action';
 import './style.css';
 
 
-function tbodyRender(planet, filterByName) {
-  switch (filterByName) {
-    case 'all':
-      return (
-        <tr key={planet.name}>
-          {Object.keys(planet).map((key) => (
-            <td key={planet.name + key}>{planet[key]}</td>
-          ))}
-        </tr>
-      );
-    default:
-      return (
-        <tr key={planet.name}>
-          <td>{planet[filterByName]}</td>
-        </tr>
-      );
-  }
+function tbodyRender(planet) {
+  return (
+    <tr key={planet.name}>
+      {Object.keys(planet).map((key) => (
+        <td key={planet.name + key}>{planet[key]}</td>
+      ))}
+    </tr>
+  );
 }
 
-function theadRender(planets, filterByName) {
+function theadRender(planets) {
   const planet = planets[0];
   delete planet.residents;
-  switch (filterByName) {
-    case 'all':
-      return (
-        <tr>
-          {Object.keys(planet).map((key) => (
-            <td key={`thead-${key}`}>{key}</td>
-          ))}
-        </tr>
-      );
-    default:
-      return (
-        <tr>
-          <td>{filterByName}</td>
-        </tr>
-      );
-  }
+  return (
+    <tr>
+      {Object.keys(planet).map((key) => (
+        <td key={`thead-${key}`}>{key}</td>
+      ))}
+    </tr>
+  );
 }
 
 
@@ -58,35 +40,56 @@ class Table extends Component {
     requestApi();
   }
 
-  tbodyByCondition(planets) {
-    const { filterByName: name, filterByCondition: condition, input } = this.props;
-    if (name !== 'all') {
-      switch (condition) {
-        case 'maior':
-          return planets.filter((planet) => parseFloat(planet[name]) > input);
-        case 'menor':
-          return planets.filter((planet) => parseFloat(planet[name]) < input);
-        case 'igual':
-          return planets.filter((planet) => parseFloat(planet[name]) === input);
-        default:
-          return planets;
-      }
+  planetName(planets) {
+    const { inputName: name } = this.props;
+    switch (name) {
+      case '':
+        return planets;
+      default:
+        return planets.filter((planet) => planet.name.includes(name));
     }
-    return planets;
+  }
+
+  inputNumber(planets) {
+    const {
+      inputNumber,
+    } = this.props;
+    switch (inputNumber) {
+      case '':
+        return planets;
+      default:
+        return this.condition(planets);
+    }
+  }
+
+  condition(planets) {
+    const {
+      filterByName: name, filterByCondition: condition, inputNumber: input,
+    } = this.props;
+    switch (condition) {
+      case 'maior':
+        return planets.filter((planet) => parseFloat(planet[name]) > input);
+      case 'menor':
+        return planets.filter((planet) => parseFloat(planet[name]) < input);
+      case 'igual':
+        return planets.filter((planet) => parseFloat(planet[name]) === input);
+      default:
+        return planets;
+    }
   }
 
   render() {
     const {
-      planets, filterByName,
+      planets,
     } = this.props;
     return (
       <table>
         <thead>
-          {theadRender(planets, filterByName)}
+          {theadRender(planets)}
         </thead>
         <tbody>
-          {this.tbodyByCondition(planets).map((planet) => (
-            tbodyRender(planet, filterByName)
+          {this.inputNumber(this.planetName(planets)).map((planet) => (
+            tbodyRender(planet)
           ))}
         </tbody>
       </table>
@@ -106,7 +109,8 @@ Table.propTypes = {
   ),
   filterByName: PropTypes.string,
   filterByCondition: PropTypes.string,
-  input: PropTypes.number,
+  inputNumber: PropTypes.number,
+  inputName: PropTypes.string,
   requestApi: PropTypes.func.isRequired,
 };
 
@@ -120,14 +124,16 @@ Table.defaultProps = {
   }],
   filterByName: '',
   filterByCondition: '',
-  input: 0,
+  inputNumber: 0,
+  inputName: '',
 };
 
 const mapStateToProps = (state) => ({
   planets: state.data.planets,
   filterByName: state.filter.name,
   filterByCondition: state.filter.condition,
-  input: state.input.value,
+  inputNumber: state.input.number,
+  inputName: state.input.name,
 });
 
 

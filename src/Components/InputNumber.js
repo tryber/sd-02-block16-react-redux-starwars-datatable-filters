@@ -2,20 +2,23 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import './input.css';
+
 function handleChange(e) {
   return {
-    type: 'Input',
-    input: e.target.value,
+    type: 'InputNumber',
+    value: e.target.value,
   };
 }
 
-class Input extends Component {
+class InputNumber extends Component {
   render() {
     const {
       handle, input,
     } = this.props;
     return (
-      <div>
+      <div className="comp_input">
+        <p>Quantidade: </p>
         <input type="text" value={input} onChange={(e) => handle(e)} />
       </div>
     );
@@ -24,16 +27,16 @@ class Input extends Component {
 
 
 const mapStateToProps = (state) => ({
-  input: state.input.value,
+  input: state.input.number,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   handle: (e) => dispatch(handleChange(e)),
 });
 
-Input.propTypes = {
+InputNumber.propTypes = {
   handle: PropTypes.func.isRequired,
   input: PropTypes.number.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Input);
+export default connect(mapStateToProps, mapDispatchToProps)(InputNumber);

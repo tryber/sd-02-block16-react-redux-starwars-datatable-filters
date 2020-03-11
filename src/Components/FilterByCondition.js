@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import './filterByName.css';
+import './filterBy.css';
 
 function handleClick(e) {
   return {
@@ -36,12 +36,15 @@ class FilterByCondition extends Component {
   }
 
   render() {
-    const { handle } = this.props;
+    const { handle, condition } = this.props;
     return (
       <div className="comp_filter">
-        <i className="material-icons" ref={this.ref}>
-          last_page
-        </i>
+        <div className="container">
+          <i className="material-icons" ref={this.ref}>
+            last_page
+          </i>
+          <p>{condition}</p>
+        </div>
         <div className="list" ref={this.ref2}>
           <button type="button" name="all" onClick={(e) => handle(e)}>all</button>
           <button type="button" name="maior" onClick={(e) => handle(e)}>Maior que</button>
@@ -53,7 +56,9 @@ class FilterByCondition extends Component {
   }
 }
 
-const mapStateToProps = () => ({});
+const mapStateToProps = (state) => ({
+  condition: state.filter.condition,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   handle: (e) => dispatch(handleClick(e)),
@@ -61,6 +66,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 FilterByCondition.propTypes = {
   handle: PropTypes.func.isRequired,
+  condition: PropTypes.string.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FilterByCondition);

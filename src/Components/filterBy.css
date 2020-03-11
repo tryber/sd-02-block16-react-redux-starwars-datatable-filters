@@ -5,6 +5,14 @@
   width: 15%;
 }
 
+.comp_filter > .container {
+  display: flex;
+}
+
+.comp_filter > .container > p {
+  margin: 0 10px;
+}
+
 .comp_filter .list {
   display: flex;
   padding: 0;

@@ -1,0 +1,10 @@
+.comp_input {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.comp_input > p {
+  margin: 0;
+  margin-right: 10px;
+}

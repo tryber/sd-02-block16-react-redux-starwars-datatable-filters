@@ -1,8 +1,10 @@
 const INITIAL_STATE = {
-  value: 0,
+  number: null,
+  name: '',
 };
 
 export default (state = INITIAL_STATE, action) => {
-  if (action.type === 'Input') return { value: action.input };
+  if (action.type === 'InputNumber') return { ...state, number: action.value };
+  if (action.type === 'InputName') return { ...state, name: action.value };
   return state;
 };
