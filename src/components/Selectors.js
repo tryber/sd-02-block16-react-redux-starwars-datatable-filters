@@ -2,41 +2,33 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { filterOther } from '../store/actions';
+import { setSessionStorage } from '../store/actions/selectors';
 
 const Selectors = (
   {
-    selects, i, getFilterOther, filters,
+    selects, i, setSelectedValues,
   },
-) => (
+) => {
+  return (
     <div>
-      <select id="values" onChange={(e) => getFilterOther(e, i)}>
+      <select id="values" onChange={(e) => setSelectedValues(e, i)}>
         {
           i === 0
             ? <option value="">Todos</option>
             : <option value="">Escolha um comparador</option>
         }
         {
-          selects.map((num) => (
-            filters.map((el) => (el === 'numeric_values' ? el.some(({
-              numeric_values: { column },
-            }) => (
-                column === num
-                  ? null
-                  : <option key={num} value={num}>{num}</option>
-              )) : false))
-          ))
+          selects.map((value) => <option value={value} key={value}>{value}</option>)
         }
       </select>
-      {i === 1 ? <input type="number" placeholder="Digite um valor numerico" onChange={(e) => getFilterOther(e, 2)} /> : ''}
+      {i === 1 ? <input type="number" placeholder="Digite um valor numerico" onChange={(e) => setSelectedValues(e, 2)} /> : ''}
     </div>
   );
+};
 
-const mapDispatchToProps = (dispatch) => (
-  {
-    getFilterOther: (e, i) => dispatch(filterOther(e, i)),
-  }
-);
+const mapDispatchToProps = (dispatch) => ({
+  setSelectedValues: (e, i) => dispatch(setSessionStorage(e, i)),
+});
 
 const mapStateToProps = ({
   data: {
@@ -50,10 +42,9 @@ const mapStateToProps = ({
 export default connect(mapStateToProps, mapDispatchToProps)(Selectors);
 
 Selectors.propTypes = {
+  setSelectedValues: PropTypes.func.isRequired,
   selects: PropTypes.instanceOf(Array).isRequired,
-  getFilterOther: PropTypes.func.isRequired,
   i: PropTypes.number.isRequired,
-  filters: PropTypes.instanceOf(Array).isRequired,
 };
 
 Selectors.defaultProps = {

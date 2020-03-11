@@ -5,11 +5,14 @@ import Selectors from './Selectors';
 import FilterBox from './FilterBox';
 import './Table.css';
 
-import { fetchSWplanets, filterOther } from '../store/actions';
+import { fetchSWplanets } from '../store/actions';
+import { filterByName } from '../store/actions/table';
 
 class Table extends Component {
   componentDidMount() {
     const { getCurrentSwPlanets } = this.props;
+
+    sessionStorage.clear();
 
     getCurrentSwPlanets()
       .then(({ results }) => sessionStorage.setItem('planets', JSON.stringify(results)));
@@ -39,13 +42,13 @@ class Table extends Component {
 
   render() {
     const {
-      isFetching, results, getFilterOther,
+      isFetching, results, getFilterByName, filters
     } = this.props;
-
+    console.log(filters);
     if (isFetching) return <div>LOADING...</div>;
     return (
       <div>
-        <input type="text" placeholder="Digite um nome " onChange={(e) => getFilterOther(e, 3)} />
+        <input type="text" placeholder="Digite um nome " onChange={(e) => getFilterByName(e)} />
         <label htmlFor="values">Choose a filter:</label>
         <Selectors selects={['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water']} i={0} />
         <Selectors selects={['maior que', 'menor que', 'igual a']} i={1} />
@@ -74,25 +77,28 @@ class Table extends Component {
 const mapStateToProps = ({
   data: {
     isFetching,
-    filters,
     results,
   },
+  table: {
+    filters,
+  },
 }) => ({
-  isFetching,
   filters,
+  isFetching,
   results,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   getCurrentSwPlanets: () => dispatch(fetchSWplanets()),
-  getFilterOther: (event, i) => dispatch(filterOther(event, i)),
+  getFilterByName: (event) => dispatch(filterByName(event)),
 });
 
 Table.propTypes = {
   getCurrentSwPlanets: PropTypes.func.isRequired,
-  getFilterOther: PropTypes.func.isRequired,
+  getFilterByName: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
   results: PropTypes.instanceOf(Array),
+  filters: PropTypes.string.isRequired,
 };
 
 Table.defaultProps = {

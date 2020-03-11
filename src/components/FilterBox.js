@@ -1,28 +1,35 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { filterButton } from '../store/actions';
 
-const FilterBox = ({ column, comparison, value }) => (
-  <div>
-    {column && comparison && value ? `${column}, ${comparison}, ${value}` : <div>teste</div>}
-  </div>
-);
+const FilterBox = ({ setNewFilter, filters }) => {
+  const teste = 1;
+  if (teste === 1) {
+    return (
+      <div>
+        <button type="button" onClick={() => setNewFilter()}>Clique para filtrar</button>
+      </div>
+    );
+  }
+  return null;
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  setNewFilter: () => dispatch(filterButton()),
+});
 
 const mapStateToProps = ({
   data: {
-    filters: [{ name }, { numeric_values: { column, comparison, value } }],
+    filters,
   },
 }) => ({
-  name,
-  column,
-  comparison,
-  value,
+  filters,
 });
 
 FilterBox.propTypes = {
-  column: PropTypes.string.isRequired,
-  comparison: PropTypes.string.isRequired,
-  value: PropTypes.number.isRequired,
+  filters: PropTypes.instanceOf(Array).isRequired,
+  setNewFilter: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps)(FilterBox);
+export default connect(mapStateToProps, mapDispatchToProps)(FilterBox);
