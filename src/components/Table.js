@@ -66,8 +66,6 @@ class Table extends React.Component {
   }
 }
 
-export default Table;
-
 Table.propTypes = {
   planetsData: PropTypes.arrayOf,
 };
@@ -75,3 +73,5 @@ Table.propTypes = {
 Table.defaultProps = {
   planetsData: [],
 };
+
+export default Table;
