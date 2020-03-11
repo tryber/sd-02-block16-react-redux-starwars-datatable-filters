@@ -6,8 +6,8 @@ import evento from '../action';
 import './style.css';
 
 
-function tbodyRender(planet, filter) {
-  switch (filter) {
+function tbodyRender(planet, filterByName) {
+  switch (filterByName) {
     case 'all':
       return (
         <tr key={planet.name}>
@@ -19,16 +19,16 @@ function tbodyRender(planet, filter) {
     default:
       return (
         <tr key={planet.name}>
-          <td>{planet[filter]}</td>
+          <td>{planet[filterByName]}</td>
         </tr>
       );
   }
 }
 
-function theadRender(planets, filter) {
+function theadRender(planets, filterByName) {
   const planet = planets[0];
   delete planet.residents;
-  switch (filter) {
+  switch (filterByName) {
     case 'all':
       return (
         <tr>
@@ -40,7 +40,7 @@ function theadRender(planets, filter) {
     default:
       return (
         <tr>
-          <td>{filter}</td>
+          <td>{filterByName}</td>
         </tr>
       );
   }
@@ -58,16 +58,35 @@ class Table extends Component {
     requestApi();
   }
 
+  tbodyByCondition(planets) {
+    const { filterByName: name, filterByCondition: condition, input } = this.props;
+    if (name !== 'all') {
+      switch (condition) {
+        case 'maior':
+          return planets.filter((planet) => parseFloat(planet[name]) > input);
+        case 'menor':
+          return planets.filter((planet) => parseFloat(planet[name]) < input);
+        case 'igual':
+          return planets.filter((planet) => parseFloat(planet[name]) === input);
+        default:
+          return planets;
+      }
+    }
+    return planets;
+  }
+
   render() {
-    const { planets, filter } = this.props;
+    const {
+      planets, filterByName,
+    } = this.props;
     return (
       <table>
         <thead>
-          {theadRender(planets, filter)}
+          {theadRender(planets, filterByName)}
         </thead>
         <tbody>
-          {planets.map((planet) => (
-            tbodyRender(planet, filter)
+          {this.tbodyByCondition(planets).map((planet) => (
+            tbodyRender(planet, filterByName)
           ))}
         </tbody>
       </table>
@@ -85,7 +104,9 @@ Table.propTypes = {
       surface_water: PropTypes.string,
     }),
   ),
-  filter: PropTypes.string,
+  filterByName: PropTypes.string,
+  filterByCondition: PropTypes.string,
+  input: PropTypes.number,
   requestApi: PropTypes.func.isRequired,
 };
 
@@ -97,12 +118,16 @@ Table.defaultProps = {
     diameter: null,
     surface_water: '',
   }],
-  filter: '',
+  filterByName: '',
+  filterByCondition: '',
+  input: 0,
 };
 
 const mapStateToProps = (state) => ({
   planets: state.data.planets,
-  filter: state.filter.value,
+  filterByName: state.filter.name,
+  filterByCondition: state.filter.condition,
+  input: state.input.value,
 });
 
 

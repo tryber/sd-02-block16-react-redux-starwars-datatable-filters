@@ -1,8 +1,12 @@
 const INITIAL_STATE = {
-  value: 'all',
+  name: 'all',
+  condition: 'all',
+  input: 0,
 };
 
 export default (state = INITIAL_STATE, action) => {
-  if (action.type === 'filter') return { value: action.filter };
+  if (action.type === 'FilterByName') return { ...state, name: action.filter };
+  if (action.type === 'FilterByCondition') return { ...state, condition: action.filter };
+  if (action.type === 'Input') return { ...state, input: action.filter };
   return state;
 };

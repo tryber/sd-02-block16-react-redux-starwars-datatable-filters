@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-import './filter.css';
+import './filterByName.css';
 
 function handleClick(e) {
   return {
-    type: 'filter',
+    type: 'FilterByName',
     filter: e.target.name,
   };
 }
 
-class Filter extends Component {
+class FilterByName extends Component {
   constructor(props) {
     super(props);
     this.ref = React.createRef();
@@ -54,12 +55,14 @@ class Filter extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  planets: state.data.planets,
-});
+const mapStateToProps = () => ({});
 
 const mapDispatchToProps = (dispatch) => ({
   handle: (e) => dispatch(handleClick(e)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Filter);
+FilterByName.propTypes = {
+  handle: PropTypes.func.isRequired,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(FilterByName);
