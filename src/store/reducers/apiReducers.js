@@ -18,22 +18,12 @@ const defaultState = {
 const store = (state = defaultState, action) => {
   switch (action.type) {
     case 'SUCCESS':
-      return {
-        ...state,
-        data: action.results,
-      };
+      return { ...state, data: action.results };
     case 'FAILURE':
-      return {
-        error: action.error,
-      };
+      return { error: action.error };
     case 'NAMEFILTER':
       return {
-        ...state,
-        filters: [
-          {
-            name: action.name,
-          },
-        ],
+        ...state, filters: [{ name: action.name }],
       };
     case 'FilterNumber':
       return {

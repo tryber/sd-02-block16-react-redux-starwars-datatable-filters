@@ -21,7 +21,7 @@ class NumberFilter extends React.Component {
           disabled={(column) ? false : !false}
           onChange={({ target: { value } }) => this.setState({ comparison: value })}
         >
-          <option> </option>
+          <option>{null}</option>
           <option value="Maior que">Maior que</option>
           <option value="Menor que">Menor que</option>
           <option value="Igual a">Igual a</option>
@@ -42,7 +42,7 @@ class NumberFilter extends React.Component {
     return (
       <div>
         <select onChange={({ target: { value } }) => this.setState({ column: value })}>
-          <option> </option>
+          <option>{null}</option>
           {arrayFilter.map((ele) => <option key={ele} value={ele}>{ele}</option>)}
         </select>
         {this.selectAndInput(filtred)}
