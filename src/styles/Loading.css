@@ -1,0 +1,10 @@
+body {
+  margin: 0 auto;
+}
+.Initial_Loading {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 15em;
+}

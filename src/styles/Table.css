@@ -1,0 +1,13 @@
+body {
+  font-family: Times New Roman, Times, serif;
+  font-size: 2vh;
+  padding: 1%;
+}
+
+table {
+  border: 0.1vh solid black;
+}
+
+tr , td , th {
+  border: 0.1vh solid black;
+}

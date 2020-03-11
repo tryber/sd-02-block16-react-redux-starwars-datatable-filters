@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import apiReturn from '../actions/index';
+import Loading from './Loading';
+import '../styles/Table.css';
 
 const tableTitle = [
   'Name',
@@ -27,7 +29,10 @@ class Table extends React.Component {
 
   render() {
     console.log(this.props);
-    const { planetsData } = this.props;
+    const { planetsData, isFetching } = this.props;
+    if (isFetching) {
+      return <Loading />;
+    }
     return (
       <div className="allTable">
         <table>
