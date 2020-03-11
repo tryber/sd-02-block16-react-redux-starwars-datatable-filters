@@ -1,49 +1,42 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchSWAPI } from '../actions';
+import { fetchSWPlanets } from '../actions';
 
 class Table extends React.Component {
   componentDidMount() {
-    const { infoAPI } = this.props;
-    infoAPI();
+    const { propriedadeQueNaoInterfere } = this.props;
+    propriedadeQueNaoInterfere();
+  }
+
+  renderplanets(param) {
+    if (!param) {
+      return <div>Loading...</div>
+    } else {
+      return <div>{param[0].name}</div>
+    }
   }
 
   render() {
-    const { loading, name,
-      rotation_period,
-      orbital_period,
-      diameter,
-      climate,
-      gravity,
-      terrain,
-      surface_water,
-      population,
-      films,
-      created,
-      edited,
-      url, } = this.props;
-      console.log(name);
+    const { isfetching, planets } = this.props;
     return (
       <div>
         <h1>StarWars Datatable with Filters</h1>
-        <p>
-          {loading && 'Loading...'}
-          {name}
-        </p>
+        {this.renderplanets(planets)}
       </div>
-
     );
   }
 }
 
-
-const mapStateToProps = ({ planetInfo: { loading, planet, size } }) => ({ loading, planet, size });
+const mapStateToProps = ({
+  planetReducer: {
+    isfetching,
+    planets,
+  },
+}) => ({ isfetching, planets });
 
 const mapDispatchToProps = (dispatch) => ({
-  infoAPI: () => dispatch(fetchSWAPI()),
+  propriedadeQueNaoInterfere: () => dispatch(fetchSWPlanets()),
 });
-
-//  escrever argumento dentro de dispatch
-// getAllData vira propriedade, e pode ser chamada com {this.props.getAllData}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Table);

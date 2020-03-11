@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import planetInfo from './planetInfo';
+import planetReducer from './planetReducer';
 
 const rootReducer = combineReducers({
-  planetInfo,
+  planetReducer,
 });
 
 export default rootReducer;

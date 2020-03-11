@@ -1,8 +1,8 @@
+/* eslint-disable import/prefer-default-export */
 const APIURL = 'https://swapi.co/api/planets/';
-// inserir sw API
 
-export const infoAPI = () => (
-  fetch(APIURL)
+export const getSWPlanets = () => (
+  fetch(`${APIURL}`)
     .then((response) => (
       response
         .json()

@@ -1,43 +1,28 @@
-import { infoAPI } from '../services/swAPI';
+import { getSWPlanets } from '../services/swAPI';
 
-export const REQUEST_SW_DATA = 'REQUEST_SW_DATA';
-export const RECEIVE_SW_DATA_SUCCESS = 'RECEIVE_SW_DATA_SUCCESS';
-export const RECEIVE_SW_DATA_FAILURE = 'RECEIVE_SW_DATA_FAILURE';
+export const RECEIVE_SW_PLANETS = 'RECEIVE_SW_PLANETS';
+export const SHOW_SW_PLANETS = 'SHOW_SW_PLANETS';
+export const ERROR_SW_PLANETS = 'ERROR_SW_PLANETS';
 
-const requestSWData = () => ({
-  type: REQUEST_SW_DATA,
-});
 
-const receiveSWDataSuccess = (results) => (
-  {
-    type: results.RECEIVE_SW_DATA_SUCCESS,
-    name: results.name,
-    rotation_period: results.parseFloat(rotation_period),
-    orbital_period: results.parseFloat(orbital_period),
-    diameter: results.parseFloat(diameter),
-    climate: results.climate,
-    gravity: results.gravity,
-    terrain: results.terrain,
-    surface_water: results.parseFloat(surface_water),
-    population: results.parseFloat(population),
-    films: results.films,
-    created: results.created,
-    edited: results.edited,
-    url: results.url,
-  });
+export const receiveSWPlanets = () => (
+  { type: RECEIVE_SW_PLANETS, loading: true }
+);
 
-const receiveSWDataFailure = (error) => ({
-  type: RECEIVE_SW_DATA_FAILURE,
-  error,
-});
+export const showSWPlanets = ({ results }) => (
+  { type: SHOW_SW_PLANETS, planets: results }
+);
+export const errorSWPlanets = (error) => (
+  { type: ERROR_SW_PLANETS, error }
+);
 
-export function fetchSWAPI() {
+export function fetchSWPlanets() {
   return (dispatch) => {
-    dispatch(requestSWData());
-    return infoAPI()
+    dispatch(receiveSWPlanets());
+    return getSWPlanets()
       .then(
-        (planet) => dispatch(receiveSWDataSuccess(planet)),
-        (error) => dispatch(receiveSWDataFailure(error.message)),
+        (planet) => dispatch(showSWPlanets(planet)),
+        (error) => dispatch(errorSWPlanets(error.message)),
       );
   };
 }
