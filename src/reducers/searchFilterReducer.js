@@ -1,5 +1,6 @@
 import { SEARCH_FILTER } from '../actions/searchFilter';
 import { SELECTOR_FILTER } from '../actions/selectorFilter';
+import { NUMBER_OF_SELECTORS_FILTER } from '../actions/numberOfSelectorsFilter';
 
 const initialState = {
   filters: [
@@ -14,10 +15,10 @@ const initialState = {
       },
     },
   ],
+  selectors: ['coluna', 'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'],
 };
 
 export default function reducer(state = initialState, action) {
-
   // console.log(previousFilter);
   console.log(action);
   switch (action.type) {
@@ -32,6 +33,9 @@ export default function reducer(state = initialState, action) {
       const { value, part } = action;
       previousFilter[1].numericValues[part] = value;
       return { ...state, filters: previousFilter };
+    }
+    case NUMBER_OF_SELECTORS_FILTER: {
+      return state;
     }
     default:
       return state;

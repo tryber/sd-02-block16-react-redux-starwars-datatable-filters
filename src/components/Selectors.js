@@ -3,10 +3,21 @@ import { connect } from 'react-redux';
 import { selectorFilter } from '../actions/selectorFilter';
 
 class Selectors extends Component {
+  verificaEstadoFiltragem() {
+    const filtros = (this.props.state.searchFilterReducer.filters).slice(1);
+    console.log(filtros);
+    const arrFiltros = [];
+    filtros.forEach((filtro) => {
+      if (filtro.numericValues.column !== 'coluna') arrFiltros.push(filtro);
+    });
+    return arrFiltros;
+  }
+
   render() {
-    const colunas = ['coluna', 'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
+    const colunas = this.props.state.searchFilterReducer.selectors || [];
     const valores = ['-', 'Maior que', 'Menor que', 'ou Igual a'];
-    const { value, selectFilterDispatch } = this.props;
+    const { selectFilterDispatch } = this.props;
+    this.verificaEstadoFiltragem();
     return (
       <div>
         <div>
@@ -18,20 +29,22 @@ class Selectors extends Component {
             {valores.map((valor) => (<option value={valor}>{valor}</option>))}
           </select>
           <input
-            placeholder="Procurar planeta"
             type="number"
             onChange={(e) => selectFilterDispatch(e.target.value, 'valueComparison')}
           />
+          <button>X</button>
         </div>
       </div>
     );
   }
 }
 
-// const mapStateToProps = ({ value }) => ({ value });
+const mapStateToProps = (state) => ({
+  state,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   selectFilterDispatch: (e, i) => dispatch(selectorFilter(e, i)),
 });
 
-export default connect(null, mapDispatchToProps)(Selectors);
+export default connect(mapStateToProps, mapDispatchToProps)(Selectors);

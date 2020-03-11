@@ -17,8 +17,8 @@ class Table extends Component {
   }
 
   verifyComparison(p, c, v) {
-    console.log(p, c, v);
     console.log(this.props);
+    console.log(p, c, v);
     switch (c) {
       case 'Maior que': {
         if (parseFloat(p) > parseFloat(v)) return true;
@@ -29,7 +29,7 @@ class Table extends Component {
         return false;
       }
       default: {
-        if (parseFloat(p) < parseFloat(v)) return true;
+        if (parseFloat(p) === parseFloat(v)) return true;
         return false;
       }
     }
@@ -38,7 +38,7 @@ class Table extends Component {
   planetsFilteredBySelect(p) {
     const { column, comparison, valueComparison } = this.props.estado.
       searchFilterReducer.filters[1].numericValues;
-    if (column !== 'coluna' && comparison !== '-' && valueComparison >= 0) {
+    if (column !== 'coluna' && comparison !== '-' && valueComparison > 0) {
       return p.filter((planeta) => (
         this.verifyComparison(planeta[column], comparison, valueComparison)));
     }
@@ -48,9 +48,7 @@ class Table extends Component {
   tableRender() {
     console.log(this.props);
     let { planets } = this.props.estado.planets;
-    // console.log(planets);
     const headerTable = planets ? Object.keys(planets[0]) : '';
-    // console.log(headerTable);
     planets = (this.planetsFilteredByName(planets));
     planets = (this.planetsFilteredBySelect(planets));
     if (headerTable) {
