@@ -1,13 +1,14 @@
 import React from 'react';
 import './App.css';
 
-import { Filters, Table } from './components';
+import { NameFilter, Table, NumberFilter } from './components';
 
 
 function App() {
   return (
     <div className="App">
-      <Filters />
+      <NameFilter />
+      <NumberFilter />
       <Table />
     </div>
   );

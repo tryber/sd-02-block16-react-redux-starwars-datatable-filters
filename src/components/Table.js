@@ -4,6 +4,17 @@ import { connect } from 'react-redux';
 import fetchSWplanets from '../store/actions';
 import Cedula from './Cedula';
 
+function compareValue(array, param) {
+  const { value } = array[2].numericValues;
+  if (array[2].numericValues.comparison === 'Menor que') {
+    return param.filter((ele) => Number(ele[array[2].numericValues.column]) < Number(value));
+  } if (array[2].numericValues.comparison === 'Maior que') {
+    return param.filter((ele) => Number(ele[array[2].numericValues.column]) > Number(value));
+  } if (array[2].numericValues.comparison === 'Igual a') {
+    return param.filter((ele) => (Number(ele[array[2].numericValues.column]) === Number(value)));
+  } return param;
+}
+
 class Table extends React.Component {
   componentDidMount() {
     const { getPlanets } = this.props;
@@ -11,23 +22,29 @@ class Table extends React.Component {
   }
 
   render() {
-    const { data, filters } = this.props;
+    const { data, filters, error } = this.props;
     let filtredResult = data;
-    if (filters) {
+    if (filters[0].name) {
       filtredResult = data.filter((ele) => ele.name.match(new RegExp(filters[0].name, 'i')));
+    }
+    if (filters[2]) {
+      filtredResult = compareValue(filters, filtredResult);
     }
     return (
       <table border="1px">
         <caption>STAR WARS PLANETS</caption>
         <thead>
-          <tr>
-            {(data[0])
-              ? Object.keys(data[0]).map((ele) => {
-                if (ele !== 'residents') return (<td key={ele}>{ele}</td>);
-                return null;
-              })
-              : null}
-          </tr>
+          {(error) ? <h1>{error}</h1>
+            : (
+              <tr>
+                {(data[0])
+                  ? Object.keys(data[0]).map((ele) => {
+                    if (ele !== 'residents') return (<td key={ele}>{ele}</td>);
+                    return null;
+                  })
+                  : null}
+              </tr>
+            )}
         </thead>
         <tbody>
           {filtredResult.map((planet) => <tr key={planet.name}><Cedula planet={planet} /></tr>)}
@@ -36,7 +53,7 @@ class Table extends React.Component {
     );
   }
 }
-const mapStateToProps = ({ data, filters }) => ({ data, filters });
+const mapStateToProps = ({ data, filters, error }) => ({ data, filters, error });
 
 const mapDispatchToProps = (dispatch) => ({
   getPlanets: () => dispatch(fetchSWplanets()),

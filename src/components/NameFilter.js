@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 
-const Filters = ({ filtredName }) => (
+const NameFilter = ({ filtredName }) => (
   <input type="text" onChange={({ target: { value } }) => { filtredName(value); }} />
 );
 
@@ -11,8 +11,8 @@ const mapDispatchToProps = (dispatch) => ({
   filtredName: (value) => dispatch({ type: 'NAMEFILTER', name: value }),
 });
 
-export default connect(null, mapDispatchToProps)(Filters);
+export default connect(null, mapDispatchToProps)(NameFilter);
 
-Filters.propTypes = {
+NameFilter.propTypes = {
   filtredName: PropTypes.func,
 }.isRequired;
