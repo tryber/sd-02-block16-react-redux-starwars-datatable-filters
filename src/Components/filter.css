@@ -1,0 +1,29 @@
+.comp_filter {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  width: 15%;
+}
+
+.comp_filter .list {
+  display: flex;
+  padding: 0;
+  flex-direction: column;
+  justify-content: start;
+  margin: 10% 0;
+}
+
+.comp_filter .list > button {
+  position: relative;
+  border-style: solid;
+  border-color: black;
+  background-color: white;
+  cursor: pointer;
+}
+
+.material-icons {
+  width: 20px;
+  height: 20px;
+  font-size: 20px;
+  cursor: pointer;
+}
