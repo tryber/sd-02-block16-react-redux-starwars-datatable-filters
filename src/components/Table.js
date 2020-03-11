@@ -24,10 +24,10 @@ class Table extends React.Component {
   render() {
     const { api: { data, filters, error }, filter: { filters: results } } = this.props;
     let filtredResult = data;
-    if (filters[0].name && results[1] === undefined) {
-      filtredResult = filtredResult.filter((ele) => ele.name.match(new RegExp(filters[0].name, 'i')));
-    } if (results[1]) {
+    if (results[1]) {
       filtredResult = compareValue(results, filtredResult, filters);
+    } if (filters[0].name) {
+      filtredResult = filtredResult.filter((ele) => ele.name.match(new RegExp(filters[0].name, 'i')));
     }
     return (
       <table border="1px">
