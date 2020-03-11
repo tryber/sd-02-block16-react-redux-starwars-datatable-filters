@@ -10,23 +10,27 @@ const initialState = {
       numericValues: {
         column: 'coluna',
         comparison: '-',
-        value: '0',
+        valueComparison: '0',
       },
     },
   ],
 };
 
 export default function reducer(state = initialState, action) {
-  const previousFilter = state.filters;
-  const { value } = action;
-  previousFilter[0].name = value;
+
   // console.log(previousFilter);
   console.log(action);
   switch (action.type) {
     case SEARCH_FILTER: {
+      const previousFilter = state.filters;
+      const { value } = action;
+      previousFilter[0].name = value;
       return { ...state, filters: previousFilter };
     }
     case SELECTOR_FILTER: {
+      const previousFilter = state.filters;
+      const { value, part } = action;
+      previousFilter[1].numericValues[part] = value;
       return { ...state, filters: previousFilter };
     }
     default:

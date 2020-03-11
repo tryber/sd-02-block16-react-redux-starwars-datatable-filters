@@ -10,10 +10,39 @@ class Table extends Component {
     // console.log(this.props);
   }
 
-  planetsFiltered(p) {
+  planetsFilteredByName(p) {
     const { name } = this.props.estado.searchFilterReducer.filters[0];
     if (!name) return p;
     return p.filter((planeta) => planeta.name.toLowerCase().includes(name.toLowerCase()));
+  }
+
+  verifyComparison(p, c, v) {
+    console.log(p, c, v);
+    console.log(this.props);
+    switch (c) {
+      case 'Maior que': {
+        if (parseFloat(p) > parseFloat(v)) return true;
+        return false;
+      }
+      case 'Menor que': {
+        if (parseFloat(p) < parseFloat(v)) return true;
+        return false;
+      }
+      default: {
+        if (parseFloat(p) < parseFloat(v)) return true;
+        return false;
+      }
+    }
+  }
+
+  planetsFilteredBySelect(p) {
+    const { column, comparison, valueComparison } = this.props.estado.
+      searchFilterReducer.filters[1].numericValues;
+    if (column !== 'coluna' && comparison !== '-' && valueComparison >= 0) {
+      return p.filter((planeta) => (
+        this.verifyComparison(planeta[column], comparison, valueComparison)));
+    }
+    return p;
   }
 
   tableRender() {
@@ -22,7 +51,8 @@ class Table extends Component {
     // console.log(planets);
     const headerTable = planets ? Object.keys(planets[0]) : '';
     // console.log(headerTable);
-    planets = (this.planetsFiltered(planets));
+    planets = (this.planetsFilteredByName(planets));
+    planets = (this.planetsFilteredBySelect(planets));
     if (headerTable) {
       return (
         <table>

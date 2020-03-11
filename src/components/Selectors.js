@@ -11,28 +11,16 @@ class Selectors extends Component {
       <div>
         <div>
           Digite o filtro:
-          <select onChange={(e) => selectFilterDispatch(e.target.value, 'coluna')}>
-            {colunas.map((coluna) => (
-              <option
-                value={coluna}
-              >
-                {coluna}
-              </option>
-            ))}
+          <select onChange={(e) => selectFilterDispatch(e.target.value, 'column')}>
+            {colunas.map((coluna) => (<option value={coluna}>{coluna}</option>))}
           </select>
-          <select onChange={(e) => selectFilterDispatch(e.target.value, 'comparacao')}>
-            {valores.map((valor) => (
-              <option
-                value={valor}
-              >
-                {valor}
-              </option>
-            ))}
+          <select onChange={(e) => selectFilterDispatch(e.target.value, 'comparison')}>
+            {valores.map((valor) => (<option value={valor}>{valor}</option>))}
           </select>
           <input
             placeholder="Procurar planeta"
             type="number"
-            onChange={(e) => selectFilterDispatch(e.target.value, 'n')}
+            onChange={(e) => selectFilterDispatch(e.target.value, 'valueComparison')}
           />
         </div>
       </div>
