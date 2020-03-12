@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { searchFilter } from '../actions/searchFilter';
 
@@ -8,7 +9,7 @@ class Inputs extends Component {
     return (
       <div>
         <div>
-          Digite o filtro:
+          Digite a palavra:
           <input
             placeholder="Procurar planeta"
             onChange={(e) => searchFilterDispatch(e.target.value)}
@@ -25,5 +26,10 @@ const mapStateToProps = ({ value }) => ({ value });
 const mapDispatchToProps = (dispatch) => ({
   searchFilterDispatch: (e) => dispatch(searchFilter(e)),
 });
+
+Inputs.propTypes = {
+  searchFilterDispatch: PropTypes.func.isRequired,
+  value: PropTypes.string.isRequired,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Inputs);

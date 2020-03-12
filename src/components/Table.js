@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchPlanets } from '../actions';
+import './Table.css';
 
 class Table extends Component {
   componentDidMount() {
     const { getPlanets } = this.props;
     getPlanets();
-    // console.log(this.props);
   }
 
   planetsFilteredByName(p) {
@@ -17,7 +17,6 @@ class Table extends Component {
   }
 
   forDoFiltrar(boraFiltrar, p) {
-    console.log(this.props);
     let final = p;
     boraFiltrar.forEach(({ numericValues: { column, comparison, valueComparison } }) => {
       if (column !== 'coluna' && comparison === 'Maior que' && valueComparison >= 0) {
@@ -33,17 +32,14 @@ class Table extends Component {
 
   planetsFilteredBySelect(p) {
     const { filters } = this.props.estado.searchFilterReducer
-    console.log(filters);
     const boraFiltrar = [...filters];
     boraFiltrar.splice(0, 2);
-    console.log(boraFiltrar);
     const a = this.forDoFiltrar(boraFiltrar, p);
     if (!boraFiltrar.length) return p;
     return a;
   }
 
   tableRender() {
-    console.log(this.props);
     let { planets } = this.props.estado.planets;
     const headerTable = planets ? Object.keys(planets[0]) : '';
     planets = (this.planetsFilteredByName(planets));

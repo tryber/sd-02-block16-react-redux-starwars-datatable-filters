@@ -47,8 +47,6 @@ function removendoOFiltro(i, valor, state) {
 }
 
 export default function reducer(state = initialState, action) {
-  // console.log(nextFilter);
-  console.log(action);
   switch (action.type) {
     case SEARCH_FILTER: {
       const nextFilter = state.filters;
