@@ -1,7 +1,7 @@
 const INITIAL_STATE = {
   name: 'all',
   condition: 'all',
-  input: 0,
+  input: undefined,
 };
 
 export default (state = INITIAL_STATE, action) => {

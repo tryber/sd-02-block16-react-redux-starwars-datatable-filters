@@ -1,5 +1,5 @@
 const INITIAL_STATE = {
-  number: null,
+  number: undefined,
   name: '',
 };
 

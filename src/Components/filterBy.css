@@ -8,7 +8,7 @@
 .comp_filter {
   display: flex;
   flex-direction: column;
-  justify-content: start;
+  justify-content: flex-start;
   width: 35%;
 }
 
@@ -24,7 +24,7 @@
   display: flex;
   padding: 0;
   flex-direction: column;
-  justify-content: start;
+  justify-content: flex-start;
   margin: 10% 0;
 }
 

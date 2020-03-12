@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import evento from '../action';
 import './style.css';
 
-
 function tbodyRender(planet) {
   return (
     <tr key={planet.name}>
@@ -27,7 +26,6 @@ function theadRender(planets) {
     </tr>
   );
 }
-
 
 class Table extends Component {
   constructor(props) {

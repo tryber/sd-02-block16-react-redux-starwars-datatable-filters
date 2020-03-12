@@ -36,7 +36,11 @@ const mapDispatchToProps = (dispatch) => ({
 
 InputNumber.propTypes = {
   handle: PropTypes.func.isRequired,
-  input: PropTypes.number.isRequired,
+  input: PropTypes.number,
+};
+
+InputNumber.defaultProps = {
+  input: undefined,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputNumber);
