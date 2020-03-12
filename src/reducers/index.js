@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import data from './data';
-import SearchByName from './SearchByName';
+import SearchFilters from './SearchFilters';
 
 const rootReducer = combineReducers({
   data,
-  SearchByName,
+  SearchFilters,
 });
 
 export default rootReducer;

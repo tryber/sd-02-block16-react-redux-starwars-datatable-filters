@@ -3,14 +3,10 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { fetchSWAPIPlanets, searchByName } from '../actions';
 import './Table.css';
+import Selectors from './Selectors';
+import SearchBar from './SearchBar';
 
 class Table extends Component {
-  constructor(props) {
-    super(props);
-
-    this.onChangeHandler = this.onChangeHandler.bind(this);
-  }
-
   componentDidMount() {
     const { getSWAPIPlanets } = this.props;
 
@@ -26,11 +22,17 @@ class Table extends Component {
   }
 
   render() {
-    const { results, resultsByName, isFetching } = this.props;
+    const {
+      results,
+      resultsByName,
+      isFetching,
+    } = this.props;
+
     if (isFetching) return <div>Carregando tabela e filtros...</div>;
     return (
       <div>
-        <input onChange={this.onChangeHandler} />
+        <SearchBar />
+        <Selectors />
         <table>
           <thead>
             <tr>
@@ -69,9 +71,16 @@ Table.defaultProps = {
   resultsByName: [],
 };
 
-const mapStateToProps = ({ data: { results, isFetching }, SearchByName: { resultsByName } }) => (
-  { results, resultsByName, isFetching }
-);
+const mapStateToProps = (
+  {
+    data: { results, isFetching },
+    SearchFilters: { resultsByName },
+  },
+) => ({
+  results,
+  resultsByName,
+  isFetching,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   getSWAPIPlanets: () => dispatch(fetchSWAPIPlanets()),
