@@ -48,21 +48,25 @@ class Table extends Component {
     }
   }
 
-  inputNumber(planets) {
+  inputNumbers(planets) {
     const { filters } = this.props;
-    const { input } = filters[0].numericValues;
+    return filters.reduce((acc, filter) => {
+      return this.inputNumber(filter, acc);
+    }, planets);
+  }
+
+  inputNumber(filter, planets) {
+    const { input } = filter.numericValues;
     switch (input) {
       case '':
         return planets;
       default:
-        return this.condition(planets);
+        return this.condition(planets, filter);
     }
   }
 
-  condition(planets) {
-    const { filters } = this.props;
-    const { name, condition, input } = filters[0].numericValues;
-    console.log(condition)
+  condition(planets, filter) {
+    const { name, condition, input } = filter.numericValues;
     switch (condition) {
       case 'maior':
         return planets.filter((planet) => parseFloat(planet[name]) > input);
@@ -75,17 +79,23 @@ class Table extends Component {
     }
   }
 
+  handle() {
+    const { planets, filters } =this.props;
+    console.log(filters)
+  }
+
   render() {
     const {
       planets,
     } = this.props;
     return (
       <table>
+        <button onClick={() => this.handle()}></button>
         <thead>
           {theadRender(planets)}
         </thead>
         <tbody>
-          {this.planetName(this.inputNumber(planets)).map((planet) => (
+          {this.inputNumbers(this.planetName(planets)).map((planet) => (
             tbodyRender(planet)
           ))}
         </tbody>

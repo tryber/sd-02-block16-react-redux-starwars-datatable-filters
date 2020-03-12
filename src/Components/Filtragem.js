@@ -4,10 +4,19 @@ import PropTypes from 'prop-types';
 
 import Filter from './Filter';
 
-function handleClick() {
+function handleClick(filters) {
+  const filter = {
+    numericValues: {
+      name: 'population',
+      condition: 'maior',
+      input: 2000,
+    },
+  };
+  const coisa = filters;
+  coisa.push(filter);
   return {
-    type: 'btnAdd',
-    value: new Date(),
+    type: 'add',
+    filters: coisa,
   };
 }
 
@@ -21,30 +30,30 @@ class Filtragem extends Component {
     const { filters } = this.props;
     return (
       <div>
-        {filters.map((id, index) => (
-          <Filter key={id} id={index} />
+        {filters.map((item, index) => (
+          <Filter key={Math.random()} id={index} />
         ))}
       </div>
     );
   }
 
   render() {
-    const { handle } = this.props;
+    const { handle, filters } = this.props;
     return (
       <div className="comp_fitragem" ref={this.ref}>
         {this.filters()}
-        <button type="button" onClick={() => handle()}>Adicionar filtro</button>
+        <button type="button" onClick={() => handle(filters)}>Adicionar filtro</button>
       </div>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  filters: state.button.filters_comp,
+  filters: state.filter.filters,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handle: () => dispatch(handleClick()),
+  handle: (filters) => dispatch(handleClick(filters)),
 });
 
 Filtragem.propTypes = {

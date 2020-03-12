@@ -4,11 +4,13 @@ import PropTypes from 'prop-types';
 
 import './filterBy.css';
 
-function handleClick(e, id) {
+function handleClick(e, id, filters) {
+  const coisa = filters;
+  coisa[id].numericValues.condition = e.target.name;
   return {
     type: 'FilterByCondition',
     id,
-    filter: e.target.name,
+    filters: coisa,
   };
 }
 
@@ -49,10 +51,10 @@ class FilterByCondition extends Component {
           <p>{condition}</p>
         </div>
         <div className="list" ref={this.ref2}>
-          <button type="button" name="all" onClick={(e) => handle(e, this.id)}>All</button>
-          <button type="button" name="maior" onClick={(e) => handle(e, this.id)}>Maior que</button>
-          <button type="button" name="menor" onClick={(e) => handle(e, this.id)}>Menor que</button>
-          <button type="button" name="igual" onClick={(e) => handle(e, this.id)}>Igual a</button>
+          <button type="button" name="all" onClick={(e) => handle(e, this.id, filters)}>All</button>
+          <button type="button" name="maior" onClick={(e) => handle(e, this.id, filters)}>Maior que</button>
+          <button type="button" name="menor" onClick={(e) => handle(e, this.id, filters)}>Menor que</button>
+          <button type="button" name="igual" onClick={(e) => handle(e, this.id, filters)}>Igual a</button>
         </div>
       </div>
     );
@@ -64,7 +66,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handle: (e, id) => dispatch(handleClick(e, id)),
+  handle: (e, id, filters) => dispatch(handleClick(e, id, filters)),
 });
 
 FilterByCondition.propTypes = {

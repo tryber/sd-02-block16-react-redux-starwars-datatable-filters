@@ -4,11 +4,13 @@ import PropTypes from 'prop-types';
 
 import './filterBy.css';
 
-function handleClick(e, id) {
+function handleClick(e, id, filters) {
+  const coisa = filters;
+  coisa[id].numericValues.name = e.target.name;
   return {
     type: 'FilterByName',
     id,
-    filter: e.target.name,
+    filters: coisa,
   };
 }
 
@@ -39,21 +41,21 @@ class FilterByName extends Component {
 
   render() {
     const { filters, handle } = this.props;
-    const { name: tag } = filters[this.id].numericValues;
+    const { name } = filters[this.id].numericValues;
     return (
       <div className="comp_filter">
         <div className="container">
           <i className="material-icons" ref={this.ref}>
             filter_list
           </i>
-          <p>{tag}</p>
+          <p>{name}</p>
         </div>
         <div className="list" ref={this.ref2}>
-          <button type="button" name="population" onClick={(e) => handle(e, this.id)}>population</button>
-          <button type="button" name="orbital_period" onClick={(e) => handle(e, this.id)}>orbital period</button>
-          <button type="button" name="diameter" onClick={(e) => handle(e, this.id)}>diameter</button>
-          <button type="button" name="rotation_period" onClick={(e) => handle(e, this.id)}>rotation period</button>
-          <button type="button" name="surface_water" onClick={(e) => handle(e, this.id)}>surface water</button>
+          <button type="button" name="population" onClick={(e) => handle(e, this.id, filters)}>population</button>
+          <button type="button" name="orbital_period" onClick={(e) => handle(e, this.id, filters)}>orbital period</button>
+          <button type="button" name="diameter" onClick={(e) => handle(e, this.id, filters)}>diameter</button>
+          <button type="button" name="rotation_period" onClick={(e) => handle(e, this.id, filters)}>rotation period</button>
+          <button type="button" name="surface_water" onClick={(e) => handle(e, this.id, filters)}>surface water</button>
         </div>
       </div>
     );
@@ -65,7 +67,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handle: (e, id) => dispatch(handleClick(e, id)),
+  handle: (e, id, filters) => dispatch(handleClick(e, id, filters)),
 });
 
 FilterByName.propTypes = {
