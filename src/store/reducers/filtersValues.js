@@ -10,26 +10,26 @@ const defaultState = {
     },
   ],
 };
-
+function criaObj({ column, comparison, value }) {
+  return {
+    numericValues: {
+      column,
+      comparison,
+      value,
+    },
+  };
+}
 const store = (state = defaultState, action) => {
   switch (action.type) {
     case 'FilterNumber':
-      return {
+      return (state.filters[0].numericValues.column === '') ? {
         arrayFilter: action.arrayFilter,
-        filters: (state.filters[0].numericValues.column === '') ? [{
-          numericValues: {
-            column: action.obj.column,
-            comparison: action.obj.comparison,
-            value: action.obj.value,
-          },
-        }] : [...state.filters, {
-          numericValues: {
-            column: action.obj.column,
-            comparison: action.obj.comparison,
-            value: action.obj.value,
-          },
-        }],
-      };
+        filters: [criaObj(action.obj)],
+      }
+        : {
+          arrayFilter: action.arrayFilter,
+          filters: [...state.filters, criaObj(action.obj)],
+        };
     default: return state;
   }
 };

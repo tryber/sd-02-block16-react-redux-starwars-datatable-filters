@@ -22,12 +22,10 @@ class Table extends React.Component {
   }
 
   render() {
-    const { api: { data, filters, error }, filter: { filters: results } } = this.props;
+    const { api: { data, filters }, filter: { filters: results } } = this.props;
     let filtredResult = data;
     if (results[0]) {
-      for (let i = 0; i < results.length; i += 1) {
-        filtredResult = compareValue(results[i], filtredResult, filters);
-      }
+      results.forEach((ele) => { filtredResult = compareValue(ele, filtredResult, filters) });
     } if (filters[0].name) {
       filtredResult = filtredResult.filter((ele) => ele.name.match(new RegExp(filters[0].name, 'i')));
     }
@@ -35,17 +33,16 @@ class Table extends React.Component {
       <table border="1px">
         <caption>STAR WARS PLANETS</caption>
         <thead>
-          {(error) ? <h1>{error}</h1>
-            : (
-              <tr>
-                {(data[0])
-                  ? Object.keys(data[0]).map((ele) => {
-                    if (ele !== 'residents') return (<td key={ele}>{ele}</td>);
-                    return null;
-                  })
-                  : null}
-              </tr>
-            )}
+          (
+          <tr>
+            {(data[0])
+              ? Object.keys(data[0]).map((ele) => {
+                if (ele !== 'residents') return (<td key={ele}>{ele}</td>);
+                return null;
+              })
+              : null}
+          </tr>
+          )
         </thead>
         <tbody>
           {filtredResult.map((planet) => <tr key={planet.name}><Cedula planet={planet} /></tr>)}
