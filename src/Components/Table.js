@@ -39,20 +39,19 @@ class Table extends Component {
   }
 
   planetName(planets) {
-    const { inputName: name } = this.props;
-    switch (name) {
+    const { inputName } = this.props;
+    switch (inputName) {
       case '':
         return planets;
       default:
-        return planets.filter((planet) => planet.name.includes(name));
+        return planets.filter((planet) => planet.name.includes(inputName));
     }
   }
 
   inputNumber(planets) {
-    const {
-      inputNumber,
-    } = this.props;
-    switch (inputNumber) {
+    const { filters } = this.props;
+    const { input } = filters[0].numericValues;
+    switch (input) {
       case '':
         return planets;
       default:
@@ -61,9 +60,9 @@ class Table extends Component {
   }
 
   condition(planets) {
-    const {
-      filterByName: name, filterByCondition: condition, inputNumber: input,
-    } = this.props;
+    const { filters } = this.props;
+    const { name, condition, input } = filters[0].numericValues;
+    console.log(condition)
     switch (condition) {
       case 'maior':
         return planets.filter((planet) => parseFloat(planet[name]) > input);
@@ -86,7 +85,7 @@ class Table extends Component {
           {theadRender(planets)}
         </thead>
         <tbody>
-          {this.inputNumber(this.planetName(planets)).map((planet) => (
+          {this.planetName(this.inputNumber(planets)).map((planet) => (
             tbodyRender(planet)
           ))}
         </tbody>
@@ -95,42 +94,40 @@ class Table extends Component {
   }
 }
 
-Table.propTypes = {
-  planets: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string,
-      rotation_period: PropTypes.string,
-      orbital_period: PropTypes.string,
-      diameter: PropTypes.string,
-      surface_water: PropTypes.string,
-    }),
-  ),
-  filterByName: PropTypes.string,
-  filterByCondition: PropTypes.string,
-  inputNumber: PropTypes.number,
-  inputName: PropTypes.string,
-  requestApi: PropTypes.func.isRequired,
-};
+// Table.propTypes = {
+//   planets: PropTypes.arrayOf(
+//     PropTypes.shape({
+//       name: PropTypes.string,
+//       rotation_period: PropTypes.string,
+//       orbital_period: PropTypes.string,
+//       diameter: PropTypes.string,
+//       surface_water: PropTypes.string,
+//     }),
+//   ),
+//   filterByName: PropTypes.string,
+//   filterByCondition: PropTypes.string,
+//   inputNumber: PropTypes.number,
+//   inputName: PropTypes.string,
+//   requestApi: PropTypes.func.isRequired,
+// };
 
-Table.defaultProps = {
-  planets: [{
-    name: '',
-    rotation_period: null,
-    orbital_period: null,
-    diameter: null,
-    surface_water: '',
-  }],
-  filterByName: '',
-  filterByCondition: '',
-  inputNumber: 0,
-  inputName: '',
-};
+// Table.defaultProps = {
+//   planets: [{
+//     name: '',
+//     rotation_period: null,
+//     orbital_period: null,
+//     diameter: null,
+//     surface_water: '',
+//   }],
+//   filterByName: '',
+//   filterByCondition: '',
+//   inputNumber: 0,
+//   inputName: '',
+// };
 
 const mapStateToProps = (state) => ({
   planets: state.data.planets,
-  filterByName: state.filter.name,
-  filterByCondition: state.filter.condition,
-  inputNumber: state.input.number,
+  filters: state.filter.filters,
   inputName: state.input.name,
 });
 

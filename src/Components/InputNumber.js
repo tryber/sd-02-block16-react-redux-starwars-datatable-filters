@@ -4,22 +4,27 @@ import PropTypes from 'prop-types';
 
 import './input.css';
 
-function handleChange(e) {
+function handleChange(e, id) {
   return {
     type: 'InputNumber',
-    value: e.target.value,
+    id,
+    filter: e.target.value,
   };
 }
 
 class InputNumber extends Component {
+  constructor(props) {
+    super(props);
+    this.id = props.id;
+  }
+
   render() {
-    const {
-      handle, input,
-    } = this.props;
+    const { filters, handle } = this.props;
+    const { input } = filters[this.id].numericValues;
     return (
       <div className="comp_input">
         <p>Quantidade: </p>
-        <input type="text" value={input} onChange={(e) => handle(e)} />
+        <input type="text" value={input} onChange={(e) => handle(e, this.id)} />
       </div>
     );
   }
@@ -27,20 +32,19 @@ class InputNumber extends Component {
 
 
 const mapStateToProps = (state) => ({
-  input: state.input.number,
+  filters: state.filter.filters,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handle: (e) => dispatch(handleChange(e)),
+  handle: (e, id) => dispatch(handleChange(e, id)),
 });
 
 InputNumber.propTypes = {
   handle: PropTypes.func.isRequired,
-  input: PropTypes.number,
 };
 
-InputNumber.defaultProps = {
-  input: undefined,
-};
+// InputNumber.defaultProps = {
+//   input: undefined,
+// };
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputNumber);

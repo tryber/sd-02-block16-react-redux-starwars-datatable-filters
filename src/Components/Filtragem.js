@@ -21,8 +21,8 @@ class Filtragem extends Component {
     const { filters } = this.props;
     return (
       <div>
-        {filters.map((id) => (
-          <Filter key={id} />
+        {filters.map((id, index) => (
+          <Filter key={id} id={index} />
         ))}
       </div>
     );
