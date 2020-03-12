@@ -16,25 +16,8 @@ class Table extends Component {
     return p.filter((planeta) => planeta.name.toLowerCase().includes(name.toLowerCase()));
   }
 
-  // planetsFilteredBySelect(p) {
-  //   const { column, comparison, valueComparison } = this.props.estado.
-  //     searchFilterReducer.filters[1].numericValues;
-  //   if (column !== 'coluna' && comparison === 'Maior que' && valueComparison > 0) {
-  //     return p.filter((planeta) => (parseFloat(planeta[column]) > parseFloat(valueComparison)));
-  //   } else if (column !== 'coluna' && comparison === 'Menor que' && valueComparison > 0) {
-  //     return p.filter((planeta) => (parseFloat(planeta[column]) < parseFloat(valueComparison)));
-  //   } else if (column !== 'coluna' && comparison === 'ou Igual a' && valueComparison > 0) {
-  //     return p.filter((planeta) => (parseFloat(planeta[column]) === parseFloat(valueComparison)))
-  //   }
-  //   return p;
-  // }
-
-  planetsFilteredBySelect(p) {
-    const { filters } = this.props.estado.searchFilterReducer
-    console.log(filters);
-    const boraFiltrar = [...filters];
-    boraFiltrar.splice(0, 2);
-    console.log(boraFiltrar);
+  forDoFiltrar(boraFiltrar, p) {
+    console.log(this.props);
     let final = p;
     for (let i = 0; i < boraFiltrar.length; i += 1) {
       const { column, comparison, valueComparison } = boraFiltrar[i].numericValues;
@@ -46,8 +29,18 @@ class Table extends Component {
         final = final.filter((pla) => (parseFloat(pla[column]) === parseFloat(valueComparison)));
       }
     }
-    if (!boraFiltrar.length) return p;
     return final;
+  }
+
+  planetsFilteredBySelect(p) {
+    const { filters } = this.props.estado.searchFilterReducer
+    console.log(filters);
+    const boraFiltrar = [...filters];
+    boraFiltrar.splice(0, 2);
+    console.log(boraFiltrar);
+    const a = this.forDoFiltrar(boraFiltrar, p);
+    if (!boraFiltrar.length) return p;
+    return a;
   }
 
   tableRender() {

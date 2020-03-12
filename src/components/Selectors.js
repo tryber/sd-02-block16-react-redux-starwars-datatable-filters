@@ -74,7 +74,7 @@ class Selectors extends Component {
             onChange={(e) => selectFilterDispatch(e.target.value, 'valueComparison')}
             value={valueComparison}
           />
-          <button onClick={this.addFiltro.bind(this)}>+ Filtros</button>
+          <button onClick={this.addFiltro.bind(this)}>Filtrar</button>
         </div>
       </div>
     );
