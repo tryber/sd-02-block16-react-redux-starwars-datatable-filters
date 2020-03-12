@@ -33,6 +33,7 @@ const table = (state = INITIAL_SW_PLANETS_STATE, action) => {
     }
     case ADD_FILTERS: {
       const filters = [...state.filters, ...action.filters];
+      console.log(action.filters);
       return {
         ...state,
         resultsByName: numFilters(action.results, filters, action.resultsByName),

@@ -3,7 +3,6 @@ const filterByName = (name, results) => (
 );
 
 const switchFilters = (results, comparison, resultsByName, column, value, filters) => {
-  console.log(!filters[0].name);
   const filterByColumn = !filters[0].name
     ? results
     : filterByName(filters[0].name, resultsByName);

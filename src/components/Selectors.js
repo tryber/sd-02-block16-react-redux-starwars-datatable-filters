@@ -9,7 +9,10 @@ const Selectors = (
     selects, i, setSelectedValues, filters,
   },
 ) => {
-  console.log(filters);
+  const [, ...rest] = filters;
+  const filtersColumns = !rest.length
+    ? rest
+    : rest.map(({ numeric_values: { column } }) => column);
   return (
     <div>
       <select id="values" onChange={(e) => setSelectedValues(e, i)}>
@@ -19,7 +22,9 @@ const Selectors = (
             : <option value="">Escolha um comparador</option>
         }
         {
-          selects.map((value) => <option value={value} key={value}>{value}</option>)
+          selects.map((value) => (filtersColumns.includes(value)
+            ? null
+            : <option value={value} key={value}>{value}</option>))
         }
       </select>
       {i === 1 ? <input type="number" placeholder="Digite um valor numerico" onChange={(e) => setSelectedValues(e, 2)} /> : ''}

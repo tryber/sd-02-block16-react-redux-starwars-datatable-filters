@@ -4,22 +4,30 @@ import { connect } from 'react-redux';
 import { filterButton } from '../store/actions/table';
 
 const FilterBox = ({
-  setNewFilter, selectedValues, results, resultsByName,
+  setNewFilter, selectedValues, results, resultsByName, filters,
 }) => {
   const { column, comparison, value } = selectedValues;
-  if (column && comparison && value) {
-    return (
-      <div>
-        <button
+  const [, ...numericValues] = filters;
+  return (
+    <div>
+      {(column && comparison && value)
+        ? <button
           type="button"
           onClick={() => setNewFilter(selectedValues, results, resultsByName)}
         >
           Clique para filtrar
         </button>
-      </div>
-    );
-  }
-  return null;
+        : null}
+      {!numericValues.length
+        ? numericValues
+        : numericValues.map(({ numeric_values }) => (
+          <div>
+            <button key={numeric_values.column} type="button">X</button>
+            {`${numeric_values.column} | ${numeric_values.comparison} | ${numeric_values.value}`}
+          </div>
+        ))}
+    </div>
+  );
 };
 
 const mapDispatchToProps = (dispatch) => ({
@@ -37,11 +45,13 @@ const mapStateToProps = ({
   },
   table: {
     resultsByName,
+    filters,
   },
 }) => ({
   selectedValues,
   results,
   resultsByName,
+  filters,
 });
 
 FilterBox.propTypes = {
@@ -49,6 +59,7 @@ FilterBox.propTypes = {
   setNewFilter: PropTypes.func.isRequired,
   results: PropTypes.instanceOf(Array).isRequired,
   resultsByName: PropTypes.instanceOf(Array).isRequired,
+  filters: PropTypes.instanceOf(Array).isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FilterBox);
