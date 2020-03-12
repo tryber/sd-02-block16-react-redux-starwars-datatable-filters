@@ -19,8 +19,7 @@ class Table extends Component {
   forDoFiltrar(boraFiltrar, p) {
     console.log(this.props);
     let final = p;
-    for (let i = 0; i < boraFiltrar.length; i += 1) {
-      const { column, comparison, valueComparison } = boraFiltrar[i].numericValues;
+    boraFiltrar.forEach(({ numericValues: { column, comparison, valueComparison } }) => {
       if (column !== 'coluna' && comparison === 'Maior que' && valueComparison >= 0) {
         final = final.filter((pla) => (parseFloat(pla[column]) > parseFloat(valueComparison)));
       } else if (column !== 'coluna' && comparison === 'Menor que' && valueComparison >= 0) {
@@ -28,7 +27,7 @@ class Table extends Component {
       } else if (column !== 'coluna' && comparison === 'ou Igual a' && valueComparison >= 0) {
         final = final.filter((pla) => (parseFloat(pla[column]) === parseFloat(valueComparison)));
       }
-    }
+    });
     return final;
   }
 
