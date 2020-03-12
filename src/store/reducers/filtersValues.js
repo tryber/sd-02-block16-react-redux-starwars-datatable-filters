@@ -14,26 +14,22 @@ const defaultState = {
 const store = (state = defaultState, action) => {
   switch (action.type) {
     case 'FilterNumber':
-      return (state.filters[0].numericValues.column === '') ? {
+      return {
         arrayFilter: action.arrayFilter,
-        filters: [{
+        filters: (state.filters[0].numericValues.column === '') ? [{
+          numericValues: {
+            column: action.obj.column,
+            comparison: action.obj.comparison,
+            value: action.obj.value,
+          },
+        }] : [...state.filters, {
           numericValues: {
             column: action.obj.column,
             comparison: action.obj.comparison,
             value: action.obj.value,
           },
         }],
-      }
-        : {
-          arrayFilter: action.arrayFilter,
-          filters: [...state.filters, {
-            numericValues: {
-              column: action.obj.column,
-              comparison: action.obj.comparison,
-              value: action.obj.value,
-            },
-          }],
-        };
+      };
     default: return state;
   }
 };
