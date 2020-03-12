@@ -11,7 +11,7 @@ class Table extends Component {
   }
 
   planetsFilteredByName(p) {
-    const { name } = this.props.estado.searchFilterReducer.filters[0];
+    const { name } = this.props.filters[0];
     if (!name) return p;
     return p.filter((planeta) => planeta.name.toLowerCase().includes(name.toLowerCase()));
   }
@@ -31,7 +31,7 @@ class Table extends Component {
   }
 
   planetsFilteredBySelect(p) {
-    const { filters } = this.props.estado.searchFilterReducer
+    const { filters } = this.props;
     const boraFiltrar = [...filters];
     boraFiltrar.splice(0, 2);
     const a = this.forDoFiltrar(boraFiltrar, p);
@@ -40,7 +40,7 @@ class Table extends Component {
   }
 
   tableRender() {
-    let { planets } = this.props.estado.planets;
+    let { planets } = this.props.planets;
     const headerTable = planets ? Object.keys(planets[0]) : '';
     planets = (this.planetsFilteredByName(planets));
     planets = this.planetsFilteredBySelect(planets);
@@ -78,22 +78,19 @@ class Table extends Component {
   }
 }
 
-const mapStateToProps = (state) => (
-  {
-    estado: state,
-  }
-);
+const mapStateToProps = ({ planets, searchFilterReducer: { filters } }) => ({
+  planets,
+  filters,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   getPlanets: () => dispatch(fetchPlanets()),
 });
 
 Table.propTypes = {
-  getPlanets: PropTypes.func,
-};
-
-Table.defaultProps = {
-  getPlanets: null,
+  getPlanets: PropTypes.func.isRequired,
+  filters: PropTypes.instanceOf(Array).isRequired,
+  planets: PropTypes.instanceOf(Array).isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Table);

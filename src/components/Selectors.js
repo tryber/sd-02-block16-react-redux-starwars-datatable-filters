@@ -63,7 +63,6 @@ class Selectors extends Component {
   }
 
   render() {
-    console.log(this.props);
     const { selectors, filters } = this.props;
     const colunas = selectors || [];
     const valores = ['-', 'Maior que', 'Menor que', 'ou Igual a'];

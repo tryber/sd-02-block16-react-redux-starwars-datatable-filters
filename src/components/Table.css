@@ -1,8 +1,7 @@
-
-table, th, td {
+table , th , td {
   border: 1px solid black;
 }
 
-td, th {
+td , th {
   padding: 15px;
 }
