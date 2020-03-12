@@ -16,22 +16,52 @@ class FiltersByNumber extends Component {
     return filteredPlanets;
   }
 
-  static renderColumnsOptions(selectors) {
+  static renderColumnsOptions(dispatch, selectors, rowIndex) {
     return (
-      <div>
+      <select
+        onChange={(e) => dispatch(FiltersByNumber.numberFilterDispatch(e, rowIndex))}
+        id="fields"
+      >
         {selectors.map(([value, label]) => <option key={`${label}_selector`} value={value}>{label}</option>)}
-      </div>
+      </select>
     );
   }
 
-  static renderComparisonOptions() {
+  static renderComparisonOptions(dispatch, rowIndex) {
     return (
-      <div>
+      <select
+        onChange={(e) => dispatch(FiltersByNumber.numberFilterDispatch(e, rowIndex))}
+        id="operator"
+      >
         <option label="null" value="" />
         <option value="lesserThan">{'<'}</option>
         <option value="equalsThan">=</option>
         <option value="higherThan">{'>'}</option>
-      </div>
+      </select>
+
+    );
+  }
+
+  static renderNumberInput(dispatch, rowIndex) {
+    return (
+      <input
+        onBlur={(e) => dispatch(FiltersByNumber.numberFilterDispatch(e, rowIndex))}
+        type="number"
+        id="number"
+        width="100px"
+      />
+    );
+  }
+
+  static renderRemoveButton(dispatch, rowIndex) {
+    return (
+      <button
+        type="button"
+        onClick={(e) => dispatch(FiltersByNumber.numberFilterDispatch(e, rowIndex))}
+        id="remove"
+      >
+        X
+      </button>
     );
   }
 
@@ -39,11 +69,13 @@ class FiltersByNumber extends Component {
     const STORE_COLUMN_FILTER = 'STORE_COLUMN_FILTER';
     const STORE_COMPARISON_FILTER = 'STORE_COMPARISON_FILTER';
     const STORE_VALUE_FILTER = 'STORE_VALUE_FILTER';
+    const REMOVE_FILTER = 'REMOVE_FILTER';
     const { target: { value } } = event;
     const switcher = {
       fields: () => ({ type: STORE_COLUMN_FILTER, value, rowIndex }),
       operator: () => ({ type: STORE_COMPARISON_FILTER, value, rowIndex }),
       number: () => ({ type: STORE_VALUE_FILTER, value, rowIndex }),
+      remove: () => ({ type: REMOVE_FILTER, rowIndex }),
     };
     return switcher[event.target.id]();
   }
@@ -74,11 +106,13 @@ class FiltersByNumber extends Component {
     let filteredData = data;
     const filteredPlanets = filterCount.map((col, index) => {
       const { column, comparison, value } = numericValues[index].numericValues;
-      console.log(column, comparison, value);
-      filteredData = FiltersByNumber.compareValues(
-        filteredData, column, comparison, value,
-      );
-      return filteredData;
+      if (column !== '' && comparison !== '' && value !== '') {
+        filteredData = FiltersByNumber.compareValues(
+          filteredData, column, comparison, value,
+        );
+        return filteredData;
+      }
+      return filteredData.filter((dataChunk, dataIndex) => dataIndex !== index);
     });
 
     const { column } = numericValues[selectors.length - 1].numericValues;
@@ -95,9 +129,10 @@ class FiltersByNumber extends Component {
     const {
       dispatch, selectors, numericValues,
     } = this.props;
-
     const { column, comparison, value } = numericValues[selectors.length - 1];
+
     const FILTER_BY_NUMBERS = 'FILTER_BY_NUMBER';
+
     const filterByNumbers = ({ filteredPlanets, filterSelectors, newCount }) => (
       {
         type: FILTER_BY_NUMBERS,
@@ -118,24 +153,13 @@ class FiltersByNumber extends Component {
       <div>
         { filterCount.map((item, rowIndex) => (
           <div key={`${item}_${rowIndex + 1}`}>
-            <select
-              onChange={(e) => dispatch(FiltersByNumber.numberFilterDispatch(e, rowIndex))}
-              id="fields"
-            >
-              {FiltersByNumber.renderColumnsOptions(selectors[rowIndex])}
-            </select>
-            <select
-              onChange={(e) => dispatch(FiltersByNumber.numberFilterDispatch(e, rowIndex))}
-              id="operator"
-            >
-              {FiltersByNumber.renderComparisonOptions()}
-            </select>
-            <input
-              onBlur={(e) => dispatch(FiltersByNumber.numberFilterDispatch(e, rowIndex))}
-              type="number"
-              id="number"
-              width="100px"
-            />
+            {FiltersByNumber.renderColumnsOptions(dispatch, selectors[rowIndex], rowIndex)}
+
+            {FiltersByNumber.renderComparisonOptions(dispatch, rowIndex)}
+
+            {FiltersByNumber.renderNumberInput(dispatch, rowIndex)}
+
+            {FiltersByNumber.renderRemoveButton(dispatch, rowIndex)}
           </div>
         ))}
       </div>

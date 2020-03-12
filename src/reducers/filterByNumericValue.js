@@ -34,14 +34,15 @@ const STORE_COLUMN_FILTER = 'STORE_COLUMN_FILTER';
 const STORE_COMPARISON_FILTER = 'STORE_COMPARISON_FILTER';
 const STORE_VALUE_FILTER = 'STORE_VALUE_FILTER';
 const FILTER_BY_NUMBERS = 'FILTER_BY_NUMBER';
+const REMOVE_FILTER = 'REMOVE_FILTER';
 
 export default function filterByNumericValue(state = INITIAL_STATE,
   {
     type, value: newValue,
     filteredPlanets, filterSelectors, rowIndex,
   }) {
-  const { filters } = state;
-  const [{ filterCount }, { selectors }] = filters;
+  const { storageData, filters } = state;
+  const [{ filterCount }, { selectors }, numericValues] = filters;
 
   const updateNumericValues = (field) => ({
     ...state,
@@ -64,12 +65,22 @@ export default function filterByNumericValue(state = INITIAL_STATE,
       return updateNumericValues('comparison');
     case STORE_VALUE_FILTER:
       return updateNumericValues('value');
-
-    case FILTER_BY_NUMBERS:
-      console.log(filteredPlanets);
+    case REMOVE_FILTER:
       return {
         ...state,
         isFilteredByNumber: true,
+        data: storageData,
+        filters: [
+          { filterCount: filterCount.filter((item, index) => index !== rowIndex) },
+          { selectors: selectors.filter((item, index) => index !== rowIndex) },
+          numericValues.filter((item, index) => index !== rowIndex),
+        ],
+      };
+    case FILTER_BY_NUMBERS:
+      return {
+        ...state,
+        isFilteredByNumber: true,
+        storageData: filteredPlanets[0],
         data: filteredPlanets[filteredPlanets.length - 1],
         columnStatus: false,
         comparisonStatus: false,
