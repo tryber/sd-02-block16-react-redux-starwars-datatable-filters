@@ -7,6 +7,6 @@ export default class Table extends Component {
       <div>
         <div>StarWars Datatable with Filters</div>
       </div>
-    )
+    );
   }
 }
