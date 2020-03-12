@@ -46,12 +46,15 @@ export default function filterByNumericValue(state = INITIAL_STATE,
   const updateNumericValues = (field) => ({
     ...state,
     [`${field}Status`]: true,
-    filters: [...filters].map((item, index) => (
-      (index === 2) ? item.map((filterSet, setIndex) => (
+    filters: [
+      filters[0],
+      filters[1],
+      filters[2].map((filterSet, setIndex) => (
         (setIndex === rowIndex) ? (
           { numericValues: { ...filterSet.numericValues, [field]: newValue } }
-        ) : filterSet))
-        : item)),
+        )
+          : filterSet)),
+    ],
   });
 
   switch (type) {
