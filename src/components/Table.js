@@ -9,6 +9,19 @@ function acertaTitulo(aaa) {
   return titulo;
 }
 
+function comparaValores(arg1, arg2, comparison) {
+  switch (comparison) {
+    case '>':
+      return arg1 > arg2;
+    case '<':
+      return arg1 < arg2;
+    case '===':
+      return arg1 === arg2;
+    default:
+      return false;
+  }
+}
+
 function filterDataByName(data, name) {
   const newData = data.reduce((acc, current) => {
     if (current.name.includes(name)) {
@@ -32,7 +45,7 @@ function filterDataByNumericValues(data, column, comparison, value) {
     if (current[column] === 'unknown') {
       return acc;
     }
-    if (window.eval(`${current[column]} ${comparison} ${value}`)) {
+    if (comparaValores(Number(current[column]), Number(value), comparison)) {
       return [...acc, current];
     }
     return acc;
@@ -74,11 +87,11 @@ class Table extends Component {
             const valuesTable = valuesPlanet.slice(0, indexResidents).concat(valuesPlanet.slice(indexResidents + 1));
             return (
               <tr>
-                {valuesTable.map(value => {
-                  if (Array.isArray(value)) {
-                  return <td>{value.map(item => <div>{item}</div>)}</td>;
+                {valuesTable.map(valueColumn => {
+                  if (Array.isArray(valueColumn)) {
+                  return <td>{valueColumn.map(item => <div>{item}</div>)}</td>;
                   }
-                  return <td>{value}</td>;
+                  return <td>{valueColumn}</td>;
                 })}
               </tr>
             );
