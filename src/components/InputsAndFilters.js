@@ -2,15 +2,48 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { filterPlanetsWithName } from '../actions';
+import '../styles/InputsAndFilters_stylish.css'
+
+const columns = [
+  'population',
+  'orbital_period',
+  'diameter',
+  'rotation_period',
+  'surface_water',
+];
+
+const comparativeValues = [
+  'bigger_than',
+  'less_than',
+  'equal_to',
+];
+
+const Selector = (array) => (
+  <select key={`${array}`}>
+    {array.map((keyValue) => (
+      <option value={keyValue}>{keyValue}</option>
+    ))}
+  </select>
+);
 
 
 class InputsAndFilters extends React.Component {
   render() {
     const { planetsData, dispatchFilter } = this.props;
     return (
-      <div>
+      <div className="InputsAndFilters_stylish">
         <input
           type="text"
+          placeholder="Search a name"
+          onChange={(userInfo) => dispatchFilter(planetsData, userInfo.target.value)}
+        />
+        <div className="InputsAndFilters_selectors">
+          {Selector(columns)}
+          {Selector(comparativeValues)}
+        </div>
+        <input
+          type="text"
+          placeholder="Search a number"
           onChange={(userInfo) => dispatchFilter(planetsData, userInfo.target.value)}
         />
       </div>

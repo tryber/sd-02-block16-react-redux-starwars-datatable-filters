@@ -5,8 +5,8 @@ import apiReturn from '../actions';
 import Loading from './Loading';
 import TableHeader from './TableHeader';
 import TableBody from './TableBody';
-import '../styles/Table.css';
 import InputsAndFilters from './InputsAndFilters';
+import '../styles/Table.css';
 
 const tableTitle = [
   'Name',
