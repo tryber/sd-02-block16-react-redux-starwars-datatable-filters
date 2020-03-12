@@ -18,14 +18,16 @@ function renderplanets(param, loading, filt) {
           <tbody key={values.name}>
             <tr>
               {Object.values(values)
-                .map((body, index) => (index !== 9 ? <td className="tableData" key={body}>{body}</td> : null))}
+                .map((body, index) => (index !== 9 ? <td className="tableData" key={body}>{body}</td>
+                  : null))}
             </tr>
           </tbody>
         )) : filt.map((values) => (
           <tbody key={values.name}>
             <tr>
               {Object.values(values)
-                .map((body, index) => (index !== 9 ? <td className="tableData" key={body}>{body}</td> : null))}
+                .map((body, index) => (index !== 9 ? <td className="tableData" key={body}>{body}</td>
+                  : null))}
             </tr>
           </tbody>
         ))}
@@ -52,7 +54,6 @@ class Table extends React.Component {
     const text = event.target.value.toLowerCase();
     filterPlanetsByText(text, data);
     data = filterPlanetsByText(text, data).results;
-
   }
 
   render() {
