@@ -5,13 +5,13 @@ import fetchSWplanets from '../store/actions';
 import Cedula from './Cedula';
 
 function compareValue(array, param, filters) {
-  const { value } = array[1].numericValues;
-  if (array[1].numericValues.comparison === 'Menor que') {
-    return param.filter((ele) => (Number(ele[array[1].numericValues.column]) < Number(value) && ele.name.match(new RegExp(filters[0].name, 'i'))));
-  } if (array[1].numericValues.comparison === 'Maior que') {
-    return param.filter((ele) => Number(ele[array[1].numericValues.column]) > Number(value) && ele.name.match(new RegExp(filters[0].name, 'i')));
-  } if (array[1].numericValues.comparison === 'Igual a') {
-    return param.filter((ele) => (Number(ele[array[1].numericValues.column]) === Number(value) && ele.name.match(new RegExp(filters[0].name, 'i'))));
+  const { value } = array.numericValues;
+  if (array.numericValues.comparison === 'Menor que') {
+    return param.filter((ele) => (Number(ele[array.numericValues.column]) < Number(value) && ele.name.match(new RegExp(filters[0].name, 'i'))));
+  } if (array.numericValues.comparison === 'Maior que') {
+    return param.filter((ele) => Number(ele[array.numericValues.column]) > Number(value) && ele.name.match(new RegExp(filters[0].name, 'i')));
+  } if (array.numericValues.comparison === 'Igual a') {
+    return param.filter((ele) => (Number(ele[array.numericValues.column]) === Number(value) && ele.name.match(new RegExp(filters[0].name, 'i'))));
   } return param;
 }
 
@@ -24,8 +24,10 @@ class Table extends React.Component {
   render() {
     const { api: { data, filters, error }, filter: { filters: results } } = this.props;
     let filtredResult = data;
-    if (results[1]) {
-      filtredResult = compareValue(results, filtredResult, filters);
+    if (results[0]) {
+      for (let i = 0; i < results.length; i += 1) {
+        filtredResult = compareValue(results[i], filtredResult, filters);
+      }
     } if (filters[0].name) {
       filtredResult = filtredResult.filter((ele) => ele.name.match(new RegExp(filters[0].name, 'i')));
     }

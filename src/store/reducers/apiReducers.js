@@ -1,5 +1,4 @@
 const defaultState = {
-  planets: [],
   data: [],
   error: '',
   filters: [

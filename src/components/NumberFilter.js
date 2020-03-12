@@ -15,8 +15,9 @@ class NumberFilter extends React.Component {
   }
 
   select(arrayFilter) {
+    const { column } = this.state;
     return (
-      <select onChange={({ target: { value } }) => this.setState({ column: value })}>
+      <select value={column} onChange={({ target: { value } }) => this.setState({ column: value })}>
         <option>{null}</option>
         {arrayFilter.map((ele) => <option key={ele} value={ele}>{ele}</option>)}
       </select>
@@ -24,10 +25,11 @@ class NumberFilter extends React.Component {
   }
 
   selectAndInput() {
-    const { column, comparison } = this.state;
+    const { column, comparison, value: values } = this.state;
     return (
       <div>
         <select
+          value={comparison}
           disabled={(column) ? false : !false}
           onChange={({ target: { value } }) => this.setState({ comparison: value })}
         >
@@ -37,6 +39,7 @@ class NumberFilter extends React.Component {
           <option value="Igual a">Igual a</option>
         </select>
         <input
+          value={values}
           disabled={(comparison) ? false : !false}
           onChange={({ target: { value } }) => this.setState({ value })}
           type="number"
@@ -46,32 +49,41 @@ class NumberFilter extends React.Component {
   }
 
   render() {
-    const { filtred } = this.props;
-    const { comparison } = this.state;
-    const arrayFilter = ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
+    const { filtred, filters, arrayFilter } = this.props;
+    const { comparison, column } = this.state;
     return (
       <div>
         {this.select(arrayFilter)}
         {this.selectAndInput()}
         <button
-          onClick={() => filtred(this.state)}
+          onClick={() => {
+            filtred(this.state, arrayFilter.filter((ele) => ele !== column));
+            this.setState({ column: '', comparison: '', value: '' });
+          }}
           type="button"
           disabled={(comparison) ? false : !false}
         >
-          Filtrar
+          Filter
         </button>
+        {(filters[0].numericValues.column) ? filters.map(({ numericValues }) => (
+          <div key={numericValues.column}>
+            <p>{`${numericValues.column} ${numericValues.comparison} ${numericValues.value}`}</p>
+            <button type="button">Exclude</button>
+          </div>
+        )) : null}
       </div>
     );
   }
 }
 
-// const mapStateToProps = () => ({ null });
+const mapStateToProps = ({ filter: { planets, filters, arrayFilter } }) => (
+  { planets, filters, arrayFilter });
 
 const mapDispatchToProps = (dispatch) => ({
-  filtred: (obj) => dispatch({ type: 'FilterNumber', obj }),
+  filtred: (obj, arrayFilter) => dispatch({ type: 'FilterNumber', obj, arrayFilter }),
 });
 
-export default connect(null, mapDispatchToProps)(NumberFilter);
+export default connect(mapStateToProps, mapDispatchToProps)(NumberFilter);
 
 NumberFilter.propTypes = {
   filtredName: PropTypes.func,
