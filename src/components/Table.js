@@ -17,6 +17,7 @@ class Table extends Component {
   }
 
   forDoFiltrar(boraFiltrar, p) {
+    console.log(this.props);
     let final = p;
     boraFiltrar.forEach(({ numericValues: { column, comparison, valueComparison } }) => {
       if (column !== 'coluna' && comparison === 'Maior que' && valueComparison >= 0) {
