@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { filterPlanetsWithName } from '../actions';
 
 
-class Input extends React.Component {
+class InputsAndFilters extends React.Component {
   render() {
     const { planetsData, dispatchFilter } = this.props;
     return (
@@ -24,7 +24,7 @@ const mapDispatchToProps = (dispatch) => ({
   ),
 });
 
-Input.propTypes = {
+InputsAndFilters.propTypes = {
   planetsData: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string,
     rotation_period: PropTypes.string,
@@ -43,9 +43,9 @@ Input.propTypes = {
   dispatchFilter: PropTypes.func.isRequired,
 };
 
-Input.defaultProps = {
+InputsAndFilters.defaultProps = {
   planetsData: [],
 };
 
 
-export default connect(null, mapDispatchToProps)(Input);
+export default connect(null, mapDispatchToProps)(InputsAndFilters);

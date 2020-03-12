@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import apiReturn from '../actions';
 import Loading from './Loading';
 import '../styles/Table.css';
-import Input from './InputTextSearch';
+import InputsAndFilters from './InputsAndFilters';
 
 const tableTitle = [
   'Name',
@@ -31,15 +31,13 @@ class Table extends React.Component {
   render() {
     const { planetsData, isFetching, filteredData } = this.props;
     const consumerData = filteredData || planetsData;
-    console.log(filteredData);
-    console.log(planetsData);
     if (isFetching) {
       return <Loading />;
     }
 
     return (
       <div className="allTable">
-        <Input planetsData={planetsData} />
+        <InputsAndFilters planetsData={planetsData} />
         <table>
 
           <thead>
@@ -107,13 +105,28 @@ Table.propTypes = {
     edited: PropTypes.string,
     url: PropTypes.string,
   })),
-  filteredData: PropTypes.func.isRequired,
+  filteredData: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string,
+    rotation_period: PropTypes.string,
+    orbital_period: PropTypes.string,
+    diameter: PropTypes.string,
+    climate: PropTypes.string,
+    gravity: PropTypes.string,
+    terrain: PropTypes.string,
+    surface_water: PropTypes.string,
+    population: PropTypes.string,
+    films: PropTypes.array,
+    created: PropTypes.string,
+    edited: PropTypes.string,
+    url: PropTypes.string,
+  })),
   initialRequisition: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
 };
 
 Table.defaultProps = {
   planetsData: [],
+  filteredData: null,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Table);
