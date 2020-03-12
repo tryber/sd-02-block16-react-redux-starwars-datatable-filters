@@ -7,6 +7,37 @@ import {
 
 import { numFilters, removeFilters, switchFiltersNum } from '../../services/filters';
 
+function filtersValues(filters) {
+  const { comparison, column, value } = filters[filters.length - 1].numeric_values
+    ? filters[filters.length - 1].numeric_values
+    : { comparison: '', column: '', value: 0 };
+  return [comparison, column, value];
+}
+
+function caseFilterByName(state, action) {
+  const [, ...rest] = state.filters;
+  const filters = [...action.filters, ...rest];
+  const values = filtersValues(filters);
+  return {
+    ...state,
+    resultsByName: switchFiltersNum(action.results, values[0], values[1], values[2], filters),
+    filters,
+  };
+}
+
+function caseRemoveFilter(state, action) {
+  const filters = removeFilters(action.index, state.filters);
+  const values = filtersValues(filters);
+  const resultsByName = switchFiltersNum(
+    action.results, values[0], values[1], values[2], filters,
+  );
+  return {
+    ...state,
+    resultsByName,
+    filters,
+  };
+}
+
 const INITIAL_SW_PLANETS_STATE = {
   resultsByName: [],
   filters: [
@@ -24,16 +55,7 @@ const table = (state = INITIAL_SW_PLANETS_STATE, action) => {
         resultsByName: action.results,
       };
     case FILTER_BY_NAME: {
-      const [, ...rest] = state.filters;
-      const filters = [...action.filters, ...rest];
-      const { comparison, column, value } = filters[filters.length - 1].numeric_values
-        ? filters[filters.length - 1].numeric_values
-        : { comparison: '', column: '', value: 0 };
-      return {
-        ...state,
-        resultsByName: switchFiltersNum(action.results, comparison, column, value, filters),
-        filters,
-      };
+      return caseFilterByName(state, action);
     }
     case ADD_FILTERS: {
       const filters = [...state.filters, ...action.filters];
@@ -44,22 +66,13 @@ const table = (state = INITIAL_SW_PLANETS_STATE, action) => {
       };
     }
     case REMOVE_FILTER: {
-      const filters = removeFilters(action.index, state.filters);
-      const { comparison, column, value } = filters[filters.length - 1].numeric_values
-        ? filters[filters.length - 1].numeric_values
-        : { comparison: '', column: '', value: 0 };
-      const resultsByName = switchFiltersNum(
-        action.results, comparison, column, value, filters,
-      );
-      return {
-        ...state,
-        resultsByName,
-        filters,
-      };
+      return caseRemoveFilter(state, action);
     }
     default:
       return state;
   }
 };
+
+
 
 export default table;

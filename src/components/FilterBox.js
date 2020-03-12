@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { filterButton, getRemoveFilter } from '../store/actions/table';
 
 const FilterBox = ({
-  setNewFilter, selectedValues, results, resultsByName, filters, removeFilter
+  setNewFilter, selectedValues, results, resultsByName, filters, removeFilter,
 }) => {
   const { column, comparison, value } = selectedValues;
   const [, ...numericValues] = filters;
@@ -22,7 +22,12 @@ const FilterBox = ({
         ? numericValues
         : numericValues.map(({ numeric_values }, i) => (
           <div key={numeric_values.column}>
-            <button key={numeric_values.column} id={i} type="button" onClick={(e) => removeFilter(e, results)}>
+            <button
+              key={numeric_values.column}
+              id={i}
+              type="button"
+              onClick={(e) => removeFilter(e, results)}
+            >
               X
             </button>
             {`${numeric_values.column} | ${numeric_values.comparison} | ${numeric_values.value}`}
@@ -63,6 +68,7 @@ FilterBox.propTypes = {
   results: PropTypes.instanceOf(Array).isRequired,
   resultsByName: PropTypes.instanceOf(Array).isRequired,
   filters: PropTypes.instanceOf(Array).isRequired,
+  removeFilter: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FilterBox);

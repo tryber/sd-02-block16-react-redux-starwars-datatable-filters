@@ -17,7 +17,6 @@ export const switchFilters = (filterByColumn, comparison, column, value) => {
 
 export const switchFiltersNum = (results, comparison, column, value, filters) => {
   let filterByColumn = filterByName(filters[0].name, results) || results;
-  console.log(filterByColumn);
   filters.forEach((filter) => {
     if (filter.numeric_values) {
       filterByColumn = switchFilters(
