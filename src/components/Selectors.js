@@ -21,7 +21,7 @@ class Selectors extends Component {
     const { column, comparison, valueComparison }
       = this.props.state.searchFilterReducer.filters[1].numericValues;
     console.log(column, comparison, valueComparison);
-    if ((column !== 'coluna' && comparison !== '-' && valueComparison > 0)) {
+    if ((column !== 'coluna' && comparison !== '-' && valueComparison >= 0)) {
       console.log('aui');
       addNewFilter(column, comparison, valueComparison);
     }
