@@ -40,12 +40,16 @@ class Table extends Component {
 
   render() {
     const {
-      isFetching, results, getFilterByName, resultsByName, filters,
+      isFetching, results, getFilterByName, resultsByName,
     } = this.props;
     if (isFetching) return <div>LOADING...</div>;
     return (
       <div>
-        <input type="text" placeholder="Digite um nome " onChange={(e) => getFilterByName(e, results)} />
+        <input
+          type="text"
+          placeholder="Digite um nome"
+          onChange={(e) => getFilterByName(e, results)}
+        />
         <label htmlFor="values">Choose a filter:</label>
         <Selectors selects={['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water']} i={0} />
         <Selectors selects={['maior que', 'menor que', 'igual a']} i={1} />

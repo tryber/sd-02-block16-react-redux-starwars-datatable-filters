@@ -6,7 +6,7 @@ import { setSessionStorage } from '../store/actions/selectors';
 
 const Selectors = (
   {
-    selects, i, setSelectedValues, filters
+    selects, i, setSelectedValues, filters,
   },
 ) => {
   console.log(filters);

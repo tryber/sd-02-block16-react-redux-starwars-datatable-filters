@@ -10,7 +10,12 @@ const FilterBox = ({
   if (column && comparison && value) {
     return (
       <div>
-        <button type="button" onClick={() => setNewFilter(selectedValues, results, resultsByName)}>Clique para filtrar</button>
+        <button
+          type="button"
+          onClick={() => setNewFilter(selectedValues, results, resultsByName)}
+        >
+          Clique para filtrar
+        </button>
       </div>
     );
   }
