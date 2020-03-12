@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import apiReturn from '../actions';
 import Loading from './Loading';
+import TableHeader from './TableHeader';
+import TableBody from './TableBody';
 import '../styles/Table.css';
 import InputsAndFilters from './InputsAndFilters';
 
@@ -22,6 +24,7 @@ const tableTitle = [
   'URL',
 ];
 
+
 class Table extends React.Component {
   componentDidMount() {
     const { initialRequisition } = this.props;
@@ -39,35 +42,8 @@ class Table extends React.Component {
       <div className="allTable">
         <InputsAndFilters planetsData={planetsData} />
         <table>
-
-          <thead>
-            <tr>
-              {tableTitle.map((title) => (
-                <th key={title}>{title}</th>
-              ))}
-            </tr>
-          </thead>
-
-          <tbody>
-            {consumerData && consumerData.map((planet) => (
-              <tr key={`${planet.name} row`}>
-                <td>{planet.name}</td>
-                <td>{planet.rotation_period}</td>
-                <td>{planet.orbital_period}</td>
-                <td>{planet.diameter}</td>
-                <td>{planet.climate}</td>
-                <td>{planet.gravity}</td>
-                <td>{planet.terrain}</td>
-                <td>{planet.surface_water}</td>
-                <td>{planet.population}</td>
-                <td>{planet.films.map((film) => <p key={film}>{film}</p>)}</td>
-                <td>{planet.created}</td>
-                <td>{planet.edited}</td>
-                <td>{planet.url}</td>
-              </tr>
-            ))}
-          </tbody>
-
+          {TableHeader(tableTitle)}
+          {TableBody(consumerData)}
         </table>
       </div>
     );
