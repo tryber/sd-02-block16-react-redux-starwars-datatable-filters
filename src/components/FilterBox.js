@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { filterButton } from '../store/actions/table';
+import { filterButton, getRemoveFilter } from '../store/actions/table';
 
 const FilterBox = ({
-  setNewFilter, selectedValues, results, resultsByName, filters,
+  setNewFilter, selectedValues, results, resultsByName, filters, removeFilter
 }) => {
   const { column, comparison, value } = selectedValues;
   const [, ...numericValues] = filters;
@@ -20,9 +20,11 @@ const FilterBox = ({
         : null}
       {!numericValues.length
         ? numericValues
-        : numericValues.map(({ numeric_values }) => (
-          <div>
-            <button key={numeric_values.column} type="button">X</button>
+        : numericValues.map(({ numeric_values }, i) => (
+          <div key={numeric_values.column}>
+            <button key={numeric_values.column} id={i} type="button" onClick={(e) => removeFilter(e, results)}>
+              X
+            </button>
             {`${numeric_values.column} | ${numeric_values.comparison} | ${numeric_values.value}`}
           </div>
         ))}
@@ -34,6 +36,7 @@ const mapDispatchToProps = (dispatch) => ({
   setNewFilter: (selectedValues, results, resultsByName) => dispatch(
     filterButton(selectedValues, results, resultsByName),
   ),
+  removeFilter: (e, results) => dispatch(getRemoveFilter(e, results)),
 });
 
 const mapStateToProps = ({

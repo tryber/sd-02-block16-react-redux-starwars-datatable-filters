@@ -9,10 +9,13 @@ const Selectors = (
     selects, i, setSelectedValues, filters,
   },
 ) => {
-  const [, ...rest] = filters;
-  const filtersColumns = !rest.length
-    ? rest
-    : rest.map(({ numeric_values: { column } }) => column);
+  let filtersColumns = [];
+  if (filters.length > 1) {
+    const [, ...rest] = filters;
+    filtersColumns = !rest.length
+      ? rest
+      : rest.map(({ numeric_values: { column } }) => column);
+  }
   return (
     <div>
       <select id="values" onChange={(e) => setSelectedValues(e, i)}>

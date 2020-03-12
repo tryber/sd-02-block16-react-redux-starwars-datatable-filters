@@ -35,5 +35,4 @@ const selectors = (state = INITIAL_SELECTOR_STATE, action) => {
       return state;
   }
 };
-
 export default selectors;
