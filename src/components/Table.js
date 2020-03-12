@@ -33,7 +33,6 @@ class Table extends React.Component {
     const consumerData = filteredData || planetsData;
     console.log(filteredData);
     console.log(planetsData);
-    // console.log(typeof filteredData);
     if (isFetching) {
       return <Loading />;
     }
@@ -93,7 +92,22 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 Table.propTypes = {
-  planetsData: PropTypes.arrayOf,
+  planetsData: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string,
+    rotation_period: PropTypes.string,
+    orbital_period: PropTypes.string,
+    diameter: PropTypes.string,
+    climate: PropTypes.string,
+    gravity: PropTypes.string,
+    terrain: PropTypes.string,
+    surface_water: PropTypes.string,
+    population: PropTypes.string,
+    films: PropTypes.array,
+    created: PropTypes.string,
+    edited: PropTypes.string,
+    url: PropTypes.string,
+  })),
+  filteredData: PropTypes.func.isRequired,
   initialRequisition: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
 };

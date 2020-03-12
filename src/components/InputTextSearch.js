@@ -1,16 +1,17 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { filterPlanetsWithName } from '../actions';
 
 
 class Input extends React.Component {
   render() {
-    const { planetsData, dispatchFilterName } = this.props;
+    const { planetsData, dispatchFilter } = this.props;
     return (
       <div>
         <input
           type="text"
-          onChange={(userInfo) => dispatchFilterName(planetsData, userInfo.target.value)}
+          onChange={(userInfo) => dispatchFilter(planetsData, userInfo.target.value)}
         />
       </div>
     );
@@ -18,9 +19,33 @@ class Input extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  dispatchFilterName: (planetsData, userInfo) => (
+  dispatchFilter: (planetsData, userInfo) => (
     dispatch(filterPlanetsWithName(planetsData, userInfo))
   ),
 });
+
+Input.propTypes = {
+  planetsData: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string,
+    rotation_period: PropTypes.string,
+    orbital_period: PropTypes.string,
+    diameter: PropTypes.string,
+    climate: PropTypes.string,
+    gravity: PropTypes.string,
+    terrain: PropTypes.string,
+    surface_water: PropTypes.string,
+    population: PropTypes.string,
+    films: PropTypes.array,
+    created: PropTypes.string,
+    edited: PropTypes.string,
+    url: PropTypes.string,
+  })),
+  dispatchFilter: PropTypes.func.isRequired,
+};
+
+Input.defaultProps = {
+  planetsData: [],
+};
+
 
 export default connect(null, mapDispatchToProps)(Input);
