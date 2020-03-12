@@ -1,6 +1,6 @@
 import { SEARCH_FILTER } from '../actions/searchFilter';
 import { SELECTOR_FILTER } from '../actions/selectorFilter';
-import { NUMBER_OF_SELECTORS_FILTER } from '../actions/numberOfSelectorsFilter';
+import { NEW_FILTER } from '../actions/newFilter';
 
 const initialState = {
   filters: [
@@ -19,23 +19,38 @@ const initialState = {
 };
 
 export default function reducer(state = initialState, action) {
-  // console.log(previousFilter);
+  // console.log(nextFilter);
   console.log(action);
   switch (action.type) {
     case SEARCH_FILTER: {
-      const previousFilter = state.filters;
+      const nextFilter = state.filters;
       const { value } = action;
-      previousFilter[0].name = value;
-      return { ...state, filters: previousFilter };
+      nextFilter[0].name = value;
+      return { ...state, filters: nextFilter };
     }
     case SELECTOR_FILTER: {
-      const previousFilter = state.filters;
+      const nextFilter = state.filters;
       const { value, part } = action;
-      previousFilter[1].numericValues[part] = value;
-      return { ...state, filters: previousFilter };
+      nextFilter[1].numericValues[part] = value;
+      return { ...state, filters: nextFilter };
     }
-    case NUMBER_OF_SELECTORS_FILTER: {
-      return state;
+    case NEW_FILTER: {
+      const { column, comparison, valueComparison } = action;
+      const nextFilter = state.filters;
+      const nextSelector = state.selectors;
+      nextSelector.splice(nextSelector.indexOf(column), 1);
+      nextFilter[1].numericValues.column = 'coluna';
+      nextFilter[1].numericValues.comparison = '-';
+      nextFilter[1].numericValues.valueComparison = 0;
+      const novoFiltro = {
+        numericValues: {
+          column,
+          comparison,
+          valueComparison,
+        },
+      };
+      nextFilter.push(novoFiltro);
+      return { ...state, filters: nextFilter, selectors: nextSelector };
     }
     default:
       return state;
