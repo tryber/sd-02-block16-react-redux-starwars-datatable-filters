@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { node } from 'prop-types';
 
 function acertaTitulo(aaa) {
   const palavras = aaa.split('_');
@@ -16,9 +17,9 @@ function filterDataByName(data, name) {
     return acc;
   }, []);
 
-  // if (newData.length === 0) {
-  //   return [{}];
-  // }
+  if (newData.length === 0) {
+    return [{}];
+  }
 
   return newData;
 }
@@ -31,21 +32,21 @@ function filterDataByNumericValues(data, column, comparison, value) {
     if (current[column] === 'unknown') {
       return acc;
     }
-    if (eval(`${current[column]} ${comparison} ${value}`)) {
+    if (window.eval(`${current[column]} ${comparison} ${value}`)) {
       return [...acc, current];
     }
     return acc;
   }, []);
 
-  if (newData.length === 0) {
-    return [{}];
-  }
+  // if (newData.length === 0) {
+  //   return [{}];
+  // }
 
   return newData;
 }
 
 function filterData(data, name, column, comparison, value) {
-  return filterDataByNumericValues(filterDataByName(data, name), column, comparison, value);
+  return filterDataByName(filterDataByNumericValues(data, column, comparison, value), name);
 }
 
 class Table extends Component {
