@@ -70,8 +70,31 @@ const mapDispatchToProps = (dispatch) => ({
   handle: (e, id, filters) => dispatch(handleClick(e, id, filters)),
 });
 
+
 FilterByName.propTypes = {
   handle: PropTypes.func.isRequired,
+  filters: PropTypes.arrayOf(
+    PropTypes.shape({
+      numericValues: PropTypes.shape({
+        name: PropTypes.string,
+        condition: PropTypes.string,
+        input: PropTypes.number,
+      }).isRequired,
+    }).isRequired,
+  ),
+  id: PropTypes.number.isRequired,
+};
+
+FilterByName.defaultProps = {
+  filters: [
+    {
+      numericValues: {
+        name: '',
+        condition: '',
+        input: undefined,
+      },
+    },
+  ],
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FilterByName);

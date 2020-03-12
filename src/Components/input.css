@@ -1,6 +1,6 @@
 .comp_input {
-  display: flex;
   align-items: flex-start;
+  display: flex;
   justify-content: flex-start;
 }
 

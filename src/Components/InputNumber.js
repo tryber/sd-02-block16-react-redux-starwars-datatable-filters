@@ -32,7 +32,6 @@ class InputNumber extends Component {
   }
 }
 
-
 const mapStateToProps = (state) => ({
   filters: state.filter.filters,
 });
@@ -43,10 +42,28 @@ const mapDispatchToProps = (dispatch) => ({
 
 InputNumber.propTypes = {
   handle: PropTypes.func.isRequired,
+  filters: PropTypes.arrayOf(
+    PropTypes.shape({
+      numericValues: PropTypes.shape({
+        name: PropTypes.string,
+        condition: PropTypes.string,
+        input: PropTypes.number,
+      }).isRequired,
+    }).isRequired,
+  ),
+  id: PropTypes.number.isRequired,
 };
 
-// InputNumber.defaultProps = {
-//   input: undefined,
-// };
+InputNumber.defaultProps = {
+  filters: [
+    {
+      numericValues: {
+        name: '',
+        condition: '',
+        input: undefined,
+      },
+    },
+  ],
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputNumber);

@@ -34,7 +34,6 @@ class Filter extends Component {
   }
 }
 
-
 const mapStateToProps = (state) => ({
   filters: state.filter.filters,
 });
@@ -45,6 +44,28 @@ const mapDispatchToProps = (dispatch) => ({
 
 Filter.propTypes = {
   handle: PropTypes.func.isRequired,
+  filters: PropTypes.arrayOf(
+    PropTypes.shape({
+      numericValues: PropTypes.shape({
+        name: PropTypes.string,
+        condition: PropTypes.string,
+        input: PropTypes.number,
+      }).isRequired,
+    }).isRequired,
+  ),
+  id: PropTypes.number.isRequired,
+};
+
+Filter.defaultProps = {
+  filters: [
+    {
+      numericValues: {
+        name: '',
+        condition: '',
+        input: undefined,
+      },
+    },
+  ],
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Filter);

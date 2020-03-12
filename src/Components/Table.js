@@ -27,6 +27,30 @@ function theadRender(planets) {
   );
 }
 
+function byCondition(planets, filter) {
+  const { name, condition, input } = filter.numericValues;
+  switch (condition) {
+    case 'maior':
+      return planets.filter((planet) => parseFloat(planet[name]) > input);
+    case 'menor':
+      return planets.filter((planet) => parseFloat(planet[name]) < input);
+    case 'igual':
+      return planets.filter((planet) => parseFloat(planet[name]) === input);
+    default:
+      return planets;
+  }
+}
+
+function inputNumber(filter, planets) {
+  const { input } = filter.numericValues;
+  switch (input) {
+    case '':
+      return planets;
+    default:
+      return byCondition(planets, filter);
+  }
+}
+
 class Table extends Component {
   constructor(props) {
     super(props);
@@ -50,33 +74,7 @@ class Table extends Component {
 
   inputNumbers(planets) {
     const { filters } = this.props;
-    return filters.reduce((acc, filter) => {
-      return this.inputNumber(filter, acc);
-    }, planets);
-  }
-
-  inputNumber(filter, planets) {
-    const { input } = filter.numericValues;
-    switch (input) {
-      case '':
-        return planets;
-      default:
-        return this.condition(planets, filter);
-    }
-  }
-
-  condition(planets, filter) {
-    const { name, condition, input } = filter.numericValues;
-    switch (condition) {
-      case 'maior':
-        return planets.filter((planet) => parseFloat(planet[name]) > input);
-      case 'menor':
-        return planets.filter((planet) => parseFloat(planet[name]) < input);
-      case 'igual':
-        return planets.filter((planet) => parseFloat(planet[name]) === input);
-      default:
-        return planets;
-    }
+    return filters.reduce((acc, filter) => inputNumber(filter, acc), planets);
   }
 
   render() {
@@ -98,36 +96,68 @@ class Table extends Component {
   }
 }
 
-// Table.propTypes = {
-//   planets: PropTypes.arrayOf(
-//     PropTypes.shape({
-//       name: PropTypes.string,
-//       rotation_period: PropTypes.string,
-//       orbital_period: PropTypes.string,
-//       diameter: PropTypes.string,
-//       surface_water: PropTypes.string,
-//     }),
-//   ),
-//   filterByName: PropTypes.string,
-//   filterByCondition: PropTypes.string,
-//   inputNumber: PropTypes.number,
-//   inputName: PropTypes.string,
-//   requestApi: PropTypes.func.isRequired,
-// };
+Table.propTypes = {
+  planets: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      rotation_period: PropTypes.string,
+      orbital_period: PropTypes.string,
+      diameter: PropTypes.string,
+      surface_water: PropTypes.string,
+      climate: PropTypes.string,
+      gravity: PropTypes.string,
+      terrain: PropTypes.string,
+      populatio: PropTypes.string,
+      created: PropTypes.string,
+      edited: PropTypes.string,
+      url: PropTypes.string,
+      films: PropTypes.arrayOf(
+        PropTypes.string,
+      ),
+    }),
+  ),
+  filters: PropTypes.arrayOf(
+    PropTypes.shape({
+      numericValues: PropTypes.shape({
+        name: PropTypes.string,
+        condition: PropTypes.string,
+        input: PropTypes.number,
+      }).isRequired,
+    }).isRequired,
+  ),
+  inputName: PropTypes.string,
+  requestApi: PropTypes.func.isRequired,
+};
 
-// Table.defaultProps = {
-//   planets: [{
-//     name: '',
-//     rotation_period: null,
-//     orbital_period: null,
-//     diameter: null,
-//     surface_water: '',
-//   }],
-//   filterByName: '',
-//   filterByCondition: '',
-//   inputNumber: 0,
-//   inputName: '',
-// };
+Table.defaultProps = {
+  planets: [{
+    name: '',
+    rotation_period: null,
+    orbital_period: null,
+    diameter: null,
+    surface_water: '',
+    climate: '',
+    gravity: '',
+    terrain: '',
+    populatio: '',
+    created: '',
+    edited: '',
+    url: '',
+    films: PropTypes.arrayOf(
+      '',
+    ),
+  }],
+  filters: [
+    {
+      numericValues: {
+        name: '',
+        condition: '',
+        input: undefined,
+      },
+    },
+  ],
+  inputName: '',
+};
 
 const mapStateToProps = (state) => ({
   planets: state.data.planets,

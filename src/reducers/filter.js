@@ -5,14 +5,28 @@ const INITIAL_STATE = {
       numericValues: {
         name: 'population',
         condition: 'maior',
-        input: 2000,
+        input: undefined,
       },
     },
   ],
 };
 
 export default (state = INITIAL_STATE, action) => {
-  if (action.type === 'FilterByName' || action.type === 'FilterByCondition' || action.type === 'InputNumber') {
+  if (action.type === 'FilterByName') {
+    const filters = [...action.filters];
+    return {
+      ...state, filters,
+    };
+  }
+
+  if (action.type === 'InputNumber') {
+    const filters = [...action.filters];
+    return {
+      ...state, filters,
+    };
+  }
+
+  if (action.type === 'FilterByCondition') {
     const filters = [...action.filters];
     return {
       ...state, filters,
@@ -32,35 +46,5 @@ export default (state = INITIAL_STATE, action) => {
       ...state, filters,
     };
   }
-  // if (action.type === 'FilterByCondition') {
-  //   return {
-  //     ...state,
-  //     filters: {
-  //       ...state.filters,
-  //       [action.id]: {
-  //         ...state.filters[action.id],
-  //         numericValues: {
-  //           ...state.filters[action.id].numericValues,
-  //           condition: action.filter,
-  //         },
-  //       },
-  //     },
-  //   };
-  // }
-  // if (action.type === 'InputNumber') {
-  //   return {
-  //     ...state,
-  //     filters: {
-  //       ...state.filters,
-  //       [action.id]: {
-  //         ...state.filters[action.id],
-  //         numericValues: {
-  //           ...state.filters[action.id].numericValues,
-  //           input: action.filter,
-  //         },
-  //       },
-  //     },
-  //   };
-  // }
   return state;
 };
