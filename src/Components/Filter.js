@@ -1,14 +1,31 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import FilterByName from './FilterByName';
 import FilterByCondition from './FilterByCondition';
 import InputNumber from './InputNumber';
 
-export default class Filter extends Component {
+function handleClick(e, id, filters) {
+  const coisa = filters;
+  coisa.splice(id, 1);
+  return {
+    type: 'delete',
+    id,
+    filters: coisa,
+  };
+}
+
+class Filter extends Component {
   render() {
-    const { id } = this.props;
+    const { id, handle, filters } = this.props;
     return (
       <div className="comp_filter_cont" name={id}>
+        <button type="button" onClick={(e) => handle(e, id, filters)}>
+          <i className="material-icons">
+              close
+          </i>
+        </button>
         <FilterByName id={id} />
         <FilterByCondition id={id} />
         <InputNumber id={id} />
@@ -16,3 +33,18 @@ export default class Filter extends Component {
     );
   }
 }
+
+
+const mapStateToProps = (state) => ({
+  filters: state.filter.filters,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  handle: (e, id, filters) => dispatch(handleClick(e, id, filters)),
+});
+
+Filter.propTypes = {
+  handle: PropTypes.func.isRequired,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Filter);

@@ -25,6 +25,13 @@ export default (state = INITIAL_STATE, action) => {
       ...state, filters,
     };
   }
+
+  if (action.type === 'delete') {
+    const filters = [...action.filters];
+    return {
+      ...state, filters,
+    };
+  }
   // if (action.type === 'FilterByCondition') {
   //   return {
   //     ...state,

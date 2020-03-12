@@ -5,6 +5,13 @@
   width: 40%;
 }
 
+.comp_filter_cont > button {
+  background-color: white;
+  border-style: none;
+  position: relative;
+  left: 40%;
+}
+
 .comp_filter {
   display: flex;
   flex-direction: column;

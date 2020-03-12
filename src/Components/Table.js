@@ -79,18 +79,12 @@ class Table extends Component {
     }
   }
 
-  handle() {
-    const { planets, filters } =this.props;
-    console.log(filters)
-  }
-
   render() {
     const {
       planets,
     } = this.props;
     return (
       <table>
-        <button onClick={() => this.handle()}></button>
         <thead>
           {theadRender(planets)}
         </thead>
