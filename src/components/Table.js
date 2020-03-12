@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchSWPlanets } from '../actions';
 import './Table.css';
@@ -39,6 +39,7 @@ class Table extends React.Component {
     return (
       <div>
         <h1>StarWars Datatable with Filters</h1>
+        <input placeholder="filter planets!" />
         {renderplanets(data, isfetching)}
       </div>
     );
@@ -50,10 +51,23 @@ const mapStateToProps = ({
     isfetching,
     data,
   },
-}) => ({ isfetching, data });
+  wordReducer: {
+    filters,
+  },
+}) => ({ isfetching, data, filters });
 
 const mapDispatchToProps = (dispatch) => ({
   propriedadeQueNaoInterfere: () => dispatch(fetchSWPlanets()),
 });
+
+Table.propTypes = {
+  propriedadeQueNaoInterfere: propTypes.func.isRequired,
+  isfetching: propTypes.bool.isRequired,
+  data: propTypes.string,
+};
+
+Table.defaultProps = {
+  data: null,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Table);
