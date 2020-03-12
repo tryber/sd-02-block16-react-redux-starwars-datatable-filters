@@ -43,34 +43,75 @@ export default function filterByNumericValue(state = INITIAL_STATE,
   const { filters } = state;
   const [filterCount, selectors] = filters;
 
-  const updateNumericValues = (field) => ({
-    ...state,
-    [`${field}Status`]: true,
-    filters: [...filters].map((item, index) => ((index === 2) ? item.map(
-      (filterSet, setIndex) => (
-        (setIndex === rowIndex) ? (
-          { numericValues: { ...filterSet.numericValues, [field]: newValue } }) : filterSet),
-    ) : item)),
-  });
+  // const updateNumericValues = (field) => ({
+  //   ...state,
+  //   [`${field}Status`]: true,
+  //   filters: [...filters].map((item, index) => ((index === 2) ? item.map(
+  //     (filterSet, setIndex) => (
+  //       (setIndex === rowIndex) ? (
+  //         { numericValues: { ...filterSet.numericValues, [field]: newValue } }) : filterSet),
+  //   )
+  //     : item)),
+  // });
 
-  if (type === STORE_COLUMN_FILTER) return updateNumericValues('column');
-  if (type === STORE_COMPARISON_FILTER) return updateNumericValues('comparison');
-  if (type === STORE_VALUE_FILTER) return updateNumericValues('value');
-  if (type === FILTER_BY_NUMBERS) {
-    return {
-      ...state,
-      isFilteredByNumber: true,
-      data: filteredPlanets[filteredPlanets.length - 1],
-      columnStatus: false,
-      comparisonStatus: false,
-      valueStatus: false,
-      filters: [...filters].map((filter, index) => {
-        if (index === 0) return { filterCount: filterCount.filterCount.concat([['x']]) };
-        if (index === 1) return { selectors: selectors.selectors.concat([...filterSelectors]) };
-        if (index === 2) return filter.concat({ numericValues: { column: '', comparison: '', value: '' } });
-        return filter;
-      }),
-    };
+  switch (type) {
+    case STORE_COLUMN_FILTER:
+      return {
+        ...state,
+        columnStatus: true,
+        filters: [...filters].map((item, index) => ((index === 2) ? item.map(
+          (filterSet, setIndex) => (
+            (setIndex === rowIndex) ? (
+              { numericValues: { ...filterSet.numericValues, column: newValue } }) : filterSet),
+        )
+          : item)),
+      };
+    case STORE_COMPARISON_FILTER:
+      return {
+        ...state,
+        columnStatus: true,
+        filters: [...filters].map((item, index) => ((index === 2) ? item.map(
+          (filterSet, setIndex) => (
+            (setIndex === rowIndex) ? (
+              { numericValues: { ...filterSet.numericValues, comparison: newValue } }) : filterSet),
+        )
+          : item)),
+      };
+
+    case STORE_VALUE_FILTER:
+      return {
+        ...state,
+        columnStatus: true,
+        filters: [...filters].map((item, index) => ((index === 2) ? item.map(
+          (filterSet, setIndex) => (
+            (setIndex === rowIndex) ? (
+              { numericValues: { ...filterSet.numericValues, value: newValue } }) : filterSet),
+        )
+          : item)),
+      };
+    case FILTER_BY_NUMBERS:
+      console.log(filteredPlanets);
+      return {
+        ...state,
+        isFilteredByNumber: true,
+        data: filteredPlanets[filteredPlanets.length - 1],
+        columnStatus: false,
+        comparisonStatus: false,
+        valueStatus: false,
+        filters: [...filters].map((filter, index) => {
+          switch (index) {
+            case 0:
+              return { filterCount: filterCount.filterCount.concat([['x']]) };
+            case 1:
+              return { selectors: selectors.selectors.concat([...filterSelectors]) };
+            case 2:
+              return filter.concat({ numericValues: { column: '', comparison: '', value: '' } });
+            default:
+              return filter;
+          }
+        }),
+      };
+    default:
+      return state;
   }
-  return state;
 }
