@@ -41,7 +41,7 @@ export default function filterByNumericValue(state = INITIAL_STATE,
     filteredPlanets, filterSelectors, rowIndex,
   }) {
   const { filters } = state;
-  const [filterCount, selectors] = filters;
+  const [{ filterCount }, { selectors }] = filters;
 
   const updateNumericValues = (field) => ({
     ...state,
@@ -72,8 +72,8 @@ export default function filterByNumericValue(state = INITIAL_STATE,
         comparisonStatus: false,
         valueStatus: false,
         filters: [
-          { filterCount: filterCount.filterCount.concat([['x']]) },
-          { selectors: selectors.selectors.concat([...filterSelectors]) },
+          { filterCount: filterCount.concat([['x']]) },
+          { selectors: selectors.concat([...filterSelectors]) },
           filters[2].concat({ numericValues: { column: '', comparison: '', value: '' } }),
         ],
       };
