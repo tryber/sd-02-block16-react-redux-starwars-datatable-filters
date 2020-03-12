@@ -87,10 +87,12 @@ Table.propTypes = {
   filterPlanetsByText: propTypes.func.isRequired,
   isfetching: propTypes.bool.isRequired,
   data: propTypes.string,
+  filtered: propTypes.string,
 };
 
 Table.defaultProps = {
   data: null,
+  filtered: null,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Table);
