@@ -16,8 +16,13 @@ export const showSWPlanets = ({ results }) => (
 export const errorSWPlanets = (error) => (
   { type: ERROR_SW_PLANETS, error }
 );
-export const filterSWPlanets = (typing) => (
-  { type: FILTER_SW_PLANETS, typing }
+export const filterSWPlanets = (typing, data) => (
+  {
+    type: FILTER_SW_PLANETS,
+    typing,
+    results: data.some((planet) => planet.name.toLowerCase().includes(typing))
+      ? data.filter((planet) => planet.name.toLowerCase().includes(typing)) : null,
+  }
 );
 
 export function fetchSWPlanets() {

@@ -1,10 +1,10 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchSWPlanets } from '../actions';
+import { fetchSWPlanets, filterSWPlanets } from '../actions';
 import './Table.css';
 
-function renderplanets(param, loading) {
+function renderplanets(param, loading, filt) {
   if (!loading && param) {
     console.log(Object.keys(param));
     return (
@@ -14,7 +14,14 @@ function renderplanets(param, loading) {
             {Object.keys(param[0]).map((item) => (item !== 'residents' ? <th className="tableHeader" key={item}>{item}</th> : null))}
           </tr>
         </thead>
-        {param.map((values) => (
+        {!filt ? param.map((values) => (
+          <tbody key={values.name}>
+            <tr>
+              {Object.values(values)
+                .map((body, index) => (index !== 9 ? <td className="tableData" key={body}>{body}</td> : null))}
+            </tr>
+          </tbody>
+        )) : filt.map((values) => (
           <tbody key={values.name}>
             <tr>
               {Object.values(values)
@@ -29,18 +36,32 @@ function renderplanets(param, loading) {
 }
 
 class Table extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onChangeHandler = this.onChangeHandler.bind(this);
+  }
+
   componentDidMount() {
     const { propriedadeQueNaoInterfere } = this.props;
     propriedadeQueNaoInterfere();
   }
 
+  onChangeHandler(event) {
+    const { filterPlanetsByText } = this.props;
+    let { data } = this.props;
+    const text = event.target.value.toLowerCase();
+    filterPlanetsByText(text, data);
+    data = filterPlanetsByText(text, data).results;
+
+  }
+
   render() {
-    const { isfetching, data } = this.props;
+    const { isfetching, data, filtered } = this.props;
     return (
       <div>
         <h1>StarWars Datatable with Filters</h1>
-        <input placeholder="filter planets!" />
-        {renderplanets(data, isfetching)}
+        <input placeholder="filter planets!" onChange={this.onChangeHandler} />
+        {renderplanets(data, isfetching, filtered)}
       </div>
     );
   }
@@ -52,16 +73,18 @@ const mapStateToProps = ({
     data,
   },
   wordReducer: {
-    filters,
+    filtered,
   },
-}) => ({ isfetching, data, filters });
+}) => ({ isfetching, data, filtered });
 
 const mapDispatchToProps = (dispatch) => ({
   propriedadeQueNaoInterfere: () => dispatch(fetchSWPlanets()),
+  filterPlanetsByText: (typing, data) => dispatch(filterSWPlanets(typing, data)),
 });
 
 Table.propTypes = {
   propriedadeQueNaoInterfere: propTypes.func.isRequired,
+  filterPlanetsByText: propTypes.func.isRequired,
   isfetching: propTypes.bool.isRequired,
   data: propTypes.string,
 };

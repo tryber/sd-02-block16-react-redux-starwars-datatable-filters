@@ -11,10 +11,12 @@ const initialState = {
 const visibilityFilter = (state = initialState, action) => {
   switch (action.type) {
     case FILTER_SW_PLANETS: {
-      const searchCriteria = [...state.filters];
-      searchCriteria[0].name = action.typing;
       return {
-        ...state, filters: searchCriteria,
+        ...state,
+        filtered: action.results,
+        filters: [
+          { name: action.typing },
+        ],
       };
     }
     default: return state;
