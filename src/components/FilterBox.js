@@ -1,14 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { filterButton } from '../store/actions';
+import { filterButton } from '../store/actions/table';
 
-const FilterBox = ({ setNewFilter, filters }) => {
-  const teste = 1;
-  if (teste === 1) {
+const FilterBox = ({
+  setNewFilter, selectedValues, results, resultsByName,
+}) => {
+  const { column, comparison, value } = selectedValues;
+  if (column && comparison && value) {
     return (
       <div>
-        <button type="button" onClick={() => setNewFilter()}>Clique para filtrar</button>
+        <button type="button" onClick={() => setNewFilter(selectedValues, results, resultsByName)}>Clique para filtrar</button>
       </div>
     );
   }
@@ -16,20 +18,32 @@ const FilterBox = ({ setNewFilter, filters }) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  setNewFilter: () => dispatch(filterButton()),
+  setNewFilter: (selectedValues, results, resultsByName) => dispatch(
+    filterButton(selectedValues, results, resultsByName),
+  ),
 });
 
 const mapStateToProps = ({
+  selectors: {
+    selectedValues,
+  },
   data: {
-    filters,
+    results,
+  },
+  table: {
+    resultsByName,
   },
 }) => ({
-  filters,
+  selectedValues,
+  results,
+  resultsByName,
 });
 
 FilterBox.propTypes = {
-  filters: PropTypes.instanceOf(Array).isRequired,
+  selectedValues: PropTypes.instanceOf(Object).isRequired,
   setNewFilter: PropTypes.func.isRequired,
+  results: PropTypes.instanceOf(Array).isRequired,
+  resultsByName: PropTypes.instanceOf(Array).isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FilterBox);

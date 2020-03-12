@@ -1,8 +1,13 @@
 import {
   FILTER_BY_NAME,
+  CREATE_RESULTS,
+  ADD_FILTERS,
 } from '../actions/table';
 
-const INITIAL_NAME_STATE = {
+import numFilters from '../../services/filters';
+
+const INITIAL_SW_PLANETS_STATE = {
+  resultsByName: [],
   filters: [
     {
       name: '',
@@ -10,13 +15,30 @@ const INITIAL_NAME_STATE = {
   ],
 };
 
-const table = (state = INITIAL_NAME_STATE, action) => {
+const table = (state = INITIAL_SW_PLANETS_STATE, action) => {
   switch (action.type) {
-    case FILTER_BY_NAME:
+    case CREATE_RESULTS:
       return {
         ...state,
-        filters: [...action.filters],
+        resultsByName: action.results,
       };
+    case FILTER_BY_NAME: {
+      const [, ...rest] = state.filters;
+      const filters = [...action.filters, ...rest];
+      return {
+        ...state,
+        resultsByName: numFilters(action.results, filters, state.resultsByName),
+        filters,
+      };
+    }
+    case ADD_FILTERS: {
+      const filters = [...state.filters, ...action.filters];
+      return {
+        ...state,
+        resultsByName: numFilters(action.results, filters, action.resultsByName),
+        filters,
+      };
+    }
     default:
       return state;
   }

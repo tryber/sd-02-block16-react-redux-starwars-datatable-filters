@@ -31,11 +31,11 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const mapStateToProps = ({
-  data: {
-    filters,
+  selectors: {
+    selectedValues,
   },
 }) => ({
-  filters,
+  selectedValues,
 });
 
 
