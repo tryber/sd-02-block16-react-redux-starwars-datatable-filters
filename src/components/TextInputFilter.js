@@ -23,9 +23,9 @@ const TextInputFilter = ({ dispatch, data }) => {
   };
 
   return (
-    <>
+    <div>
       <input type="text" onChange={(e) => dispatchNameFilter(e)} />
-    </>
+    </div>
   );
 };
 
