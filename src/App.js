@@ -1,13 +1,20 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Table from './components/Table';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <Table />
-    </div>
-  );
+class App extends Component {
+  render() {
+    return (
+      <div className="App">
+        <Table />
+      </div>
+    )
+  }
 }
 
-export default App;
+function mapStateToProps(state) {
+  return {};
+}
+
+export default connect(mapStateToProps)(App);
