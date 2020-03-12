@@ -38,7 +38,7 @@ function filterDataByName(data, name) {
 }
 
 function filterDataByNumericValues(data, column, comparison, value) {
-  if (value === '') {
+  if (value === '') {  //provavelmente mudar aqui
     return data;
   }
   const newData = data.reduce((acc, current) => {
@@ -58,19 +58,31 @@ function filterDataByNumericValues(data, column, comparison, value) {
   return newData;
 }
 
-function filterData(data, name, column, comparison, value) {
-  return filterDataByName(filterDataByNumericValues(data, column, comparison, value), name);
-}
+// function filterData(data, name, column, comparison, value) {
+//   return filterDataByName(filterDataByNumericValues(data, column, comparison, value), name);
+// }
 
 class Table extends Component {
   constructor(props) {
     super(props);
   }
 
+  filterData() {
+    const { data, name, column, comparison, value, arrayValues, arrayColumns } = this.props;
+
+    let newData = data;
+    for (let i = 0; i < arrayColumns.length; i += 1) {
+      newData = filterDataByNumericValues(newData, this.props[`valueSelectedColumn${i + 1}`], this.props[`valueSelectedComparison${i + 1}`], this.props[`valueNumber${i + 1}`]);
+    }
+
+    return filterDataByName(newData, name);
+  }
+
   render() {
     const { data, name, column, comparison, value } = this.props;
-    const dataTable = filterData(data, name, column, comparison, value);
+    //let dataTable = filterData(data, name, column, comparison, value);
     //dataTable = filterDataByNumericValues(data, column, comparison, value);
+    const dataTable = this.filterData();
 
     console.log('o novo data é', dataTable)
     const keysPlanet = Object.keys(dataTable[0]);
@@ -102,12 +114,20 @@ class Table extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  data: state.data,
-  name: state.filters[0].name,
-  column: state.filters[1].numericValues.column,
-  comparison: state.filters[1].numericValues.comparison,
-  value: state.filters[1].numericValues.value,
-});
+const mapStateToProps = (state) => {
+  const objectStates = state.filters.slice(1).reduce((acc, current, i) => ({
+    ...acc,
+    [`valueSelectedColumn${i + 1}`]: current.numericValues.column,
+    [`valueSelectedComparison${i + 1}`]: current.numericValues.comparison,
+    [`valueNumber${i + 1}`]: current.numericValues.value,
+  }), {});
+  const arrayValues = state.filters.slice(1).map(item => item.numericValues.value );
+  const arrayColumns = state.filters.slice(1).map(item => item.numericValues.column);
+
+  return { ...objectStates, data: state.data, name: state.filters[0].name, arrayColumns, arrayValues }
+  // column: state.filters[1].numericValues.column,
+  // comparison: state.filters[1].numericValues.comparison,
+  // value: state.filters[1].numericValues.value,
+};
 
 export default connect(mapStateToProps)(Table);
