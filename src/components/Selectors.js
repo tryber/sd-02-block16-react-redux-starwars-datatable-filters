@@ -8,7 +8,8 @@ import './Selectors.css';
 
 class Selectors extends Component {
   verificaEstadoFiltragem() {
-    const filtros = (this.props.state.searchFilterReducer.filters).slice(1);
+    const { filters } = this.props;
+    const filtros = filters.slice(1);
     const arrFiltros = [];
     filtros.forEach((filtro) => {
       if (filtro.numericValues.column !== 'coluna') arrFiltros.push(filtro);
@@ -17,9 +18,8 @@ class Selectors extends Component {
   }
 
   addFiltro() {
-    const { addNewFilter } = this.props;
-    const { column, comparison, valueComparison }
-      = this.props.state.searchFilterReducer.filters[1].numericValues;
+    const { addNewFilter, filters } = this.props;
+    const { column, comparison, valueComparison } = filters[1].numericValues;
     if ((column !== 'coluna' && comparison !== '-' && valueComparison >= 0)) {
       addNewFilter(column, comparison, valueComparison);
     } else alert('escolha os três campos');
@@ -32,7 +32,7 @@ class Selectors extends Component {
   }
 
   geraFiltro() {
-    const { filters } = this.props.state.searchFilterReducer;
+    const { filters } = this.props;
     if (filters.length > 2) {
       const arrFilter = [...filters];
       arrFilter.splice(0, 2);
@@ -59,15 +59,16 @@ class Selectors extends Component {
         </div>
       );
     }
+    return '';
   }
 
   render() {
     console.log(this.props);
-    const colunas = this.props.state.searchFilterReducer.selectors || [];
+    const { selectors, filters } = this.props;
+    const colunas = selectors || [];
     const valores = ['-', 'Maior que', 'Menor que', 'ou Igual a'];
     const { selectFilterDispatch } = this.props;
-    const { numericValues: { column, comparison, valueComparison } }
-      = this.props.state.searchFilterReducer.filters[1];
+    const { numericValues: { column, comparison, valueComparison } } = filters[1];
     this.verificaEstadoFiltragem();
     return (
       <div>
@@ -92,8 +93,10 @@ class Selectors extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  state,
+const mapStateToProps = ({ planets, searchFilterReducer: { filters, selectors } }) => ({
+  planets,
+  filters,
+  selectors,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -106,6 +109,8 @@ Selectors.propTypes = {
   selectFilterDispatch: PropTypes.func.isRequired,
   addNewFilter: PropTypes.func.isRequired,
   removerFilter: PropTypes.func.isRequired,
+  filters: PropTypes.instanceOf(Array).isRequired,
+  selectors: PropTypes.instanceOf(Array).isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Selectors);
