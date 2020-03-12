@@ -18,20 +18,20 @@ class FiltersByNumber extends Component {
 
   static renderColumnsOptions(selectors) {
     return (
-      <>
+      <div>
         {selectors.map(([value, label]) => <option key={`${label}_selector`} value={value}>{label}</option>)}
-      </>
+      </div>
     );
   }
 
   static renderComparisonOptions() {
     return (
-      <>
+      <div>
         <option label="null" value="" />
         <option value="lesserThan">{'<'}</option>
         <option value="equalsThan">=</option>
         <option value="higherThan">{'>'}</option>
-      </>
+      </div>
     );
   }
 
@@ -115,7 +115,7 @@ class FiltersByNumber extends Component {
   render() {
     const { dispatch, selectors, filterCount } = this.props;
     return (
-      <>
+      <div>
         { filterCount.map((item, rowIndex) => (
           <div key={`${item}_${rowIndex + 1}`}>
             <select
@@ -138,7 +138,7 @@ class FiltersByNumber extends Component {
             />
           </div>
         ))}
-      </>
+      </div>
     );
   }
 }
