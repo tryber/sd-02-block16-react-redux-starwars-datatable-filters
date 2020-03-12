@@ -6,6 +6,6 @@ import store from './store';
 
 test('renders learn react link', () => {
   const { getByText } = render(<Provider store={store}><App /></Provider>);
-  const linkElement = getByText(/STAR WARS PLANETS/i);
+  const linkElement = getByText(/LOADING.../i);
   expect(linkElement).toBeInTheDocument();
 });
