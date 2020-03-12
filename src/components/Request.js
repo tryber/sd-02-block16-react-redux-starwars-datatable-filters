@@ -19,7 +19,7 @@ function fetchPlanets() {
     return fetch('https://swapi.co/api/planets')
       .then((response) => response.json())
       .then((data) => {
-        console.log(data.results);
+        console.log('retorno do fetch ta aqui:', data.results);
         console.log(store);
         dispatch(receivePlanets(data.results));
 

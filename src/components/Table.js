@@ -8,24 +8,67 @@ function acertaTitulo(aaa) {
   return titulo;
 }
 
+function filterDataByName(data, name) {
+  const newData = data.reduce((acc, current) => {
+    if (current.name.includes(name)) {
+      return [...acc, current];
+    }
+    return acc;
+  }, []);
+
+  // if (newData.length === 0) {
+  //   return [{}];
+  // }
+
+  return newData;
+}
+
+function filterDataByNumericValues(data, column, comparison, value) {
+  if (value === '') {
+    return data;
+  }
+  const newData = data.reduce((acc, current) => {
+    if (current[column] === 'unknown') {
+      return acc;
+    }
+    if (eval(`${current[column]} ${comparison} ${value}`)) {
+      return [...acc, current];
+    }
+    return acc;
+  }, []);
+
+  if (newData.length === 0) {
+    return [{}];
+  }
+
+  return newData;
+}
+
+function filterData(data, name, column, comparison, value) {
+  return filterDataByNumericValues(filterDataByName(data, name), column, comparison, value);
+}
+
 class Table extends Component {
   constructor(props) {
     super(props);
   }
 
   render() {
-    const { data } = this.props;
-    const keysPlanet = Object.keys(data[0]);
+    const { data, name, column, comparison, value } = this.props;
+    const dataTable = filterData(data, name, column, comparison, value);
+    //dataTable = filterDataByNumericValues(data, column, comparison, value);
+
+    console.log('o novo data é', dataTable)
+    const keysPlanet = Object.keys(dataTable[0]);
     const indexResidents = keysPlanet.indexOf('residents');
     const keysTable = keysPlanet.slice(0, indexResidents).concat(keysPlanet.slice(indexResidents + 1));
     return (
       <div>
-        <h1>StarWars Datatable with Filters</h1>
         <table>
           <tr>
             {keysTable.map(key => <th>{acertaTitulo(key)}</th>)}
           </tr>
-          {data.map((planet) => {
+          {dataTable.map((planet) => {
             const valuesPlanet = Object.values(planet);
             const valuesTable = valuesPlanet.slice(0, indexResidents).concat(valuesPlanet.slice(indexResidents + 1));
             return (
@@ -47,6 +90,10 @@ class Table extends Component {
 
 const mapStateToProps = (state) => ({
   data: state.data,
+  name: state.filters[0].name,
+  column: state.filters[1].numericValues.column,
+  comparison: state.filters[1].numericValues.comparison,
+  value: state.filters[1].numericValues.value,
 });
 
 export default connect(mapStateToProps)(Table);
