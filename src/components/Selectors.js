@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { selectorFilter } from '../actions/selectorFilter';
 import { newSelectorFilter } from '../actions/newFilter';
+import { removeFilter } from '../actions/removeFilter';
 
 class Selectors extends Component {
   verificaEstadoFiltragem() {
@@ -27,13 +28,19 @@ class Selectors extends Component {
     }
   }
 
+  removeFilter(e) {
+    const { removerFilter } = this.props;
+    const { id, value } = e.target;
+    removerFilter(id, value);
+  }
+
   geraFiltro() {
     const { filters } = this.props.state.searchFilterReducer;
     if (filters.length > 2) {
       const arrFilter = [...filters];
       arrFilter.splice(0, 2);
       console.log(arrFilter);
-      return arrFilter.map((filtro) => (
+      return arrFilter.map((filtro, index) => (
         <div>
           <p>
             Filtro:{filtro.numericValues.column}
@@ -44,7 +51,11 @@ class Selectors extends Component {
           <p>
             Valor: {filtro.numericValues.valueComparison}
           </p>
-          <button>X</button>
+          <button
+            onClick={(e) => this.removeFilter(e)}
+            id={index + 2}
+            value={filtro.numericValues.column}
+          >X</button>
         </div>
       ));
     }
@@ -74,7 +85,7 @@ class Selectors extends Component {
             onChange={(e) => selectFilterDispatch(e.target.value, 'valueComparison')}
             value={valueComparison}
           />
-          <button onClick={this.addFiltro.bind(this)}>Filtrar</button>
+          <button onClick={() => this.addFiltro()}>Filtrar</button>
         </div>
       </div>
     );
@@ -88,6 +99,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   selectFilterDispatch: (e, i) => dispatch(selectorFilter(e, i)),
   addNewFilter: (col, comp, v) => dispatch(newSelectorFilter(col, comp, v)),
+  removerFilter: (i, value) => dispatch(removeFilter(i, value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Selectors);

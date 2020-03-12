@@ -1,6 +1,7 @@
 import { SEARCH_FILTER } from '../actions/searchFilter';
 import { SELECTOR_FILTER } from '../actions/selectorFilter';
 import { NEW_FILTER } from '../actions/newFilter';
+import { REMOVE_FILTER } from '../actions/removeFilter';
 
 const initialState = {
   filters: [
@@ -37,6 +38,14 @@ function newFilter(action, state) {
   return { nextFilter, nextSelector };
 }
 
+function removendoOFiltro(i, valor, state) {
+  const nextFilter = state.filters;
+  const nextSelector = state.selectors;
+  nextFilter.splice(i, 1);
+  nextSelector.push(valor);
+  return { nextFilter, nextSelector };
+}
+
 export default function reducer(state = initialState, action) {
   // console.log(nextFilter);
   console.log(action);
@@ -55,6 +64,11 @@ export default function reducer(state = initialState, action) {
     }
     case NEW_FILTER: {
       const { nextFilter, nextSelector } = newFilter(action, state);
+      return { ...state, filters: nextFilter, selectors: nextSelector };
+    }
+    case REMOVE_FILTER: {
+      const { i, value } = action;
+      const { nextFilter, nextSelector } = removendoOFiltro(i, value, state);
       return { ...state, filters: nextFilter, selectors: nextSelector };
     }
     default:
