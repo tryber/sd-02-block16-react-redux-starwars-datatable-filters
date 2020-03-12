@@ -73,6 +73,4 @@ const table = (state = INITIAL_SW_PLANETS_STATE, action) => {
   }
 };
 
-
-
 export default table;
