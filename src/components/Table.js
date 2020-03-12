@@ -40,7 +40,7 @@ class Table extends Component {
 
   render() {
     const {
-      isFetching, results, getFilterByName, resultsByName, filters
+      isFetching, results, getFilterByName, resultsByName, filters,
     } = this.props;
     if (isFetching) return <div>LOADING...</div>;
     return (

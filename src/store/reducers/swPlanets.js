@@ -34,11 +34,6 @@ const data = (state = INITIAL_SW_PLANETS_STATE, action) => {
         error: action.error,
         isFetching: false,
       };
-    // case OTHER_FILTERS:
-    //   return {
-    //     ...state,
-    //     results: numFilters(),
-    //   };
     default:
       return state;
   }

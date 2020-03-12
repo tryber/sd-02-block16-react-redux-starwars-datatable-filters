@@ -6,9 +6,10 @@ import { setSessionStorage } from '../store/actions/selectors';
 
 const Selectors = (
   {
-    selects, i, setSelectedValues,
+    selects, i, setSelectedValues, filters
   },
 ) => {
+  console.log(filters);
   return (
     <div>
       <select id="values" onChange={(e) => setSelectedValues(e, i)}>
@@ -34,7 +35,11 @@ const mapStateToProps = ({
   selectors: {
     selectedValues,
   },
+  table: {
+    filters,
+  },
 }) => ({
+  filters,
   selectedValues,
 });
 
@@ -45,6 +50,7 @@ Selectors.propTypes = {
   setSelectedValues: PropTypes.func.isRequired,
   selects: PropTypes.instanceOf(Array).isRequired,
   i: PropTypes.number.isRequired,
+  filters: PropTypes.instanceOf(Array).isRequired,
 };
 
 Selectors.defaultProps = {
