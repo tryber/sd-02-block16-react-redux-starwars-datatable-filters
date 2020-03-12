@@ -59,11 +59,7 @@ class Table extends Component {
           <thead>
             <tr>
               {Object.keys(resultsByName[0] || []).map((keys) => {
-                if (keys !== 'residents') {
-                  return (
-                    <th className="table-index-content" key={keys}>{keys}</th>
-                  );
-                }
+                if (keys !== 'residents') return (<th className="table-index-content" key={keys}>{keys}</th>);
                 return null;
               })}
             </tr>
