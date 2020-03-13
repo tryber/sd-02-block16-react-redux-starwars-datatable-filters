@@ -7,11 +7,12 @@ import { resultAPI } from '../store/actions';
 class Table extends Component {
 
   componentDidMount() {
-    resultAPI();
+    const { coxinha } = this.props
+    coxinha();
   }
 
   render() {
-    console.log(this.props)
+    console.log(this.props.state.reducer.data.results)
     return (
       <div>
         <p>A esquerda </p>
@@ -26,4 +27,8 @@ function mapStateToProps(state) {
   return { state };
 }
 
-export default connect(mapStateToProps)(Table);
+const mapDispatchToProps = (dispatch) => ({
+  coxinha: () => dispatch(resultAPI()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Table);

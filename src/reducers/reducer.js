@@ -1,7 +1,7 @@
 import * as types from '../store/actionTypes';
 
 const initialState = {
-  result: [],
+  data: [],
   onSelection: false,
   error: '',
 };
@@ -17,7 +17,7 @@ export default function reduce(state = initialState, action) {
       return {
         ...state,
         onSelection: true,
-        result: action.result,
+        data: action.result,
       }
     case types.RESULT_FALSE:
       return {

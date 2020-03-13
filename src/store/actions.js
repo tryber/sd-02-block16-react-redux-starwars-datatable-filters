@@ -8,7 +8,6 @@ function firstResult() {
 }
 
 function apiSucess(infos) {
-  console.log(infos)
   return {
     type: types.RESULT_TRUE,
     result: infos

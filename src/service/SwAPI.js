@@ -1,4 +1,4 @@
-const getEndPointSwAPI = () => {
+const getEndPointSwAPI = () => (
   fetch('https://swapi.co/api/planets/')
     .then((response) => (
       response
@@ -7,7 +7,7 @@ const getEndPointSwAPI = () => {
             response.ok
                 ? Promise.resolve(json)
                 : Promise.reject(json)))
-    ));
-}
+    ))
+)
 
 export default getEndPointSwAPI;
