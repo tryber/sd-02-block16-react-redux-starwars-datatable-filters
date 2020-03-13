@@ -6,6 +6,9 @@ export const REQUEST_SWAPI_FAILURE = 'REQUEST_SWAPI_FAILURE';
 export const FILTER_PLANETS_WITH_NAME = 'FILTER_PLANETS_WITH_NAME';
 export const FILTER_PLANETS_WITH_NUMBER = 'FILTER_PLANETS_WITH_NUMBER';
 export const FILTER_PLANETS_WITH_NAME_AND_NUMBER = 'FILTER_PLANETS_WITH_NAME_AND_NUMBER';
+export const SELECT_COLUMN_FILTER = 'SELECT_COLUMN_FILTER';
+export const SELECT_COMPARISON_VALUE = 'SELECT_COMPARISON_VALUE';
+export const SELECT_NUMBER_FILTER_VALUE = 'SELECT_NUMBER_FILTER_VALUE';
 
 const filterFunction = (planetsData, userValue) => (
   planetsData.filter((planet) => (
@@ -29,14 +32,10 @@ const requestSwapiFailure = (error) => ({
 
 export const filterPlanetsWithName = (planetsData, userValue) => ({
   type: FILTER_PLANETS_WITH_NAME,
+  name: userValue,
   filters: [
     {
       name: userValue,
-      numericValues: {
-        column: '',
-        comparison: '',
-        value: '',
-      },
     },
   ],
   filterData: filterFunction(planetsData, userValue),

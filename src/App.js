@@ -5,8 +5,10 @@ import './styles/App_father.css';
 
 function App() {
   return (
-    <div className="App_father">
-      <Title />
+    <div>
+      <div className="App_father">
+        <Title />
+      </div>
       <Table />
     </div>
   );

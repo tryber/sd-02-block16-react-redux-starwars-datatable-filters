@@ -18,30 +18,9 @@ const comparativeValues = [
   'equal_to',
 ];
 
-const imprimir = (value, other) => (
-  console.log(value, other)
-);
-
-const SelectorColumns = (array) => (
-  <select key={`${array.length}`} onChange={(selector) => imprimir(selector.target.value, array)}>
-    {array.map((keyValue) => (
-      <option key={keyValue} value={keyValue}>{keyValue}</option>
-    ))}
-  </select>
-);
-
-const SelectorComparative = (array) => (
-  <select key={`${array.length}`} onChange={(selector) => imprimir(selector.target.value, array)}>
-    {array.map((keyValue) => (
-      <option key={keyValue} value={keyValue}>{keyValue}</option>
-    ))}
-  </select>
-);
-
-
 class InputsAndFilters extends React.Component {
   render() {
-    const { planetsData, dispatchFilter } = this.props;
+    const { planetsData, dispatchFilter, dispatchColumns, dispatchComparative, dispatchNumber } = this.props;
     return (
       <div className="InputsAndFilters_stylish">
         <input
@@ -50,14 +29,22 @@ class InputsAndFilters extends React.Component {
           onChange={(userInfo) => dispatchFilter(planetsData, userInfo.target.value)}
         />
         <div className="InputsAndFilters_selectors">
-          {SelectorColumns(columns)}
-          {SelectorComparative(comparativeValues)}
+          <select key={`${columns.length}`} onChange={}>
+            {columns.map((keyValue) => (
+              <option key={keyValue} value={keyValue}>{keyValue}</option>
+            ))}
+          </select>
+          <select key={`${comparativeValues.length}`}>
+            {comparativeValues.map((keyValue) => (
+              <option key={keyValue} value={keyValue}>{keyValue}</option>
+            ))}
+          </select>
           <input
             type="number"
             placeholder="Search a number"
           />
+          <button type="button">Search</button>
         </div>
-        <button type="button">Search</button>
       </div>
     );
   }
