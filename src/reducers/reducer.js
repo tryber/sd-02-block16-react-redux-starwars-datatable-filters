@@ -18,13 +18,13 @@ export default function reduce(state = initialState, action) {
         ...state,
         onSelection: true,
         data: action.result,
-      }
+      };
     case types.RESULT_FALSE:
       return {
         ...state,
         onSelection: false,
         error: action.error,
-      }
+      };
     default:
       return state;
   }

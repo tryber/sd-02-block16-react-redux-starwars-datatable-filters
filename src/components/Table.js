@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import * as types from '../store/actionTypes';
 import { resultAPI } from '../store/actions';
+import PropTypes from 'prop-types';
 
 
 class Table extends Component {
 
   componentDidMount() {
-    const { coxinha } = this.props
+    const { coxinha } = this.props;
     coxinha();
   }
 
   render() {
-    console.log(this.props.state.reducer.data.results)
+    // console.log(this.props.state.reducer.data.results);
     return (
       <div>
         <p>A esquerda </p>
@@ -32,3 +32,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Table);
+
+Table.PropTypes = {
+  coxinha: PropTypes.func,
+}

@@ -8,6 +8,6 @@ const getEndPointSwAPI = () => (
                 ? Promise.resolve(json)
                 : Promise.reject(json)))
     ))
-)
+);
 
 export default getEndPointSwAPI;

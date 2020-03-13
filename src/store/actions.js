@@ -3,26 +3,25 @@ import getEndPointSwAPI from '../service/SwAPI';
 
 function firstResult() {
   return {
-    type: types.FIRST_RESULT
-  }
+    type: types.FIRST_RESULT,
+  };
 }
 
 function apiSucess(infos) {
   return {
     type: types.RESULT_TRUE,
-    result: infos
-  }
+    result: infos,
+  };
 }
 
 function apiFailure(error) {
   return {
     type: types.RESULT_FALSE,
     error,
-  }
-
+  };
 }
 
-export function resultAPI() {
+export default function resultAPI() {
   return (dispatch) => {
     dispatch(firstResult());
     return getEndPointSwAPI()
