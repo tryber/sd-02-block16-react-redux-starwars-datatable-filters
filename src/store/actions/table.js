@@ -51,13 +51,10 @@ export function filterByName({ target: { value } }, results) {
 }
 
 export function filterButton(filter, results, resultsByName, e) {
-  const nodeElements = e.target.parentNode.parentNode.childNodes;
   e.target.parentNode.parentNode.childNodes[3].lastChild.value = null;
-  nodeElements.forEach((element) => {
-    if (element.id === 'select_content') {
-      element.firstChild.selectedIndex = 0;
-    }
-  });
+  e.target.parentNode.parentNode.childNodes[3].firstChild.selectedIndex = 0;
+  e.target.parentNode.parentNode.childNodes[3].firstChild.selectedIndex = 0;
+
   return (dispatch) => {
     dispatch(addFilters(filter, results, resultsByName));
     dispatch(resetStateSelectors());
