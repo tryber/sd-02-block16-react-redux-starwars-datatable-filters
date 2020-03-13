@@ -13,7 +13,7 @@ const FilterBox = ({
       {(column && comparison && value)
         ? <button
           type="button"
-          onClick={() => setNewFilter(selectedValues, results, resultsByName)}
+          onClick={(e) => setNewFilter(selectedValues, results, resultsByName, e)}
         >
           Clique para filtrar
         </button>
@@ -38,8 +38,8 @@ const FilterBox = ({
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  setNewFilter: (selectedValues, results, resultsByName) => dispatch(
-    filterButton(selectedValues, results, resultsByName),
+  setNewFilter: (selectedValues, results, resultsByName, e) => dispatch(
+    filterButton(selectedValues, results, resultsByName, e),
   ),
   removeFilter: (e, results) => dispatch(getRemoveFilter(e, results)),
 });

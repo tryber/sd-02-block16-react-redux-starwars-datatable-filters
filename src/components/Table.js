@@ -6,7 +6,8 @@ import FilterBox from './FilterBox';
 import './Table.css';
 
 import { fetchSWplanets } from '../store/actions';
-import { filterByName, createResults } from '../store/actions/table';
+import { orderColumn } from '../services/filters';
+import { filterByName, createResults, getAscendingColumn } from '../store/actions/table';
 
 class Table extends Component {
   componentDidMount() {
@@ -16,16 +17,43 @@ class Table extends Component {
       .then(({ results }) => setResultsByName(results));
   }
 
-  indexContent() {
-    const { resultsByName } = this.props;
-    const residentsIndex = Object.keys(resultsByName[0] || []).findIndex((element) => element === 'residents');
+  tableHead(resultsByName) {
+    const { setAscendingColumn, filterOrder } = this.props;
+    const { order } = filterOrder;
+
+    return (
+      <thead>
+        <tr>
+          {Object.keys(resultsByName[0] || []).map((keys) => {
+            if (keys !== 'residents') {
+              return (
+                <th className="table-index-content" key={keys}>
+                  <button
+                    type="button"
+                    value={keys}
+                    onClick={(e) => setAscendingColumn(e, order)}
+                  >
+                    {keys}
+                  </button>
+                </th>
+              );
+            }
+            return null;
+          })}
+        </tr>
+      </thead>
+    );
+  }
+
+  tableBody(resultsByName) {
+    this.residentsIndex = Object.keys(resultsByName[0] || []).findIndex((element) => element === 'residents');
 
     return (
       resultsByName.map((elements) => (
         <tbody key={elements.name}>
           <tr>
             {Object.values(elements).map((values, i) => {
-              if (i !== residentsIndex) {
+              if (i !== this.residentsIndex) {
                 return (
                   <td className="table-values-content" key={values}>{values}</td>
                 );
@@ -40,9 +68,10 @@ class Table extends Component {
 
   render() {
     const {
-      isFetching, results, getFilterByName, resultsByName,
+      isFetching, results, getFilterByName, resultsByName, filterOrder,
     } = this.props;
     if (isFetching) return <div>LOADING...</div>;
+    const orderedArray = orderColumn(resultsByName, filterOrder.column, filterOrder.order);
     return (
       <div>
         <input
@@ -56,15 +85,8 @@ class Table extends Component {
         <FilterBox />
         <table className="table-content">
           <caption>STAR WARS PLANETS</caption>
-          <thead>
-            <tr>
-              {Object.keys(resultsByName[0] || []).map((keys) => {
-                if (keys !== 'residents') return (<th className="table-index-content" key={keys}>{keys}</th>);
-                return null;
-              })}
-            </tr>
-          </thead>
-          {this.indexContent()}
+          {this.tableHead(orderedArray)}
+          {this.tableBody(orderedArray)}
         </table>
       </div>
     );
@@ -78,27 +100,30 @@ const mapStateToProps = ({
   },
   table: {
     resultsByName,
-    filters,
+    filterOrder,
   },
 }) => ({
   resultsByName,
-  filters,
+  filterOrder,
   isFetching,
   results,
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  setAscendingColumn: (event, order) => dispatch(getAscendingColumn(event, order)),
   setResultsByName: (results) => dispatch(createResults(results)),
   getCurrentSwPlanets: () => dispatch(fetchSWplanets()),
   getFilterByName: (event, results) => dispatch(filterByName(event, results)),
 });
 
 Table.propTypes = {
+  setAscendingColumn: PropTypes.func.isRequired,
   setResultsByName: PropTypes.func.isRequired,
   getCurrentSwPlanets: PropTypes.func.isRequired,
   getFilterByName: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
   results: PropTypes.instanceOf(Array),
+  filterOrder: PropTypes.instanceOf(Object).isRequired,
   resultsByName: PropTypes.instanceOf(Array).isRequired,
 };
 

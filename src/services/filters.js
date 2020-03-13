@@ -25,7 +25,6 @@ export const switchFiltersNum = (results, comparison, column, value, filters) =>
         filter.numeric_values.column,
         filter.numeric_values.value,
       );
-      console.log(filterByColumn);
     }
   });
   return filterByColumn;
@@ -60,3 +59,16 @@ export const removeFilters = (removedFilter, filters) => {
       return true;
     }));
 };
+
+export function orderColumn(resultsByName, column, order) {
+  const newArray = resultsByName.slice();
+
+  if (order === 'ASC') {
+    return newArray.sort((firstPosition, secondPosition) => (
+      firstPosition[column] > secondPosition[column] ? 1 : -1
+    ));
+  }
+  return newArray.sort((firstPosition, secondPosition) => (
+    firstPosition[column] < secondPosition[column] ? 1 : -1
+  ));
+}

@@ -3,9 +3,12 @@ import {
   CREATE_RESULTS,
   ADD_FILTERS,
   REMOVE_FILTER,
+  ASC_DESC_ORDER,
 } from '../actions/table';
 
-import { numFilters, removeFilters, switchFiltersNum } from '../../services/filters';
+import {
+  numFilters, removeFilters, switchFiltersNum,
+} from '../../services/filters';
 
 function filtersValues(filters) {
   const { comparison, column, value } = filters[filters.length - 1].numeric_values
@@ -40,6 +43,10 @@ function caseRemoveFilter(state, action) {
 
 const INITIAL_SW_PLANETS_STATE = {
   resultsByName: [],
+  filterOrder: {
+    column: 'name',
+    order: 'ASC',
+  },
   filters: [
     {
       name: '',
@@ -67,6 +74,12 @@ const table = (state = INITIAL_SW_PLANETS_STATE, action) => {
     }
     case REMOVE_FILTER: {
       return caseRemoveFilter(state, action);
+    }
+    case ASC_DESC_ORDER: {
+      return {
+        ...state,
+        filterOrder: action.filter,
+      };
     }
     default:
       return state;

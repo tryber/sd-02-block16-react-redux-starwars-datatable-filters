@@ -17,7 +17,7 @@ const Selectors = (
       : rest.map(({ numeric_values: { column } }) => column);
   }
   return (
-    <div>
+    <div id="select_content">
       <select id="values" onChange={(e) => setSelectedValues(e, i)}>
         {
           i === 0
