@@ -29,7 +29,16 @@ const requestSwapiFailure = (error) => ({
 
 export const filterPlanetsWithName = (planetsData, userValue) => ({
   type: FILTER_PLANETS_WITH_NAME,
-  filter: userValue,
+  filters: [
+    {
+      name: userValue,
+      numericValues: {
+        column: '',
+        comparison: '',
+        value: '',
+      },
+    },
+  ],
   filterData: filterFunction(planetsData, userValue),
 });
 

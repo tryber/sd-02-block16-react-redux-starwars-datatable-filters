@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { filterPlanetsWithName } from '../actions';
-import '../styles/InputsAndFilters_stylish.css'
+import '../styles/InputsAndFilters_stylish.css';
 
 const columns = [
   'population',
@@ -18,10 +18,22 @@ const comparativeValues = [
   'equal_to',
 ];
 
-const Selector = (array) => (
-  <select key={`${array}`}>
+const imprimir = (value, other) => (
+  console.log(value, other)
+);
+
+const SelectorColumns = (array) => (
+  <select key={`${array.length}`} onChange={(selector) => imprimir(selector.target.value, array)}>
     {array.map((keyValue) => (
-      <option value={keyValue}>{keyValue}</option>
+      <option key={keyValue} value={keyValue}>{keyValue}</option>
+    ))}
+  </select>
+);
+
+const SelectorComparative = (array) => (
+  <select key={`${array.length}`} onChange={(selector) => imprimir(selector.target.value, array)}>
+    {array.map((keyValue) => (
+      <option key={keyValue} value={keyValue}>{keyValue}</option>
     ))}
   </select>
 );
@@ -38,14 +50,14 @@ class InputsAndFilters extends React.Component {
           onChange={(userInfo) => dispatchFilter(planetsData, userInfo.target.value)}
         />
         <div className="InputsAndFilters_selectors">
-          {Selector(columns)}
-          {Selector(comparativeValues)}
+          {SelectorColumns(columns)}
+          {SelectorComparative(comparativeValues)}
+          <input
+            type="number"
+            placeholder="Search a number"
+          />
         </div>
-        <input
-          type="text"
-          placeholder="Search a number"
-          onChange={(userInfo) => dispatchFilter(planetsData, userInfo.target.value)}
-        />
+        <button type="button">Search</button>
       </div>
     );
   }
