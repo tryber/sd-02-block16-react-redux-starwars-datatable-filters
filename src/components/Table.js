@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { resultAPI } from '../store/actions';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import resultAPI from '../store/actions';
 
 
 class Table extends Component {
@@ -33,6 +33,6 @@ const mapDispatchToProps = (dispatch) => ({
 
 export default connect(mapStateToProps, mapDispatchToProps)(Table);
 
-Table.PropTypes = {
-  coxinha: PropTypes.func,
-}
+Table.propTypes = {
+  coxinha: PropTypes.func.isRequired,
+};
