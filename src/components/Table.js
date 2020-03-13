@@ -1,5 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const Table = () => <div>StarWars Datatable with Filters</div>;
+
+class Table extends React.Component {
+  render() {
+    return (
+      <div>
+        <p>Funcionou!</p>
+      </div>
+    );
+  }
+}
 
 export default Table;
