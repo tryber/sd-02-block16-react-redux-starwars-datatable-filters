@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import Table from './components/Table';
 import './App.css';
 
@@ -13,8 +12,4 @@ class App extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {};
-}
-
-export default connect(mapStateToProps)(App);
+export default App;
