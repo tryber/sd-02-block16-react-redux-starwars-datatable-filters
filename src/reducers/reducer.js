@@ -8,11 +8,6 @@ const initialState = {
 
 export default function reduce(state = initialState, action) {
   switch (action.type) {
-    case types.FIRST_RESULT:
-      return {
-        ...state,
-        onSelection: true,
-      };
     case types.RESULT_TRUE:
       return {
         ...state,

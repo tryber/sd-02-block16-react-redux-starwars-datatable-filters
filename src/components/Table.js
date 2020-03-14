@@ -7,17 +7,34 @@ import resultAPI from '../store/actions';
 class Table extends Component {
 
   componentDidMount() {
-    const { coxinha } = this.props;
-    coxinha();
+    const { dataAPI } = this.props;
+    dataAPI();
+  }
+
+  headTable(results) {
+    return (
+      <thead>
+        <tr>
+          {Object.keys(results[0]).map((result) => ((result !== 'residents')
+            ? <th className="tableHeader" key={result}>{result}</th>
+            : null))
+          }
+        </tr>
+      </thead>
+    );
   }
 
   render() {
-    // console.log(this.props.state.reducer.data.results);
+    const { state: { reducer: { data: {results: results }, onSelection } } } = this.props;
+    if (!onSelection) return <p>Loading...</p>
     return (
       <div>
         <p>A esquerda </p>
         <input />
         <div>StarWars Datatable with Filters</div>
+        <table>
+          {this.headTable(results)}
+        </table>
       </div>
     );
   }
@@ -28,11 +45,11 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  coxinha: () => dispatch(resultAPI()),
+  dataAPI: () => dispatch(resultAPI()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Table);
 
 Table.propTypes = {
-  coxinha: PropTypes.func.isRequired,
+  dataAPI: PropTypes.func.isRequired,
 };
