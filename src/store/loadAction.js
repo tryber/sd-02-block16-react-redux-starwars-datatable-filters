@@ -15,12 +15,12 @@ function apiFailure(error) {
   };
 }
 
-export default function resultAPI() {
-  return dispatch => {
+export const resultAPI = () => {
+  return ((dispatch) => {
     return getEndPointSwAPI()
       .then(
         (infos) => dispatch(apiSucess(infos)),
         (error) => dispatch(apiFailure(error.message)),
       );
-  };
+  })
 }
