@@ -66,23 +66,20 @@ class Table extends Component {
     const dataTable = this.filterData();
     const keysPlanet = Object.keys(dataTable[0]);
     const indexResidents = keysPlanet.indexOf('residents');
-    const keysTable = keysPlanet.slice(0, indexResidents).concat(
-      keysPlanet.slice(indexResidents + 1)
-    );
+    keysPlanet.splice(indexResidents, 1);
+
     return (
       <div>
         <table>
           <tr>
-            {keysTable.map((key) => <th>{acertaTitulo(key)}</th>)}
+            {keysPlanet.map((key) => <th>{acertaTitulo(key)}</th>)}
           </tr>
           {dataTable.map((planet) => {
             const valuesPlanet = Object.values(planet);
-            const valuesTable = valuesPlanet.slice(0, indexResidents).concat(
-              valuesPlanet.slice(indexResidents + 1)
-            );
+            valuesPlanet.splice(indexResidents, 1);
             return (
               <tr>
-                {valuesTable.map((valueColumn) => {
+                {valuesPlanet.map((valueColumn) => {
                   if (Array.isArray(valueColumn)) {
                     return <td>{valueColumn.map((item) => <div>{item}</div>)}</td>;
                   }

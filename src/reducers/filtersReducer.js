@@ -24,16 +24,20 @@ const filtersReducer = (state = initialState, action) => {
       ];
 
     case CHANGE_NUMERIC_VALUES_FILTERS:
-      state.splice(action.id, 1, {
-        numericValues: {
-          ...state[action.id].numericValues,
-          [action.name]: action.value,
+      state.splice(
+        action.id,
+        1,
+        {
+          numericValues: {
+            ...state[action.id].numericValues,
+            [action.name]: action.value,
+          },
         }
-      });
+      );
       return state.concat(
         action.id === state.length - 1 && action.id < 5
           ? [{ numericValues: { column: '', comparison: '>', value: '' } }]
-          : []
+          : [],
       );
 
     case DELETE_NUMERIC_VALUES_FILTERS:
