@@ -4,49 +4,43 @@ import { connect } from 'react-redux';
 import resultAPI from '../store/actions';
 import './Table.css';
 
+const cellTable = (results) => {
+  return (
+    results.map((result) => (
+      <tbody key={result.name}>
+        <tr>
+          {Object.values(result).map((item, index) => {
+            if (index !== 9) {
+              return (
+                <td key={item}>{item}</td>
+              );
+            }
+            return null;
+          })}
+        </tr>
+      </tbody>
+    ))
+  );
+}
+
+const headTable = (results) => {
+  return (
+    <thead>
+      <tr>
+        {Object.keys(results[0]).map((result) => ((result !== 'residents')
+          ? <th className="headTable" key={result}>{result.replace(/_/g, ' ')}</th>
+          : null))
+        }
+      </tr>
+    </thead>
+  );
+}
 
 class Table extends Component {
-  constructor(props) {
-    super(props);
-    this.headTable = this.headTable.bind(this);
-    this.cellTable = this.cellTable.bind(this);
-  }
 
   componentDidMount() {
     const { dataAPI } = this.props;
     dataAPI();
-  }
-
-  headTable(results) {
-    return (
-      <thead>
-        <tr>
-          {Object.keys(results[0]).map((result) => ((result !== 'residents')
-            ? <th className="headTable" key={result}>{result.replace(/_/g, ' ')}</th>
-            : null))
-          }
-        </tr>
-      </thead>
-    );
-  }
-
-  cellTable(results) {
-    return (
-      results.map((result) => (
-        <tbody key={result.name}>
-          <tr>
-            {Object.values(result).map((item, index) => {
-              if (index !== 9) {
-                return (
-                  <td key={item}>{item}</td>
-                );
-              }
-              return null;
-            })}
-          </tr>
-        </tbody>
-      ))
-    );
   }
 
   render() {
@@ -55,10 +49,10 @@ class Table extends Component {
     return (
       <div>
         <input type="text" />
-        <div>StarWars Datatable with Filters</div>
+        <div>StarWars DataTable with Filters</div>
         <table>
-          {this.headTable(results)}
-          {this.cellTable(results)}
+          {headTable(results)}
+          {cellTable(results)}
         </table>
       </div>
     );
