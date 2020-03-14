@@ -13,6 +13,13 @@ const returnFilterData = (state = [], action) => {
           {
             name: action.name,
           },
+          {
+            numericValues: {
+              column: '',
+              comparison: '',
+              value: '',
+            },
+          },
         ],
         filteredData: action.filterData,
       };

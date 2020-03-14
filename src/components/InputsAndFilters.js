@@ -1,10 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { filterPlanetsWithName } from '../actions';
+import {
+  filterPlanetsWithName,
+  columnValue,
+  comparativeValue,
+  numberValue,
+} from '../actions';
+
 import '../styles/InputsAndFilters_stylish.css';
 
 const columns = [
+  '-',
   'population',
   'orbital_period',
   'diameter',
@@ -13,14 +20,23 @@ const columns = [
 ];
 
 const comparativeValues = [
+  '-',
   'bigger_than',
   'less_than',
   'equal_to',
 ];
 
+
+
 class InputsAndFilters extends React.Component {
   render() {
-    const { planetsData, dispatchFilter, dispatchColumns, dispatchComparative, dispatchNumber } = this.props;
+    const {
+      planetsData,
+      dispatchFilter,
+      dispatchColumns,
+      dispatchComparative,
+      dispatchNumber,
+    } = this.props;
     return (
       <div className="InputsAndFilters_stylish">
         <input
@@ -29,12 +45,12 @@ class InputsAndFilters extends React.Component {
           onChange={(userInfo) => dispatchFilter(planetsData, userInfo.target.value)}
         />
         <div className="InputsAndFilters_selectors">
-          <select key={`${columns.length}`} onChange={}>
+          <select key={`${columns.length}`} onChange={(e) => dispatchColumns(e.target.value)}>
             {columns.map((keyValue) => (
               <option key={keyValue} value={keyValue}>{keyValue}</option>
             ))}
           </select>
-          <select key={`${comparativeValues.length}`}>
+          <select key={`${comparativeValues.length}`} onChange={(e) => dispatchComparative(e.target.value)}>
             {comparativeValues.map((keyValue) => (
               <option key={keyValue} value={keyValue}>{keyValue}</option>
             ))}
@@ -42,6 +58,7 @@ class InputsAndFilters extends React.Component {
           <input
             type="number"
             placeholder="Search a number"
+            onChange={(e) => dispatchNumber(e.target.value)}
           />
           <button type="button">Search</button>
         </div>
@@ -53,6 +70,15 @@ class InputsAndFilters extends React.Component {
 const mapDispatchToProps = (dispatch) => ({
   dispatchFilter: (planetsData, userInfo) => (
     dispatch(filterPlanetsWithName(planetsData, userInfo))
+  ),
+  dispatchColumns: (userInfo) => (
+    dispatch(columnValue(userInfo))
+  ),
+  dispatchComparative: (userInfo) => (
+    dispatch(comparativeValue(userInfo))
+  ),
+  dispatchNumber: (userInfo) => (
+    dispatch(numberValue(userInfo))
   ),
 });
 

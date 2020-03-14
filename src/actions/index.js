@@ -30,14 +30,13 @@ const requestSwapiFailure = (error) => ({
   error,
 });
 
+export const columnValue = () => (console.log('olá'));
+export const comparativeValue = () => (console.log('olá'));
+export const numberValue = () => (console.log('olá'));
+
 export const filterPlanetsWithName = (planetsData, userValue) => ({
   type: FILTER_PLANETS_WITH_NAME,
   name: userValue,
-  filters: [
-    {
-      name: userValue,
-    },
-  ],
   filterData: filterFunction(planetsData, userValue),
 });
 
