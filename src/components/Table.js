@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import fetchAPI from '../actions/fetchAPI';
 import PropTypes from 'prop-types';
+import fetchAPI from '../actions/fetchAPI';
 
 function acertaTitulo(aaa) {
   const palavras = aaa.split('_');
-  const palavrasCapitalizadas = palavras.map(palavra => `${palavra[0].toUpperCase()}${palavra.substr(1)}`);
+  const palavrasCapitalizadas = palavras.map((palavra) => `${palavra[0].toUpperCase()}${palavra.substr(1)}`);
   const titulo = palavrasCapitalizadas.join(' ');
   return titulo;
 }
@@ -24,12 +24,7 @@ function comparaValores(arg1, arg2, comparison) {
 }
 
 function filterDataByName(data, name) {
-  const newData = data.reduce((acc, current) => {
-    if (current.name.includes(name)) {
-      return [...acc, current];
-    }
-    return acc;
-  }, []);
+  const newData = data.filter((item) => item.name.includes(name));
 
   if (newData.length === 0) {
     return [{}];
@@ -44,17 +39,13 @@ function filterDataByNumericValues(data, column, comparison, value) {
   }
 
   const newData = data.filter((item) => (
-    !(item[column] === 'unknown') && comparaValores(Number(item[column]), Number(value), comparison))
+    !(item[column] === 'unknown') && comparaValores(Number(item[column]), Number(value), comparison)),
   );
 
   return newData;
 }
 
 class Table extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
     const { getData } = this.props;
     getData();
@@ -75,21 +66,25 @@ class Table extends Component {
     const dataTable = this.filterData();
     const keysPlanet = Object.keys(dataTable[0]);
     const indexResidents = keysPlanet.indexOf('residents');
-    const keysTable = keysPlanet.slice(0, indexResidents).concat(keysPlanet.slice(indexResidents + 1));
+    const keysTable = keysPlanet.slice(0, indexResidents).concat(
+      keysPlanet.slice(indexResidents + 1)
+    );
     return (
       <div>
         <table>
           <tr>
-            {keysTable.map(key => <th>{acertaTitulo(key)}</th>)}
+            {keysTable.map((key) => <th>{acertaTitulo(key)}</th>)}
           </tr>
           {dataTable.map((planet) => {
             const valuesPlanet = Object.values(planet);
-            const valuesTable = valuesPlanet.slice(0, indexResidents).concat(valuesPlanet.slice(indexResidents + 1));
+            const valuesTable = valuesPlanet.slice(0, indexResidents).concat(
+              valuesPlanet.slice(indexResidents + 1)
+            );
             return (
               <tr>
-                {valuesTable.map(valueColumn => {
+                {valuesTable.map((valueColumn) => {
                   if (Array.isArray(valueColumn)) {
-                    return <td>{valueColumn.map(item => <div>{item}</div>)}</td>;
+                    return <td>{valueColumn.map((item) => <div>{item}</div>)}</td>;
                   }
                   return <td>{valueColumn}</td>;
                 })}
@@ -105,7 +100,7 @@ class Table extends Component {
 const mapStateToProps = (state) => {
   const data = state.data;
   const name = state.filters[0].name;
-  const arrayColumns = state.filters.slice(1).map(item => item.numericValues.column);
+  const arrayColumns = state.filters.slice(1).map((item) => item.numericValues.column);
   const objectStates = state.filters.slice(1).reduce((acc, current, i) => ({
     ...acc,
     [`valueSelectedColumn${i + 1}`]: current.numericValues.column,
@@ -121,10 +116,10 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 Table.propTypes = {
-  data: PropTypes.array.isRequired,
+  data: PropTypes.arrayOf(PropTypes.object).isRequired,
   name: PropTypes.string.isRequired,
-  arrayColumns: PropTypes.array.isRequired,
+  arrayColumns: PropTypes.arrayOf(PropTypes.string).isRequired,
   getData: PropTypes.func.isRequired,
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Table);

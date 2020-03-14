@@ -22,7 +22,7 @@ class NumericValuesFilters extends Component {
       <div id={i}>
         <select name="column" onChange={handleChange} value={this.props[`valueSelectedColumn${i}`]}>
           <option value="" disabled>Select column</option>
-          {columnsRestantes.map((item, index) => (
+          {columnsRestantes.map((item) => (
             <option key={item} value={item}>{item}</option>
           ))}
         </select>
@@ -49,8 +49,7 @@ class NumericValuesFilters extends Component {
           {arrayValues.map((item, i) => this.addFilter(i + 1))}
         </div>
       );
-    }
-    else {
+    } else {
       const newArrayValues = arrayValues.slice(0, arrayValues.length - 1);
 
       filters = (
