@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import changeNumericValuesFilters from '../actions/changeNumericValuesFilters';
 import deleteNumericValuesFilters from '../actions/deleteNumericValuesFilters';
+import PropTypes from 'prop-types';
 
 class NumericValuesFilters extends Component {
   constructor(props) {
@@ -50,9 +51,9 @@ class NumericValuesFilters extends Component {
         {arrayValues.map((item, i) => this.addFilter(i + 1))}
       </div>;
     } else {
-      arrayValues.pop(); 
+      const newArrayValues = arrayValues.slice(0, arrayValues.length - 1); 
       filters = <div>
-        {arrayValues.map((item, i) => this.addFilter(i + 1))}
+        {newArrayValues.map((item, i) => this.addFilter(i + 1))}
       </div>;
     }
 
@@ -89,5 +90,12 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(deleteNumericValuesFilters(event));
   },
 });
+
+NumericValuesFilters.propTypes = {
+  arrayValues: PropTypes.array.isRequired,
+  arrayColumns: PropTypes.array.isRequired,
+  handleChange: PropTypes.func.isRequired,
+  handleClick: PropTypes.func.isRequired,
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(NumericValuesFilters);

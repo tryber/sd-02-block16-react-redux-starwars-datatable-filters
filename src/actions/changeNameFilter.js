@@ -4,8 +4,8 @@ const changeNameFilter = (event) => {
   const { value } = event.target;
   return {
     type: CHANGE_NAME_FILTER,
-    value: value,
+    value,
   };
-}
+};
 
 export default changeNameFilter;

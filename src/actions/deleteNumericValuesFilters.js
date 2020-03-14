@@ -6,6 +6,6 @@ const deleteNumericValuesFilters = (event) => {
     type: DELETE_NUMERIC_VALUES_FILTERS,
     id: Number(id),
   };
-}
+};
 
 export default deleteNumericValuesFilters;

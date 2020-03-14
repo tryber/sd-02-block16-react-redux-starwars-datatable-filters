@@ -21,31 +21,24 @@ const filtersReducer = (state = initialState, action) => {
     case CHANGE_NAME_FILTER:
       return [
           { name: action.value },
-          ...state.slice(1)
+          ...state.slice(1),
         ];
+
     case CHANGE_NUMERIC_VALUES_FILTERS:
-      return [...state.map((item, index) => {
-          if (index === action.id) {
-            return {
-              numericValues: {
-                ...item.numericValues,
-                [action.name]: action.value,
-              },
-            };
-          }
-          return item;
-        })].concat(
-          action.id === state.length - 1 && action.id < 5
-            ? [{ numericValues: { column: '', comparison: '>', value: '' } }]
-            : [],
-        );
+      state.splice(action.id, 1, {
+        numericValues: {
+          ...state[action.id].numericValues,
+          [action.name]: action.value
+        }
+      });
+      return state.concat(
+        action.id === state.length - 1 && action.id < 5
+          ? [{ numericValues: { column: '', comparison: '>', value: '' } }]
+          : [],
+      );
+
     case DELETE_NUMERIC_VALUES_FILTERS:
-      return state.reduce((acc, item, index) => {
-          if (action.id === index) {
-            return acc;
-          }
-          return [...acc, item]
-        }, []);
+      return state.filter((item, index) => action.id !== index)
     default:
       return state;
   }

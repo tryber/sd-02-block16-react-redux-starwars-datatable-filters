@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import fetchAPI from '../actions/fetchAPI';
+import PropTypes from 'prop-types';
 
 function acertaTitulo(aaa) {
   const palavras = aaa.split('_');
@@ -41,15 +42,10 @@ function filterDataByNumericValues(data, column, comparison, value) {
   if (value === '' || column === '') {
     return data;
   }
-  const newData = data.reduce((acc, current) => {
-    if (current[column] === 'unknown') {
-      return acc;
-    }
-    if (comparaValores(Number(current[column]), Number(value), comparison)) {
-      return [...acc, current];
-    }
-    return acc;
-  }, []);
+
+  const newData = data.filter((item) => (
+    !(item[column] === 'unknown') && comparaValores(Number(item[column]), Number(value), comparison))
+  );
 
   return newData;
 }
@@ -123,5 +119,12 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
   getData: () => dispatch(fetchAPI()),
 });
+
+Table.propTypes = {
+  data: PropTypes.array.isRequired,
+  name: PropTypes.string.isRequired,
+  arrayColumns: PropTypes.array.isRequired,
+  getData: PropTypes.func.isRequired,
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Table);

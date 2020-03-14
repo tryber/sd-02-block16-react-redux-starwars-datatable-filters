@@ -5,10 +5,10 @@ const changeNumericValuesFilters = (event) => {
   const { id } = event.target.parentNode;
   return {
     type: CHANGE_NUMERIC_VALUES_FILTERS,
-    value: value,
-    name: name,
+    value,
+    name,
     id: Number(id),
   };
-}
+};
 
 export default changeNumericValuesFilters;

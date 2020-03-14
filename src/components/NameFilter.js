@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import changeNameFilter from '../actions/changeNameFilter';
+import PropTypes from 'prop-types';
 
 class NameFilter extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const { valueInput, handleChange } = this.props;
     return (
@@ -29,5 +26,10 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(changeNameFilter(event));
   }
 });
+
+NameFilter.propTypes = {
+  valueInput: PropTypes.string.isRequired,
+  handleChange: PropTypes.func.isRequired,
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(NameFilter);

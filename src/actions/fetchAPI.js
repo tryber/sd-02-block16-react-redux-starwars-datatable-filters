@@ -9,10 +9,9 @@ const receivePlanets = (planets) => ({
   planets,
 });
 
-const fetchAPI = () => {
-  return (dispatch) => {
+const fetchAPI = () => (
+  (dispatch) => {
     dispatch(requestPlanets());
-
     return (
       fetch('https://swapi.co/api/planets')
         .then((response) => response.json())
@@ -21,6 +20,6 @@ const fetchAPI = () => {
         })
     );
   }
-}
+);
 
 export default fetchAPI;
