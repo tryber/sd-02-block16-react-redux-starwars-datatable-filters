@@ -1,5 +1,3 @@
-//import { initialState } from './index';
-
 export const REQUEST_PLANETS = 'REQUEST_PLANETS';
 export const RECEIVE_PLANETS = 'RECEIVE_PLANETS';
 

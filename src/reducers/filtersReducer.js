@@ -1,8 +1,6 @@
-//import { initialState } from './index';
-
-export const CHANGE_FILTER_BY_NAME = 'CHANGE_FILTER_BY_NAME';
-export const CHANGE_FILTER_BY_NUMERIC_VALUES = 'CHANGE_FILTER_BY_NUMERIC_VALUES';
-export const DELETE_FILTER_BY_NUMERIC_VALUES = 'DELETE_FILTER_BY_NUMERIC_VALUES';
+export const CHANGE_NAME_FILTER = 'CHANGE_NAME_FILTER';
+export const CHANGE_NUMERIC_VALUES_FILTERS = 'CHANGE_NUMERIC_VALUES_FILTERS';
+export const DELETE_NUMERIC_VALUES_FILTERS = 'DELETE_NUMERIC_VALUES_FILTERS';
 
 const initialState = 
   [
@@ -20,12 +18,12 @@ const initialState =
 
 const filtersReducer = (state = initialState, action) => {
   switch (action.type) {
-    case CHANGE_FILTER_BY_NAME:
+    case CHANGE_NAME_FILTER:
       return [
           { name: action.value },
           ...state.slice(1)
         ];
-    case CHANGE_FILTER_BY_NUMERIC_VALUES:
+    case CHANGE_NUMERIC_VALUES_FILTERS:
       return [...state.map((item, index) => {
           if (index === action.id) {
             return {
@@ -41,7 +39,7 @@ const filtersReducer = (state = initialState, action) => {
             ? [{ numericValues: { column: '', comparison: '>', value: '' } }]
             : [],
         );
-    case DELETE_FILTER_BY_NUMERIC_VALUES:
+    case DELETE_NUMERIC_VALUES_FILTERS:
       return state.reduce((acc, item, index) => {
           if (action.id === index) {
             return acc;

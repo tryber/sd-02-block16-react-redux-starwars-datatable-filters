@@ -1,14 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { CHANGE_FILTER_BY_NAME } from '../reducers/filtersReducer';
-
-const changeFilterByName = (event) => {
-  const { value } = event.target;
-  return {
-    type: CHANGE_FILTER_BY_NAME,
-    value: value,
-  };
-}
+import changeNameFilter from '../actions/changeNameFilter';
 
 class NameFilter extends Component {
   constructor(props) {
@@ -33,8 +25,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handleChange: function (event) {
-    dispatch(changeFilterByName(event));
+  handleChange: (event) => {
+    dispatch(changeNameFilter(event));
   }
 });
 
