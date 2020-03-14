@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { searchByName } from '../actions';
+import './SearchBar.css';
 
 
 class SearchBar extends Component {
@@ -21,7 +22,12 @@ class SearchBar extends Component {
 
   render() {
     return (
-      <input onChange={this.onChangeHandler} />
+      <div className="group">
+        <input onChange={this.onChangeHandler} />
+        <span className="highlight" />
+        <span className="bar" />
+        <label>Search by planet name</label>
+      </div>
     );
   }
 }

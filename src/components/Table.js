@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { fetchSWAPIPlanets, searchByName } from '../actions';
 import './Table.css';
-import Selectors from './Selectors';
+// import Selectors from './Selectors';
 import SearchBar from './SearchBar';
 
 class Table extends Component {
@@ -19,23 +19,35 @@ class Table extends Component {
     return (
       <div>
         <SearchBar />
-        <Selectors />
+        {/* <Selectors /> */}
         <table>
           <thead>
             <tr>
-              {Object.keys(results[0] || []).map((key) => (key === 'residents' ? false : <th>{key}</th>))}
+              {Object.keys(results[0] || []).map((key) => (
+                key === 'residents' || key === 'films' || key === 'created' || key === 'edited'
+                  ? false
+                  : <th>{key.replace(/_/, ' ').toUpperCase()}</th>
+              ))}
             </tr>
           </thead>
           <tbody>
             {filteredResults.length
               ? filteredResults.map((planet) => (
                 <tr>
-                  {Object.entries(planet).map(([key, value]) => (key === 'residents' ? false : <td>{value}</td>))}
+                  {Object.entries(planet).map(([key, value]) => (
+                    key === 'residents' || key === 'films' || key === 'created' || key === 'edited'
+                      ? false
+                      : <td>{value}</td>
+                  ))}
                 </tr>
               ))
               : results.map((planet) => (
                 <tr>
-                  {Object.entries(planet).map(([key, value]) => (key === 'residents' ? false : <td>{value}</td>))}
+                  {Object.entries(planet).map(([key, value]) => (
+                    key === 'residents' || key === 'films' || key === 'created' || key === 'edited'
+                      ? false
+                      : <td>{value}</td>
+                  ))}
                 </tr>
               ))}
           </tbody>
