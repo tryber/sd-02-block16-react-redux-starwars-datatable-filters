@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { searchByNumber } from '../actions';
+// import PropTypes from 'prop-types';
+// import { searchByNumber } from '../actions';
 
 
 class Selectors extends Component {
@@ -32,11 +32,11 @@ class Selectors extends Component {
     return value;
   }
 
-  onClickHandler() {
-    const { searchPlanetsByNumber } = this.props;
-    const { results } = this.props;
-    searchPlanetsByNumber('population', 'Maior que', 1000000000, results);
-  }
+  // onClickHandler() {
+  //   const { searchPlanetsByNumber } = this.props;
+  //   const { results } = this.props;
+  //   searchPlanetsByNumber('population', 'Maior que', 1000000000, results);
+  // }
 
   render() {
     return (
@@ -70,11 +70,11 @@ const mapStateToProps = ({
   filteredResults,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  searchPlanetsByNumber: (column,
-    comparison,
-    value,
-    results) => dispatch(searchByNumber(column, comparison, value, results)),
-});
+// const mapDispatchToProps = (dispatch) => ({
+//   searchPlanetsByNumber: (column,
+//     comparison,
+//     value,
+//     results) => dispatch(searchByNumber(column, comparison, value, results)),
+// });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Selectors);
+export default connect(mapStateToProps)(Selectors);

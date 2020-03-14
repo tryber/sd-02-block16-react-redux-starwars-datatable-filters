@@ -1,21 +1,21 @@
 body {
+  background-attachment: fixed;
   background-image: url('./images/space_background2.jpg');
   background-size: cover;
-  background-attachment: fixed;
 }
 
 .sw-logo {
-  width: 25rem;
   display: block;
   margin: 2rem auto 1rem;
+  width: 25rem;
 }
 
 .title {
+  color: white;
+  font-family: StarJedi;
+  font-size: 3rem;
   margin-top: 1rem;
   text-align: center;
-  font-size: 3rem;
-  font-family: StarJedi;
-  color: white;
   text-shadow: 2px 2px 4px #000000;
 }
 

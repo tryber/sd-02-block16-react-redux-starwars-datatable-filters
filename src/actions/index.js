@@ -28,35 +28,35 @@ export const searchByName = (text, results) => ({
     : [''],
 });
 
-const filter = (column, comparison, number, results) => {
-  const biggerThan = results
-    .map((planet) => Object.entries(planet)
-      .filter(([key, value]) => (key === column && value > number ? value : false)));
-  const smallerThan = results
-    .filter((planet) => Object.entries(planet)
-      .filter(([key, value]) => (key === column && value < number ? value : false)));
-  const equalTo = results
-    .filter((planet) => Object.entries(planet)
-      .filter(([key, value]) => (key === column && value === number ? value : false)));
-  switch (comparison) {
-    case 'Maior que':
-      console.log(biggerThan);
-      return biggerThan;
-    case 'Menor que':
-      return smallerThan;
-    case 'Igual a':
-      return equalTo;
-    default: return results;
-  }
-};
+// const filter = (column, comparison, number, results) => {
+//   const biggerThan = results
+//     .map((planet) => Object.entries(planet)
+//       .filter(([key, value]) => (key === column && value > number ? value : false)));
+//   const smallerThan = results
+//     .filter((planet) => Object.entries(planet)
+//       .filter(([key, value]) => (key === column && value < number ? value : false)));
+//   const equalTo = results
+//     .filter((planet) => Object.entries(planet)
+//       .filter(([key, value]) => (key === column && value === number ? value : false)));
+//   switch (comparison) {
+//     case 'Maior que':
+//       console.log(biggerThan);
+//       return biggerThan;
+//     case 'Menor que':
+//       return smallerThan;
+//     case 'Igual a':
+//       return equalTo;
+//     default: return results;
+//   }
+// };
 
-export const searchByNumber = (column, comparison, value, results) => ({
-  type: SEARCH_BY_NUMBER,
-  column,
-  comparison,
-  value,
-  results: filter(column, comparison, value, results),
-});
+// export const searchByNumber = (column, comparison, value, results) => ({
+//   type: SEARCH_BY_NUMBER,
+//   column,
+//   comparison,
+//   value,
+//   results: filter(column, comparison, value, results),
+// });
 
 export function fetchSWAPIPlanets() {
   return (dispatch) => {

@@ -13,6 +13,33 @@ class Table extends Component {
     getSWAPIPlanets();
   }
 
+  renderAllPlanets(filteredResults, results) {
+    console.log(this.props);
+    return (
+      <tbody>
+        {filteredResults.length
+          ? filteredResults.map((planet) => (
+            <tr>
+              {Object.entries(planet).map(([key, value]) => (
+                key === 'residents' || key === 'films' || key === 'created' || key === 'edited'
+                  ? false
+                  : <td>{value}</td>
+              ))}
+            </tr>
+          ))
+          : results.map((planet) => (
+            <tr>
+              {Object.entries(planet).map(([key, value]) => (
+                key === 'residents' || key === 'films' || key === 'created' || key === 'edited'
+                  ? false
+                  : <td>{value}</td>
+              ))}
+            </tr>
+          ))}
+      </tbody>
+    );
+  }
+
   render() {
     const { results, filteredResults, isFetching } = this.props;
     if (isFetching) return <div>Carregando tabela e filtros...</div>;
@@ -30,27 +57,7 @@ class Table extends Component {
               ))}
             </tr>
           </thead>
-          <tbody>
-            {filteredResults.length
-              ? filteredResults.map((planet) => (
-                <tr>
-                  {Object.entries(planet).map(([key, value]) => (
-                    key === 'residents' || key === 'films' || key === 'created' || key === 'edited'
-                      ? false
-                      : <td>{value}</td>
-                  ))}
-                </tr>
-              ))
-              : results.map((planet) => (
-                <tr>
-                  {Object.entries(planet).map(([key, value]) => (
-                    key === 'residents' || key === 'films' || key === 'created' || key === 'edited'
-                      ? false
-                      : <td>{value}</td>
-                  ))}
-                </tr>
-              ))}
-          </tbody>
+          {this.renderAllPlanets(filteredResults, results)}
         </table>
       </div>
     );
@@ -60,7 +67,6 @@ class Table extends Component {
 Table.propTypes = {
   getSWAPIPlanets: PropTypes.func.isRequired,
   results: PropTypes.instanceOf(Array),
-  searchPlanetsByName: PropTypes.func.isRequired,
   filteredResults: PropTypes.instanceOf(Array),
   isFetching: PropTypes.bool.isRequired,
 };
