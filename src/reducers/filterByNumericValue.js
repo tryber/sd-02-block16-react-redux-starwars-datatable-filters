@@ -1,9 +1,7 @@
 const INITIAL_STATE = {
   data: [],
+  // filterRowStatus: false,
   isFilteredByNumber: false,
-  columnStatus: false,
-  comparisonStatus: false,
-  valueStatus: false,
   filters: [
     { filterCount: [['x']] },
     {
@@ -24,6 +22,7 @@ const INITIAL_STATE = {
           column: '',
           comparison: '',
           value: '',
+          status: { column: false, comparison: false, value: false },
         },
       },
     ],
@@ -35,24 +34,35 @@ const STORE_COMPARISON_FILTER = 'STORE_COMPARISON_FILTER';
 const STORE_VALUE_FILTER = 'STORE_VALUE_FILTER';
 const FILTER_BY_NUMBERS = 'FILTER_BY_NUMBER';
 const REMOVE_FILTER = 'REMOVE_FILTER';
+const UPDATE_VALUE_STATUS = 'UPDATE_VALUE_STATUS';
 
 export default function filterByNumericValue(state = INITIAL_STATE,
   {
-    type, value: newValue,
+    type, value: newValue, newCount,
     filteredPlanets, filterSelectors, rowIndex,
   }) {
   const { storageData, filters } = state;
-  const [{ filterCount }, { selectors }, numericValues] = filters;
+  const [{ filterCount }, { selectors }] = filters;
 
   const updateNumericValues = (field) => ({
     ...state,
-    [`${field}Status`]: true,
+    rowIndex,
+    // filterRowStatus: field !== 'value' && !filterRowStatus,
     filters: [
       filters[0],
       filters[1],
       filters[2].map((filterSet, setIndex) => (
         (setIndex === rowIndex) ? (
-          { numericValues: { ...filterSet.numericValues, [field]: newValue } }
+          {
+            numericValues: {
+              ...filterSet.numericValues,
+              [field]: newValue,
+              status: {
+                ...filterSet.numericValues.status,
+                [[field]]: field !== 'value' && !filterSet.numericValues.status[[field]],
+              },
+            },
+          }
         )
           : filterSet)),
     ],
@@ -65,6 +75,27 @@ export default function filterByNumericValue(state = INITIAL_STATE,
       return updateNumericValues('comparison');
     case STORE_VALUE_FILTER:
       return updateNumericValues('value');
+    case UPDATE_VALUE_STATUS:
+      return {
+        ...state,
+        filters: [
+          filters[0],
+          filters[1],
+          filters[2].map((filterSet, setIndex) => (
+            (setIndex === rowIndex) ? (
+              {
+                numericValues: {
+                  ...filterSet.numericValues,
+                  status: {
+                    ...filterSet.numericValues.status,
+                    value: !filterSet.numericValues.status.value,
+                  },
+                },
+              }
+            )
+              : filterSet)),
+        ],
+      };
     case REMOVE_FILTER:
       return {
         ...state,
@@ -72,8 +103,8 @@ export default function filterByNumericValue(state = INITIAL_STATE,
         data: storageData,
         filters: [
           { filterCount: filterCount.filter((item, index) => index !== rowIndex) },
-          { selectors: selectors.filter((item, index) => index !== rowIndex) },
-          numericValues.filter((item, index) => index !== rowIndex),
+          { selectors: [...selectors].filter((item, index) => index !== rowIndex) },
+          [...filters[2]].filter((item, index) => index !== rowIndex),
         ],
       };
     case FILTER_BY_NUMBERS:
@@ -82,12 +113,9 @@ export default function filterByNumericValue(state = INITIAL_STATE,
         isFilteredByNumber: true,
         storageData: filteredPlanets[0],
         data: filteredPlanets[filteredPlanets.length - 1],
-        columnStatus: false,
-        comparisonStatus: false,
-        valueStatus: false,
         filters: [
-          { filterCount: filterCount.concat([['x']]) },
-          { selectors: selectors.concat([...filterSelectors]) },
+          { filterCount: newCount },
+          { selectors: selectors.concat(filterSelectors) },
           filters[2].concat({ numericValues: { column: '', comparison: '', value: '' } }),
         ],
       };

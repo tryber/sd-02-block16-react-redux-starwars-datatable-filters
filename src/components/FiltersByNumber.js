@@ -16,55 +16,6 @@ class FiltersByNumber extends Component {
     return filteredPlanets;
   }
 
-  static renderColumnsOptions(dispatch, selectors, rowIndex) {
-    return (
-      <select
-        onChange={(e) => dispatch(FiltersByNumber.numberFilterDispatch(e, rowIndex))}
-        id="fields"
-      >
-        {selectors.map(([value, label]) => <option key={`${label}_selector`} value={value}>{label}</option>)}
-      </select>
-    );
-  }
-
-  static renderComparisonOptions(dispatch, rowIndex) {
-    return (
-      <select
-        onChange={(e) => dispatch(FiltersByNumber.numberFilterDispatch(e, rowIndex))}
-        id="operator"
-      >
-        <option label="null" value="" />
-        <option value="lesserThan">{'<'}</option>
-        <option value="equalsThan">=</option>
-        <option value="higherThan">{'>'}</option>
-      </select>
-
-    );
-  }
-
-  static renderNumberInput(dispatch, rowIndex) {
-    return (
-      <input
-        onBlur={(e) => dispatch(FiltersByNumber.numberFilterDispatch(e, rowIndex))}
-        type="number"
-        id="number"
-        width="100px"
-      />
-    );
-  }
-
-  static renderRemoveButton(dispatch, rowIndex) {
-    return (
-      <button
-        type="button"
-        onClick={(e) => dispatch(FiltersByNumber.numberFilterDispatch(e, rowIndex))}
-        id="remove"
-      >
-        X
-      </button>
-    );
-  }
-
   static numberFilterDispatch(event, rowIndex) {
     const STORE_COLUMN_FILTER = 'STORE_COLUMN_FILTER';
     const STORE_COMPARISON_FILTER = 'STORE_COMPARISON_FILTER';
@@ -85,13 +36,46 @@ class FiltersByNumber extends Component {
     this.dispatchFilters = this.dispatchFilters.bind(this);
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     const {
-      columnStatus,
-      comparisonStatus,
-      valueStatus,
+      rowIndex,
+      numericValues,
+      // filterRowStatus: thisStatus,
     } = this.props;
-    if (columnStatus && comparisonStatus && valueStatus) {
+
+    const {
+      numericValues: prevNumericValues,
+    } = prevProps;
+
+    const thisNumericValue = numericValues[rowIndex] !== undefined
+    && numericValues[rowIndex].numericValues;
+
+    const {
+      column,
+      comparison,
+      value,
+      status: {
+        column: thisColumStatus,
+        comparison: thisComparisonStatus,
+        value: thisValueStatus,
+      },
+    } = thisNumericValue;
+
+    const oldNumericValues = prevNumericValues[rowIndex] !== undefined
+    && prevNumericValues[rowIndex].prevNumericValues;
+
+    const {
+      status: {
+        column: prevColumStatus,
+        comparison: prevComparisonStatus,
+        value: prevValueStatus,
+      },
+    } = oldNumericValues;
+
+    if ((column !== '' && comparison !== '' && value !== '')
+    && (thisColumStatus !== prevColumStatus
+    && thisComparisonStatus !== prevComparisonStatus
+    && thisValueStatus !== prevValueStatus)) {
       const debounce = setTimeout(() => {
         this.dispatchFilters();
         clearTimeout(debounce);
@@ -115,12 +99,18 @@ class FiltersByNumber extends Component {
       return filteredData.filter((dataChunk, dataIndex) => dataIndex !== index);
     });
 
-    const { column } = numericValues[selectors.length - 1].numericValues;
-    const filterSelectors = new Array(selectors[selectors.length - 1]
+    const { comparison, value, column } = numericValues[filterCount.length - 1].numericValues;
+    const filterSelectors = new Array(selectors[filterCount.length - 1]
       .filter((option) => option[0] !== column));
 
-    let newCount = 'x'.repeat(filterCount.length + 1);
-    newCount = newCount.split('');
+    let newCount;
+
+    if (column !== '' && comparison !== '' && value !== '') {
+      newCount = 'x'.repeat(filterCount.length + 1).split('');
+    } else {
+      newCount = filterCount;
+    }
+
 
     return { filteredPlanets, filterSelectors, newCount };
   }
@@ -148,20 +138,17 @@ class FiltersByNumber extends Component {
   }
 
   render() {
-    const { dispatch, selectors, filterCount } = this.props;
+    const {
+      dispatch, selectors, filterCount, numericValues,
+    } = this.props;
     return (
       <div>
-        { filterCount.map((item, rowIndex) => (
-          <div key={`${item}_${rowIndex + 1}`}>
-            {FiltersByNumber.renderColumnsOptions(dispatch, selectors[rowIndex], rowIndex)}
-
-            {FiltersByNumber.renderComparisonOptions(dispatch, rowIndex)}
-
-            {FiltersByNumber.renderNumberInput(dispatch, rowIndex)}
-
-            {FiltersByNumber.renderRemoveButton(dispatch, rowIndex)}
-          </div>
-        ))}
+        <FilterCount
+          dispatch={dispatch}
+          selectors={selectors}
+          filterCount={filterCount}
+          numericValues={numericValues}
+        />
       </div>
     );
   }
@@ -170,6 +157,8 @@ class FiltersByNumber extends Component {
 const mapStateToProps = ({ filterByNumericValue, filterByName, planetFetcher }) => {
   const { isFilteredByName } = filterByName;
   const {
+    rowIndex,
+    filterRowStatus,
     data: numberFilteredData,
     isFilteredByNumber,
     columnStatus, comparisonStatus, valueStatus,
@@ -178,6 +167,8 @@ const mapStateToProps = ({ filterByNumericValue, filterByName, planetFetcher }) 
   const { data: defaultData } = planetFetcher;
   const [{ filterCount }, { selectors }, numericValues] = filters;
   const returnProps = (dataSet) => ({
+    rowIndex,
+    filterRowStatus,
     numericValues,
     columnStatus,
     comparisonStatus,
@@ -191,17 +182,101 @@ const mapStateToProps = ({ filterByNumericValue, filterByName, planetFetcher }) 
   return isFilteredByName ? returnProps(numberFilteredData) : returnProps(defaultData);
 };
 
+
+function FilterCount(props) {
+  const {
+    filterCount,
+    dispatch,
+    selectors,
+    numericValues,
+  } = props;
+
+  const UPDATE_VALUE_STATUS = 'UPDATE_VALUE_STATUS';
+
+  const onChange = (e, rowIndex) => (dispatch(FiltersByNumber.numberFilterDispatch(e, rowIndex)));
+
+  function renderColumnsOptions(rowIndex, column) {
+    return (
+      <select
+        onChange={(e) => onChange(e, rowIndex)}
+        id="fields"
+        value={column}
+      >
+        {selectors[rowIndex].map(([value, label]) => <option key={`${label}_selector`} value={value}>{label}</option>)}
+      </select>
+    );
+  }
+
+  function renderComparisonOptions(rowIndex, comparison) {
+    return (
+      <select
+        onChange={(e) => onChange(e, rowIndex)}
+        id="operator"
+        value={comparison}
+      >
+        <option label=" " value="" defaultValue />
+        <option value="lesserThan">{'<'}</option>
+        <option value="equalsThan">=</option>
+        <option value="higherThan">{'>'}</option>
+      </select>
+
+    );
+  }
+
+  function renderNumberInput(rowIndex, value) {
+    return (
+      <input
+        onChange={(e) => onChange(e, rowIndex)}
+        onBlur={() => value !== '' && dispatch({ type: UPDATE_VALUE_STATUS })}
+        type="number"
+        id="number"
+        width="100px"
+        value={value}
+      />
+    );
+  }
+
+  function renderRemoveButton(rowIndex) {
+    return (
+      <button
+        type="button"
+        onClick={(e) => onChange(e, rowIndex)}
+        id="remove"
+      >
+        X
+      </button>
+    );
+  }
+
+  return (
+    filterCount.map((item, rowIndex) => {
+      const thisNumericValue = numericValues[rowIndex].numericValues;
+      const { column, comparison, value } = thisNumericValue;
+      return (
+        <div key={`${item}_${rowIndex + 1}`}>
+          {renderColumnsOptions(rowIndex, column)}
+
+          {renderComparisonOptions(rowIndex, comparison)}
+
+          {renderNumberInput(rowIndex, value)}
+
+          {renderRemoveButton(rowIndex)}
+        </div>
+      );
+    })
+  );
+}
+
 export default connect(mapStateToProps)(FiltersByNumber);
 
 FiltersByNumber.propTypes = {
   numericValues: PropTypes.arrayOf(PropTypes.object).isRequired,
   dispatch: PropTypes.func.isRequired,
+  rowIndex: PropTypes.number.isRequired,
   data: PropTypes.arrayOf(PropTypes.object),
   selectors: PropTypes.arrayOf(PropTypes.array).isRequired,
   filterCount: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
-  columnStatus: PropTypes.bool.isRequired,
-  comparisonStatus: PropTypes.bool.isRequired,
-  valueStatus: PropTypes.bool.isRequired,
+  filterRowStatus: PropTypes.bool.isRequired,
 };
 
 FiltersByNumber.defaultProps = {
