@@ -1,31 +1,29 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import changeNumericValuesFilters from '../actions/changeNumericValuesFilters';
 import deleteNumericValuesFilters from '../actions/deleteNumericValuesFilters';
-import PropTypes from 'prop-types';
+
+function verificaEntradasVazias(array) {
+  return array.every((item, index) => (
+    item !== '' || index === array.length - 1
+  ));
+}
 
 class NumericValuesFilters extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   addFilter(i) {
     const { arrayColumns, handleChange, handleClick } = this.props;
+
     const newArrayColumns = arrayColumns.slice(0, i - 1);
-    const allColumns = ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water']
-    const columnsRestantes = allColumns.reduce((acc, item) => {
-      if (newArrayColumns.includes(item)) {
-        return acc;
-      }
-      return [...acc, item]
-    }, []);
+    const allColumns = ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
+    const columnsRestantes = allColumns.filter((item) => !newArrayColumns.includes(item));
 
     return (
       <div id={i}>
         <select name="column" onChange={handleChange} value={this.props[`valueSelectedColumn${i}`]}>
-          <option value='' disabled>Selecione o estado</option>
+          <option value="" disabled>Select column</option>
           {columnsRestantes.map((item, index) => (
-            <option key={index} value={item}>{item}</option>
+            <option key={item} value={item}>{item}</option>
           ))}
         </select>
         <select name="comparison" onChange={handleChange} value={this.props[`valueSelectedComparison${i}`]}>
@@ -43,18 +41,23 @@ class NumericValuesFilters extends Component {
     const arrayValues = this.props.arrayValues;
     const arrayColumns = this.props.arrayColumns;
 
-    let filters = <div></div>;
+    let filters;
 
-    if (arrayValues.every((value, index, array) => value !== '' || index === array.length - 1)
-      && arrayColumns.every((column, index, array) => column !== '' || index === array.length - 1)) {
-      filters = <div>
-        {arrayValues.map((item, i) => this.addFilter(i + 1))}
-      </div>;
-    } else {
-      const newArrayValues = arrayValues.slice(0, arrayValues.length - 1); 
-      filters = <div>
-        {newArrayValues.map((item, i) => this.addFilter(i + 1))}
-      </div>;
+    if (verificaEntradasVazias(arrayValues) && verificaEntradasVazias(arrayColumns)) {
+      filters = (
+        <div>
+          {arrayValues.map((item, i) => this.addFilter(i + 1))}
+        </div>
+      );
+    }
+    else {
+      const newArrayValues = arrayValues.slice(0, arrayValues.length - 1);
+
+      filters = (
+        <div>
+          {newArrayValues.map((item, i) => this.addFilter(i + 1))}
+        </div>
+      );
     }
 
     return filters;
@@ -76,8 +79,8 @@ const mapStateToProps = (state) => {
     [`valueSelectedComparison${i + 1}`]: current.numericValues.comparison,
     [`valueNumber${i + 1}`]: current.numericValues.value,
   }), {});
-  const arrayValues = state.filters.slice(1).map(item => item.numericValues.value );
-  const arrayColumns = state.filters.slice(1).map(item => item.numericValues.column);
+  const arrayValues = state.filters.slice(1).map((item) => item.numericValues.value);
+  const arrayColumns = state.filters.slice(1).map((item) => item.numericValues.column);
 
   return { ...objectStates, arrayValues, arrayColumns };
 };
@@ -92,10 +95,10 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 NumericValuesFilters.propTypes = {
-  arrayValues: PropTypes.array.isRequired,
-  arrayColumns: PropTypes.array.isRequired,
+  arrayValues: PropTypes.arrayOf(PropTypes.string).isRequired,
+  arrayColumns: PropTypes.arrayOf(PropTypes.string).isRequired,
   handleChange: PropTypes.func.isRequired,
   handleClick: PropTypes.func.isRequired,
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(NumericValuesFilters);
