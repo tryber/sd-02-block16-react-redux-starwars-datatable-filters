@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { REQUEST_PLANETS, RECEIVE_PLANETS, store } from '../store';
+import { REQUEST_PLANETS, RECEIVE_PLANETS } from '../reducers/dataReducer';
 
 const requestPlanets = () => ({
   type: REQUEST_PLANETS,
@@ -20,7 +20,6 @@ function fetchPlanets() {
       .then((response) => response.json())
       .then((data) => {
         console.log('retorno do fetch ta aqui:', data.results);
-        console.log(store);
         dispatch(receivePlanets(data.results));
 
       });
@@ -40,7 +39,6 @@ class Request extends Component {
   }
 
   render() {
-    console.log(store);
     return <div></div>;
   }
 }

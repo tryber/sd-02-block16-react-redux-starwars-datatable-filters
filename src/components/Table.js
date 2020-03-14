@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { node } from 'prop-types';
 
 function acertaTitulo(aaa) {
   const palavras = aaa.split('_');

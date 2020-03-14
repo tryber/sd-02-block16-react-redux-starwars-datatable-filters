@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { CHANGE_FILTER_BY_NAME } from '../reducers/filtersReducer';
 
 const changeFilterByName = (event) => {
   const { value } = event.target;
   return {
-    type: 'CHANGE_FILTER_BY_NAME',
+    type: CHANGE_FILTER_BY_NAME,
     value: value,
   };
 }

@@ -1,22 +1,23 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { CHANGE_FILTER_BY_NUMERIC_VALUES, DELETE_FILTER_BY_NUMERIC_VALUES } from '../reducers/filtersReducer'
 
 const changeFilterByNumericValues = (event) => {
   const { value, name } = event.target;
   const { id } = event.target.parentNode;
   return {
-    type: 'CHANGE_FILTER_BY_NUMERIC_VALUES',
+    type: CHANGE_FILTER_BY_NUMERIC_VALUES,
     value: value,
     name: name,
-    id: id,
+    id: Number(id),
   };
 }
 
 const cancelFilterByNumericValues = (event) => {
   const { id } = event.target.parentNode;
   return {
-    type: 'CANCEL_FILTER_BY_NUMERIC_VALUES',
-    id: id,
+    type: DELETE_FILTER_BY_NUMERIC_VALUES,
+    id: Number(id),
   };
 }
 
