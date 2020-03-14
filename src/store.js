@@ -84,6 +84,16 @@ const reducer = (state = initialState, action) => {
       //     },
       //   ],
       // };
+    case 'CANCEL_FILTER_BY_NUMERIC_VALUES':
+      return {
+        ...state,
+        filters: state.filters.reduce((acc, item, index) => {
+          if (Number(action.id) === index) {
+            return acc;
+          }
+          return [...acc, item]
+        }, [])
+      };
     default: return state;
   }
 };

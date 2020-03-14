@@ -12,13 +12,21 @@ const changeFilterByNumericValues = (event) => {
   };
 }
 
+const cancelFilterByNumericValues = (event) => {
+  const { id } = event.target.parentNode;
+  return {
+    type: 'CANCEL_FILTER_BY_NUMERIC_VALUES',
+    id: id,
+  };
+}
+
 class FilterNumericValues extends Component {
   constructor(props) {
     super(props);
   }
 
   addFilter(i) {
-    const { arrayColumns, handleChange } = this.props;
+    const { arrayColumns, handleChange, handleClick } = this.props;
     const newArrayColumns = arrayColumns.slice(0, i - 1);
     const allColumns = ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water']
     const columnsRestantes = allColumns.reduce((acc, item) => {
@@ -48,6 +56,7 @@ class FilterNumericValues extends Component {
           <option value="===">equal to</option>
         </select>
         <input type="number" name="value" onChange={handleChange} value={this.props[`valueNumber${i}`]} />
+        <button type="button" name="cancel" onClick={handleClick}>X</button>
       </div>
     );
   }
@@ -109,6 +118,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
   handleChange: function (event) {
     dispatch(changeFilterByNumericValues(event));
+  },
+  handleClick: function (event) {
+    dispatch(cancelFilterByNumericValues(event));
   },
 });
 
