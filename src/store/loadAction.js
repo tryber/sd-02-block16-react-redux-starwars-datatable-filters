@@ -4,7 +4,7 @@ import getEndPointSwAPI from '../service/SwAPI';
 function apiSucess(infos) {
   return {
     type: types.RESULT_TRUE,
-    result: infos,
+    data: infos,
   };
 }
 

@@ -12,7 +12,7 @@ export default function reduce(state = initialState, action) {
       return {
         ...state,
         onSelection: true,
-        data: action.result,
+        data: action.data,
       };
     case types.RESULT_FALSE:
       return {
