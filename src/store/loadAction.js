@@ -16,7 +16,7 @@ function apiFailure(error) {
 }
 
 const resultAPI = () => (
-  dispatch => (
+  (dispatch) => (
     getEndPointSwAPI()
       .then(
         (infos) => dispatch(apiSucess(infos)),
