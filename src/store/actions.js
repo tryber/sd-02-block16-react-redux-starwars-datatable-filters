@@ -16,7 +16,7 @@ function apiFailure(error) {
 }
 
 export default function resultAPI() {
-  return (dispatch) => {
+  return dispatch => {
     return getEndPointSwAPI()
       .then(
         (infos) => dispatch(apiSucess(infos)),

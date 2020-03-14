@@ -2,9 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import resultAPI from '../store/actions';
+import './Table.css';
 
 
 class Table extends Component {
+  constructor(props) {
+    super(props);
+    this.headTable = this.headTable.bind(this);
+    this.cellTable = this.cellTable.bind(this);
+  }
 
   componentDidMount() {
     const { dataAPI } = this.props;
@@ -35,6 +41,7 @@ class Table extends Component {
                   <td key={item}>{item}</td>
                 );
               }
+              return null;
             })}
           </tr>
         </tbody>
@@ -43,12 +50,11 @@ class Table extends Component {
   }
 
   render() {
-    const { state: { reducer: { data: {results: results }, onSelection } } } = this.props;
-    if (!onSelection) return <p>Loading...</p>
+    const { state: { reducer: { data: { results }, onSelection } } } = this.props;
+    if (!onSelection) return <p>Loading...</p>;
     return (
       <div>
-        <p>A esquerda </p>
-        <input />
+        <input type="text" />
         <div>StarWars Datatable with Filters</div>
         <table>
           {this.headTable(results)}
@@ -71,4 +77,5 @@ export default connect(mapStateToProps, mapDispatchToProps)(Table);
 
 Table.propTypes = {
   dataAPI: PropTypes.func.isRequired,
+  state: PropTypes.object.isRequired,
 };
