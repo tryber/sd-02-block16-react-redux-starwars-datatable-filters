@@ -1,7 +1,7 @@
 td , th {
   padding: 1rem;
   text-align: center;
-  text-shadow: 2px 2px 4px #000000;
+  text-shadow: 2px 2px 4px black;
 }
 
 td {

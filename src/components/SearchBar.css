@@ -5,10 +5,10 @@
 
 input {
   background-color: transparent;
-  display: block;
   border: none;
   border-bottom: 1px solid rgb(82, 0, 34);
   color: white;
+  display: block;
   font-size: 1rem;
   padding: 0.8rem 0.8rem 0.8rem 0.3rem;
   width: 300px;
@@ -16,10 +16,10 @@ input {
 
 label {
   color: rgb(170, 0, 71);
-  font-weight: normal;
+  font-weight: 400;
   left: 5px;
-  position: absolute;
   pointer-events: none;
+  position: absolute;
   top: 10px;
   transition: 0.2s ease all;
 }
@@ -36,13 +36,13 @@ input:focus ~ label {
   width: 300px;
 }
 
-.bar:before, .bar:after {
+.bar:before , .bar:after {
   background: rgb(170, 0, 71);
   bottom: 1px;
   content: '';
   height: 2px;
   position: absolute;
-  transition:0.2s ease all;
+  transition: 0.2s ease all;
   width: 0;
 }
 
@@ -54,7 +54,7 @@ input:focus ~ label {
   right: 50%;
 }
 
-input:focus ~ .bar:before, input:focus ~ .bar:after {
+input:focus ~ .bar:before , input:focus ~ .bar:after {
   width: 50%;
 }
 
@@ -73,9 +73,11 @@ input:focus ~ .highlight {
 }
 
 @keyframes inputHighlighter {
+
   from {
     background: rgb(82, 0, 34);
   }
+
   to {
     background: transparent;
     width: 0;
