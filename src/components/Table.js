@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import fetchAPI from '../actions/fetchAPI';
 
 function acertaTitulo(aaa) {
   const palavras = aaa.split('_');
@@ -66,6 +67,11 @@ class Table extends Component {
     super(props);
   }
 
+  componentDidMount() {
+    const { getData } = this.props;
+    getData();
+  }
+
   filterData() {
     const { data, name, column, comparison, value, arrayValues, arrayColumns } = this.props;
 
@@ -129,4 +135,8 @@ const mapStateToProps = (state) => {
   // value: state.filters[1].numericValues.value,
 };
 
-export default connect(mapStateToProps)(Table);
+const mapDispatchToProps = (dispatch) => ({
+  getData: () => dispatch(fetchAPI()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Table);

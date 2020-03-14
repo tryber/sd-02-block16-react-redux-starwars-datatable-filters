@@ -10,7 +10,7 @@ const changeFilterByName = (event) => {
   };
 }
 
-class FilterName extends Component {
+class NameFilter extends Component {
   constructor(props) {
     super(props);
   }
@@ -38,4 +38,4 @@ const mapDispatchToProps = (dispatch) => ({
   }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(FilterName);
+export default connect(mapStateToProps, mapDispatchToProps)(NameFilter);

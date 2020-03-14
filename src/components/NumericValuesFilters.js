@@ -21,7 +21,7 @@ const cancelFilterByNumericValues = (event) => {
   };
 }
 
-class FilterNumericValues extends Component {
+class NumericValuesFilters extends Component {
   constructor(props) {
     super(props);
   }
@@ -125,7 +125,7 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(FilterNumericValues);
+export default connect(mapStateToProps, mapDispatchToProps)(NumericValuesFilters);
 
 {/* <option value="population">Population</option>
           <option value="orbital_period">Orbital Period</option>
