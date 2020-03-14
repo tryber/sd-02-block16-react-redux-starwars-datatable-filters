@@ -7,6 +7,7 @@ const returnFilterData = (state = [], action) => {
   console.log([action]);
   switch (action.type) {
     case FILTER_PLANETS_WITH_NAME:
+      console.log(state);
       return {
         ...state,
         filters: [

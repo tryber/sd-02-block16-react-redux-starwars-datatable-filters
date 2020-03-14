@@ -30,9 +30,20 @@ const requestSwapiFailure = (error) => ({
   error,
 });
 
-export const columnValue = () => (console.log('olá'));
-export const comparativeValue = () => (console.log('olá'));
-export const numberValue = () => (console.log('olá'));
+export const columnValue = (value) => ({
+  type: SELECT_COLUMN_FILTER,
+  column: value,
+});
+
+export const comparativeValue = (value) => ({
+  type: SELECT_COMPARISON_VALUE,
+  comparative: value,
+});
+
+export const numberValue = (value) => ({
+  type: SELECT_NUMBER_FILTER_VALUE,
+  numberFilter: value,
+});
 
 export const filterPlanetsWithName = (planetsData, userValue) => ({
   type: FILTER_PLANETS_WITH_NAME,

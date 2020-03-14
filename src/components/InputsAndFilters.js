@@ -26,8 +26,6 @@ const comparativeValues = [
   'equal_to',
 ];
 
-
-
 class InputsAndFilters extends React.Component {
   render() {
     const {
@@ -99,6 +97,9 @@ InputsAndFilters.propTypes = {
     url: PropTypes.string,
   })),
   dispatchFilter: PropTypes.func.isRequired,
+  dispatchColumns: PropTypes.func.isRequired,
+  dispatchComparative: PropTypes.func.isRequired,
+  dispatchNumber: PropTypes.func.isRequired,
 };
 
 InputsAndFilters.defaultProps = {
