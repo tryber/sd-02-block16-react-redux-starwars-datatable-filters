@@ -25,15 +25,16 @@ class Table extends Component {
       <thead>
         <tr>
           {Object.keys(resultsByName[0] || []).map((keys) => {
-            if (keys !== 'residents') {
+            if (keys !== 'residents' && keys !== 'films' && keys !== 'url') {
               return (
                 <th className="table-index-content" key={keys}>
                   <button
+                    className="title-button"
                     type="button"
                     value={keys}
                     onClick={(e) => setAscendingColumn(e, order)}
                   >
-                    {keys}
+                    {keys.toUpperCase()}
                   </button>
                 </th>
               );
@@ -47,13 +48,15 @@ class Table extends Component {
 
   tableBody(resultsByName) {
     this.residentsIndex = Object.keys(resultsByName[0] || []).findIndex((element) => element === 'residents');
+    this.filmsIndex = Object.keys(resultsByName[0] || []).findIndex((element) => element === 'films');
+    this.urlIndex = Object.keys(resultsByName[0] || []).findIndex((element) => element === 'url');
 
     return (
       resultsByName.map((elements) => (
         <tbody key={elements.name}>
           <tr>
             {Object.values(elements).map((values, i) => {
-              if (i !== this.residentsIndex) {
+              if (i !== this.residentsIndex && i !== this.filmsIndex && i !== this.urlIndex) {
                 return (
                   <td className="table-values-content" key={values}>{values}</td>
                 );

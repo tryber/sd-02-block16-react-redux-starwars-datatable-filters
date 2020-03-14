@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import './Selectors.css';
 
 import { setSessionStorage } from '../store/actions/selectors';
 
@@ -18,18 +19,20 @@ const Selectors = (
   }
   return (
     <div id="select_content">
-      <select id="values" onChange={(e) => setSelectedValues(e, i)}>
-        {
-          i === 0
-            ? <option value="">Todos</option>
-            : <option value="">Escolha um comparador</option>
-        }
-        {
-          selects.map((value) => (filtersColumns.includes(value)
-            ? null
-            : <option value={value} key={value}>{value}</option>))
-        }
-      </select>
+      <div className="select">
+        <select id="values" className="custom-select" onChange={(e) => setSelectedValues(e, i)}>
+          {
+            i === 0
+              ? <option value="">Todos</option>
+              : <option value="">Escolha um comparador</option>
+          }
+          {
+            selects.map((value) => (filtersColumns.includes(value)
+              ? null
+              : <option value={value} key={value}>{value}</option>))
+          }
+        </select>
+      </div>
       {i === 1 ? <input type="number" placeholder="Digite um valor numerico" onChange={(e) => setSelectedValues(e, 2)} /> : ''}
     </div>
   );

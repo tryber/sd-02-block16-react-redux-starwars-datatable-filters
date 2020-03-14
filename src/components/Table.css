@@ -1,10 +1,12 @@
 caption {
-  font-size: 50px;
+  color: black;
+  font-size: 60px;
   font-weight: 800;
   padding: 20px;
+  text-shadow: -1px 0 rgb(241, 194, 40), 0 1px rgb(241, 194, 40), 1px 0 rgb(241, 194, 40), 0 -1px rgb(241, 194, 40);
 }
 
-.table-content {
+/* .table-content {
   width: 100%;
 }
 
@@ -14,8 +16,43 @@ table , th , td {
 
 td , th {
   padding: 15px;
-}
+} */
 
 .table-values-content {
   text-align: center;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse; 
+}
+
+tr:nth-of-type(odd) { 
+  background: black; 
+}
+th { 
+  background: #333; 
+  color: white; 
+  font-weight: bold;
+  height: 40px;
+}
+
+td {
+  color: rgb(241, 194, 40);
+  height: 50px;
+}
+
+td, th { 
+  padding: 6px; 
+  border: 1px solid rgb(204, 204, 204); 
+  text-align: center;
+}
+
+.title-button {
+  font-size: 20px;
+  background-color: transparent;
+  border: none;
+  color:  rgb(241, 194, 40);
+  cursor: pointer;
+  width: 100%;
 }
