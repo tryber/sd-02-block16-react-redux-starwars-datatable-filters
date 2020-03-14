@@ -16,11 +16,29 @@ class Table extends Component {
       <thead>
         <tr>
           {Object.keys(results[0]).map((result) => ((result !== 'residents')
-            ? <th className="tableHeader" key={result}>{result}</th>
+            ? <th className="headTable" key={result}>{result.replace(/_/g, ' ')}</th>
             : null))
           }
         </tr>
       </thead>
+    );
+  }
+
+  cellTable(results) {
+    return (
+      results.map((result) => (
+        <tbody key={result.name}>
+          <tr>
+            {Object.values(result).map((item, index) => {
+              if (index !== 9) {
+                return (
+                  <td key={item}>{item}</td>
+                );
+              }
+            })}
+          </tr>
+        </tbody>
+      ))
     );
   }
 
@@ -34,6 +52,7 @@ class Table extends Component {
         <div>StarWars Datatable with Filters</div>
         <table>
           {this.headTable(results)}
+          {this.cellTable(results)}
         </table>
       </div>
     );
