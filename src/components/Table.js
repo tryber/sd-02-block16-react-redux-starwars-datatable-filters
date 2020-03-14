@@ -8,12 +8,10 @@ class Table extends Component {
   componentDidMount() {
     const { callFetchPlanets } = this.props;
     callFetchPlanets();
-    console.log(this.props);
   }
 
   tableHead() {
     const { data } = this.props;
-    console.log(data);
     return (
       <thead>
         <tr>
@@ -28,9 +26,13 @@ class Table extends Component {
   }
 
   tableData() {
-    const { data } = this.props;
+    const { data, name } = this.props;
+    const planets = [...data];
+    const filterPlanet = planets.filter(
+      (planet) => planet.name.toLowerCase().includes(name.toLowerCase()),
+    );
     return (
-      data.map((info) => (
+      filterPlanet.map((info) => (
         <tbody key={info.name}>
           <tr>
             {Object.values(info).map((body, idx) => {
@@ -62,14 +64,9 @@ class Table extends Component {
 }
 
 const mapStateToProps = ({
-  reducerPlanets: {
-    data, isFetching,
-  },
-}) => (
-  {
-    data, isFetching,
-  }
-);
+  reducerPlanets: { data, isFetching },
+  allFilters: { filters: [{ name }] },
+}) => ({ data, isFetching, name });
 
 const mapDispatchToProps = (dispatch) => ({
   callFetchPlanets: () => dispatch(fetchPlanets()),
@@ -78,6 +75,7 @@ const mapDispatchToProps = (dispatch) => ({
 Table.propTypes = {
   callFetchPlanets: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
+  name: PropTypes.string.isRequired,
   data: PropTypes.instanceOf(Array),
 };
 

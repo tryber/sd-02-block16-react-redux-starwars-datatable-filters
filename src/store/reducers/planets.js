@@ -8,23 +8,9 @@ const INITIAL_STATE = {
   isFetching: false,
   data: [],
   error: '',
-  filters: [
-    {
-      name: '',
-    },
-    {
-      numeric_values:
-      {
-        column: '',
-        comparison: '',
-        value: 0,
-      },
-    },
-  ],
 };
 
 const reducerPlanets = (state = INITIAL_STATE, action) => {
-  console.log(action);
   switch (action.type) {
     case REQUEST_PLANETS:
       return {
