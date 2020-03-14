@@ -1,7 +1,7 @@
 import { SEARCH_BY_NAME, SEARCH_BY_NUMBER } from '../actions';
 
 const INITIAL_FILTER = {
-  resultsByName: [],
+  filteredResults: [],
   filters: [
     {
       name: '',
@@ -21,18 +21,21 @@ const filterPlanets = (state = INITIAL_FILTER, action) => {
     case SEARCH_BY_NAME:
       return {
         ...state,
-        resultsByName: action.results,
+        filteredResults: action.results,
         filters: [
           { name: action.text },
         ],
       };
     case SEARCH_BY_NUMBER:
+      // console.log(action.results)
       return {
         ...state,
-        resultsByNumber: action.results,
+        filteredResults: action.results,
         filters: [
           {
             ...state.filters[0],
+          },
+          {
             numericValues: {
               column: action.column,
               comparison: action.comparison,

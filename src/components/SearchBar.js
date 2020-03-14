@@ -29,11 +29,11 @@ class SearchBar extends Component {
 const mapStateToProps = (
   {
     data: { results, isFetching },
-    SearchFilters: { resultsByName },
+    SearchFilters: { filteredResults },
   },
 ) => ({
   results,
-  resultsByName,
+  filteredResults,
   isFetching,
 });
 

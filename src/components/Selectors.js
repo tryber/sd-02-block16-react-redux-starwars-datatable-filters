@@ -5,13 +5,6 @@ import { searchByNumber } from '../actions';
 
 
 class Selectors extends Component {
-  static searchByNumberCalculator(column, comparison, value) {
-    if (comparison === /Maior que/i) return `${column} > ${value}`;
-    if (comparison === /Menor que/i) return `${column} < ${value}`;
-    if (comparison === /Igual a/i) return `${column} === ${value}`;
-    return false;
-  }
-
   constructor(props) {
     super(props);
 
@@ -19,7 +12,9 @@ class Selectors extends Component {
   }
 
   onClickHandler() {
-
+    const { searchPlanetsByNumber } = this.props;
+    const { results } = this.props;
+    searchPlanetsByNumber('population', 'Maior que', 1000000000, results);
   }
 
   render() {
@@ -45,8 +40,12 @@ class Selectors extends Component {
   }
 }
 
-const mapStateToProps = ({ re }) => ({
-
+const mapStateToProps = ({
+  data: { results },
+  SearchFilters: { filteredResults },
+}) => ({
+  results,
+  filteredResults,
 });
 
 const mapDispatchToProps = (dispatch) => ({

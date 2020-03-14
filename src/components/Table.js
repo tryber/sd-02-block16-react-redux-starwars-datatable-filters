@@ -13,21 +13,8 @@ class Table extends Component {
     getSWAPIPlanets();
   }
 
-  onChangeHandler(event) {
-    const { searchPlanetsByName } = this.props;
-    let { results } = this.props;
-    const text = event.target.value.toLowerCase();
-    searchPlanetsByName(text, results);
-    results = searchPlanetsByName(text, results).results;
-  }
-
   render() {
-    const {
-      results,
-      resultsByName,
-      isFetching,
-    } = this.props;
-
+    const { results, filteredResults, isFetching } = this.props;
     if (isFetching) return <div>Carregando tabela e filtros...</div>;
     return (
       <div>
@@ -40,8 +27,8 @@ class Table extends Component {
             </tr>
           </thead>
           <tbody>
-            {resultsByName.length
-              ? resultsByName.map((planet) => (
+            {filteredResults.length
+              ? filteredResults.map((planet) => (
                 <tr>
                   {Object.entries(planet).map(([key, value]) => (key === 'residents' ? false : <td>{value}</td>))}
                 </tr>
@@ -62,23 +49,23 @@ Table.propTypes = {
   getSWAPIPlanets: PropTypes.func.isRequired,
   results: PropTypes.instanceOf(Array),
   searchPlanetsByName: PropTypes.func.isRequired,
-  resultsByName: PropTypes.instanceOf(Array),
+  filteredResults: PropTypes.instanceOf(Array),
   isFetching: PropTypes.bool.isRequired,
 };
 
 Table.defaultProps = {
   results: [],
-  resultsByName: [],
+  filteredResults: [],
 };
 
 const mapStateToProps = (
   {
     data: { results, isFetching },
-    SearchFilters: { resultsByName },
+    SearchFilters: { filteredResults },
   },
 ) => ({
   results,
-  resultsByName,
+  filteredResults,
   isFetching,
 });
 
