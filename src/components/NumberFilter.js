@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 class NumberFilter extends React.Component {
   static buttonExclude(filters, exclude) {
     return (
-      (filters[0]) ? filters.map(({ numericValues }) => (
+      (filters[0].numericValues.column !== '') ? filters.map(({ numericValues }) => (
         <div key={numericValues.column}>
           <p>{`${numericValues.column} ${numericValues.comparison} ${numericValues.value}`}</p>
           <button

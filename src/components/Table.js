@@ -15,7 +15,26 @@ function compareValue(array, param, filters) {
     return param.filter((ele) => (Number(ele[array.numericValues.column]) === Number(value) && ele.name.match(new RegExp(filters[0].name, 'i'))));
   } return param;
 }
-
+function imprimeChaves(data, Sort) {
+  return (data[0])
+    ? Object.keys(data[0]).map((ele) => {
+      if (ele !== 'residents') {
+        return (
+          <td key={ele}>
+            <button
+              className="buttonTd"
+              type="button"
+              onClick={() => Sort(ele)}
+            >
+              {ele}
+            </button>
+          </td>
+        );
+      }
+      return null;
+    })
+    : null;
+}
 class Table extends React.Component {
   componentDidMount() {
     const { getPlanets } = this.props;
@@ -36,24 +55,7 @@ class Table extends React.Component {
         <caption>STAR WARS PLANETS</caption>
         <thead>
           <tr>
-            {(data[0])
-              ? Object.keys(data[0]).map((ele) => {
-                if (ele !== 'residents') {
-                  return (
-                    <td key={ele}>
-                      <button
-                        className="buttonTd"
-                        type="button"
-                        onClick={() => Sort(ele)}
-                      >
-                        {ele}
-                      </button>
-                    </td>
-                  );
-                }
-                return null;
-              })
-              : null}
+            {imprimeChaves(data, Sort)}
           </tr>
         </thead>
         <tbody>
