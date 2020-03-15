@@ -12,7 +12,7 @@ function verificaEntradasVazias(array) {
 }
 
 class NumericValuesFilters extends Component {
-  addFilter(i) {
+  addFilter(i, key) {
     const { arrayColumns, handleChange, handleClick } = this.props;
 
     const newArrayColumns = arrayColumns.slice(0, i - 1);
@@ -20,7 +20,7 @@ class NumericValuesFilters extends Component {
     const columnsRestantes = allColumns.filter((item) => !newArrayColumns.includes(item));
 
     return (
-      <div id={i} className="filter">
+      <div id={i} className="filter" key={key}>
         <select name="column" onChange={handleChange} value={this.props[`valueSelectedColumn${i}`]}>
           <option value="" disabled>Select column</option>
           {columnsRestantes.map((item) => (
@@ -47,7 +47,7 @@ class NumericValuesFilters extends Component {
     if (verificaEntradasVazias(arrayValues) && verificaEntradasVazias(arrayColumns)) {
       filters = (
         <div>
-          {arrayValues.map((item, i) => this.addFilter(i + 1))}
+          {arrayValues.map((item, i) => this.addFilter(i + 1, item))}
         </div>
       );
     } else {

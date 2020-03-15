@@ -66,32 +66,27 @@ class Table extends Component {
     const dataTable = this.filterData();
     let keysPlanet = Object.keys(dataTable[0]);
     const indexResidents = keysPlanet.indexOf('residents');
-    // keysPlanet.splice(indexResidents, 1);
     keysPlanet = keysPlanet.slice(0, indexResidents);
 
     return (
       <div>
         <table>
-          <tr>
-            {keysPlanet.map((key) => <th>{acertaTexto(key)}</th>)}
-          </tr>
-          {dataTable.map((planet) => {
-            let valuesPlanet = Object.values(planet);
-            // valuesPlanet.splice(indexResidents, 1);
-            valuesPlanet = valuesPlanet.slice(0, indexResidents);
-            return (
-              <tr>
-                {valuesPlanet.map((valueColumn) => <td>{valueColumn}</td>)}
-                 {
-                //   if (Array.isArray(valueColumn)) {
-                //     return <td>{valueColumn.map((item) => <div>{item}</div>)}</td>;
-                //   }
-                //   return <td>{valueColumn}</td>;
-                // })}
-              }
-              </tr>
-            );
-          })}
+          <thead>
+            <tr>
+              {keysPlanet.map((key, i) => <th key={`${key}${i}`}>{acertaTexto(key)}</th>)}
+            </tr>
+          </thead>
+          <tbody>
+            {dataTable.map((planet, i) => {
+              let valuesPlanet = Object.values(planet);
+              valuesPlanet = valuesPlanet.slice(0, indexResidents);
+              return (
+                <tr key={`${planet}${i}`}>
+                  {valuesPlanet.map((valueColumn, i) => <td key={`${valueColumn}${i}`}>{valueColumn}</td>)}
+                </tr>
+              );
+            })}
+          </tbody>
         </table>
       </div>
     );
