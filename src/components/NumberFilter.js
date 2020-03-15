@@ -72,7 +72,13 @@ class NumberFilter extends React.Component {
         {(filters[0]) ? filters.map(({ numericValues }) => (
           <div key={numericValues.column}>
             <p>{`${numericValues.column} ${numericValues.comparison} ${numericValues.value}`}</p>
-            <button value={numericValues.column} onClick={({ target }) => exclude(target.value)} type="button">Exclude</button>
+            <button
+              value={numericValues.column}
+              onClick={({ target }) => exclude(target.value)}
+              type="button"
+            >
+              Exclude
+            </button>
           </div>
         )) : null}
       </div>
