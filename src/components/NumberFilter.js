@@ -52,7 +52,7 @@ class NumberFilter extends React.Component {
     const {
       filtred, filters, arrayFilter, exclude,
     } = this.props;
-    const { comparison, column } = this.state;
+    const { comparison, column, value } = this.state;
     return (
       <div>
         {this.select(arrayFilter)}
