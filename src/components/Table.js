@@ -23,7 +23,7 @@ class Table extends React.Component {
   }
 
   render() {
-    const { api: { data, filters, loading }, filter: { filters: results } } = this.props;
+    const { api: { data, filters, loading }, filter: { filters: results }, Sort } = this.props;
     let filtredResult = data;
     if (loading) return <Loading />;
     if (results[0]) {
@@ -38,7 +38,19 @@ class Table extends React.Component {
           <tr>
             {(data[0])
               ? Object.keys(data[0]).map((ele) => {
-                if (ele !== 'residents') return (<td key={ele}>{ele}</td>);
+                if (ele !== 'residents') {
+                  return (
+                    <td key={ele}>
+                      <button
+                        className="buttonTd"
+                        type="button"
+                        onClick={() => Sort(ele)}
+                      >
+                        {ele}
+                      </button>
+                    </td>
+                  );
+                }
                 return null;
               })
               : null}
@@ -55,6 +67,7 @@ const mapStateToProps = ({ api, filter }) => ({ api, filter });
 
 const mapDispatchToProps = (dispatch) => ({
   getPlanets: () => dispatch(fetchSWplanets()),
+  Sort: (value) => dispatch({ type: 'SORT', value }),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Table);
 

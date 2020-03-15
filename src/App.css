@@ -1,3 +1,15 @@
 .App {
   text-align: center;
 }
+
+.buttonTd {
+  background: #ffffff;
+  border-color: #ccc;
+  border-style: none;
+  box-shadow: none;
+}
+
+.buttonTd:hover {
+  cursor: pointer;
+  background-color: blue;
+}
