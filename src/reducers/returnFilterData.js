@@ -1,25 +1,32 @@
 import {
   FILTER_PLANETS_WITH_NAME,
   FILTER_PLANETS_WITH_NUMBER,
+  SELECT_COLUMN_FILTER,
 } from '../actions';
 
-const returnFilterData = (state = [], action) => {
-  console.log([action]);
+const INITIAL_STATE = {
+  filters: [
+    {
+      name: '',
+    },
+    {
+      numericValues: {
+        column: '',
+        comparison: '',
+        value: '',
+      },
+    },
+  ],
+};
+
+const returnFilterData = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case FILTER_PLANETS_WITH_NAME:
       console.log(state);
       return {
-        ...state,
         filters: [
           {
             name: action.name,
-          },
-          {
-            numericValues: {
-              column: '',
-              comparison: '',
-              value: '',
-            },
           },
         ],
         filteredData: action.filterData,
@@ -29,6 +36,11 @@ const returnFilterData = (state = [], action) => {
         ...state,
         filters: [action.filters],
       };
+
+    case SELECT_COLUMN_FILTER:
+      console.log([...state.filters]);
+      return { ...state };
+
     default: return state;
   }
 };
