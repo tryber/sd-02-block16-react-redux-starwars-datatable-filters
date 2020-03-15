@@ -3,6 +3,23 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 class NumberFilter extends React.Component {
+  static buttonExclude(filters, exclude) {
+    return (
+      (filters[0]) ? filters.map(({ numericValues }) => (
+        <div key={numericValues.column}>
+          <p>{`${numericValues.column} ${numericValues.comparison} ${numericValues.value}`}</p>
+          <button
+            value={numericValues.column}
+            onClick={({ target }) => exclude(target.value)}
+            type="button"
+          >
+            Exclude
+          </button>
+        </div>
+      )) : null
+    )
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -69,18 +86,7 @@ class NumberFilter extends React.Component {
         >
           Filter
         </button>
-        {(filters[0]) ? filters.map(({ numericValues }) => (
-          <div key={numericValues.column}>
-            <p>{`${numericValues.column} ${numericValues.comparison} ${numericValues.value}`}</p>
-            <button
-              value={numericValues.column}
-              onClick={({ target }) => exclude(target.value)}
-              type="button"
-            >
-              Exclude
-            </button>
-          </div>
-        )) : null}
+        {NumberFilter.buttonExclude(filters, exclude)}
       </div>
     );
   }

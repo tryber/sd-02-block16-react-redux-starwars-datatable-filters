@@ -4,9 +4,9 @@
   animation-name: aumentaTamanho;
   animation-timing-function: steps(50);
 }
-  
+
 @keyframes aumentaTamanho {
-  
+
   0% {
     opacity: 0;
   }
