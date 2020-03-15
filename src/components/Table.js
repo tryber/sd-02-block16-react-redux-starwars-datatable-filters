@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchPlanets } from '../store/actions';
+import { fetchPlanets } from '../actions';
 import './Table.css';
 
 class Table extends Component {
@@ -26,8 +26,8 @@ class Table extends Component {
   }
 
   tableData() {
-    const { data, name } = this.props;
-    const planets = [...data];
+    const { filteredData, name } = this.props;
+    const planets = [...filteredData];
     const filterPlanet = planets.filter(
       (planet) => planet.name.toLowerCase().includes(name.toLowerCase()),
     );
@@ -64,9 +64,9 @@ class Table extends Component {
 }
 
 const mapStateToProps = ({
-  reducerPlanets: { data, isFetching },
+  reducerPlanets: { data, filteredData, isFetching },
   allFilters: { filters: [{ name }] },
-}) => ({ data, isFetching, name });
+}) => ({ data, filteredData, isFetching, name });
 
 const mapDispatchToProps = (dispatch) => ({
   callFetchPlanets: () => dispatch(fetchPlanets()),
@@ -77,10 +77,12 @@ Table.propTypes = {
   isFetching: PropTypes.bool.isRequired,
   name: PropTypes.string.isRequired,
   data: PropTypes.instanceOf(Array),
+  filteredData: PropTypes.instanceOf(Array),
 };
 
 Table.defaultProps = {
   data: [],
+  filteredData: [],
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Table);

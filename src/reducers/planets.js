@@ -2,11 +2,13 @@ import {
   REQUEST_PLANETS,
   REQUEST_PLANETS_SUCCESS,
   REQUEST_PLANETS_FAILURE,
+  CHANGE_FILTER,
 } from '../actions';
 
 const INITIAL_STATE = {
   isFetching: false,
   data: [],
+  filteredData: [],
   error: '',
 };
 
@@ -20,15 +22,22 @@ const reducerPlanets = (state = INITIAL_STATE, action) => {
     case REQUEST_PLANETS_SUCCESS:
       return {
         ...state,
-        isFetching: false,
         data: action.swAPIInfo,
+        filteredData: action.filtered,
+        isFetching: false,
       };
     case REQUEST_PLANETS_FAILURE:
       return {
         ...state,
-        isFetching: false,
         error: action.error,
+        isFetching: false,
       };
+    case CHANGE_FILTER: {
+      return {
+        ...state,
+        filteredData: action.array,
+      };
+    }
     default: return state;
   }
 };
