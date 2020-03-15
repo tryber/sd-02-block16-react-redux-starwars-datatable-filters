@@ -73,16 +73,16 @@ class Table extends Component {
         <table>
           <thead>
             <tr>
-              {keysPlanet.map((key, i) => <th key={`${key}${i}`}>{acertaTexto(key)}</th>)}
+              {keysPlanet.map((key) => <th key={key}>{acertaTexto(key)}</th>)}
             </tr>
           </thead>
           <tbody>
-            {dataTable.map((planet, i) => {
+            {dataTable.map((planet) => {
               let valuesPlanet = Object.values(planet);
               valuesPlanet = valuesPlanet.slice(0, indexResidents);
               return (
-                <tr key={`${planet}${i}`}>
-                  {valuesPlanet.map((valueColumn, i) => <td key={`${valueColumn}${i}`}>{valueColumn}</td>)}
+                <tr key={planet.name}>
+                  {valuesPlanet.map((valueColumn) => <td key={valueColumn}>{valueColumn}</td>)}
                 </tr>
               );
             })}
