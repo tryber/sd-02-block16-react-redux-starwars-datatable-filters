@@ -42,8 +42,16 @@ function sortAvaliable({ filters, data }, { value }) {
 
 const store = (state = defaultState, action) => {
   switch (action.type) {
-    case 'SUCCESS':
-      return { ...state, data: action.results, loading: false };
+    case 'SUCCESS': {
+      return {
+        ...state,
+        data: action.results.sort((elementoA, elementB) => ((elementoA.name)
+          > (elementB.name) ? 1
+          : -1)),
+        filters: [{ ...state.filters[0], order: 'DESC' }],
+        loading: false,
+      };
+    }
     case 'FAILURE':
       return { error: action.error };
     case 'NAMEFILTER':
