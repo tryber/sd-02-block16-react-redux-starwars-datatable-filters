@@ -22,7 +22,7 @@ function sortName({ order }, data, value) {
     : -1)));
 }
 
-function sortAvaliable({ filters, data }, { value }) {
+function sortAvaliable(filters, data, value) {
   let result = [];
   const arrAux = ['rotation_period', 'orbital_period', 'diameter', 'surface_water', 'population', 'created', 'edited'];
   if (filters[0].order === 'ASC' && (arrAux.some((ele) => ele === value))) {
@@ -45,9 +45,7 @@ const store = (state = defaultState, action) => {
     case 'SUCCESS': {
       return {
         ...state,
-        data: action.results.sort((elementoA, elementB) => ((elementoA.name)
-          > (elementB.name) ? 1
-          : -1)),
+        data: sortAvaliable(state.filters, action.results, 'name'),
         filters: [{ ...state.filters[0], order: 'DESC' }],
         loading: false,
       };
@@ -59,7 +57,7 @@ const store = (state = defaultState, action) => {
         ...state, filters: [{ name: action.name }],
       };
     case 'SORT': {
-      const arr = sortAvaliable(state, action);
+      const arr = sortAvaliable(state.filters, state.data, action.value);
       const filt = state.filters[0];
       filt.order = (state.filters[0].order === 'ASC') ? 'DESC' : 'ASC';
       filt.column = action.value;
