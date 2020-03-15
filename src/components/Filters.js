@@ -151,6 +151,7 @@ Filters.propTypes = {
   passingColumn: PropTypes.func.isRequired,
   passingComparison: PropTypes.func.isRequired,
   passingValue: PropTypes.func.isRequired,
+  fireFilters: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   column: PropTypes.string.isRequired,
   comparison: PropTypes.string.isRequired,
