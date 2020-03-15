@@ -1,19 +1,28 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import './App.css';
 
 import Table from './components/Table';
 import NameFilter from './components/NameFilter';
 import NumericValuesFilters from './components/NumericValuesFilters';
 
-function App() {
-  return (
-    <div className="App">
-      <h1>StarWars Datatable with Filters</h1>
-      <NameFilter />
-      <NumericValuesFilters />
-      <Table />
-    </div>
-  );
+class App extends Component {
+  render() {
+    const { isLoading } = this.props;
+    return (
+      <div className="App">
+        <h1>StarWars Datatable with Filters</h1>
+        {isLoading && 'Loading...'}
+        {!isLoading && <NameFilter />}
+        {!isLoading && <NumericValuesFilters />}
+        <Table />
+      </div>
+    );
+  }
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  isLoading: state.data.length <= 1,
+});
+
+export default connect(mapStateToProps)(App);

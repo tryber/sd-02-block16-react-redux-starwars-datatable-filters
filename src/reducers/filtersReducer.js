@@ -32,7 +32,7 @@ const filtersReducer = (state = initialState, action) => {
             ...state[action.id].numericValues,
             [action.name]: action.value,
           },
-        }
+        },
       );
       return state.concat(
         action.id === state.length - 1 && action.id < 5
