@@ -24,7 +24,7 @@ function comparaValores(arg1, arg2, comparison) {
 }
 
 function filterDataByName(data, name) {
-  const newData = data.filter((item) => item.name.includes(name));
+  const newData = data.filter((item) => item.name.toUpperCase().includes(name.toUpperCase()));
 
   if (newData.length === 0) {
     return [{}];
