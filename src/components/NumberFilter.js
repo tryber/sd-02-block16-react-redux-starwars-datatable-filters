@@ -59,8 +59,10 @@ class NumberFilter extends React.Component {
         {this.selectAndInput()}
         <button
           onClick={() => {
-            filtred(this.state, arrayFilter.filter((ele) => ele !== column));
-            this.setState({ column: '', comparison: '', value: '' });
+            if (value) {
+              filtred(this.state, arrayFilter.filter((ele) => ele !== column));
+              this.setState({ column: '', comparison: '', value: '' });
+            }
           }}
           type="button"
           disabled={(comparison) ? false : !false}
