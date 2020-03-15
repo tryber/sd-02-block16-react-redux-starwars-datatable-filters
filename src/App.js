@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import './App.css';
 
 import Table from './components/Table';
@@ -20,6 +21,10 @@ class App extends Component {
     );
   }
 }
+
+App.propTypes = {
+  isLoading: PropTypes.bool.isRequired,
+};
 
 const mapStateToProps = (state) => ({
   isLoading: state.data.length <= 1,

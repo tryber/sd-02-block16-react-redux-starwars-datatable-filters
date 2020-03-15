@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import fetchAPI from '../actions/fetchAPI';
 
-function acertaTitulo(aaa) {
-  const palavras = aaa.split('_');
+export function acertaTexto(texto) {
+  const palavras = texto.split('_');
   const palavrasCapitalizadas = palavras.map((palavra) => `${palavra[0].toUpperCase()}${palavra.substr(1)}`);
   const titulo = palavrasCapitalizadas.join(' ');
   return titulo;
@@ -64,27 +64,31 @@ class Table extends Component {
 
   render() {
     const dataTable = this.filterData();
-    const keysPlanet = Object.keys(dataTable[0]);
+    let keysPlanet = Object.keys(dataTable[0]);
     const indexResidents = keysPlanet.indexOf('residents');
-    keysPlanet.splice(indexResidents, 1);
+    // keysPlanet.splice(indexResidents, 1);
+    keysPlanet = keysPlanet.slice(0, indexResidents);
 
     return (
       <div>
         <table>
           <tr>
-            {keysPlanet.map((key) => <th>{acertaTitulo(key)}</th>)}
+            {keysPlanet.map((key) => <th>{acertaTexto(key)}</th>)}
           </tr>
           {dataTable.map((planet) => {
-            const valuesPlanet = Object.values(planet);
-            valuesPlanet.splice(indexResidents, 1);
+            let valuesPlanet = Object.values(planet);
+            // valuesPlanet.splice(indexResidents, 1);
+            valuesPlanet = valuesPlanet.slice(0, indexResidents);
             return (
               <tr>
-                {valuesPlanet.map((valueColumn) => {
-                  if (Array.isArray(valueColumn)) {
-                    return <td>{valueColumn.map((item) => <div>{item}</div>)}</td>;
-                  }
-                  return <td>{valueColumn}</td>;
-                })}
+                {valuesPlanet.map((valueColumn) => <td>{valueColumn}</td>)}
+                 {
+                //   if (Array.isArray(valueColumn)) {
+                //     return <td>{valueColumn.map((item) => <div>{item}</div>)}</td>;
+                //   }
+                //   return <td>{valueColumn}</td>;
+                // })}
+              }
               </tr>
             );
           })}

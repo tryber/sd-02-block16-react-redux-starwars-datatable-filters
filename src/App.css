@@ -7,6 +7,32 @@ table {
   margin: 8px;
 }
 
-th, td {
-  border: 2px solid black;
+th {
+  padding: 25px;
+}
+
+td {
+  padding: 20px;
+}
+
+input, select {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  sans-serif;
+  background: transparent;
+  border: transparent;
+  color: #808080;
+  margin: 15px;
+  width: 120px;
+  font-size: 15px;
+}
+
+button {
+  background: transparent;
+  border: transparent;
+  color: red;
+}
+
+.filter {
+  display: flex;
 }

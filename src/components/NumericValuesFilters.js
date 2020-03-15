@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import changeNumericValuesFilters from '../actions/changeNumericValuesFilters';
 import deleteNumericValuesFilters from '../actions/deleteNumericValuesFilters';
+import { acertaTexto } from './Table';
 
 function verificaEntradasVazias(array) {
   return array.every((item, index) => (
@@ -19,11 +20,11 @@ class NumericValuesFilters extends Component {
     const columnsRestantes = allColumns.filter((item) => !newArrayColumns.includes(item));
 
     return (
-      <div id={i}>
+      <div id={i} className="filter">
         <select name="column" onChange={handleChange} value={this.props[`valueSelectedColumn${i}`]}>
           <option value="" disabled>Select column</option>
           {columnsRestantes.map((item) => (
-            <option key={item} value={item}>{item}</option>
+            <option key={item} value={item}>{acertaTexto(item)}</option>
           ))}
         </select>
         <select name="comparison" onChange={handleChange} value={this.props[`valueSelectedComparison${i}`]}>
@@ -31,7 +32,7 @@ class NumericValuesFilters extends Component {
           <option value="<">less than</option>
           <option value="===">equal to</option>
         </select>
-        <input type="number" name="value" onChange={handleChange} value={this.props[`valueNumber${i}`]} />
+        <input type="number" placeholder="Enter a number" name="value" onChange={handleChange} value={this.props[`valueNumber${i}`]} />
         <button type="button" onClick={handleClick}>X</button>
       </div>
     );

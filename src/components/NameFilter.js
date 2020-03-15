@@ -7,8 +7,9 @@ class NameFilter extends Component {
   render() {
     const { valueInput, handleChange } = this.props;
     return (
-      <div>
+      <div className="filter">
         <input
+          placeholder="Search by name"
           value={valueInput}
           onChange={handleChange}
         />
