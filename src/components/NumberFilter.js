@@ -17,7 +17,7 @@ class NumberFilter extends React.Component {
           </button>
         </div>
       )) : null
-    )
+    );
   }
 
   constructor(props) {
