@@ -30,6 +30,13 @@ const store = (state = defaultState, action) => {
           arrayFilter: action.arrayFilter,
           filters: [...state.filters, criaObj(action.obj)],
         };
+    case 'EXCLUDE': {
+      const arr = state.filters.filter((ele) => ele.numericValues.column !== action.value);
+      const arr2 = [...state.arrayFilter, action.value];
+      return {
+        ...state, filters: (arr.length === 0) ? defaultState.filters : arr, arrayFilter: arr2,
+      };
+    }
     default: return state;
   }
 };

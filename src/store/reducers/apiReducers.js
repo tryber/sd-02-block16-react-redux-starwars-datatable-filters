@@ -1,6 +1,7 @@
 const defaultState = {
   data: [],
   error: '',
+  loading: true,
   filters: [
     {
       name: '',
@@ -11,7 +12,7 @@ const defaultState = {
 const store = (state = defaultState, action) => {
   switch (action.type) {
     case 'SUCCESS':
-      return { ...state, data: action.results };
+      return { ...state, data: action.results, loading: false };
     case 'FAILURE':
       return { error: action.error };
     case 'NAMEFILTER':

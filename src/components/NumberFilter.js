@@ -49,7 +49,9 @@ class NumberFilter extends React.Component {
   }
 
   render() {
-    const { filtred, filters, arrayFilter } = this.props;
+    const {
+      filtred, filters, arrayFilter, exclude,
+    } = this.props;
     const { comparison, column } = this.state;
     return (
       <div>
@@ -65,10 +67,10 @@ class NumberFilter extends React.Component {
         >
           Filter
         </button>
-        {(filters[0].numericValues.column) ? filters.map(({ numericValues }) => (
+        {(filters[0]) ? filters.map(({ numericValues }) => (
           <div key={numericValues.column}>
             <p>{`${numericValues.column} ${numericValues.comparison} ${numericValues.value}`}</p>
-            <button type="button">Exclude</button>
+            <button value={numericValues.column} onClick={({ target }) => exclude(target.value)} type="button">Exclude</button>
           </div>
         )) : null}
       </div>
@@ -76,11 +78,12 @@ class NumberFilter extends React.Component {
   }
 }
 
-const mapStateToProps = ({ filter: { planets, filters, arrayFilter } }) => (
-  { planets, filters, arrayFilter });
+const mapStateToProps = ({ filter: { filters, arrayFilter } }) => (
+  { filters, arrayFilter });
 
 const mapDispatchToProps = (dispatch) => ({
   filtred: (obj, arrayFilter) => dispatch({ type: 'FilterNumber', obj, arrayFilter }),
+  exclude: (value) => dispatch({ type: 'EXCLUDE', value }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NumberFilter);

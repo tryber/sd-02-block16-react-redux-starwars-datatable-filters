@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import fetchSWplanets from '../store/actions';
 import Cedula from './Cedula';
+import Loading from './Loading';
 
 function compareValue(array, param, filters) {
   const { value } = array.numericValues;
@@ -22,8 +23,9 @@ class Table extends React.Component {
   }
 
   render() {
-    const { api: { data, filters }, filter: { filters: results } } = this.props;
+    const { api: { data, filters, loading }, filter: { filters: results } } = this.props;
     let filtredResult = data;
+    if (loading) return <Loading />;
     if (results[0]) {
       results.forEach((ele) => { filtredResult = compareValue(ele, filtredResult, filters); });
     } if (filters[0].name) {
