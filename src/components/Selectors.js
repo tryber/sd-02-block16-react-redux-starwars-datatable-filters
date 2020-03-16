@@ -50,15 +50,12 @@ class Selectors extends Component {
   }
 
   render() {
+    const columns = ['population', 'orbital_period', 'diameter', 'roration_period', 'surface_water'];
     return (
       <section>
         <select onChange={this.onChangeColumn}>
           <option value="" label=" " />
-          <option value="population">population</option>
-          <option value="orbital_period">orbital_period</option>
-          <option value="diameter">diameter</option>
-          <option value="rotation_period">rotation_period</option>
-          <option value="surface_water">surface_water</option>
+          {columns.map((element) => <option value={element}>{element}</option>)}
         </select>
         <select onChange={this.onChangeComparison}>
           <option value="" label=" " />
@@ -86,10 +83,11 @@ Selectors.defaultProps = {
 
 const mapStateToProps = ({
   data: { results },
-  SearchFilters: { filteredByName },
+  SearchFilters: { filteredByName, filters },
 }) => ({
   results,
   filteredByName,
+  filters,
 });
 
 const mapDispatchToProps = (dispatch) => ({
