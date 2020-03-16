@@ -2,8 +2,13 @@ import * as types from '../store/actionTypes';
 
 const initialState = {
   data: [],
-  onSelection: false,
+  onLoad: false,
   error: '',
+  filters: [
+    {
+      name: '',
+    }
+  ]
 };
 
 export default function reduce(state = initialState, action) {
@@ -11,15 +16,21 @@ export default function reduce(state = initialState, action) {
     case types.RESULT_TRUE:
       return {
         ...state,
-        onSelection: true,
+        onLoad: true,
         data: action.data,
       };
     case types.RESULT_FALSE:
       return {
         ...state,
-        onSelection: false,
+        onLoad: false,
         error: action.error,
       };
+    case types.RESULT_PLANET:
+      return {
+        ...state,
+        data: action.data,
+        filters: action.filters,
+      }
     default:
       return state;
   }

@@ -2,11 +2,26 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import resultAPI from '../store/loadAction';
-import store from '../store';
+import planetAction from '../store/planetAction';
+import store from '../store'
 import './Table.css';
 
+const headTable = () => {
+  let { loadReducer: { data: { results } } } = store.getState();
+  return (
+    <thead>
+      <tr>
+        {Object.keys(results[0]).map((result) => ((result !== 'residents')
+          ? <th className="headTable" key={result}>{result.replace(/_/g, ' ')}</th>
+          : null))
+        }
+      </tr>
+    </thead>
+  );
+};
+
 const cellTable = () => {
-  const { reducer: { data: { results } } } = store.getState();
+  let { loadReducer: { data: { results } } } = store.getState();
   return (
     results.map((result) => (
       <tbody key={result.name}>
@@ -25,19 +40,10 @@ const cellTable = () => {
   );
 };
 
-const headTable = () => {
-  const { reducer: { data: { results } } } = store.getState();
-  return (
-    <thead>
-      <tr>
-        {Object.keys(results[0]).map((result) => ((result !== 'residents')
-          ? <th className="headTable" key={result}>{result.replace(/_/g, ' ')}</th>
-          : null))
-        }
-      </tr>
-    </thead>
-  );
-};
+const filterPlanet = (planet, props) => {
+  const { dataPlanet, data } = props;
+  dataPlanet(planet, data)
+}
 
 class Table extends Component {
 
@@ -47,31 +53,31 @@ class Table extends Component {
   }
 
   render() {
-    const { reducer: { onSelection } } = store.getState();
-    if (!onSelection) return <p>Loading...</p>;
+    const { onLoad, data } = this.props;
+    if (!onLoad) return <p>Loading...</p>;
     return (
       <div>
-        <input type="text" />
+        <input type="text" onKeyDown={(e) => { if (e.key === 'Enter') filterPlanet(e.target.value, this.props); }}/>
         <div>StarWars DataTable with Filters</div>
         <table>
-          {headTable()}
-          {cellTable()}
+          {headTable(data)}
+          {cellTable(data)}
         </table>
       </div>
     );
   }
 }
 
-function mapStateToProps(state) {
-  return { state };
-}
+const mapStateToProps = ({ loadReducer: { data, onLoad } }) => ({ data, onLoad });
 
 const mapDispatchToProps = (dispatch) => ({
   dataAPI: () => dispatch(resultAPI()),
+  dataPlanet: (planet, data) => dispatch(planetAction(planet, data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Table);
 
 Table.propTypes = {
   dataAPI: PropTypes.func.isRequired,
+  dataPlanet: PropTypes.func,
 };
