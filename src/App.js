@@ -6,6 +6,7 @@ import './App.css';
 import Table from './components/Table';
 import NameFilter from './components/NameFilter';
 import NumericValuesFilters from './components/NumericValuesFilters';
+import SortingSelection from './components/SortingSelection';
 
 class App extends Component {
   render() {
@@ -14,6 +15,7 @@ class App extends Component {
       <div className="App">
         <h1>StarWars Datatable with Filters</h1>
         {isLoading && 'Loading...'}
+        {!isLoading && <SortingSelection />}
         {!isLoading && <NameFilter />}
         {!isLoading && <NumericValuesFilters />}
         <Table />

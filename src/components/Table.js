@@ -46,6 +46,11 @@ function filterDataByNumericValues(data, column, comparison, value) {
 }
 
 class Table extends Component {
+  constructor(props) {
+    super(props);
+    this.sortArray = this.sortArray.bind(this);
+  }
+
   componentDidMount() {
     const { getData } = this.props;
     getData();
@@ -62,8 +67,55 @@ class Table extends Component {
     return filterDataByName(newData, name);
   }
 
+  sortArray(obj1, obj2) {
+    const { columnToBeSorted, order } = this.props;
+    if (obj1[columnToBeSorted] === 'unknown' && obj2[columnToBeSorted] ==='unknown') return 0;
+    if (obj1[columnToBeSorted] === 'unknown') return 1;
+    if (obj2[columnToBeSorted] === 'unknown') return -1;
+    if (Number(obj1[columnToBeSorted]) === Number(obj2[columnToBeSorted])) return 0;
+    if (Number(obj1[columnToBeSorted]) > Number(obj2[columnToBeSorted]) && order === 'ASC') return 1;
+    if (Number(obj1[columnToBeSorted]) < Number(obj2[columnToBeSorted]) && order === 'DESC') return 1;
+    return -1;
+  }
+
+  filterAndSortData() {
+    const { columnToBeSorted, order } = this.props;
+    const filteredData = this.filterData();
+
+    if (columnToBeSorted === 'name') {
+      const filteredColumns = filteredData.map((object) => object[columnToBeSorted]);
+      filteredColumns.sort();
+      const sortedData = filteredColumns.map((column) => {
+        return filteredData.find((object) => object[columnToBeSorted] === column);
+      });
+
+      if (order === 'DESC') {
+        sortedData.reverse();
+      }
+  
+      return sortedData;
+    }
+
+    filteredData.sort(this.sortArray);
+    return filteredData;
+    // newColumns.sort();
+    //   // newColumns = newColumns.map((column) => Number(column))
+    //   // newColumns.sort((a,b) => Number(a) - Number(b))
+    // }
+
+    // const sortedData = newColumns.map((column) => {
+    //   return filteredData.find((object) => object[columnToBeSorted] === column);
+    // });
+
+    // if (order === 'DESC') {
+    //   sortedData.reverse();
+    // }
+
+    // return sortedData;
+  }
+
   render() {
-    const dataTable = this.filterData();
+    const dataTable = this.filterAndSortData();
     let keysPlanet = Object.keys(dataTable[0]);
     const indexResidents = keysPlanet.indexOf('residents');
     keysPlanet = keysPlanet.slice(0, indexResidents);
@@ -96,6 +148,8 @@ class Table extends Component {
 const mapStateToProps = (state) => {
   const data = state.data;
   const name = state.filters[0].name;
+  const columnToBeSorted = state.sorting.column;
+  const order = state.sorting.order;
   const arrayColumns = state.filters.slice(1).map((item) => item.numericValues.column);
   const objectStates = state.filters.slice(1).reduce((acc, current, i) => ({
     ...acc,
@@ -104,7 +158,7 @@ const mapStateToProps = (state) => {
     [`valueNumber${i + 1}`]: current.numericValues.value,
   }), {});
 
-  return { ...objectStates, data, name, arrayColumns };
+  return { ...objectStates, data, name, columnToBeSorted, order, arrayColumns };
 };
 
 const mapDispatchToProps = (dispatch) => ({
@@ -114,6 +168,8 @@ const mapDispatchToProps = (dispatch) => ({
 Table.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
   name: PropTypes.string.isRequired,
+  columnToBeSorted: PropTypes.string.isRequired,
+  order: PropTypes.string.isRequired,
   arrayColumns: PropTypes.arrayOf(PropTypes.string).isRequired,
   getData: PropTypes.func.isRequired,
 };

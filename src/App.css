@@ -33,6 +33,6 @@ button {
   color: red;
 }
 
-.filter {
+.filter, .sorting {
   display: flex;
 }
