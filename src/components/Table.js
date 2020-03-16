@@ -54,7 +54,6 @@ class Table extends Component {
 
   render() {
     const { onLoad, data } = this.props;
-    console.log(store.getState())
     if (!onLoad) return <p>Loading...</p>;
     return (
       <div>
