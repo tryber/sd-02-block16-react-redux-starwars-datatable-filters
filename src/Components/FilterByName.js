@@ -2,45 +2,36 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import Button from './Button';
 import './filterBy.css';
-
-function handleClick(e, id, filters) {
-  const coisa = filters;
-  coisa[id].numericValues.name = e.target.name;
-  return {
-    type: 'FilterByName',
-    filters: coisa,
-  };
-}
 
 class FilterByName extends Component {
   constructor(props) {
     super(props);
     this.ref = React.createRef();
-    this.ref2 = React.createRef();
+    this.list = React.createRef();
     this.dropdown = false;
-    this.id = props.id;
   }
 
   componentDidMount() {
-    this.dropDown();
+    this.drop();
     this.ref.current.addEventListener('click', () => {
-      this.dropDown();
+      this.drop();
     });
   }
 
-  dropDown() {
+  drop() {
     this.dropdown = !this.dropdown;
     if (this.dropdown) {
-      this.ref2.current.style.display = 'none';
+      this.list.current.style.display = 'none';
     } else {
-      this.ref2.current.style.display = 'flex';
+      this.list.current.style.display = 'flex';
     }
   }
 
   render() {
-    const { filters, handle } = this.props;
-    const { name } = filters[this.id].numericValues;
+    const { filters, id } = this.props;
+    const { name } = filters[id].numericValues;
     return (
       <div className="comp_filter">
         <div className="container">
@@ -49,12 +40,12 @@ class FilterByName extends Component {
           </i>
           <p>{name}</p>
         </div>
-        <div className="list" ref={this.ref2}>
-          <button type="button" name="population" onClick={(e) => handle(e, this.id, filters)}>population</button>
-          <button type="button" name="orbital_period" onClick={(e) => handle(e, this.id, filters)}>orbital period</button>
-          <button type="button" name="diameter" onClick={(e) => handle(e, this.id, filters)}>diameter</button>
-          <button type="button" name="rotation_period" onClick={(e) => handle(e, this.id, filters)}>rotation period</button>
-          <button type="button" name="surface_water" onClick={(e) => handle(e, this.id, filters)}>surface water</button>
+        <div className="list" ref={this.list}>
+          <Button name="population" btn="population" id={id} />
+          <Button name="orbital_period" btn="orbital period" id={id} />
+          <Button name="diameter" btn="diameter" id={id} />
+          <Button name="rotation_period" btn="rotation period" id={id} />
+          <Button name="surface_water" btn="surface water" id={id} />
         </div>
       </div>
     );
@@ -65,13 +56,7 @@ const mapStateToProps = (state) => ({
   filters: state.filter.filters,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  handle: (e, id, filters) => dispatch(handleClick(e, id, filters)),
-});
-
-
 FilterByName.propTypes = {
-  handle: PropTypes.func.isRequired,
   filters: PropTypes.arrayOf(
     PropTypes.shape({
       numericValues: PropTypes.shape({
@@ -96,4 +81,4 @@ FilterByName.defaultProps = {
   ],
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(FilterByName);
+export default connect(mapStateToProps)(FilterByName);
