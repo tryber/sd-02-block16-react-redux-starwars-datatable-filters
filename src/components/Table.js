@@ -54,12 +54,10 @@ class Table extends Component {
 
   render() {
     const { onLoad, data, dataPlanet } = this.props;
-    console.log(data);
-    console.log('tipo', typeof data)
     if (!onLoad) return <p>Loading...</p>;
     return (
       <div>
-        <input type="text" onChange={(e) => filterPlanet(e, dataPlanet) } />
+        <input type="text" onChange={(e) => filterPlanet(e, dataPlanet)} />
         <p><small>Press <strong>Enter key</strong> in input</small></p>
         <div>StarWars DataTable with Filters</div>
         <table>

@@ -18,10 +18,10 @@ function filterData(results, planet) {
 const planetAction = (planet) => (
   async (dispatch) => {
     const returnedAPI = [await getEndPointSwAPI()];
-    const filteredResult = returnedAPI[0].results.map((result) => {
-      return result.name.toLowerCase().slice(1).includes(planet.toLowerCase().slice(1))
+    const filteredResult = returnedAPI[0].results.map((result) => (
+      result.name.toLowerCase().slice(1).includes(planet.toLowerCase().slice(1))
     ? result
-    : [] });
+    : [] ));
     const filterUndefined = filteredResult.filter((element) => element !== undefined);
     const planetCase = planet.charAt(0).toUpperCase() + planet.substring(1);
     return dispatch(filterData(filterUndefined, planetCase));
