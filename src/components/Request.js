@@ -1,24 +1,12 @@
-import React from 'react';
+const swAPI = 'https://swapi.co/api/planets';
 
+const getPlanets = () => {
+  fetch(`${swAPI}/planets`)
+    .then((response) => {
+      response
+        .json()
+        .then((json) => (response.ok ? Promise.resolve(json) : Promise.reject(json)));
+    });
+};
 
-const receivePlanets = () => ({
-  type: RECEIVE_PLANETS,
-})
-
-function fetchPlanets() {
-  return fetch('https://swapi.cp/api/planets')
-  .then((response) => response.json());
-  .then((data) => {
-    dispatchEvent(receivePlanets(data.results));
-  });
-}
-
-class Request extends React.Component {
-render() {
-  return (
-  <div></div>
-  );
-}
-}
-
-export default Request;
+export default getPlanets;

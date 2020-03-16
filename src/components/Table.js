@@ -1,15 +1,38 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-
+import PlanetsList from './PlanetsList';
+import propTypes from 'prop-types';
+import { fetchSwPlanets } from '../actions/APIactions';
+import { connect } from 'redux';
 
 class Table extends React.Component {
-  render() {
-    return (
-      <div>
-        <p>Funcionou!</p>
-      </div>
-    );
-  }
+  componentDidMount {
+  const { fetchApi } = this.props;
+  fetchApi();
 }
 
-export default Table;
+render() {
+  return (
+    <div>
+      <PlanetsList />
+    </div>
+  );
+}
+}
+
+const mapStateToProps = ({
+  data: {
+    isFetching,
+  },
+  )} => ({
+  isFetching
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchApi: () => dispatch(fetchSwPlanets);
+});
+
+export default connect(null, mapDispatchToProps)(Table);
+
+Table.propTypes = {
+  fetchApi: propTypes.func.isRequired;
+}
