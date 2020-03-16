@@ -11,7 +11,6 @@ function handleClick(e, id, filters) {
   coisa.splice(id, 1);
   return {
     type: 'delete',
-    id,
     filters: coisa,
   };
 }

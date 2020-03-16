@@ -9,7 +9,6 @@ function handleClick(e, id, filters) {
   coisa[id].numericValues.name = e.target.name;
   return {
     type: 'FilterByName',
-    id,
     filters: coisa,
   };
 }

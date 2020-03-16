@@ -9,7 +9,6 @@ function handleChange(e, id, filters) {
   coisa[id].numericValues.input = e.target.value;
   return {
     type: 'InputNumber',
-    id,
     filters: coisa,
   };
 }
