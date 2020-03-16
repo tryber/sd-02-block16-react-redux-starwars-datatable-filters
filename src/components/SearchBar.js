@@ -18,7 +18,7 @@ class SearchBar extends Component {
     const text = event.target.value.toLowerCase();
     if (filteredByNumber.length) {
       filteredByNumber = searchPlanetsByName(text, filteredByNumber).results;
-      return searchPlanetsByName(text, filteredByNumber);
+      return true;
     }
     searchPlanetsByName(text, results);
     results = searchPlanetsByName(text, results).results;
