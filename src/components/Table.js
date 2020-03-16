@@ -82,7 +82,7 @@ Table.propTypes = {
   dataAPI: PropTypes.func.isRequired,
   dataPlanet: PropTypes.func.isRequired,
   onLoad: PropTypes.bool.isRequired,
-  data: PropTypes.array.isRequired,
+  data: PropTypes.instanceOf(Array).isRequired,
 };
 
 Table.defaultProps = {
