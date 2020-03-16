@@ -2,11 +2,11 @@ import React from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchSWPlanets, filterSWPlanets } from '../actions';
+import Select from './Select';
 import './Table.css';
 
 function renderplanets(param, loading, filt) {
   if (!loading && param) {
-    console.log(Object.keys(param));
     return (
       <table>
         <thead>
@@ -62,6 +62,7 @@ class Table extends React.Component {
       <div>
         <h1>StarWars Datatable with Filters</h1>
         <input placeholder="filter planets!" onChange={this.onChangeHandler} />
+        <Select />
         {renderplanets(data, isfetching, filtered)}
       </div>
     );

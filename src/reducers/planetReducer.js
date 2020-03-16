@@ -1,7 +1,7 @@
 import { RECEIVE_SW_PLANETS, SHOW_SW_PLANETS, ERROR_SW_PLANETS } from '../actions';
 
 const LOADING_SW_INFO = {
-  isfetching: false,
+  isfetching: true,
 };
 
 const planetReducer = (state = LOADING_SW_INFO, action) => {
