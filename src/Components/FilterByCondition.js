@@ -2,16 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import Button from './Button';
 import './filterBy.css';
-
-function handleClick(e, id, filters) {
-  const coisa = filters;
-  coisa[id].numericValues.condition = e.target.name;
-  return {
-    type: 'FilterByCondition',
-    filters: coisa,
-  };
-}
 
 class FilterByCondition extends Component {
   constructor(props) {
@@ -19,7 +11,6 @@ class FilterByCondition extends Component {
     this.ref = React.createRef();
     this.ref2 = React.createRef();
     this.dropdown = false;
-    this.id = props.id;
   }
 
   componentDidMount() {
@@ -39,7 +30,7 @@ class FilterByCondition extends Component {
   }
 
   render() {
-    const { filters, handle } = this.props;
+    const { filters, id } = this.props;
     const { condition } = filters[this.id].numericValues;
     return (
       <div className="comp_filter">
@@ -50,10 +41,10 @@ class FilterByCondition extends Component {
           <p>{condition}</p>
         </div>
         <div className="list" ref={this.ref2}>
-          <button type="button" name="all" onClick={(e) => handle(e, this.id, filters)}>All</button>
-          <button type="button" name="maior" onClick={(e) => handle(e, this.id, filters)}>Maior que</button>
-          <button type="button" name="menor" onClick={(e) => handle(e, this.id, filters)}>Menor que</button>
-          <button type="button" name="igual" onClick={(e) => handle(e, this.id, filters)}>Igual a</button>
+          <Button name="all" btn="all" id={id} />
+          <Button name="maior" btn="Maior que" id={id} />
+          <Button name="menor" btn="Menor que" id={id} />
+          <Button name="igual" btn="Igual a" id={id} />
         </div>
       </div>
     );
@@ -64,12 +55,8 @@ const mapStateToProps = (state) => ({
   filters: state.filter.filters,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  handle: (e, id, filters) => dispatch(handleClick(e, id, filters)),
-});
 
 FilterByCondition.propTypes = {
-  handle: PropTypes.func.isRequired,
   filters: PropTypes.arrayOf(
     PropTypes.shape({
       numericValues: PropTypes.shape({
@@ -95,4 +82,4 @@ FilterByCondition.defaultProps = {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(FilterByCondition);
+export default connect(mapStateToProps)(FilterByCondition);
