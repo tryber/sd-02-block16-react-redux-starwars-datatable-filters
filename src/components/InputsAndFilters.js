@@ -26,6 +26,23 @@ const comparativeValues = [
   'equal_to',
 ];
 
+const NameInput = (planetsData, dispatchFilter) => (
+  <input
+    type="text"
+    placeholder="Search a name"
+    onChange={(userInfo) => dispatchFilter(planetsData, userInfo.target.value)}
+  />
+);
+
+const NumberInput = (dispatchNumber) => (
+  <input
+    type="number"
+    placeholder="Search a number"
+    onChange={(e) => dispatchNumber(e.target.value)}
+  />
+);
+
+
 class InputsAndFilters extends React.Component {
   render() {
     const {
@@ -37,11 +54,9 @@ class InputsAndFilters extends React.Component {
     } = this.props;
     return (
       <div className="InputsAndFilters_stylish">
-        <input
-          type="text"
-          placeholder="Search a name"
-          onChange={(userInfo) => dispatchFilter(planetsData, userInfo.target.value)}
-        />
+
+        {NameInput(planetsData, dispatchFilter)}
+
         <div className="InputsAndFilters_selectors">
           <select key={`${columns.length}`} onChange={(e) => dispatchColumns(e.target.value)}>
             {columns.map((keyValue) => (
@@ -53,11 +68,9 @@ class InputsAndFilters extends React.Component {
               <option key={keyValue} value={keyValue}>{keyValue}</option>
             ))}
           </select>
-          <input
-            type="number"
-            placeholder="Search a number"
-            onChange={(e) => dispatchNumber(e.target.value)}
-          />
+
+          {NumberInput(dispatchNumber)}
+
           <button type="button">Search</button>
         </div>
       </div>
