@@ -56,17 +56,6 @@ class Table extends Component {
     getData();
   }
 
-  filterData() {
-    const { data, name, arrayColumns } = this.props;
-
-    let newData = data;
-    for (let i = 0; i < arrayColumns.length; i += 1) {
-      newData = filterDataByNumericValues(newData, this.props[`valueSelectedColumn${i + 1}`], this.props[`valueSelectedComparison${i + 1}`], this.props[`valueNumber${i + 1}`]);
-    }
-
-    return filterDataByName(newData, name);
-  }
-
   setSortingRules(obj1, obj2) {
     const { columnToBeSorted, order } = this.props;
 
@@ -77,6 +66,17 @@ class Table extends Component {
     }
 
     return -1;
+  }
+
+  filterData() {
+    const { data, name, arrayColumns } = this.props;
+
+    let newData = data;
+    for (let i = 0; i < arrayColumns.length; i += 1) {
+      newData = filterDataByNumericValues(newData, this.props[`valueSelectedColumn${i + 1}`], this.props[`valueSelectedComparison${i + 1}`], this.props[`valueNumber${i + 1}`]);
+    }
+
+    return filterDataByName(newData, name);
   }
 
   filterAndSortData() {
