@@ -6,6 +6,6 @@ import store from './store';
 
 test('renders app', () => {
   const { getByText } = render(<Provider store={store}><App /></Provider>);
-  const linkElement = getByText('Orbital Period');
+  const linkElement = getByText(/Loading/i);
   expect(linkElement).toBeInTheDocument();
 });
