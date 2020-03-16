@@ -25,6 +25,7 @@ const returnFilterData = (state = INITIAL_STATE, action) => {
       console.log(state);
       return {
         filters: [
+
           {
             name: action.name,
           },
