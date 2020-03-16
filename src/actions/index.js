@@ -23,9 +23,7 @@ const receiveSWAPIPlanetsSuccess = ({ results }) => ({
 export const searchByName = (text, results) => ({
   type: SEARCH_BY_NAME,
   text,
-  results: results.some((planet) => planet.name.toLowerCase().includes(text))
-    ? results.filter((planet) => planet.name.toLowerCase().includes(text))
-    : [''],
+  results: results.filter((planet) => planet.name.toLowerCase().match(text)),
 });
 
 const biggerThan = (column, number, results) => {
