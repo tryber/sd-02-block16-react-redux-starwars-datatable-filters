@@ -48,7 +48,7 @@ function filterDataByNumericValues(data, column, comparison, value) {
 class Table extends Component {
   constructor(props) {
     super(props);
-    this.sortArray = this.sortArray.bind(this);
+    this.setSortingRules = this.setSortingRules.bind(this);
   }
 
   componentDidMount() {
@@ -67,22 +67,15 @@ class Table extends Component {
     return filterDataByName(newData, name);
   }
 
-  sortArray(obj1, obj2) {
+  setSortingRules(obj1, obj2) {
     const { columnToBeSorted, order } = this.props;
-    // if ((obj1[columnToBeSorted] === 'unknown' && obj2[columnToBeSorted] === 'unknown')
-    //   || Number(obj1[columnToBeSorted]) === Number(obj2[columnToBeSorted])) {
-    //   return 0;
-    // }
 
     if (obj1[columnToBeSorted] === 'unknown'
       || (Number(obj1[columnToBeSorted]) > Number(obj2[columnToBeSorted]) && order === 'ASC')
       || (Number(obj1[columnToBeSorted]) < Number(obj2[columnToBeSorted]) && order === 'DESC')) {
       return 1;
     }
-    // if (obj2[columnToBeSorted] === 'unknown') return -1;
-    // if () return 0;
-    // if (Number(obj1[columnToBeSorted]) > Number(obj2[columnToBeSorted]) && order === 'ASC') return 1;
-    // if (Number(obj1[columnToBeSorted]) < Number(obj2[columnToBeSorted]) && order === 'DESC') return 1;
+
     return -1;
   }
 
@@ -104,22 +97,8 @@ class Table extends Component {
       return sortedData;
     }
 
-    filteredData.sort(this.sortArray);
+    filteredData.sort(this.setSortingRules);
     return filteredData;
-    // newColumns.sort();
-    //   // newColumns = newColumns.map((column) => Number(column))
-    //   // newColumns.sort((a,b) => Number(a) - Number(b))
-    // }
-
-    // const sortedData = newColumns.map((column) => {
-    //   return filteredData.find((object) => object[columnToBeSorted] === column);
-    // });
-
-    // if (order === 'DESC') {
-    //   sortedData.reverse();
-    // }
-
-    // return sortedData;
   }
 
   render() {
