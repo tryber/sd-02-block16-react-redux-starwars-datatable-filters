@@ -40,9 +40,11 @@ const cellTable = () => {
   );
 };
 
-const filterPlanet = (planet, props) => {
+const filterPlanet = (e, props) => {
+  console.log(e)
   const { dataPlanet, data } = props;
-  dataPlanet(planet, data)
+  const planet = e.target.value;
+  dataPlanet(planet, data);
 }
 
 class Table extends Component {
@@ -57,7 +59,8 @@ class Table extends Component {
     if (!onLoad) return <p>Loading...</p>;
     return (
       <div>
-        <input type="text" onKeyDown={(e) => { if (e.key === 'Enter') filterPlanet(e.target.value, this.props); }}/>
+        <input type="text" onChange={(e) => filterPlanet(e, this.props)}/>
+        <p><small>Press <strong>Enter key</strong> in input</small></p>
         <div>StarWars DataTable with Filters</div>
         <table>
           {headTable(data)}
@@ -72,7 +75,7 @@ const mapStateToProps = ({ loadReducer: { data, onLoad } }) => ({ data, onLoad }
 
 const mapDispatchToProps = (dispatch) => ({
   dataAPI: () => dispatch(resultAPI()),
-  dataPlanet: (planet) => dispatch(planetAction(planet)),
+  dataPlanet: (planet, data) => dispatch(planetAction(planet, data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Table);
