@@ -69,12 +69,20 @@ class Table extends Component {
 
   sortArray(obj1, obj2) {
     const { columnToBeSorted, order } = this.props;
-    if (obj1[columnToBeSorted] === 'unknown' && obj2[columnToBeSorted] ==='unknown') return 0;
-    if (obj1[columnToBeSorted] === 'unknown') return 1;
-    if (obj2[columnToBeSorted] === 'unknown') return -1;
-    if (Number(obj1[columnToBeSorted]) === Number(obj2[columnToBeSorted])) return 0;
-    if (Number(obj1[columnToBeSorted]) > Number(obj2[columnToBeSorted]) && order === 'ASC') return 1;
-    if (Number(obj1[columnToBeSorted]) < Number(obj2[columnToBeSorted]) && order === 'DESC') return 1;
+    if ((obj1[columnToBeSorted] === 'unknown' && obj2[columnToBeSorted] === 'unknown')
+      || Number(obj1[columnToBeSorted]) === Number(obj2[columnToBeSorted])) {
+      return 0;
+    }
+
+    if (obj1[columnToBeSorted] === 'unknown'
+      || (Number(obj1[columnToBeSorted]) > Number(obj2[columnToBeSorted]) && order === 'ASC')
+      || (Number(obj1[columnToBeSorted]) < Number(obj2[columnToBeSorted]) && order === 'DESC')) {
+      return 1;
+    }
+    // if (obj2[columnToBeSorted] === 'unknown') return -1;
+    // if () return 0;
+    // if (Number(obj1[columnToBeSorted]) > Number(obj2[columnToBeSorted]) && order === 'ASC') return 1;
+    // if (Number(obj1[columnToBeSorted]) < Number(obj2[columnToBeSorted]) && order === 'DESC') return 1;
     return -1;
   }
 
@@ -85,14 +93,14 @@ class Table extends Component {
     if (columnToBeSorted === 'name') {
       const filteredColumns = filteredData.map((object) => object[columnToBeSorted]);
       filteredColumns.sort();
-      const sortedData = filteredColumns.map((column) => {
-        return filteredData.find((object) => object[columnToBeSorted] === column);
-      });
+      const sortedData = filteredColumns.map((column) => (
+        filteredData.find((object) => object[columnToBeSorted] === column)
+      ));
 
       if (order === 'DESC') {
         sortedData.reverse();
       }
-  
+
       return sortedData;
     }
 
