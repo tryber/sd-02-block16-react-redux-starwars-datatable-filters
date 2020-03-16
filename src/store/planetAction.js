@@ -26,6 +26,6 @@ const planetAction = (planet) => (
     const planetCase = planet.charAt(0).toUpperCase() + planet.substring(1);
     return dispatch(filterData(filterUndefined, planetCase));
   }
-)
+);
 
 export default planetAction;
