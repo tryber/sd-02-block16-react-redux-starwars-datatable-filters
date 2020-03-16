@@ -28,35 +28,73 @@ export const searchByName = (text, results) => ({
     : [''],
 });
 
-// const filter = (column, comparison, number, results) => {
-//   const biggerThan = results
-//     .map((planet) => Object.entries(planet)
-//       .filter(([key, value]) => (key === column && value > number ? value : false)));
-//   const smallerThan = results
-//     .filter((planet) => Object.entries(planet)
-//       .filter(([key, value]) => (key === column && value < number ? value : false)));
-//   const equalTo = results
-//     .filter((planet) => Object.entries(planet)
-//       .filter(([key, value]) => (key === column && value === number ? value : false)));
-//   switch (comparison) {
-//     case 'Maior que':
-//       console.log(biggerThan);
-//       return biggerThan;
-//     case 'Menor que':
-//       return smallerThan;
-//     case 'Igual a':
-//       return equalTo;
-//     default: return results;
-//   }
-// };
+const biggerThan = (column, number, results) => {
+  switch (column) {
+    case 'population':
+      return results.filter((planet) => parseInt(planet.population, 10) > number);
+    case 'orbital_period':
+      return results.filter((planet) => parseInt(planet.orbital_period, 10) > number);
+    case 'diameter':
+      return results.filter((planet) => parseInt(planet.diameter, 10) > number);
+    case 'rotation_period':
+      return results.filter((planet) => parseInt(planet.rotation_period, 10) > number);
+    case 'surface_water':
+      return results.filter((planet) => parseInt(planet.surface_water, 10) > number);
+    default: return results;
+  }
+};
 
-// export const searchByNumber = (column, comparison, value, results) => ({
-//   type: SEARCH_BY_NUMBER,
-//   column,
-//   comparison,
-//   value,
-//   results: filter(column, comparison, value, results),
-// });
+const smallerThan = (column, number, results) => {
+  switch (column) {
+    case 'population':
+      return results.filter((planet) => parseInt(planet.population, 10) < number);
+    case 'orbital_period':
+      return results.filter((planet) => parseInt(planet.orbital_period, 10) < number);
+    case 'diameter':
+      return results.filter((planet) => parseInt(planet.diameter, 10) < number);
+    case 'rotation_period':
+      return results.filter((planet) => parseInt(planet.rotation_period, 10) < number);
+    case 'surface_water':
+      return results.filter((planet) => parseInt(planet.surface_water, 10) < number);
+    default: return results;
+  }
+};
+
+const equalTo = (column, number, results) => {
+  switch (column) {
+    case 'population':
+      return results.filter((planet) => parseInt(planet.population, 10) === number);
+    case 'orbital_period':
+      return results.filter((planet) => parseInt(planet.orbital_period, 10) === number);
+    case 'diameter':
+      return results.filter((planet) => parseInt(planet.diameter, 10) === number);
+    case 'rotation_period':
+      return results.filter((planet) => parseInt(planet.rotation_period, 10) === number);
+    case 'surface_water':
+      return results.filter((planet) => parseInt(planet.surface_water, 10) === number);
+    default: return results;
+  }
+};
+
+const filterButton = (column, comparison, number, results) => {
+  switch (comparison) {
+    case 'Maior que':
+      return biggerThan(column, number, results);
+    case 'Menor que':
+      return smallerThan(column, number, results);
+    case 'Igual a':
+      return equalTo(column, number, results);
+    default: return results;
+  }
+};
+
+export const searchByNumber = (column, comparison, value, results) => ({
+  type: SEARCH_BY_NUMBER,
+  column,
+  comparison,
+  value,
+  results: filterButton(column, comparison, value, results),
+});
 
 export function fetchSWAPIPlanets() {
   return (dispatch) => {

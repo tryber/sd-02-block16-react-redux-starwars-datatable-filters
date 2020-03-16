@@ -1,5 +1,5 @@
 import React from 'react';
-import starWarsLogo from './images/sw_logo.png';
+import starWarsLogo from './images/sw_logo2.png';
 import './App.css';
 
 import Table from './components/Table';

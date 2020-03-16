@@ -14,8 +14,12 @@ class SearchBar extends Component {
 
   onChangeHandler(event) {
     const { searchPlanetsByName } = this.props;
-    let { results } = this.props;
+    let { results, filteredByNumber } = this.props;
     const text = event.target.value.toLowerCase();
+    if (filteredByNumber.length) {
+      filteredByNumber = searchPlanetsByName(text, filteredByNumber).results;
+      return searchPlanetsByName(text, filteredByNumber);
+    }
     searchPlanetsByName(text, results);
     results = searchPlanetsByName(text, results).results;
   }
@@ -34,13 +38,12 @@ class SearchBar extends Component {
 
 const mapStateToProps = (
   {
-    data: { results, isFetching },
-    SearchFilters: { filteredResults },
+    data: { results },
+    SearchFilters: { filteredByNumber },
   },
 ) => ({
   results,
-  filteredResults,
-  isFetching,
+  filteredByNumber,
 });
 
 SearchBar.propTypes = {

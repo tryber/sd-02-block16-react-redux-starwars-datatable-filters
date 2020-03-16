@@ -1,7 +1,9 @@
 import { SEARCH_BY_NAME, SEARCH_BY_NUMBER } from '../actions';
 
 const INITIAL_FILTER = {
-  filteredResults: [],
+  filteredByName: [],
+  filteredByNumber: [],
+  activeFilter: '',
   filters: [
     {
       name: '',
@@ -17,31 +19,28 @@ const INITIAL_FILTER = {
 };
 
 const filterPlanets = (state = INITIAL_FILTER, action) => {
+  const { column } = action;
+  const { comparison } = action;
+  const { value } = action;
   switch (action.type) {
     case SEARCH_BY_NAME:
       return {
         ...state,
-        filteredResults: action.results,
+        filteredByName: action.results,
+        activeFilter: 'name',
         filters: [
           { name: action.text },
+          { ...state.filters[1] },
         ],
       };
     case SEARCH_BY_NUMBER:
-      // console.log(action.results)
       return {
         ...state,
-        filteredResults: action.results,
+        filteredByNumber: action.results,
+        activeFilter: 'number',
         filters: [
-          {
-            ...state.filters[0],
-          },
-          {
-            numericValues: {
-              column: action.column,
-              comparison: action.comparison,
-              value: action.value,
-            },
-          },
+          { name: state.filters[0] },
+          { numericValues: { ...state.filters[1], column, comparison, value } },
         ],
       };
     default: return state;

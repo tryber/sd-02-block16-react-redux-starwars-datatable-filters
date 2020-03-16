@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 // import PropTypes from 'prop-types';
-// import { searchByNumber } from '../actions';
+import { searchByNumber } from '../actions';
 
 
 class Selectors extends Component {
@@ -16,33 +16,39 @@ class Selectors extends Component {
 
   onChangeColumn(event) {
     const { value } = event.target;
-    console.log(this.props);
+    // console.log(this.props);
     return value;
   }
 
   onChangeComparison(event) {
     const { value } = event.target;
-    console.log(this.props);
+    // console.log(this.props);
     return value;
   }
 
   onChangeValue(event) {
     const { value } = event.target;
-    console.log(this.props);
+    // console.log(this.props);
     return value;
   }
 
-  // onClickHandler() {
-  //   const { searchPlanetsByNumber } = this.props;
-  //   const { results } = this.props;
-  //   searchPlanetsByNumber('population', 'Maior que', 1000000000, results);
-  // }
+  onClickHandler(event) {
+    const { searchPlanetsByNumber } = this.props;
+    let { results, filteredByName } = this.props;
+    if (filteredByName.length) {
+      searchPlanetsByNumber('population', 'Maior que', 10000000000, filteredByName);
+      filteredByName = searchPlanetsByNumber('population', 'Maior que', 10000000000, filteredByName).results;
+    } else {
+      searchPlanetsByNumber('population', 'Maior que', 10000000000, results);
+      results = searchPlanetsByNumber('population', 'Maior que', 10000000000, results).results;
+    }
+  }
 
   render() {
     return (
       <section>
         <select onChange={this.onChangeColumn}>
-          <option value="" label=" " selected="selected" />
+          <option value="" label=" " />
           <option value="population">population</option>
           <option value="orbital_period">orbital_period</option>
           <option value="diameter">diameter</option>
@@ -64,17 +70,17 @@ class Selectors extends Component {
 
 const mapStateToProps = ({
   data: { results },
-  SearchFilters: { filteredResults },
+  SearchFilters: { filteredByName },
 }) => ({
   results,
-  filteredResults,
+  filteredByName,
 });
 
-// const mapDispatchToProps = (dispatch) => ({
-//   searchPlanetsByNumber: (column,
-//     comparison,
-//     value,
-//     results) => dispatch(searchByNumber(column, comparison, value, results)),
-// });
+const mapDispatchToProps = (dispatch) => ({
+  searchPlanetsByNumber: (column,
+    comparison,
+    value,
+    results) => dispatch(searchByNumber(column, comparison, value, results)),
+});
 
-export default connect(mapStateToProps)(Selectors);
+export default connect(mapStateToProps, mapDispatchToProps)(Selectors);
