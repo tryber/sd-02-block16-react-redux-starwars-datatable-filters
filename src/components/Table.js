@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import resultAPI from '../store/loadAction';
 import planetAction from '../store/planetAction';
-import store from '../store'
+import store from '../store';
 import './Table.css';
 
 const headTable = () => {
-  let { loadReducer: { data: { results } } } = store.getState();
+  const { loadReducer: { data: { results } } } = store.getState();
   return (
     <thead>
       <tr>
@@ -21,7 +21,7 @@ const headTable = () => {
 };
 
 const cellTable = () => {
-  let { loadReducer: { data: { results } } } = store.getState();
+  const { loadReducer: { data: { results } } } = store.getState();
   return (
     results.map((result) => (
       <tbody key={result.name}>
@@ -40,11 +40,10 @@ const cellTable = () => {
   );
 };
 
-const filterPlanet = (e, props) => {
-  const { dataPlanet } = props;
+const filterPlanet = (e, dataPlanet) => {
   const planet = e.target.value;
   dataPlanet(planet);
-}
+};
 
 class Table extends Component {
 
@@ -54,11 +53,13 @@ class Table extends Component {
   }
 
   render() {
-    const { onLoad, data } = this.props;
+    const { onLoad, data, dataPlanet } = this.props;
+    console.log(data);
+    console.log('tipo', typeof data)
     if (!onLoad) return <p>Loading...</p>;
     return (
       <div>
-        <input type="text" onChange={(e) => filterPlanet(e, this.props)}/>
+        <input type="text" onChange={(e) => filterPlanet(e, dataPlanet) } />
         <p><small>Press <strong>Enter key</strong> in input</small></p>
         <div>StarWars DataTable with Filters</div>
         <table>
@@ -82,4 +83,10 @@ export default connect(mapStateToProps, mapDispatchToProps)(Table);
 Table.propTypes = {
   dataAPI: PropTypes.func.isRequired,
   dataPlanet: PropTypes.func.isRequired,
+  onLoad: PropTypes.bool.isRequired,
+  data: PropTypes.array.isRequired,
+};
+
+Table.defaultProps = {
+  data: [],
 };
