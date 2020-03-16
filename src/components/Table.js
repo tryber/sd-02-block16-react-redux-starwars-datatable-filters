@@ -13,7 +13,7 @@ const headTable = () => {
       <tr>
         {Object.keys(results[0]).map((result) => ((result !== 'residents')
           ? <th className="headTable" key={result}>{result.replace(/_/g, ' ')}</th>
-          : null))
+          : <th key={result}>{result}</th>))
         }
       </tr>
     </thead>
