@@ -54,6 +54,7 @@ class Table extends Component {
 
   render() {
     const { onLoad, data } = this.props;
+    console.log(store.getState())
     if (!onLoad) return <p>Loading...</p>;
     return (
       <div>
@@ -72,7 +73,7 @@ const mapStateToProps = ({ loadReducer: { data, onLoad } }) => ({ data, onLoad }
 
 const mapDispatchToProps = (dispatch) => ({
   dataAPI: () => dispatch(resultAPI()),
-  dataPlanet: (planet, data) => dispatch(planetAction(planet, data)),
+  dataPlanet: (planet) => dispatch(planetAction(planet)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Table);
