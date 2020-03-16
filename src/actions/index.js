@@ -61,15 +61,20 @@ const smallerThan = (column, number, results) => {
 const equalTo = (column, number, results) => {
   switch (column) {
     case 'population':
-      return results.filter((planet) => parseInt(planet.population, 10) === number);
+      return results
+        .filter((planet) => parseInt(planet.population, 10) === parseInt(number, 10));
     case 'orbital_period':
-      return results.filter((planet) => parseInt(planet.orbital_period, 10) === number);
+      return results
+        .filter((planet) => parseInt(planet.orbital_period, 10) === parseInt(number, 10));
     case 'diameter':
-      return results.filter((planet) => parseInt(planet.diameter, 10) === number);
+      return results
+        .filter((planet) => parseInt(planet.diameter, 10) === parseInt(number, 10));
     case 'rotation_period':
-      return results.filter((planet) => parseInt(planet.rotation_period, 10) === number);
+      return results
+        .filter((planet) => parseInt(planet.rotation_period, 10) === parseInt(number, 10));
     case 'surface_water':
-      return results.filter((planet) => parseInt(planet.surface_water, 10) === number);
+      return results
+        .filter((planet) => parseInt(planet.surface_water, 10) === parseInt(number, 10));
     default: return results;
   }
 };

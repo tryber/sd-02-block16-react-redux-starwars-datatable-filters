@@ -37,12 +37,17 @@ class Selectors extends Component {
 
   onClickHandler() {
     const { searchPlanetsByNumber } = this.props;
-    let { results, filteredByName } = this.props;
+    let { results, filteredByName, filteredByNumber } = this.props;
     const { column, comparison, value } = this.state;
+    console.log(this.props);
+
     if (!column || !comparison || !value) alert('Preencha todos os campos');
     if (filteredByName.length) {
       searchPlanetsByNumber(column, comparison, value, filteredByName);
       filteredByName = searchPlanetsByNumber(column, comparison, value, filteredByName).results;
+    } if (filteredByNumber.length) {
+      searchPlanetsByNumber(column, comparison, value, filteredByNumber);
+      filteredByNumber = searchPlanetsByNumber(column, comparison, value, filteredByNumber).results;
     } else {
       searchPlanetsByNumber(column, comparison, value, results);
       results = searchPlanetsByNumber(column, comparison, value, results).results;
@@ -50,12 +55,22 @@ class Selectors extends Component {
   }
 
   render() {
-    const columns = ['population', 'orbital_period', 'diameter', 'roration_period', 'surface_water'];
+    const columns = ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
+    const { filters } = this.props;
+    const selectedColumn = filters.map((el) => (
+      el.numericValues
+        ? el.numericValues.column
+        : false
+    ));
     return (
       <section>
         <select onChange={this.onChangeColumn}>
           <option value="" label=" " />
-          {columns.map((element) => <option value={element}>{element}</option>)}
+          {columns.map((element) => (
+            selectedColumn.includes(element)
+              ? false
+              : <option value={element}>{element}</option>
+          ))}
         </select>
         <select onChange={this.onChangeComparison}>
           <option value="" label=" " />
@@ -74,20 +89,25 @@ Selectors.propTypes = {
   searchPlanetsByNumber: PropTypes.func.isRequired,
   results: PropTypes.instanceOf(Array),
   filteredByName: PropTypes.instanceOf(Array),
+  filteredByNumber: PropTypes.instanceOf(Array),
+  filters: PropTypes.instanceOf(Array),
 };
 
 Selectors.defaultProps = {
   results: [],
   filteredByName: [],
+  filteredByNumber: [],
+  filters: [],
 };
 
 const mapStateToProps = ({
   data: { results },
-  SearchFilters: { filteredByName, filters },
+  SearchFilters: { filteredByName, filteredByNumber, filters },
 }) => ({
   results,
   filteredByName,
   filters,
+  filteredByNumber,
 });
 
 const mapDispatchToProps = (dispatch) => ({
