@@ -27,6 +27,9 @@ const filterPlanets = (state = INITIAL_FILTER, action) => {
         ],
       };
     case SEARCH_BY_NUMBER:
+      if (!action.column || !action.comparison || !action.value) {
+        return { ...state };
+      }
       return {
         ...state,
         filteredByNumber: action.results,

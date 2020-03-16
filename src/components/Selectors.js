@@ -42,13 +42,16 @@ class Selectors extends Component {
     if (!column || !comparison || !value) alert('Preencha todos os campos');
     if (filteredByName.length && activeFilter === 'name') {
       filteredByName = searchPlanetsByNumber(column, comparison, value, filteredByName).results;
+      this.setState({ column: '', comparison: '', value: null });
       return true;
     } if (filteredByNumber.length) {
       filteredByNumber = searchPlanetsByNumber(column, comparison, value, filteredByNumber).results;
+      this.setState({ column: '', comparison: '', value: null });
       return true;
     }
     searchPlanetsByNumber(column, comparison, value, results);
     results = searchPlanetsByNumber(column, comparison, value, results).results;
+    this.setState({ column: '', comparison: '', value: null });
     return true;
   }
 
@@ -61,7 +64,7 @@ class Selectors extends Component {
         : false
     ));
     return (
-      <section>
+      <form>
         <select onChange={this.onChangeColumn}>
           <option value="" label=" " />
           {columns.map((element) => (
@@ -77,8 +80,8 @@ class Selectors extends Component {
           <option value="Igual a">Igual a</option>
         </select>
         <input type="number" onChange={this.onChangeValue} />
-        <button type="button" onClick={this.onClickHandler}>Filtrar</button>
-      </section>
+        <input type="reset" value="Filtrar" onClick={this.onClickHandler} />
+      </form>
     );
   }
 }

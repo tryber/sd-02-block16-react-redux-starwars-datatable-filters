@@ -14,6 +14,10 @@ input {
   width: 300px;
 }
 
+input:required:invalid {
+  border: none;
+}
+
 label {
   color: rgb(170, 0, 71);
   font-weight: 400;
@@ -24,7 +28,7 @@ label {
   transition: 0.2s ease all;
 }
 
-input:focus ~ label {
+input:focus ~ label, input:valid ~ label {
   color: rgb(82, 0, 34);
   font-size: 0.8rem;
   top: -20px;

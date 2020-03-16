@@ -28,7 +28,7 @@ class SearchBar extends Component {
   render() {
     return (
       <div className="group">
-        <input onChange={this.onChangeHandler} id="search-bar" />
+        <input onChange={this.onChangeHandler} id="search-bar" required />
         <span className="highlight" />
         <span className="bar" />
         <label htmlFor="search-bar">Search by planet name</label>
