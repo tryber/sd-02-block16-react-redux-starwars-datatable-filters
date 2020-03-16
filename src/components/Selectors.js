@@ -8,39 +8,44 @@ class Selectors extends Component {
   constructor(props) {
     super(props);
 
-    // this.onChangeColumn = this.onChangeColumn.bind(this);
-    // this.onChangeComparison = this.onChangeComparison.bind(this);
-    // this.onChangeValue = this.onChangeValue.bind(this);
+    this.state = {
+      column: '',
+      comparison: '',
+      value: null,
+    };
+
+    this.onChangeColumn = this.onChangeColumn.bind(this);
+    this.onChangeComparison = this.onChangeComparison.bind(this);
+    this.onChangeValue = this.onChangeValue.bind(this);
     this.onClickHandler = this.onClickHandler.bind(this);
   }
 
-  // onChangeColumn(event) {
-  //   const { value } = event.target;
-  //   // console.log(this.props);
-  //   return value;
-  // }
+  onChangeColumn(event) {
+    const { value } = event.target;
+    this.setState({ column: value });
+  }
 
-  // onChangeComparison(event) {
-  //   const { value } = event.target;
-  //   // console.log(this.props);
-  //   return value;
-  // }
+  onChangeComparison(event) {
+    const { value } = event.target;
+    this.setState({ comparison: value });
+  }
 
-  // onChangeValue(event) {
-  //   const { value } = event.target;
-  //   // console.log(this.props);
-  //   return value;
-  // }
+  onChangeValue(event) {
+    const { value } = event.target;
+    this.setState({ value });
+  }
 
   onClickHandler() {
     const { searchPlanetsByNumber } = this.props;
     let { results, filteredByName } = this.props;
+    const { column, comparison, value } = this.state;
+    if (!column || !comparison || !value) alert('Preencha todos os campos');
     if (filteredByName.length) {
-      searchPlanetsByNumber('population', 'Maior que', 10000000000, filteredByName);
-      filteredByName = searchPlanetsByNumber('population', 'Maior que', 10000000000, filteredByName).results;
+      searchPlanetsByNumber(column, comparison, value, filteredByName);
+      filteredByName = searchPlanetsByNumber(column, comparison, value, filteredByName).results;
     } else {
-      searchPlanetsByNumber('population', 'Maior que', 10000000000, results);
-      results = searchPlanetsByNumber('population', 'Maior que', 10000000000, results).results;
+      searchPlanetsByNumber(column, comparison, value, results);
+      results = searchPlanetsByNumber(column, comparison, value, results).results;
     }
   }
 
