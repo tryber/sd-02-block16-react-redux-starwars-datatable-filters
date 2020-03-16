@@ -36,22 +36,20 @@ class Selectors extends Component {
   }
 
   onClickHandler() {
-    const { searchPlanetsByNumber } = this.props;
+    const { searchPlanetsByNumber, activeFilter } = this.props;
     let { results, filteredByName, filteredByNumber } = this.props;
     const { column, comparison, value } = this.state;
-    console.log(this.props);
-
     if (!column || !comparison || !value) alert('Preencha todos os campos');
-    if (filteredByName.length) {
-      searchPlanetsByNumber(column, comparison, value, filteredByName);
+    if (filteredByName.length && activeFilter === 'name') {
       filteredByName = searchPlanetsByNumber(column, comparison, value, filteredByName).results;
+      return true;
     } if (filteredByNumber.length) {
-      searchPlanetsByNumber(column, comparison, value, filteredByNumber);
       filteredByNumber = searchPlanetsByNumber(column, comparison, value, filteredByNumber).results;
-    } else {
-      searchPlanetsByNumber(column, comparison, value, results);
-      results = searchPlanetsByNumber(column, comparison, value, results).results;
+      return true;
     }
+    searchPlanetsByNumber(column, comparison, value, results);
+    results = searchPlanetsByNumber(column, comparison, value, results).results;
+    return true;
   }
 
   render() {
@@ -91,6 +89,7 @@ Selectors.propTypes = {
   filteredByName: PropTypes.instanceOf(Array),
   filteredByNumber: PropTypes.instanceOf(Array),
   filters: PropTypes.instanceOf(Array),
+  activeFilter: PropTypes.string,
 };
 
 Selectors.defaultProps = {
@@ -98,16 +97,18 @@ Selectors.defaultProps = {
   filteredByName: [],
   filteredByNumber: [],
   filters: [],
+  activeFilter: '',
 };
 
 const mapStateToProps = ({
   data: { results },
-  SearchFilters: { filteredByName, filteredByNumber, filters },
+  SearchFilters: { filteredByName, filteredByNumber, filters, activeFilter },
 }) => ({
   results,
   filteredByName,
   filters,
   filteredByNumber,
+  activeFilter,
 });
 
 const mapDispatchToProps = (dispatch) => ({
