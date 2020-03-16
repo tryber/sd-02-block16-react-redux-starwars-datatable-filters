@@ -4,6 +4,7 @@ export const RECEIVE_SW_PLANETS = 'RECEIVE_SW_PLANETS';
 export const SHOW_SW_PLANETS = 'SHOW_SW_PLANETS';
 export const ERROR_SW_PLANETS = 'ERROR_SW_PLANETS';
 export const FILTER_SW_PLANETS = 'FILTER_SW_PLANETS';
+export const FILTER_SW_NUMBER = 'FILTER_SW_NUMBER';
 
 
 export const receiveSWPlanets = () => (
@@ -25,6 +26,13 @@ export const filterSWPlanets = (typing, data) => (
   }
 );
 
+export const filterSWNumber = (typeSelect, value) => ({
+  type: FILTER_SW_NUMBER,
+  numeric_values: {
+    [typeSelect]: value,
+  },
+});
+
 export function fetchSWPlanets() {
   return (dispatch) => {
     dispatch(receiveSWPlanets());
@@ -35,3 +43,10 @@ export function fetchSWPlanets() {
       );
   };
 }
+
+export const filterByColumn = (typeSelect, value) => {
+  console.log(typeSelect);
+  return (dispatch) => (
+    dispatch(filterSWNumber(typeSelect, value))
+  );
+};

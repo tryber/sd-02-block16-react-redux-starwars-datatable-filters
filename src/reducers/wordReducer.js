@@ -5,6 +5,13 @@ const initialState = {
     {
       name: '',
     },
+    {
+      numericValues: {
+        column: '',
+        comparison: '',
+        value: 0,
+      },
+    },
   ],
 };
 

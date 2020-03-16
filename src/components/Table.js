@@ -11,14 +11,17 @@ function renderplanets(param, loading, filt) {
       <table>
         <thead>
           <tr>
-            {Object.keys(param[0]).map((item) => (item !== 'residents' ? <th className="tableHeader" key={item}>{item}</th> : null))}
+            {Object.keys(param[0]).map((item) => (item !== 'residents'
+              ? <th className="tableHeader" key={item}>{item}</th>
+              : null))}
           </tr>
         </thead>
         {!filt ? param.map((values) => (
           <tbody key={values.name}>
             <tr>
               {Object.values(values)
-                .map((body, index) => (index !== 9 ? <td className="tableData" key={body}>{body}</td>
+                .map((body, index) => (index !== 9
+                  ? <td className="tableData" key={body}>{body}</td>
                   : null))}
             </tr>
           </tbody>
@@ -26,7 +29,8 @@ function renderplanets(param, loading, filt) {
           <tbody key={values.name}>
             <tr>
               {Object.values(values)
-                .map((body, index) => (index !== 9 ? <td className="tableData" key={body}>{body}</td>
+                .map((body, index) => (index !== 9
+                  ? <td className="tableData" key={body}>{body}</td>
                   : null))}
             </tr>
           </tbody>
