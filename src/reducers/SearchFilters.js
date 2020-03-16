@@ -8,13 +8,6 @@ const INITIAL_FILTER = {
     {
       name: '',
     },
-    {
-      numericValues: {
-        column: '',
-        comparison: '',
-        value: '',
-      },
-    },
   ],
 };
 
@@ -34,14 +27,13 @@ const filterPlanets = (state = INITIAL_FILTER, action) => {
         ],
       };
     case SEARCH_BY_NUMBER:
+      console.log(state)
       return {
         ...state,
         filteredByNumber: action.results,
         activeFilter: 'number',
-        filters: [
-          { name: state.filters[0] },
-          { numericValues: { ...state.filters[1], column, comparison, value } },
-        ],
+        filters: [...state.filters,
+          { numericValues: { column, comparison, value } }],
       };
     default: return state;
   }

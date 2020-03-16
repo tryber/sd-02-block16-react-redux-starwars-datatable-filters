@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { searchByNumber } from '../actions';
 
 
@@ -8,31 +8,31 @@ class Selectors extends Component {
   constructor(props) {
     super(props);
 
-    this.onChangeColumn = this.onChangeColumn.bind(this);
-    this.onChangeComparison = this.onChangeComparison.bind(this);
+    // this.onChangeColumn = this.onChangeColumn.bind(this);
+    // this.onChangeComparison = this.onChangeComparison.bind(this);
+    // this.onChangeValue = this.onChangeValue.bind(this);
     this.onClickHandler = this.onClickHandler.bind(this);
-    this.onChangeValue = this.onChangeValue.bind(this);
   }
 
-  onChangeColumn(event) {
-    const { value } = event.target;
-    // console.log(this.props);
-    return value;
-  }
+  // onChangeColumn(event) {
+  //   const { value } = event.target;
+  //   // console.log(this.props);
+  //   return value;
+  // }
 
-  onChangeComparison(event) {
-    const { value } = event.target;
-    // console.log(this.props);
-    return value;
-  }
+  // onChangeComparison(event) {
+  //   const { value } = event.target;
+  //   // console.log(this.props);
+  //   return value;
+  // }
 
-  onChangeValue(event) {
-    const { value } = event.target;
-    // console.log(this.props);
-    return value;
-  }
+  // onChangeValue(event) {
+  //   const { value } = event.target;
+  //   // console.log(this.props);
+  //   return value;
+  // }
 
-  onClickHandler(event) {
+  onClickHandler() {
     const { searchPlanetsByNumber } = this.props;
     let { results, filteredByName } = this.props;
     if (filteredByName.length) {
@@ -56,7 +56,7 @@ class Selectors extends Component {
           <option value="surface_water">surface_water</option>
         </select>
         <select onChange={this.onChangeComparison}>
-          <option value="" label=" " selected="selected" />
+          <option value="" label=" " />
           <option value="Maior que">Maior que</option>
           <option value="Menor que">Menor que</option>
           <option value="Igual a">Igual a</option>
@@ -67,6 +67,17 @@ class Selectors extends Component {
     );
   }
 }
+
+Selectors.propTypes = {
+  searchPlanetsByNumber: PropTypes.func.isRequired,
+  results: PropTypes.instanceOf(Array),
+  filteredByName: PropTypes.instanceOf(Array),
+};
+
+Selectors.defaultProps = {
+  results: [],
+  filteredByName: [],
+};
 
 const mapStateToProps = ({
   data: { results },

@@ -20,40 +20,26 @@ class Table extends Component {
         <tbody>
           {filteredByName.map((planet) => (
             <tr>
-              {Object.entries(planet).map(([key, value]) => (
-                key === 'residents'
-                  ? false
-                  : <td>{value}</td>
-              ))}
+              {Object.entries(planet).map(([key, value]) => (key === 'residents' ? false : <td>{value}</td>))}
             </tr>
           ))}
         </tbody>
       );
-    }
-    if (activeFilter === 'number') {
+    } if (activeFilter === 'number') {
       return (
         <tbody>
           {filteredByNumber.map((planet) => (
             <tr>
-              {Object.entries(planet).map(([key, value]) => (
-                key === 'residents'
-                  ? false
-                  : <td>{value}</td>
-              ))}
+              {Object.entries(planet).map(([key, value]) => (key === 'residents' ? false : <td>{value}</td>))}
             </tr>
           ))}
         </tbody>
       );
-    }
-    return (
+    } return (
       <tbody>
         {results.map((planet) => (
           <tr>
-            {Object.entries(planet).map(([key, value]) => (
-              key === 'residents'
-                ? false
-                : <td>{value}</td>
-            ))}
+            {Object.entries(planet).map(([key, value]) => (key === 'residents' ? false : <td>{value}</td>))}
           </tr>
         ))}
       </tbody>
@@ -88,12 +74,16 @@ Table.propTypes = {
   getSWAPIPlanets: PropTypes.func.isRequired,
   results: PropTypes.instanceOf(Array),
   filteredByName: PropTypes.instanceOf(Array),
+  filteredByNumber: PropTypes.instanceOf(Array),
   isFetching: PropTypes.bool.isRequired,
+  activeFilter: PropTypes.string,
 };
 
 Table.defaultProps = {
   results: [],
   filteredByName: [],
+  filteredByNumber: [],
+  activeFilter: '',
 };
 
 const mapStateToProps = (

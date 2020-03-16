@@ -22,6 +22,7 @@ class SearchBar extends Component {
     }
     searchPlanetsByName(text, results);
     results = searchPlanetsByName(text, results).results;
+    return true;
   }
 
   render() {
@@ -48,11 +49,13 @@ const mapStateToProps = (
 
 SearchBar.propTypes = {
   results: PropTypes.instanceOf(Array),
+  filteredByNumber: PropTypes.instanceOf(Array),
   searchPlanetsByName: PropTypes.func.isRequired,
 };
 
 SearchBar.defaultProps = {
   results: [],
+  filteredByNumber: [],
 };
 
 const mapDispatchToProps = (dispatch) => ({
