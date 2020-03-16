@@ -103,9 +103,9 @@ class Table extends Component {
 
   render() {
     const dataTable = this.filterAndSortData();
-    let keysPlanet = Object.keys(dataTable[0]);
+    const keysPlanet = Object.keys(dataTable[0]);
     const indexResidents = keysPlanet.indexOf('residents');
-    keysPlanet = keysPlanet.slice(0, indexResidents);
+    keysPlanet.splice(indexResidents, 1);
 
     return (
       <div>
@@ -117,8 +117,8 @@ class Table extends Component {
           </thead>
           <tbody>
             {dataTable.map((planet) => {
-              let valuesPlanet = Object.values(planet);
-              valuesPlanet = valuesPlanet.slice(0, indexResidents);
+              const valuesPlanet = Object.values(planet);
+              valuesPlanet.splice(indexResidents, 1);
               return (
                 <tr key={planet.name}>
                   {valuesPlanet.map((valueColumn) => <td key={valueColumn}>{valueColumn}</td>)}
