@@ -69,10 +69,10 @@ class Table extends Component {
 
   sortArray(obj1, obj2) {
     const { columnToBeSorted, order } = this.props;
-    if ((obj1[columnToBeSorted] === 'unknown' && obj2[columnToBeSorted] === 'unknown')
-      || Number(obj1[columnToBeSorted]) === Number(obj2[columnToBeSorted])) {
-      return 0;
-    }
+    // if ((obj1[columnToBeSorted] === 'unknown' && obj2[columnToBeSorted] === 'unknown')
+    //   || Number(obj1[columnToBeSorted]) === Number(obj2[columnToBeSorted])) {
+    //   return 0;
+    // }
 
     if (obj1[columnToBeSorted] === 'unknown'
       || (Number(obj1[columnToBeSorted]) > Number(obj2[columnToBeSorted]) && order === 'ASC')
