@@ -41,10 +41,9 @@ const cellTable = () => {
 };
 
 const filterPlanet = (e, props) => {
-  console.log(e)
-  const { dataPlanet, data } = props;
+  const { dataPlanet } = props;
   const planet = e.target.value;
-  dataPlanet(planet, data);
+  dataPlanet(planet);
 }
 
 class Table extends Component {
@@ -75,12 +74,12 @@ const mapStateToProps = ({ loadReducer: { data, onLoad } }) => ({ data, onLoad }
 
 const mapDispatchToProps = (dispatch) => ({
   dataAPI: () => dispatch(resultAPI()),
-  dataPlanet: (planet, data) => dispatch(planetAction(planet, data)),
+  dataPlanet: (planet) => dispatch(planetAction(planet)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Table);
 
 Table.propTypes = {
   dataAPI: PropTypes.func.isRequired,
-  dataPlanet: PropTypes.func,
+  dataPlanet: PropTypes.func.isRequired,
 };

@@ -15,7 +15,7 @@ function filterData(results, planet) {
   };
 }
 
-const planetAction = (planet, data) => {
+const planetAction = (planet) => {
   return async (dispatch) => {
     const returnedAPI = [await getEndPointSwAPI()];
     const filteredResult = returnedAPI[0].results.map((result) => {

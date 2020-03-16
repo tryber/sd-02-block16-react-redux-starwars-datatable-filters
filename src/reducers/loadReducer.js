@@ -7,8 +7,8 @@ const initialState = {
   filters: [
     {
       name: '',
-    }
-  ]
+    },
+  ],
 };
 
 export default function reduce(state = initialState, action) {
@@ -30,7 +30,7 @@ export default function reduce(state = initialState, action) {
         ...state,
         data: action.data,
         filters: action.filters,
-      }
+      };
     default:
       return state;
   }
