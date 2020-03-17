@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import {
+  filtersPropTypes, filtersDefault,
+} from './PropTypes';
 import Filter from './Filter';
 
 function handleClick(filters) {
@@ -58,27 +61,11 @@ const mapDispatchToProps = (dispatch) => ({
 
 Filtragem.propTypes = {
   handle: PropTypes.func.isRequired,
-  filters: PropTypes.arrayOf(
-    PropTypes.shape({
-      numericValues: PropTypes.shape({
-        name: PropTypes.string,
-        condition: PropTypes.string,
-        input: PropTypes.string,
-      }).isRequired,
-    }).isRequired,
-  ),
+  filters: filtersPropTypes,
 };
 
 Filtragem.defaultProps = {
-  filters: [
-    {
-      numericValues: {
-        name: '',
-        condition: '',
-        input: undefined,
-      },
-    },
-  ],
+  filters: filtersDefault,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Filtragem);

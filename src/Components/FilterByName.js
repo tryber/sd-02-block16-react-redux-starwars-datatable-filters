@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import {
+  filtersPropTypes, filtersDefault,
+} from './PropTypes';
 import Button from './Button';
 import './filterBy.css';
 
@@ -57,28 +60,12 @@ const mapStateToProps = (state) => ({
 });
 
 FilterByName.propTypes = {
-  filters: PropTypes.arrayOf(
-    PropTypes.shape({
-      numericValues: PropTypes.shape({
-        name: PropTypes.string,
-        condition: PropTypes.string,
-        input: PropTypes.string,
-      }).isRequired,
-    }).isRequired,
-  ),
+  filters: filtersPropTypes,
   id: PropTypes.number.isRequired,
 };
 
 FilterByName.defaultProps = {
-  filters: [
-    {
-      numericValues: {
-        name: '',
-        condition: '',
-        input: undefined,
-      },
-    },
-  ],
+  filters: filtersDefault,
 };
 
 export default connect(mapStateToProps)(FilterByName);

@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import {
+  planetsPropTypes, planetsDefault, filtersPropTypes, filtersDefault,
+} from './PropTypes';
 import evento from '../action';
 import './style.css';
 
@@ -109,34 +112,8 @@ class Table extends Component {
 }
 
 Table.propTypes = {
-  planets: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string,
-      rotation_period: PropTypes.string,
-      orbital_period: PropTypes.string,
-      diameter: PropTypes.string,
-      surface_water: PropTypes.string,
-      climate: PropTypes.string,
-      gravity: PropTypes.string,
-      terrain: PropTypes.string,
-      populatio: PropTypes.string,
-      created: PropTypes.string,
-      edited: PropTypes.string,
-      url: PropTypes.string,
-      films: PropTypes.arrayOf(
-        PropTypes.string,
-      ),
-    }),
-  ),
-  filters: PropTypes.arrayOf(
-    PropTypes.shape({
-      numericValues: PropTypes.shape({
-        name: PropTypes.string,
-        condition: PropTypes.string,
-        input: PropTypes.string,
-      }).isRequired,
-    }).isRequired,
-  ),
+  planets: planetsPropTypes,
+  filters: filtersPropTypes,
   order: PropTypes.shape({
     name: PropTypes.string,
     asc: PropTypes.string,
@@ -146,32 +123,8 @@ Table.propTypes = {
 };
 
 Table.defaultProps = {
-  planets: [{
-    name: '',
-    rotation_period: null,
-    orbital_period: null,
-    diameter: null,
-    surface_water: '',
-    climate: '',
-    gravity: '',
-    terrain: '',
-    populatio: '',
-    created: '',
-    edited: '',
-    url: '',
-    films: PropTypes.arrayOf(
-      '',
-    ),
-  }],
-  filters: [
-    {
-      numericValues: {
-        name: '',
-        condition: '',
-        input: undefined,
-      },
-    },
-  ],
+  planets: planetsDefault,
+  filters: filtersDefault,
   order: {
     name: '',
     asc: '',

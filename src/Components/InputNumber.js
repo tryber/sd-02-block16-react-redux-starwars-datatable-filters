@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import {
+  filtersPropTypes, filtersDefault,
+} from './PropTypes';
 import './input.css';
 
 function handleChange(e, id, filters) {
@@ -45,28 +48,12 @@ const mapDispatchToProps = (dispatch) => ({
 
 InputNumber.propTypes = {
   handle: PropTypes.func.isRequired,
-  filters: PropTypes.arrayOf(
-    PropTypes.shape({
-      numericValues: PropTypes.shape({
-        name: PropTypes.string,
-        condition: PropTypes.string,
-        input: PropTypes.string,
-      }).isRequired,
-    }).isRequired,
-  ),
+  filters: filtersPropTypes,
   id: PropTypes.number.isRequired,
 };
 
 InputNumber.defaultProps = {
-  filters: [
-    {
-      numericValues: {
-        name: '',
-        condition: '',
-        input: undefined,
-      },
-    },
-  ],
+  filters: filtersDefault,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputNumber);
