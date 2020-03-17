@@ -59,8 +59,26 @@ const mapDispatchToProps = (dispatch) => ({
 Filtragem.propTypes = {
   handle: PropTypes.func.isRequired,
   filters: PropTypes.arrayOf(
-    PropTypes.string.isRequired,
-  ).isRequired,
+    PropTypes.shape({
+      numericValues: PropTypes.shape({
+        name: PropTypes.string,
+        condition: PropTypes.string,
+        input: PropTypes.number,
+      }).isRequired,
+    }).isRequired,
+  ),
+};
+
+Filtragem.defaultProps = {
+  filters: [
+    {
+      numericValues: {
+        name: '',
+        condition: '',
+        input: undefined,
+      },
+    },
+  ],
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Filtragem);

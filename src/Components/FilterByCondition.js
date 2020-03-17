@@ -31,7 +31,7 @@ class FilterByCondition extends Component {
 
   render() {
     const { filters, id } = this.props;
-    const { condition } = filters[this.id].numericValues;
+    const { condition } = filters[id].numericValues;
     return (
       <div className="comp_filter">
         <div className="container">

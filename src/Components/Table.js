@@ -46,6 +46,8 @@ function inputNumber(filter, planets) {
   switch (input) {
     case '':
       return planets;
+    case undefined:
+      return planets;
     default:
       return byCondition(planets, filter);
   }
@@ -77,10 +79,20 @@ class Table extends Component {
     return filters.reduce((acc, filter) => inputNumber(filter, acc), planets);
   }
 
+  byOrder(planets) {
+    const { order } = this.props;
+    switch (order) {
+      case 'Asc':
+        return planets.sort((a, b) => ((a.name > b.name) ? 1 : -1));
+      case 'Desc':
+        return planets.sort((a, b) => ((a.name < b.name) ? 1 : -1));
+      default:
+        return planets;
+    }
+  }
+
   render() {
-    const {
-      planets,
-    } = this.props;
+    const { planets } = this.props;
     return (
       <table>
         <thead>
@@ -125,6 +137,7 @@ Table.propTypes = {
       }).isRequired,
     }).isRequired,
   ),
+  // order: PropTypes.string,
   inputName: PropTypes.string,
   requestApi: PropTypes.func.isRequired,
 };
@@ -156,6 +169,10 @@ Table.defaultProps = {
       },
     },
   ],
+  // order: {
+  //   name: '',
+  //   asc: '',
+  // },
   inputName: '',
 };
 
@@ -163,6 +180,7 @@ const mapStateToProps = (state) => ({
   planets: state.data.planets,
   filters: state.filter.filters,
   inputName: state.input.name,
+  order: state.filter.order,
 });
 
 

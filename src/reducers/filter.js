@@ -9,20 +9,34 @@ const INITIAL_STATE = {
       },
     },
   ],
+  order: {
+    name: '',
+    asc: '',
+  },
 };
 
+const types = ['FilterByName', 'InputNumber', 'FilterByCondition', 'add', 'delete'];
+
 export default (state = INITIAL_STATE, action) => {
-  if (action.type === 'FilterByName' || action.type === 'InputNumber' || action.type === 'FilterByCondition') {
+
+  console.log(action)
+  function returnState() {
     const filters = [...action.filters];
     return {
       ...state, filters,
     };
   }
 
-  if (action.type === 'add' || action.type === 'delete') {
-    const filters = [...action.filters];
+  if (types.some((type) => action.type === type)) {
+    return returnState();
+  }
+
+  if (action.type === 'Order') {
     return {
-      ...state, filters,
+      ...state,
+      order: {
+        ...state.order,
+      },
     };
   }
 

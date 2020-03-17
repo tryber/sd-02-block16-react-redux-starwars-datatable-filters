@@ -25,7 +25,11 @@ class InputNumber extends Component {
     return (
       <div className="comp_input">
         <p>Quantidade: </p>
-        <input type="text" value={input} onChange={(e) => handle(e, this.id, filters)} />
+        <input
+          type="text"
+          value={input}
+          onChange={(e) => handle(e, this.id, filters)}
+        />
       </div>
     );
   }

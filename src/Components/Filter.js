@@ -6,6 +6,7 @@ import FilterByName from './FilterByName';
 import FilterByCondition from './FilterByCondition';
 import InputNumber from './InputNumber';
 
+
 function handleClick(e, id, filters) {
   const coisa = filters;
   coisa.splice(id, 1);
