@@ -29,7 +29,7 @@ class Table extends Component {
         <input type="text" onChange={(e) => filterPlanet(e, dataPlanet, data)} />
         <SelectDropDown />
         <SelectCondition />
-        <input type="number" onChange={(e) => console.log(e.target.value)}/>
+        <input type="number" onChange={(e) => console.log(e.target.value)} />
         <div>StarWars DataTable with Filters</div>
         <table>
           <HeadTable />

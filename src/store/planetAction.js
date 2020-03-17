@@ -17,8 +17,8 @@ function filterData(results, planet) {
 const planetAction = (planet, data) => (
   (dispatch) => {
     const { results } = data;
-    const filteredResult = results.map((result) => 
-      result.name.toUpperCase().includes(planet.toUpperCase())
+    const filteredResult = results.map((result) =>
+      (result.name.toUpperCase().includes(planet.toUpperCase()))
     ? result
     : []);
     const filterUndefined = filteredResult.filter((element) => element.length !== 0);
