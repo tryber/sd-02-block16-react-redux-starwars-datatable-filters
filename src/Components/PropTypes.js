@@ -66,6 +66,25 @@ const filtersDefault = {
   ],
 };
 
+const orderPropTypes = {
+  order: PropTypes.shape({
+    name: PropTypes.string,
+    asc: PropTypes.string,
+  }),
+};
+
+const orderDefault = {
+  order: {
+    name: '',
+    asc: '',
+  },
+};
+
 export {
-  planetsPropTypes, planetsDefault, filtersPropTypes, filtersDefault,
+  planetsPropTypes,
+  planetsDefault,
+  filtersPropTypes,
+  filtersDefault,
+  orderPropTypes,
+  orderDefault,
 };

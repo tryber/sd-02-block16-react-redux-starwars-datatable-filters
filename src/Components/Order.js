@@ -3,7 +3,10 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import {
-  planetsPropTypes, planetsDefault,
+  planetsPropTypes,
+  planetsDefault,
+  orderPropTypes,
+  orderDefault,
 } from './PropTypes';
 import Dropdown from './Dropdown';
 import './filterBy.css';
@@ -55,18 +58,12 @@ const mapDispatchToProps = (dispatch) => ({
 Order.propTypes = {
   handle: PropTypes.func.isRequired,
   planets: planetsPropTypes,
-  order: PropTypes.shape({
-    name: PropTypes.string,
-    asc: PropTypes.string,
-  }),
+  order: orderPropTypes,
 };
 
 Order.defaultProps = {
   planets: planetsDefault,
-  order: {
-    name: '',
-    asc: '',
-  },
+  order: orderDefault,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Order);

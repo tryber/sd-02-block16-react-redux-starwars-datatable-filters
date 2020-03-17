@@ -3,7 +3,12 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import {
-  planetsPropTypes, planetsDefault, filtersPropTypes, filtersDefault,
+  planetsPropTypes,
+  planetsDefault,
+  filtersPropTypes,
+  filtersDefault,
+  orderPropTypes,
+  orderDefault,
 } from './PropTypes';
 import evento from '../action';
 import './style.css';
@@ -114,10 +119,7 @@ class Table extends Component {
 Table.propTypes = {
   planets: planetsPropTypes,
   filters: filtersPropTypes,
-  order: PropTypes.shape({
-    name: PropTypes.string,
-    asc: PropTypes.string,
-  }),
+  order: orderPropTypes,
   inputName: PropTypes.string,
   requestApi: PropTypes.func.isRequired,
 };
@@ -125,10 +127,7 @@ Table.propTypes = {
 Table.defaultProps = {
   planets: planetsDefault,
   filters: filtersDefault,
-  order: {
-    name: '',
-    asc: '',
-  },
+  order: orderDefault,
   inputName: '',
 };
 
