@@ -5,6 +5,20 @@ import { fetchSWPlanets, filterSWPlanets } from '../actions';
 import Select from './Select';
 import './Table.css';
 
+function renderFilter(param) {
+  return (
+    param.map((values) => (
+      <tbody key={values.name}>
+        <tr>
+          {Object.values(values)
+            .map((body, index) => (index !== 9
+              ? <td className="tableData" key={body}>{body}</td>
+              : null))}
+        </tr>
+      </tbody>
+    )));
+}
+
 function renderplanets(param, loading, filt) {
   if (!loading && param) {
     return (
@@ -25,16 +39,7 @@ function renderplanets(param, loading, filt) {
                   : null))}
             </tr>
           </tbody>
-        )) : filt.map((values) => (
-          <tbody key={values.name}>
-            <tr>
-              {Object.values(values)
-                .map((body, index) => (index !== 9
-                  ? <td className="tableData" key={body}>{body}</td>
-                  : null))}
-            </tr>
-          </tbody>
-        ))}
+        )) : renderFilter(filt)}
       </table>
     );
   }
