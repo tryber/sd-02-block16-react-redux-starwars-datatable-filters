@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
 import {
   filterPlanetsWithName,
   columnValue,
@@ -41,7 +42,6 @@ const NumberInput = (dispatchNumber) => (
     onChange={(e) => dispatchNumber(e.target.value)}
   />
 );
-
 
 class InputsAndFilters extends React.Component {
   render() {

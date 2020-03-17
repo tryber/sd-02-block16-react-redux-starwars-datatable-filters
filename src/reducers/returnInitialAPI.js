@@ -1,4 +1,3 @@
-import sleep from '../services/sleep';
 import {
   REQUEST_SWAPI,
   REQUEST_SWAPI_SUCCESS,
@@ -18,7 +17,6 @@ const returnInitialAPI = (state = INITIAL_STATE, action) => {
       };
 
     case REQUEST_SWAPI_SUCCESS:
-      sleep(2000);
       return {
         ...state,
         isFetching: false,

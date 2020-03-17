@@ -4,28 +4,29 @@ import {
   SELECT_COLUMN_FILTER,
 } from '../actions';
 
-const INITIAL_STATE = {
-  filters: [
-    {
-      name: '',
-    },
-    {
-      numericValues: {
-        column: '',
-        comparison: '',
-        value: '',
-      },
-    },
-  ],
-};
+// const INITIAL_STATE = {
+//   filters: [
+//     {
+//       name: '',
+//     },
+//     {
+//       numericValues: {
+//         column: '',
+//         comparison: '',
+//         value: '',
+//       },
+//     },
+//   ],
+// };
+
+const INITIAL_STATE = [];
 
 const returnFilterData = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case FILTER_PLANETS_WITH_NAME:
-      console.log(state);
       return {
         filters: [
-
+          // ...state,
           {
             name: action.name,
           },
@@ -39,7 +40,6 @@ const returnFilterData = (state = INITIAL_STATE, action) => {
       };
 
     case SELECT_COLUMN_FILTER:
-      console.log([...state.filters]);
       return { ...state };
 
     default: return state;
