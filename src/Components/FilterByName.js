@@ -41,11 +41,11 @@ class FilterByName extends Component {
           <p>{name}</p>
         </div>
         <div className="list" ref={this.list}>
-          <Button name="population" btn="population" id={id} />
-          <Button name="orbital_period" btn="orbital period" id={id} />
-          <Button name="diameter" btn="diameter" id={id} />
-          <Button name="rotation_period" btn="rotation period" id={id} />
-          <Button name="surface_water" btn="surface water" id={id} />
+          <Button name="population" btn="population" id={id} type="FilterByName" />
+          <Button name="orbital_period" btn="orbital period" id={id} type="FilterByName" />
+          <Button name="diameter" btn="diameter" id={id} type="FilterByName" />
+          <Button name="rotation_period" btn="rotation period" id={id} type="FilterByName" />
+          <Button name="surface_water" btn="surface water" id={id} type="FilterByName" />
         </div>
       </div>
     );
@@ -62,7 +62,7 @@ FilterByName.propTypes = {
       numericValues: PropTypes.shape({
         name: PropTypes.string,
         condition: PropTypes.string,
-        input: PropTypes.number,
+        input: PropTypes.string,
       }).isRequired,
     }).isRequired,
   ),

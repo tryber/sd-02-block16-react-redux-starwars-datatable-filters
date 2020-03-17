@@ -31,11 +31,11 @@ function byCondition(planets, filter) {
   const { name, condition, input } = filter.numericValues;
   switch (condition) {
     case 'maior':
-      return planets.filter((planet) => parseFloat(planet[name]) > input);
+      return planets.filter((planet) => parseFloat(planet[name]) > parseFloat(input));
     case 'menor':
-      return planets.filter((planet) => parseFloat(planet[name]) < input);
+      return planets.filter((planet) => parseFloat(planet[name]) < parseFloat(input));
     case 'igual':
-      return planets.filter((planet) => parseFloat(planet[name]) === input);
+      return planets.filter((planet) => parseFloat(planet[name]) === parseFloat(input));
     default:
       return planets;
   }
@@ -133,7 +133,7 @@ Table.propTypes = {
       numericValues: PropTypes.shape({
         name: PropTypes.string,
         condition: PropTypes.string,
-        input: PropTypes.number,
+        input: PropTypes.string,
       }).isRequired,
     }).isRequired,
   ),

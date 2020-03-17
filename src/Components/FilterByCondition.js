@@ -41,10 +41,10 @@ class FilterByCondition extends Component {
           <p>{condition}</p>
         </div>
         <div className="list" ref={this.ref2}>
-          <Button name="all" btn="all" id={id} />
-          <Button name="maior" btn="Maior que" id={id} />
-          <Button name="menor" btn="Menor que" id={id} />
-          <Button name="igual" btn="Igual a" id={id} />
+          <Button name="all" btn="all" id={id} type="FilterByCondition" />
+          <Button name="maior" btn="Maior que" id={id} type="FilterByCondition" />
+          <Button name="menor" btn="Menor que" id={id} type="FilterByCondition" />
+          <Button name="igual" btn="Igual a" id={id} type="FilterByCondition" />
         </div>
       </div>
     );
@@ -62,7 +62,7 @@ FilterByCondition.propTypes = {
       numericValues: PropTypes.shape({
         name: PropTypes.string,
         condition: PropTypes.string,
-        input: PropTypes.number,
+        input: PropTypes.string,
       }).isRequired,
     }).isRequired,
   ),

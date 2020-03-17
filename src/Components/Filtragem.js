@@ -63,7 +63,7 @@ Filtragem.propTypes = {
       numericValues: PropTypes.shape({
         name: PropTypes.string,
         condition: PropTypes.string,
-        input: PropTypes.number,
+        input: PropTypes.string,
       }).isRequired,
     }).isRequired,
   ),

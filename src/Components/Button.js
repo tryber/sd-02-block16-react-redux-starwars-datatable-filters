@@ -2,11 +2,21 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-function handleClick(e, id, filters) {
+function handleClick(e, id, filters, type) {
   const coisa = filters;
-  coisa[id].numericValues.name = e.target.name;
+  console.log(e.target)
+  switch (type) {
+    case 'FilterByName':
+      coisa[id].numericValues.name = e.target.name;
+      break;
+    case 'FilterByCondition':
+      coisa[id].numericValues.condition = e.target.name;
+      break;
+    default:
+      break;
+  }
   return {
-    type: 'FilterByName',
+    type,
     filters: coisa,
   };
 }
@@ -16,15 +26,16 @@ class Button extends Component {
     const {
       filters,
       handle,
+      name,
       btn,
+      type,
       id,
     } = this.props;
-    const { name } = filters[id].numericValues;
     return (
       <button
         type="button"
         name={name}
-        onClick={(e) => handle(e, id, filters)}
+        onClick={(e) => handle(e, id, filters, type)}
       >
         {btn}
       </button>
@@ -37,7 +48,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handle: (e, id, filters) => dispatch(handleClick(e, id, filters)),
+  handle: (e, id, filters, type) => dispatch(handleClick(e, id, filters, type)),
 });
 
 Button.propTypes = {
@@ -47,12 +58,14 @@ Button.propTypes = {
       numericValues: PropTypes.shape({
         name: PropTypes.string,
         condition: PropTypes.string,
-        input: PropTypes.number,
+        input: PropTypes.string,
       }).isRequired,
     }).isRequired,
   ),
   id: PropTypes.number.isRequired,
   btn: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
 };
 
 Button.defaultProps = {

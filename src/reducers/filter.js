@@ -18,9 +18,8 @@ const INITIAL_STATE = {
 const types = ['FilterByName', 'InputNumber', 'FilterByCondition', 'add', 'delete'];
 
 export default (state = INITIAL_STATE, action) => {
-
-  console.log(action)
   function returnState() {
+    console.log(action)
     const filters = [...action.filters];
     return {
       ...state, filters,
