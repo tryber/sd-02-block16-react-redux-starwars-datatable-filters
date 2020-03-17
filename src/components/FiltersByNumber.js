@@ -36,19 +36,22 @@ class FiltersByNumber extends Component {
     this.dispatchFilters = this.dispatchFilters.bind(this);
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps = this.props) {
     const {
       rowIndex,
       numericValues,
-      // filterRowStatus: thisStatus,
     } = this.props;
 
     const {
+      rowIndex: prevRowIndex,
       numericValues: prevNumericValues,
     } = prevProps;
 
-    const thisNumericValue = numericValues[rowIndex] !== undefined
+    const thisNumericValue = (numericValues[rowIndex] !== undefined)
     && numericValues[rowIndex].numericValues;
+
+    const oldNumericValues = prevNumericValues[prevRowIndex] !== undefined
+    && prevNumericValues[prevRowIndex].numericValues;
 
     const {
       column,
@@ -61,8 +64,6 @@ class FiltersByNumber extends Component {
       },
     } = thisNumericValue;
 
-    const oldNumericValues = prevNumericValues[rowIndex] !== undefined
-    && prevNumericValues[rowIndex].prevNumericValues;
 
     const {
       status: {
@@ -250,6 +251,7 @@ function FilterCount(props) {
 
   return (
     filterCount.map((item, rowIndex) => {
+      console.log(numericValues)
       const thisNumericValue = numericValues[rowIndex].numericValues;
       const { column, comparison, value } = thisNumericValue;
       return (
@@ -276,7 +278,6 @@ FiltersByNumber.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object),
   selectors: PropTypes.arrayOf(PropTypes.array).isRequired,
   filterCount: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
-  filterRowStatus: PropTypes.bool.isRequired,
 };
 
 FiltersByNumber.defaultProps = {

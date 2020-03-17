@@ -1,6 +1,6 @@
 const INITIAL_STATE = {
   data: [],
-  // filterRowStatus: false,
+  rowIndex: 0,
   isFilteredByNumber: false,
   filters: [
     { filterCount: [['x']] },
@@ -82,7 +82,7 @@ export default function filterByNumericValue(state = INITIAL_STATE,
           filters[0],
           filters[1],
           filters[2].map((filterSet, setIndex) => (
-            (setIndex === rowIndex) ? (
+            (setIndex === state.rowIndex) ? (
               {
                 numericValues: {
                   ...filterSet.numericValues,
