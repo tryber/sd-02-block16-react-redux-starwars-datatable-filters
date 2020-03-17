@@ -13,7 +13,7 @@ const headTable = () => {
       <tr>
         {Object.keys(results[0]).map((result) => ((result !== 'residents')
           ? <th className="headTable" key={result}>{result.replace(/_/g, ' ')}</th>
-          : <th key={result}>{result}</th>))
+          : null))
         }
       </tr>
     </thead>
@@ -21,7 +21,7 @@ const headTable = () => {
 };
 
 const cellTable = () => {
-  const { loadReducer: { data: { results } } } = store.getState();
+  const { loadReducer: { dataMock: { results } } } = store.getState();
   return (
     results.map((result) => (
       <tbody key={result.name}>
@@ -40,9 +40,39 @@ const cellTable = () => {
   );
 };
 
-const filterPlanet = (e, dataPlanet) => {
+const selectDropdown = () => {
+  return (
+    <form>
+      <label>
+        <select onClick={(e) => console.log(e.target.options[e.target.selectedIndex].text)}>
+          <option value='1'>population</option>
+          <option value='2'>orbital_period</option>
+          <option value='3'>diameter</option>
+          <option value='4'>rotation_period</option>
+          <option value='5'>surface_water</option>
+        </select>
+      </label>
+    </form>
+  );
+}
+
+const selectCondition = () => {
+  return (
+    <form>
+      <label>
+        <select onClick={(e) => console.log(e.target)}>
+          <option value='1'>Maior que</option>
+          <option value='2'>Menor que</option>
+          <option value='3'>Igual a</option>
+        </select>
+      </label>
+    </form>
+  );
+}
+
+const filterPlanet = (e, dataPlanet, data) => {
   const planet = e.target.value;
-  dataPlanet(planet);
+  dataPlanet(planet, data);
 };
 
 class Table extends Component {
@@ -53,27 +83,29 @@ class Table extends Component {
   }
 
   render() {
-    const { onLoad, data, dataPlanet } = this.props;
+    const { onLoad, data, dataMock, dataPlanet } = this.props;
     if (!onLoad) return <p>Loading...</p>;
     return (
       <div>
-        <input type="text" onChange={(e) => filterPlanet(e, dataPlanet)} />
-        <p><small>Press <strong>Enter key</strong> in input</small></p>
+        <input type="text" onChange={(e) => filterPlanet(e, dataPlanet, data)} />
+        {selectDropdown()}
+        {selectCondition()}
+        <input type="number" />
         <div>StarWars DataTable with Filters</div>
         <table>
           {headTable(data)}
-          {cellTable(data)}
+          {cellTable(dataMock)}
         </table>
       </div>
     );
   }
 }
 
-const mapStateToProps = ({ loadReducer: { data, onLoad } }) => ({ data, onLoad });
+const mapStateToProps = ({ loadReducer: { data, onLoad, dataMock } }) => ({ data, onLoad, dataMock });
 
 const mapDispatchToProps = (dispatch) => ({
   dataAPI: () => dispatch(resultAPI()),
-  dataPlanet: (planet) => dispatch(planetAction(planet)),
+  dataPlanet: (planet, data) => dispatch(planetAction(planet, data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Table);
@@ -82,7 +114,7 @@ Table.propTypes = {
   dataAPI: PropTypes.func.isRequired,
   dataPlanet: PropTypes.func.isRequired,
   onLoad: PropTypes.bool.isRequired,
-  data: PropTypes.instanceOf(Array).isRequired,
+  data: PropTypes.instanceOf(Object).isRequired,
 };
 
 Table.defaultProps = {

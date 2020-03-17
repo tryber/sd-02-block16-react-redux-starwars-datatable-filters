@@ -1,10 +1,9 @@
 import * as types from '../store/actionTypes';
-import getEndPointSwAPI from '../service/SwAPI';
 
 function filterData(results, planet) {
   return {
     type: types.RESULT_PLANET,
-    data: {
+    dataMock: {
       results,
     },
     filters: [
@@ -15,14 +14,14 @@ function filterData(results, planet) {
   };
 }
 
-const planetAction = (planet) => (
-  async (dispatch) => {
-    const returnedAPI = [await getEndPointSwAPI()];
-    const filteredResult = returnedAPI[0].results.map((result) => (
-      result.name.toLowerCase().slice(1).includes(planet.toLowerCase().slice(1))
+const planetAction = (planet, data) => (
+  (dispatch) => {
+    const { results } = data;
+    const filteredResult = results.map((result) => 
+      result.name.toUpperCase().includes(planet.toUpperCase())
     ? result
-    : []));
-    const filterUndefined = filteredResult.filter((element) => element !== undefined);
+    : []);
+    const filterUndefined = filteredResult.filter((element) => element.length !== 0);
     const planetCase = planet.charAt(0).toUpperCase() + planet.substring(1);
     return dispatch(filterData(filterUndefined, planetCase));
   }

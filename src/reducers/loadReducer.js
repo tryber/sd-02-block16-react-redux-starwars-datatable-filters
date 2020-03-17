@@ -2,11 +2,19 @@ import * as types from '../store/actionTypes';
 
 const initialState = {
   data: [],
+  dataMock: [],
   onLoad: false,
   error: '',
   filters: [
     {
       name: '',
+    },
+    {
+      numericValues: {
+        column: '',
+        comparison: '',
+        value: '',
+      },
     },
   ],
 };
@@ -18,6 +26,7 @@ export default function reduce(state = initialState, action) {
         ...state,
         onLoad: true,
         data: action.data,
+        dataMock: action.data,
       };
     case types.RESULT_FALSE:
       return {
@@ -28,7 +37,7 @@ export default function reduce(state = initialState, action) {
     case types.RESULT_PLANET:
       return {
         ...state,
-        data: action.data,
+        dataMock: action.dataMock,
         filters: action.filters,
       };
     default:
