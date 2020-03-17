@@ -1,9 +1,21 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import './Dropdown.css';
 
-export default class Dropdown extends Component {
+
+function actionName(e, order) {
+  return {
+    type: 'Order',
+    order: {
+      ...order,
+      name: e.target.outerText,
+    },
+  };
+}
+
+class Dropdown extends Component {
   constructor(props) {
     super(props);
     this.dropdown = false;
@@ -12,10 +24,10 @@ export default class Dropdown extends Component {
   }
 
   clickHandle(e) {
-    const { cb } = this.props;
+    const { order, dispatch } = this.props;
     this.selected.current.innerText = e.target.outerText;
     this.dropDonw();
-    cb(e);
+    dispatch(actionName(e, order));
   }
 
   dropDonw() {
@@ -43,7 +55,7 @@ export default class Dropdown extends Component {
   }
 
   render() {
-    const { options } = this.props;
+    const { options, handle } = this.props;
     return (
       <div className="comp_dropdown">
         <div className="selected">
@@ -70,3 +82,11 @@ Dropdown.propTypes = {
     PropTypes.string.isRequired,
   ).isRequired,
 };
+
+const mapStateToProps = (state) => ({
+  order: state.filter.order,
+  planets: state.data.planets,
+});
+
+
+export default connect(mapStateToProps)(Dropdown);

@@ -80,12 +80,12 @@ class Table extends Component {
   }
 
   byOrder(planets) {
-    const { order } = this.props;
-    switch (order) {
+    const { order: { asc, name } } = this.props;
+    switch (asc) {
       case 'Asc':
-        return planets.sort((a, b) => ((a.name > b.name) ? 1 : -1));
+        return planets.sort((a, b) => ((a[name] > b[name]) ? 1 : -1));
       case 'Desc':
-        return planets.sort((a, b) => ((a.name < b.name) ? 1 : -1));
+        return planets.sort((a, b) => ((a[name] < b[name]) ? 1 : -1));
       default:
         return planets;
     }
@@ -99,7 +99,7 @@ class Table extends Component {
           {theadRender(planets)}
         </thead>
         <tbody>
-          {this.inputNumbers(this.planetName(planets)).map((planet) => (
+          {this.byOrder(this.inputNumbers(this.planetName(planets))).map((planet) => (
             tbodyRender(planet)
           ))}
         </tbody>
@@ -137,7 +137,10 @@ Table.propTypes = {
       }).isRequired,
     }).isRequired,
   ),
-  // order: PropTypes.string,
+  order: PropTypes.shape({
+    name: PropTypes.string,
+    asc: PropTypes.string,
+  }),
   inputName: PropTypes.string,
   requestApi: PropTypes.func.isRequired,
 };
@@ -169,10 +172,10 @@ Table.defaultProps = {
       },
     },
   ],
-  // order: {
-  //   name: '',
-  //   asc: '',
-  // },
+  order: {
+    name: '',
+    asc: '',
+  },
   inputName: '',
 };
 

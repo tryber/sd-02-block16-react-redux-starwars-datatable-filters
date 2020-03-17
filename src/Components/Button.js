@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 
 function handleClick(e, id, filters, type) {
   const coisa = filters;
-  console.log(e.target)
   switch (type) {
     case 'FilterByName':
       coisa[id].numericValues.name = e.target.name;

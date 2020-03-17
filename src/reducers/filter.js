@@ -19,7 +19,6 @@ const types = ['FilterByName', 'InputNumber', 'FilterByCondition', 'add', 'delet
 
 export default (state = INITIAL_STATE, action) => {
   function returnState() {
-    console.log(action)
     const filters = [...action.filters];
     return {
       ...state, filters,
@@ -34,7 +33,8 @@ export default (state = INITIAL_STATE, action) => {
     return {
       ...state,
       order: {
-        ...state.order,
+        ...state.action,
+        ...action.order,
       },
     };
   }

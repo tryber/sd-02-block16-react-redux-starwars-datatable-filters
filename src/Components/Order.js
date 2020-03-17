@@ -15,20 +15,6 @@ function actionAsc(e, order) {
   };
 }
 
-function actionName(e, order) {
-  return {
-    type: 'Order',
-    order: {
-      ...order,
-      name: e.target.outerText,
-    },
-  };
-}
-
-function handleClick(event) {
-  actionName(event);
-}
-
 class Order extends Component {
   constructor(props) {
     super(props);
@@ -37,7 +23,7 @@ class Order extends Component {
 
   render() {
     const {
-      handle, planets, order
+      handle, planets, order,
     } = this.props;
     return (
       <div className="comp_order">
@@ -48,13 +34,11 @@ class Order extends Component {
         </div>
         <Dropdown
           options={Object.keys(planets[0])}
-          cb={handleClick}
         />
       </div>
     );
   }
 }
-
 
 const mapStateToProps = (state) => ({
   order: state.filter.order,
@@ -62,11 +46,58 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handle: (e) => dispatch(actionAsc(e)),
+  handle: (e, order) => dispatch(actionAsc(e, order)),
 });
 
 Order.propTypes = {
   handle: PropTypes.func.isRequired,
+  planets: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      rotation_period: PropTypes.string,
+      orbital_period: PropTypes.string,
+      diameter: PropTypes.string,
+      surface_water: PropTypes.string,
+      climate: PropTypes.string,
+      gravity: PropTypes.string,
+      terrain: PropTypes.string,
+      populatio: PropTypes.string,
+      created: PropTypes.string,
+      edited: PropTypes.string,
+      url: PropTypes.string,
+      films: PropTypes.arrayOf(
+        PropTypes.string,
+      ),
+    }),
+  ),
+  order: PropTypes.shape({
+    name: PropTypes.string,
+    asc: PropTypes.string,
+  }),
+};
+
+Order.defaultProps = {
+  planets: [{
+    name: '',
+    rotation_period: null,
+    orbital_period: null,
+    diameter: null,
+    surface_water: '',
+    climate: '',
+    gravity: '',
+    terrain: '',
+    populatio: '',
+    created: '',
+    edited: '',
+    url: '',
+    films: PropTypes.arrayOf(
+      '',
+    ),
+  }],
+  order: {
+    name: '',
+    asc: '',
+  },
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Order);
