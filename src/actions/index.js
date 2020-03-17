@@ -6,6 +6,7 @@ export const RECEIVE_PLANETS_FAILURE = 'RECEIVE_PLANETS_FAILURE';
 
 const requestPlanets = () => ({
   type: REQUEST_PLANETS,
+  isFetching: true,
 });
 
 const receivePlanets = ({ results }) => ({

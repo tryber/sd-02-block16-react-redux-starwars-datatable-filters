@@ -41,10 +41,15 @@ class Table extends Component {
   }
 
   tableRender() {
-    let { planets } = this.props.planets;
-    const headerTable = planets ? Object.keys(planets[0]) : '';
-    planets = (this.planetsFilteredByName(planets));
-    planets = this.planetsFilteredBySelect(planets);
+    const { data } = this.props;
+    console.log(data);
+    const headerTable = data ? Object.keys(data[0]) : '';
+    let planets = [];
+    if (data) {
+      planets = [...data];
+      planets = this.planetsFilteredByName(planets);
+      planets = this.planetsFilteredBySelect(planets);
+    }
     if (headerTable) {
       return (
         <table>
@@ -79,8 +84,8 @@ class Table extends Component {
   }
 }
 
-const mapStateToProps = ({ planets, searchFilterReducer: { filters } }) => ({
-  planets,
+const mapStateToProps = ({ planets: { data }, searchFilterReducer: { filters } }) => ({
+  data,
   filters,
 });
 
@@ -91,7 +96,7 @@ const mapDispatchToProps = (dispatch) => ({
 Table.propTypes = {
   getPlanets: PropTypes.func.isRequired,
   filters: PropTypes.instanceOf(Array).isRequired,
-  planets: PropTypes.instanceOf(Array).isRequired,
+  data: PropTypes.instanceOf(Array).isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Table);

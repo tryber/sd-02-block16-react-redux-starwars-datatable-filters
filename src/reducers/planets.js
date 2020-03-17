@@ -13,7 +13,7 @@ const getPlanets = (state = INITIAL_PLANETS_STATE, action) => {
     case RECEIVE_PLANETS_SUCCESS:
       return {
         ...state,
-        planets: action.planets,
+        data: action.planets,
       };
     default: return state;
   }
