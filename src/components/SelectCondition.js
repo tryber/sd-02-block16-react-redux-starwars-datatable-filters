@@ -6,7 +6,9 @@ class SelectCondition extends Component {
     return (
       <form>
         <label htmlFor="conditionType">
-          <select id="conditionType" onClick={(e) =>
+          <select
+            id="conditionType"
+            onClick={(e) =>
             console.log(e.target.options[e.target.selectedIndex].text)}
           >
             <option value="6">Maior que</option>

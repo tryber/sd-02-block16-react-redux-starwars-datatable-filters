@@ -18,10 +18,11 @@ const planetAction = (planet, data) => (
   (dispatch) => {
     const { results } = data;
     const filteredResult = results.map((result) => {
-      return (result.name.toUpperCase().includes(planet.toUpperCase()))
+      const filter = (result.name.toUpperCase().includes(planet.toUpperCase()))
     ? result
     : [];
-    })
+      return filter;
+    });
     const filterUndefined = filteredResult.filter((element) => element.length !== 0);
     const planetCase = planet.charAt(0).toUpperCase() + planet.substring(1);
     return dispatch(filterData(filterUndefined, planetCase));
