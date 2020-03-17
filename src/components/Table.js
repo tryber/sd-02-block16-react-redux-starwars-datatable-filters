@@ -5,37 +5,9 @@ import resultAPI from '../store/loadAction';
 import planetAction from '../store/planetAction';
 import HeadTable from './Headtable';
 import Celltable from './Celltable';
+import SelectCondition from './SelectCondition';
+import SelectDropDown from './SelectDropDown';
 import './Table.css';
-
-const selectDropdown = () => {
-  return (
-    <form>
-      <label>
-        <select onClick={(e) => console.log(e.target.options[e.target.selectedIndex].text)}>
-          <option value='1'>population</option>
-          <option value='2'>orbital_period</option>
-          <option value='3'>diameter</option>
-          <option value='4'>rotation_period</option>
-          <option value='5'>surface_water</option>
-        </select>
-      </label>
-    </form>
-  );
-}
-
-const selectCondition = () => {
-  return (
-    <form>
-      <label>
-        <select onClick={(e) => console.log(e.target.options[e.target.selectedIndex].text)}>
-          <option value='1'>Maior que</option>
-          <option value='2'>Menor que</option>
-          <option value='3'>Igual a</option>
-        </select>
-      </label>
-    </form>
-  );
-}
 
 const filterPlanet = (e, dataPlanet, data) => {
   const planet = e.target.value;
@@ -55,8 +27,8 @@ class Table extends Component {
     return (
       <div>
         <input type="text" onChange={(e) => filterPlanet(e, dataPlanet, data)} />
-        {selectDropdown()}
-        {selectCondition()}
+        <SelectDropDown />
+        <SelectCondition />
         <input type="number" onChange={(e) => console.log(e.target.value)}/>
         <div>StarWars DataTable with Filters</div>
         <table>
