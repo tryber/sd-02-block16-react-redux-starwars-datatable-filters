@@ -3,42 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import resultAPI from '../store/loadAction';
 import planetAction from '../store/planetAction';
-import store from '../store';
+import HeadTable from './Headtable';
+import Celltable from './Celltable';
 import './Table.css';
-
-const headTable = () => {
-  const { loadReducer: { data: { results } } } = store.getState();
-  return (
-    <thead>
-      <tr>
-        {Object.keys(results[0]).map((result) => ((result !== 'residents')
-          ? <th className="headTable" key={result}>{result.replace(/_/g, ' ')}</th>
-          : null))
-        }
-      </tr>
-    </thead>
-  );
-};
-
-const cellTable = () => {
-  const { loadReducer: { dataMock: { results } } } = store.getState();
-  return (
-    results.map((result) => (
-      <tbody key={result.name}>
-        <tr>
-          {Object.values(result).map((item, index) => {
-            if (index !== 9) {
-              return (
-                <td key={item}>{item}</td>
-              );
-            }
-            return null;
-          })}
-        </tr>
-      </tbody>
-    ))
-  );
-};
 
 const selectDropdown = () => {
   return (
@@ -60,7 +27,7 @@ const selectCondition = () => {
   return (
     <form>
       <label>
-        <select onClick={(e) => console.log(e.target)}>
+        <select onClick={(e) => console.log(e.target.options[e.target.selectedIndex].text)}>
           <option value='1'>Maior que</option>
           <option value='2'>Menor que</option>
           <option value='3'>Igual a</option>
@@ -83,25 +50,25 @@ class Table extends Component {
   }
 
   render() {
-    const { onLoad, data, dataMock, dataPlanet } = this.props;
+    const { onLoad, data, dataPlanet } = this.props;
     if (!onLoad) return <p>Loading...</p>;
     return (
       <div>
         <input type="text" onChange={(e) => filterPlanet(e, dataPlanet, data)} />
         {selectDropdown()}
         {selectCondition()}
-        <input type="number" />
+        <input type="number" onChange={(e) => console.log(e.target.value)}/>
         <div>StarWars DataTable with Filters</div>
         <table>
-          {headTable(data)}
-          {cellTable(dataMock)}
+          <HeadTable />
+          <Celltable />
         </table>
       </div>
     );
   }
 }
 
-const mapStateToProps = ({ loadReducer: { data, onLoad, dataMock } }) => ({ data, onLoad, dataMock });
+const mapStateToProps = ({ loadReducer: { data, onLoad } }) => ({ data, onLoad });
 
 const mapDispatchToProps = (dispatch) => ({
   dataAPI: () => dispatch(resultAPI()),
