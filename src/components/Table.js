@@ -44,12 +44,9 @@ class Table extends Component {
     const { data } = this.props;
     console.log(data);
     const headerTable = data ? Object.keys(data[0]) : '';
-    let planets = [];
-    if (data) {
-      planets = [...data];
-      planets = this.planetsFilteredByName(planets);
-      planets = this.planetsFilteredBySelect(planets);
-    }
+    let planets = data ? [...data] : [];
+    planets = this.planetsFilteredByName(planets);
+    planets = this.planetsFilteredBySelect(planets);
     if (headerTable) {
       return (
         <table>
