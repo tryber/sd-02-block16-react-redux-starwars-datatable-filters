@@ -55,7 +55,7 @@ class Dropdown extends Component {
   }
 
   render() {
-    const { options, handle } = this.props;
+    const { options } = this.props;
     return (
       <div className="comp_dropdown">
         <div className="selected">
@@ -81,6 +81,18 @@ Dropdown.propTypes = {
   options: PropTypes.arrayOf(
     PropTypes.string.isRequired,
   ).isRequired,
+  order: PropTypes.shape({
+    name: PropTypes.string,
+    asc: PropTypes.string,
+  }),
+  dispatch: PropTypes.func.isRequired,
+};
+
+Dropdown.defaultProps = {
+  order: {
+    name: '',
+    asc: '',
+  },
 };
 
 const mapStateToProps = (state) => ({
