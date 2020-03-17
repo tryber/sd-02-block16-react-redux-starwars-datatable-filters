@@ -49,13 +49,13 @@
   height: 20px;
   width: 20px;
 }
+
 .comp_order {
   border-color: black;
   border-style: solid;
   border-width: 1px;
   width: 40%;
 }
-
 
 .comp_order > div {
   display: flex;
@@ -67,6 +67,6 @@
   border-style: solid;
   border-width: 1px;
   cursor: pointer;
-  padding: 0 5%;
   margin: 4% 2%;
+  padding: 0 5%;
 }
