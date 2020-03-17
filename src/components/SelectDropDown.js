@@ -6,7 +6,9 @@ class SelectDropDown extends Component {
     return (
       <form>
         <label htmlFor="filterType">
-          <select id="filterType" onClick={(e) => console.log(e.target.options[e.target.selectedIndex].text)}>
+          <select id="filterType" onClick={(e) =>
+            console.log(e.target.options[e.target.selectedIndex].text)}
+          >
             <option value="1">population</option>
             <option value="2">orbital_period</option>
             <option value="3">diameter</option>
