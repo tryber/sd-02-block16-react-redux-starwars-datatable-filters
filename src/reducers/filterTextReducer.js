@@ -4,7 +4,6 @@ const initialTextState = {
   filters: [
     {
       name: '',
-      number: 0,
     },
   ],
 };

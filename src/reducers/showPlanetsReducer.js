@@ -5,6 +5,7 @@ const initialState = {
 };
 
 const showPlanetsReducer = (state = initialState, action) => {
+  console.log('showPlanets action é essa auqi:', action)
   switch (action.type) {
     case GET_SW_PLANETS_ACTION:
       return {
