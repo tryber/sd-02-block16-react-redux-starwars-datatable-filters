@@ -20,6 +20,18 @@ const receiveSWAPIPlanetsSuccess = ({ results }) => ({
   results,
 });
 
+export function fetchSWAPIPlanets() {
+  return (dispatch) => {
+    dispatch(requestSWAPIPlanets());
+
+    return fetchSWAPI()
+      .then(
+        (results) => dispatch(receiveSWAPIPlanetsSuccess(results)),
+        (error) => dispatch(receiveSWAPIPlanetsFailure(error)),
+      );
+  };
+}
+
 export const searchByName = (text, results) => ({
   type: SEARCH_BY_NAME,
   text,
@@ -98,15 +110,3 @@ export const searchByNumber = (column, comparison, value, results) => ({
   value,
   results: filterButton(column, comparison, value, results),
 });
-
-export function fetchSWAPIPlanets() {
-  return (dispatch) => {
-    dispatch(requestSWAPIPlanets());
-
-    return fetchSWAPI()
-      .then(
-        (results) => dispatch(receiveSWAPIPlanetsSuccess(results)),
-        (error) => dispatch(receiveSWAPIPlanetsFailure(error)),
-      );
-  };
-}

@@ -15,6 +15,7 @@ const filterPlanets = (state = INITIAL_FILTER, action) => {
   const { column } = action;
   const { comparison } = action;
   const { value } = action;
+  const [, ...rest] = state.filters;
   switch (action.type) {
     case SEARCH_BY_NAME:
       return {
@@ -23,7 +24,7 @@ const filterPlanets = (state = INITIAL_FILTER, action) => {
         activeFilter: 'name',
         filters: [
           { name: action.text },
-          { ...state.filters[1] },
+          ...rest,
         ],
       };
     case SEARCH_BY_NUMBER:
