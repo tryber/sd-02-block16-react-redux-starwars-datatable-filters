@@ -12,7 +12,7 @@ const initialState = {
       numericValues: {
         column: 'coluna',
         comparison: '-',
-        valueComparison: '-',
+        valueComparison: 0,
       },
     },
   ],
@@ -75,12 +75,15 @@ function newFilter(action, state) {
   };
 }
 
-function removendoOFiltro(i, valor, state) {
-  const nextFilter = [...state.filters];
-  const nextSelector = [...state.selectors];
-  nextFilter.splice(i, 1);
-  nextSelector.push(valor);
-  return { nextFilter, nextSelector };
+function removeFilter(action, state) {
+  const { i, value } = action;
+  console.log(i, value);
+  console.log(state.filters);
+  return {
+    ...state,
+    selectors: [...state.selectors, value],
+    filters: state.filters.filter((elem, index) => index !== parseInt(i, 10)),
+  };
 }
 
 export default function reducer(state = initialState, action) {
@@ -95,9 +98,7 @@ export default function reducer(state = initialState, action) {
       return newFilter(action, state);
     }
     case REMOVE_FILTER: {
-      const { i, value } = action;
-      const { nextFilter, nextSelector } = removendoOFiltro(i, value, state);
-      return { ...state, filters: nextFilter, selectors: nextSelector };
+      return removeFilter(action, state);
     }
     default:
       return state;
