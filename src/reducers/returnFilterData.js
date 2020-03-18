@@ -1,7 +1,6 @@
 import {
   FILTER_PLANETS_WITH_NAME,
   FILTER_PLANETS_WITH_NUMBER,
-  SELECT_COLUMN_FILTER,
 } from '../actions';
 
 // const INITIAL_STATE = {
@@ -34,13 +33,11 @@ const returnFilterData = (state = INITIAL_STATE, action) => {
         filteredData: action.filterData,
       };
     case FILTER_PLANETS_WITH_NUMBER:
+      console.log(action.numericValues);
       return {
         ...state,
         filters: [action.filters],
       };
-
-    case SELECT_COLUMN_FILTER:
-      return { ...state };
 
     default: return state;
   }

@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
 import {
   filterPlanetsWithName,
-  filter
+  filterPlanetsWithNumber,
 } from '../actions';
-
 import '../styles/InputsAndFilters_stylish.css';
 
 const columns = [
@@ -45,6 +43,7 @@ class InputsAndFilters extends React.Component {
     const {
       planetsData,
       dispatchFilter,
+      dispatchNumberFilter,
     } = this.props;
     return (
       <div className="InputsAndFilters_stylish">
@@ -68,7 +67,7 @@ class InputsAndFilters extends React.Component {
           <button
             className="InputsAndFilters_button"
             type="button"
-            onClick={(element) => console.log(element.target.previousSibling)}
+            onClick={(button) => dispatchNumberFilter(button.target)}
           >
             Search
           </button>
@@ -82,6 +81,9 @@ class InputsAndFilters extends React.Component {
 const mapDispatchToProps = (dispatch) => ({
   dispatchFilter: (planetsData, userInfo) => (
     dispatch(filterPlanetsWithName(planetsData, userInfo))
+  ),
+  dispatchNumberFilter: (buttonTag) => (
+    dispatch(filterPlanetsWithNumber(buttonTag))
   ),
 });
 
@@ -102,6 +104,7 @@ InputsAndFilters.propTypes = {
     url: PropTypes.string,
   })),
   dispatchFilter: PropTypes.func.isRequired,
+  dispatchNumberFilter: PropTypes.func.isRequired,
 };
 
 InputsAndFilters.defaultProps = {
