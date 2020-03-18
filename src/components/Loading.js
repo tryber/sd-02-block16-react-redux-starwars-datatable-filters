@@ -1,7 +1,7 @@
 import React from 'react';
 import '../styles/Loading.css';
 
-const skull = require('../images/90.gif');
+const skull = require('../images/skull.gif');
 
 const Loading = () => (
   <div className="Initial_Loading">
