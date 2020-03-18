@@ -48,12 +48,14 @@ export const filterPlanetsWithNumber = (buttonTag) => {
 };
 
 const apiReturn = () => (
-  (dispatch) => {
+  async (dispatch) => {
     dispatch(requestSwapi());
-    return requestSWAPIdata().then(
-      (values) => dispatch(requestSwapiSuccess(values)),
-      (error) => dispatch(requestSwapiFailure(error)),
-    );
+    try {
+      const values = await requestSWAPIdata();
+      return dispatch(requestSwapiSuccess(values));
+    } catch (error) {
+      return dispatch(requestSwapiFailure(error));
+    }
   }
 );
 
