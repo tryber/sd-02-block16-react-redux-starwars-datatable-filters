@@ -3,37 +3,37 @@ import {
   FILTER_PLANETS_WITH_NUMBER,
 } from '../actions';
 
-// const INITIAL_STATE = {
-//   filters: [
-//     {
-//       name: '',
-//     },
-//     {
-//       numericValues: {
-//         column: '',
-//         comparison: '',
-//         value: '',
-//       },
-//     },
-//   ],
-// };
+const INITIAL_STATE = {
+  filters: [
+    {
+      name: '',
+    },
+    {
+      numericValues: {
+        column: '',
+        comparison: '',
+        value: '',
+      },
+    },
+  ],
+};
 
-const INITIAL_STATE = [];
-
-const returnArray = [];
+// const INITIAL_STATE = [];
+const testArray = [];
 
 const returnFilterData = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case FILTER_PLANETS_WITH_NAME:
       return {
+        ...state,
         filteredData: action.filterData,
       };
     case FILTER_PLANETS_WITH_NUMBER:
-      returnArray.push(action.numericValues);
+      console.log(action.numericValuesObj);
+      testArray.push(action.numericValuesObj);
+      console.log(testArray);
       return {
         ...state,
-        filters: console.log(action.numericValues),
-        teste: console.log(returnArray),
       };
     default: return state;
   }

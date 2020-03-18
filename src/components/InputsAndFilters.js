@@ -67,7 +67,7 @@ class InputsAndFilters extends React.Component {
           <button
             className="InputsAndFilters_button"
             type="button"
-            onClick={(button) => dispatchNumberFilter(button.target)}
+            onClick={(button) => dispatchNumberFilter(button.target, filteredData, planetsData)}
           >
             Search
           </button>
@@ -81,17 +81,17 @@ const mapDispatchToProps = (dispatch) => ({
   dispatchFilter: (planetsData, userInfo) => (
     dispatch(filterPlanetsWithName(planetsData, userInfo))
   ),
-  dispatchNumberFilter: (buttonTag) => {
+  dispatchNumberFilter: (buttonTag, filteredData, planetsData) => {
     const userInputName = buttonTag.previousElementSibling;
     const comparison = userInputName.previousElementSibling;
     const tableColumn = comparison.previousElementSibling;
     console.log(userInputName.value);
-    if (userInputName.value.length === 0 || comparison.value === '-' || tableColumn === '-') {
+    if (userInputName.value.length === 0 || comparison.value === '-' || tableColumn.value === '-') {
       alert('Fill in all fields to continue.');
       return '';
     }
     return (
-      dispatch(filterPlanetsWithNumber(buttonTag))
+      dispatch(filterPlanetsWithNumber(buttonTag, filteredData, planetsData))
     );
   },
 });

@@ -32,17 +32,24 @@ export const filterPlanetsWithName = (planetsData, userValue) => ({
   filterData: filterFunction(planetsData, userValue),
 });
 
-export const filterPlanetsWithNumber = (buttonTag) => {
+export const filterPlanetsWithNumber = (buttonTag, filteredData, planetsData) => {
   const userInputName = buttonTag.previousElementSibling;
   const comparison = userInputName.previousElementSibling;
   const tableColumn = comparison.previousElementSibling;
-  return ({
-    type: FILTER_PLANETS_WITH_NUMBER,
+
+  const newFilter = () => ({
     numericValues: {
       column: tableColumn.value,
       comparison: comparison.value,
       value: userInputName.value,
     },
+  });
+
+  return ({
+    type: FILTER_PLANETS_WITH_NUMBER,
+    numericValuesObj: newFilter(),
+    noFilter: planetsData,
+    filtered: filteredData,
   });
   // Aqui limparia as seleções e o input.
 };
