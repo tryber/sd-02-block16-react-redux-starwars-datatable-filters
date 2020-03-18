@@ -19,6 +19,23 @@ const initialState = {
   selectors: ['coluna', 'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'],
 };
 
+function selectorFilter(action, state) {
+  const { value, part } = action;
+  return {
+    ...state,
+    filters: state.filters.map((elem, index) => {
+      if (index === 1) {
+        console.log(value, part);
+        return {
+          ...elem,
+          numericValues: { ...state.filters[1].numericValues, [part]: value },
+        };
+      }
+      return elem;
+    }),
+  };
+}
+
 function newFilter(action, state) {
   const { column, comparison, valueComparison } = action;
   const nextFilter = [...state.filters];
@@ -55,10 +72,7 @@ export default function reducer(state = initialState, action) {
       return { ...state, filters: nextFilter };
     }
     case SELECTOR_FILTER: {
-      const nextFilter = [...state.filters];
-      const { value, part } = action;
-      nextFilter[1].numericValues[part] = value;
-      return { ...state, filters: nextFilter };
+      return selectorFilter(action, state);
     }
     case NEW_FILTER: {
       const { nextFilter, nextSelector } = newFilter(action, state);
