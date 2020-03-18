@@ -12,8 +12,6 @@ const filterFunction = (planetsData, userValue) => (
   ))
 );
 
-
-
 const requestSwapi = () => ({
   type: REQUEST_SWAPI,
 });
