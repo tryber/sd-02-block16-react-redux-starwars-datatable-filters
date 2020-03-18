@@ -20,25 +20,21 @@ import {
 
 const INITIAL_STATE = [];
 
+const returnArray = [];
+
 const returnFilterData = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case FILTER_PLANETS_WITH_NAME:
       return {
-        filters: [
-          // ...state,
-          {
-            name: action.name,
-          },
-        ],
         filteredData: action.filterData,
       };
     case FILTER_PLANETS_WITH_NUMBER:
-      console.log(action.numericValues);
+      returnArray.push(action.numericValues);
       return {
         ...state,
-        filters: [action.filters],
+        filters: console.log(action.numericValues),
+        teste: console.log(returnArray),
       };
-
     default: return state;
   }
 };

@@ -81,9 +81,19 @@ const mapDispatchToProps = (dispatch) => ({
   dispatchFilter: (planetsData, userInfo) => (
     dispatch(filterPlanetsWithName(planetsData, userInfo))
   ),
-  dispatchNumberFilter: (buttonTag) => (
-    dispatch(filterPlanetsWithNumber(buttonTag))
-  ),
+  dispatchNumberFilter: (buttonTag) => {
+    const userInputName = buttonTag.previousElementSibling;
+    const comparison = userInputName.previousElementSibling;
+    const tableColumn = comparison.previousElementSibling;
+    console.log(userInputName.value);
+    if (userInputName.value.length === 0 || comparison.value === '-' || tableColumn === '-') {
+      alert('Fill in all fields to continue.');
+      return '';
+    }
+    return (
+      dispatch(filterPlanetsWithNumber(buttonTag))
+    );
+  },
 });
 
 InputsAndFilters.propTypes = {
