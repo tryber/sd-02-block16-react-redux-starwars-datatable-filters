@@ -56,7 +56,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 Button.propTypes = {
   handle: PropTypes.func.isRequired,
-  filters: filtersPropTypes,
+  filters: filtersPropTypes.filters,
   id: PropTypes.number.isRequired,
   btn: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,

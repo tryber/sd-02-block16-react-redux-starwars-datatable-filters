@@ -48,7 +48,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 InputNumber.propTypes = {
   handle: PropTypes.func.isRequired,
-  filters: filtersPropTypes,
+  filters: filtersPropTypes.filters,
   id: PropTypes.number.isRequired,
 };
 

@@ -47,7 +47,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 Filter.propTypes = {
   handle: PropTypes.func.isRequired,
-  filters: filtersPropTypes,
+  filters: filtersPropTypes.filters,
   id: PropTypes.number.isRequired,
 };
 

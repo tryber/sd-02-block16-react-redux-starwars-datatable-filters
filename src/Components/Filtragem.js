@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import uuid from 'react-uuid';
 
 import {
   filtersPropTypes, filtersDefault,
@@ -12,7 +13,7 @@ function handleClick(filters) {
     numericValues: {
       name: 'population',
       condition: 'maior',
-      input: 2000,
+      input: '',
     },
   };
   const coisa = filters;
@@ -34,7 +35,7 @@ class Filtragem extends Component {
     return (
       <div>
         {filters.map((item, index) => (
-          <Filter key={Math.random()} id={index} />
+          <Filter key={uuid()} id={index} />
         ))}
       </div>
     );
@@ -61,7 +62,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 Filtragem.propTypes = {
   handle: PropTypes.func.isRequired,
-  filters: filtersPropTypes,
+  filters: filtersPropTypes.filters,
 };
 
 Filtragem.defaultProps = {

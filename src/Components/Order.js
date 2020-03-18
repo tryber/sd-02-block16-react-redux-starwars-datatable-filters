@@ -57,8 +57,8 @@ const mapDispatchToProps = (dispatch) => ({
 
 Order.propTypes = {
   handle: PropTypes.func.isRequired,
-  planets: planetsPropTypes,
-  order: orderPropTypes,
+  planets: planetsPropTypes.planets,
+  order: orderPropTypes.order,
 };
 
 Order.defaultProps = {

@@ -117,9 +117,9 @@ class Table extends Component {
 }
 
 Table.propTypes = {
-  planets: planetsPropTypes,
-  filters: filtersPropTypes,
-  order: orderPropTypes,
+  planets: planetsPropTypes.planets,
+  filters: filtersPropTypes.filters,
+  order: orderPropTypes.order,
   inputName: PropTypes.string,
   requestApi: PropTypes.func.isRequired,
 };

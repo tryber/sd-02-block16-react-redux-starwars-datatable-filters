@@ -60,7 +60,7 @@ const mapStateToProps = (state) => ({
 
 
 FilterByCondition.propTypes = {
-  filters: filtersPropTypes,
+  filters: filtersPropTypes.filters,
   id: PropTypes.number.isRequired,
 };
 
