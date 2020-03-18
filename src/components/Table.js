@@ -75,5 +75,12 @@ Table.propTypes = {
 
 Table.defaultProps = {
   data: null,
+<<<<<<< HEAD
   error: null,
 };
+=======
+  filtered: null,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Table);
+>>>>>>> 4d2e26a738f498c86889b29dde70af2325023ab8
