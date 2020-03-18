@@ -1,0 +1,11 @@
+.tableData , .tableHeader {
+  border: 1px solid yellow;
+  box-sizing: border-box;
+  padding: 0 2px;
+  word-wrap: break-word;
+  font-size: 10px;
+}
+
+* {
+  color: white;
+}
