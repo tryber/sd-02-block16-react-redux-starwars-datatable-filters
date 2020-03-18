@@ -61,6 +61,13 @@ function inputNumber(filter, planets) {
   }
 }
 
+function sortStringNumber(a, b, name, one, one2) {
+  if (Number(a[name]) && Number(b[name])) {
+    return ((Number(a[name]) > Number(b[name])) ? one : one2);
+  }
+  return ((a[name] > b[name]) ? one : one2);
+}
+
 class Table extends Component {
   constructor(props) {
     super(props);
@@ -91,9 +98,9 @@ class Table extends Component {
     const { order: { asc, name } } = this.props;
     switch (asc) {
       case 'Asc':
-        return planets.sort((a, b) => ((a[name] > b[name]) ? 1 : -1));
+        return planets.sort((a, b) => sortStringNumber(a, b, name, 1, -1));
       case 'Desc':
-        return planets.sort((a, b) => ((a[name] < b[name]) ? 1 : -1));
+        return planets.sort((a, b) => sortStringNumber(a, b, name, -1, 1));
       default:
         return planets;
     }

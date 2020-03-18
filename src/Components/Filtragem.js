@@ -13,7 +13,7 @@ function handleClick(filters) {
     numericValues: {
       name: 'population',
       condition: 'maior',
-      input: '',
+      input: undefined,
     },
   };
   const coisa = filters;
