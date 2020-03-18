@@ -59,7 +59,9 @@ class Table extends Component {
               {Object.keys(results[0] || []).map((key) => (
                 key === 'residents'
                   ? false
-                  : <th>{key.replace(/_/, ' ').toUpperCase()}</th>
+                  : <th>
+                    {key.replace(/_/, ' ').toUpperCase()}
+                  </th>
               ))}
             </tr>
           </thead>
