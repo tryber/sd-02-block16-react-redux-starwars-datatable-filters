@@ -19,13 +19,25 @@ const initialState = {
   selectors: ['coluna', 'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'],
 };
 
+function searchFilterByName(action, state) {
+  const { value } = action;
+  return {
+    ...state,
+    filters: state.filters.map((elem, index) => {
+      if (index === 0) {
+        return { ...elem, name: value };
+      }
+      return elem;
+    }),
+  };
+}
+
 function selectorFilter(action, state) {
   const { value, part } = action;
   return {
     ...state,
     filters: state.filters.map((elem, index) => {
       if (index === 1) {
-        console.log(value, part);
         return {
           ...elem,
           numericValues: { ...state.filters[1].numericValues, [part]: value },
@@ -66,10 +78,7 @@ function removendoOFiltro(i, valor, state) {
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case SEARCH_FILTER: {
-      const nextFilter = [...state.filters];
-      const { value } = action;
-      nextFilter[0].name = value;
-      return { ...state, filters: nextFilter };
+      return searchFilterByName(action, state);
     }
     case SELECTOR_FILTER: {
       return selectorFilter(action, state);
