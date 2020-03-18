@@ -10,3 +10,5 @@ class PlanetsList extends React.Component {
     );
   }
 }
+
+export default PlanetsList;

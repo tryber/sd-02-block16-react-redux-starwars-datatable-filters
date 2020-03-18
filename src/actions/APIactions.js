@@ -1,4 +1,4 @@
-import Request from '../components/Request';
+import getPlanets from '../services/Request';
 
 export const REQUESTING_API = 'REQUESTING_API';
 export const REQUEST_SUCCESS = 'REQUEST_SUCCESS';
@@ -24,8 +24,8 @@ export function fetchSwPlanets() {
 
     return getPlanets()
       .then(
-        (planets) => dispatch(requestSWAPISuccess(planets));
-        (error) => dispatch(requestSWAPIFailure(error));
+        (planets) => dispatch(requestSWAPISuccess(planets)),
+        (error) => dispatch(requestSWAPIFailure(error)),
       );
   };
 }

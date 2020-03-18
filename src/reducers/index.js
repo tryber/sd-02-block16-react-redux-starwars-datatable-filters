@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import data from '../components/Request';
+import data from './swAPI';
 
-const rootReducer = combineReducers({
+const reducer = combineReducers({
   data,
 });
 
-export default rootReducer;
+export default reducer;
