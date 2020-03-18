@@ -12,7 +12,7 @@ const initialState = {
       numericValues: {
         column: 'coluna',
         comparison: '-',
-        valueComparison: '0',
+        valueComparison: '-',
       },
     },
   ],
@@ -50,21 +50,29 @@ function selectorFilter(action, state) {
 
 function newFilter(action, state) {
   const { column, comparison, valueComparison } = action;
-  const nextFilter = [...state.filters];
-  const nextSelector = [...state.selectors];
-  nextSelector.splice(nextSelector.indexOf(column), 1);
-  nextFilter[1].numericValues.column = 'coluna';
-  nextFilter[1].numericValues.comparison = '-';
-  nextFilter[1].numericValues.valueComparison = 0;
-  const novoFiltro = {
-    numericValues: {
-      column,
-      comparison,
-      valueComparison,
-    },
+  return {
+    ...state,
+    selectors: state.selectors.filter((elem) => elem !== column),
+    filters: [...state.filters.map((elem, index) => {
+      if (index === 1) {
+        return {
+          ...elem,
+          numericValues: {
+            column: 'coluna',
+            comparison: '-',
+            valueComparison: 0,
+          },
+        };
+      }
+      return elem;
+    }), {
+      numericValues: {
+        column,
+        comparison,
+        valueComparison,
+      },
+    }],
   };
-  nextFilter.push(novoFiltro);
-  return { nextFilter, nextSelector };
 }
 
 function removendoOFiltro(i, valor, state) {
@@ -84,8 +92,7 @@ export default function reducer(state = initialState, action) {
       return selectorFilter(action, state);
     }
     case NEW_FILTER: {
-      const { nextFilter, nextSelector } = newFilter(action, state);
-      return { ...state, filters: nextFilter, selectors: nextSelector };
+      return newFilter(action, state);
     }
     case REMOVE_FILTER: {
       const { i, value } = action;
