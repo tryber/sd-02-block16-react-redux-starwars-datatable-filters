@@ -46,6 +46,7 @@ export const filterPlanetsWithNumber = (buttonTag) => {
       value: userInputName.value,
     },
   });
+  // Aqui limparia as seleções e o input.
 };
 
 const apiReturn = () => (

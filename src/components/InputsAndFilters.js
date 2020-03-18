@@ -71,7 +71,6 @@ class InputsAndFilters extends React.Component {
           >
             Search
           </button>
-          {/* Utilizar aqui a função do previousSibling para pegar os values dos inputs ao clicar */}
         </div>
       </div>
     );
