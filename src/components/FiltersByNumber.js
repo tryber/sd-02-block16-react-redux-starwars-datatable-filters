@@ -3,11 +3,12 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 
+export const STORE_COLUMN_FILTER = 'STORE_COLUMN_FILTER';
+export const STORE_COMPARISON_FILTER = 'STORE_COMPARISON_FILTER';
+export const STORE_VALUE_FILTER = 'STORE_VALUE_FILTER';
+export const REMOVE_FILTER = 'REMOVE_FILTER';
+
 const numberFilterDispatch = (event, rowIndex) => {
-  const STORE_COLUMN_FILTER = 'STORE_COLUMN_FILTER';
-  const STORE_COMPARISON_FILTER = 'STORE_COMPARISON_FILTER';
-  const STORE_VALUE_FILTER = 'STORE_VALUE_FILTER';
-  const REMOVE_FILTER = 'REMOVE_FILTER';
   const { target: { value } } = event;
   const switcher = {
     fields: () => ({ type: STORE_COLUMN_FILTER, value, rowIndex }),
@@ -106,6 +107,7 @@ function FilterCount(props) {
     filters.map((item, rowIndex) => {
       const thisRowsFilter = filters[rowIndex];
       const { column, comparison, value } = thisRowsFilter;
+
       return (
         <div key={`${item}_${rowIndex + 1}`}>
           {renderColumnsOptions(rowIndex, column)}

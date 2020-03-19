@@ -1,3 +1,10 @@
+import {
+  STORE_COLUMN_FILTER,
+  STORE_COMPARISON_FILTER,
+  STORE_VALUE_FILTER,
+} from '../components/FiltersByNumber';
+import { ADD_NEW_FIELD } from '../components/Table';
+
 const INITIAL_STATE = {
   selectors: [
     ['', '   '],
@@ -17,12 +24,6 @@ const INITIAL_STATE = {
     },
   ],
 };
-
-const STORE_COLUMN_FILTER = 'STORE_COLUMN_FILTER';
-const STORE_COMPARISON_FILTER = 'STORE_COMPARISON_FILTER';
-const STORE_VALUE_FILTER = 'STORE_VALUE_FILTER';
-const REMOVE_FILTER = 'REMOVE_FILTER';
-const UPDATE_VALUE_STATUS = 'UPDATE_VALUE_STATUS';
 
 export default function filterByNumericValue(state = INITIAL_STATE,
   {
@@ -48,6 +49,15 @@ export default function filterByNumericValue(state = INITIAL_STATE,
       return updateNumericValue('comparison');
     case STORE_VALUE_FILTER:
       return updateNumericValue('value');
+    case ADD_NEW_FIELD:
+      return {
+        ...state,
+        filters: [
+          ...state.filters, {
+            numericValues: { column: '', comparison: '', value: '' },
+          },
+        ],
+      };
     default:
       return state;
   }

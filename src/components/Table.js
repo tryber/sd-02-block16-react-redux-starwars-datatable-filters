@@ -5,6 +5,7 @@ import TextInputFilter from './TextInputFilter';
 import FiltersByNumber from './FiltersByNumber';
 import '../style/Table.css';
 
+export const ADD_NEW_FIELD = 'ADD_NEW_FIELD';
 
 const tableHeaders = () => (
   <tr>
@@ -30,10 +31,11 @@ const columnComparison = (column, value) => ({
   higherThan: () => column > value,
 });
 
-const PlanetRows = ({ planets, filters }) => {
+const PlanetRows = ({ planets, filters, dispatch }) => {
   let filteredPlanets = planets;
 
   const [nameFilter, ...numericFilters] = filters;
+
   if (nameFilter.name) {
     filteredPlanets = planets.filter((planet) => planet.name.includes(filters[0].name));
   }
@@ -46,6 +48,12 @@ const PlanetRows = ({ planets, filters }) => {
     }
     return filter;
   });
+
+  const lastFilter = numericFilters[numericFilters.length - 1];
+  const { numericValues: { column, comparison, value } } = lastFilter;
+  if (column !== '' && comparison !== '' && value !== '') {
+    dispatch({ type: ADD_NEW_FIELD });
+  }
 
   return (
     filteredPlanets.map(({
