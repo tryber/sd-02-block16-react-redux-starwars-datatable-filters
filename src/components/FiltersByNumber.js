@@ -106,7 +106,7 @@ function FilterCount(props) {
   return (
     filters.map((item, rowIndex) => {
       const thisRowsFilter = filters[rowIndex];
-      const { column, comparison, value } = thisRowsFilter;
+      const { numericValues: { column, comparison, value } } = thisRowsFilter;
 
       return (
         <div key={`${item}_${rowIndex + 1}`}>
@@ -116,7 +116,7 @@ function FilterCount(props) {
 
           {renderNumberInput(rowIndex, value)}
 
-          {renderRemoveButton(rowIndex)}
+          {rowIndex !== 0 && renderRemoveButton(rowIndex)}
         </div>
       );
     })

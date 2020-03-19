@@ -2,6 +2,7 @@ import {
   STORE_COLUMN_FILTER,
   STORE_COMPARISON_FILTER,
   STORE_VALUE_FILTER,
+  REMOVE_FILTER,
 } from '../components/FiltersByNumber';
 import { ADD_NEW_FIELD } from '../components/Table';
 
@@ -57,6 +58,14 @@ export default function filterByNumericValue(state = INITIAL_STATE,
             numericValues: { column: '', comparison: '', value: '' },
           },
         ],
+      };
+    case REMOVE_FILTER:
+      return {
+        ...state,
+        filters: state.filters.filter((el, index) => {
+          if (index !== rowIndex) return true;
+          return false;
+        }),
       };
     default:
       return state;
