@@ -5,22 +5,24 @@ import { thunkPlanets } from '../actions';
 import { filterText } from '../actions/textActions';
 import './Table.css';
 
-function generateBody(param) {
+function generateBody(param, text) {
   return (
-    param.map((values) => (
-      <tbody key={values.name}>
-        <tr>
-          {Object.values(values)
-            .map((body, index) => (index !== 9
-              ? <td className="tableData" key={body}>{body}</td>
-              : null))}
-        </tr>
-      </tbody>
-    ))
+    param
+      .filter(({ name }) => name.toLowerCase().includes(text.toLowerCase()))
+      .map((values) => (
+        <tbody key={values.name}>
+          <tr>
+            {Object.values(values)
+              .map((body, index) => (index !== 9
+                ? <td className="tableData" key={body}>{body}</td>
+                : null))}
+          </tr>
+        </tbody>
+      ))
   );
 }
 
-function generateTable(fetch, planets, fail) {
+function generateTable(fetch, planets, fail, filter) {
   if (!fetch && planets) {
     return (
       <table>
@@ -32,7 +34,7 @@ function generateTable(fetch, planets, fail) {
                 : null))}
           </tr>
         </thead>
-        {generateBody(planets)}
+        {generateBody(planets, filter)}
       </table>
     );
   }
@@ -49,13 +51,15 @@ class Table extends React.Component {
   }
 
   render() {
-    const { fetching, data, error, name, importedTextReducer } = this.props;
+    const {
+      fetching, data, error, filters, importedTextReducer,
+    } = this.props;
+    console.log('Name no Render:', filters);
     return (
       <div className="tableComponent">
         <h1>StarWars Datatable with Filters</h1>
-        <input value={name} onChange={(e) => importedTextReducer(e.target.value)} />
-        <p>{name}</p>
-        {generateTable(fetching, data, error, name)}
+        <input value={filters[0].name} onChange={(e) => importedTextReducer(e.target.value)} />
+        {generateTable(fetching, data, error, filters[0].name)}
       </div>
     );
   }
@@ -68,10 +72,10 @@ const mapStateToProps = ({
     error,
   },
   filterTextReducer: {
-    name,
+    filters,
   },
 }) => ({
-  fetching, data, error, name,
+  fetching, data, error, filters,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -86,9 +90,12 @@ Table.propTypes = {
   fetching: propTypes.bool.isRequired,
   data: propTypes.arrayOf(propTypes.object),
   error: propTypes.string,
+  filters: propTypes.instanceOf(Array),
+  importedTextReducer: propTypes.func.isRequired,
 };
 
 Table.defaultProps = {
   data: null,
   error: null,
+  filters: [],
 };
