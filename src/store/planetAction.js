@@ -23,9 +23,9 @@ const planetAction = (planet, data) => (
     : [];
       return filter;
     });
-    const filterUndefined = filteredResult.filter((element) => element.length !== 0);
+    const filterWithoutUndefined = filteredResult.filter((element) => element.length !== 0);
     const planetCase = planet.charAt(0).toUpperCase() + planet.substring(1);
-    return dispatch(filterData(filterUndefined, planetCase));
+    return dispatch(filterData(filterWithoutUndefined, planetCase));
   }
 );
 

@@ -1,23 +1,5 @@
 import * as types from '../store/actionTypes';
-
-const initialState = {
-  data: [],
-  dataMock: [],
-  onLoad: false,
-  error: '',
-  filters: [
-    {
-      name: '',
-    },
-    {
-      numericValues: {
-        column: '',
-        comparison: '',
-        value: '',
-      },
-    },
-  ],
-};
+import initialState from './initialState';
 
 export default function reduce(state = initialState, action) {
   switch (action.type) {
