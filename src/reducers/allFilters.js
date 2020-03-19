@@ -1,8 +1,7 @@
 import {
   NAME_FILTER,
-  COLUMN_FILTER,
-  COMPARISON_FILTER,
-  VALUE_FILTER,
+  NUMBER_FILTER,
+  REMOVE_FILTER,
 } from '../actions';
 
 const INITIAL_STATE = {
@@ -10,39 +9,57 @@ const INITIAL_STATE = {
     {
       name: '',
     },
-    {
+    /* {
       numericValues: {
-        column: '',
-        comparison: '',
-        value: '',
+        column: 'orbital_period',
+        comparison: 'maior que',
+        value: '24',
       },
     },
+    {
+      numericValues: {
+        column: 'surface_water',
+        comparison: 'maior que',
+        value: '0',
+      },
+    }, */
+  ],
+  columnsSelect: [
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
   ],
 };
 
 const allFilters = (state = INITIAL_STATE, action) => {
+  const [, ...rest] = state.filters;
   switch (action.type) {
     case NAME_FILTER: {
-      const nextFilter = [...state.filters];
-      nextFilter[0].name = action.filName;
-      return { ...state, filters: nextFilter };
+      return { ...state, filters: [{ name: action.filName }, ...rest] };
     }
-    case COLUMN_FILTER: {
-      const nextFilter = [...state.filters];
-      nextFilter[1].numericValues[action.selector] = action.column;
-      return { ...state, filters: nextFilter };
+    case NUMBER_FILTER: {
+      console.log(state.filters);
+      const columnFilter = state.columnsSelect.filter((item) => item !== action.column);
+      return {
+        ...state,
+        filters: [...state.filters, { numericValues: action.numericValues }],
+        columnsSelect: columnFilter,
+      };
     }
-
-    case COMPARISON_FILTER: {
-      const nextFilter = [...state.filters];
-      nextFilter[1].numericValues[action.selector] = action.comparison;
-      return { ...state, filters: nextFilter };
-    }
-
-    case VALUE_FILTER: {
-      const nextFilter = [...state.filters];
-      nextFilter[1].numericValues[action.selector] = action.value;
-      return { ...state, filters: nextFilter };
+    case REMOVE_FILTER: {
+      console.log(state.filters);
+      const onlyNumeric = state.filters.slice(1);
+      const numericRemove = onlyNumeric.filter(
+        (item) => item.numericValues.column !== action.column,
+      );
+      const optionsSelect = state.columnsSelect.concat(action.column);
+      return {
+        ...state,
+        filters: [state.filters[0], ...numericRemove],
+        columnsSelect: optionsSelect,
+      };
     }
     default: return state;
   }

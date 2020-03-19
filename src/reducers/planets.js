@@ -2,7 +2,7 @@ import {
   REQUEST_PLANETS,
   REQUEST_PLANETS_SUCCESS,
   REQUEST_PLANETS_FAILURE,
-  CHANGE_FILTER,
+  /* CHANGE_FILTER, */
 } from '../actions';
 
 const INITIAL_STATE = {
@@ -32,12 +32,12 @@ const reducerPlanets = (state = INITIAL_STATE, action) => {
         error: action.error,
         isFetching: false,
       };
-    case CHANGE_FILTER: {
+/*     case CHANGE_FILTER: {
       return {
         ...state,
         filteredData: action.array,
       };
-    }
+    } */
     default: return state;
   }
 };

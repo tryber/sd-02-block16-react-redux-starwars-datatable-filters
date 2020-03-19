@@ -17,7 +17,12 @@ class Table extends Component {
         <tr>
           {
             Object.keys(data[0] || []).map((header) => ((header !== 'residents')
-              ? <th className="tableHeader" key={header}>{header}</th>
+              ? (
+                <th className="tableHeader" key={header}>
+                  {header.substring(0, 1).toUpperCase()
+                    .concat(header.substring(1)).replace('_', ' ')}
+                </th>
+              )
               : null))
           }
         </tr>
@@ -25,9 +30,32 @@ class Table extends Component {
     );
   }
 
+  filterTable() {
+    const { filters } = this.props;
+    let { data } = this.props;
+    const onlyNumeric = filters.slice(1);
+    onlyNumeric.forEach((item) => {
+      const { column, comparison, value } = item.numericValues;
+      switch (comparison) {
+        case 'maior que':
+          data = data.filter((planet) => planet[column] > parseInt(value, 10));
+          return data;
+        case 'menor que':
+          data = data.filter((planet) => planet[column] < parseInt(value, 10));
+          return data;
+        case 'igual a':
+          data = data.filter((planet) => planet[column] === value);
+          return data;
+        default:
+          return data;
+      }
+    });
+    return data;
+  }
+
   tableData() {
-    const { filteredData, name } = this.props;
-    const planets = [...filteredData];
+    const { name } = this.props;
+    const planets = this.filterTable();
     const filterPlanet = planets.filter(
       (planet) => planet.name.toLowerCase().includes(name.toLowerCase()),
     );
@@ -65,8 +93,11 @@ class Table extends Component {
 
 const mapStateToProps = ({
   reducerPlanets: { data, filteredData, isFetching },
+  allFilters: { filters },
   allFilters: { filters: [{ name }] },
-}) => ({ data, filteredData, isFetching, name });
+}) => ({
+  data, filteredData, isFetching, filters, name,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   callFetchPlanets: () => dispatch(fetchPlanets()),
@@ -77,7 +108,7 @@ Table.propTypes = {
   isFetching: PropTypes.bool.isRequired,
   name: PropTypes.string.isRequired,
   data: PropTypes.instanceOf(Array),
-  filteredData: PropTypes.instanceOf(Array),
+  filters: PropTypes.instanceOf(Array).isRequired,
 };
 
 Table.defaultProps = {

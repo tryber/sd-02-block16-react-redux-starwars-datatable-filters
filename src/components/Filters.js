@@ -2,59 +2,78 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
-  nameToFilter,
-  columnToFilter,
-  comparisonToFilter,
-  valueToFilter,
-  changeToFilter,
+  nameFilter,
+  numberFilter,
 } from '../actions';
 import './Filters.css';
 
 class Filters extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      column: '',
+      comparison: '',
+      value: '',
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.createFilter = this.createFilter.bind(this);
+  }
+
+  handleChange(e) {
+    const { name, value } = e.target;
+    this.setState({
+      [name]: value,
+    });
+  }
+
   selectColumn() {
-    const { column, passingColumn } = this.props;
+    const { column } = this.state;
+    const { columnsSelect } = this.props;
     return (
       <div>
         <select
-          onChange={(e) => passingColumn(e.target.value, 'column')}
+          onChange={(e) => this.handleChange(e)}
+          name="column"
           value={column}
         >
           <option value="" hidden>Escolha uma coluna</option>
-          <option value="population">Population</option>
-          <option value="orbital_period">Orbital period</option>
-          <option value="diameter">Diameter</option>
-          <option value="rotation_period">Rotation period</option>
-          <option value="surface_water">Surface water</option>
+          {columnsSelect.map((item) => {
+            const visual = item.substring(0, 1).toUpperCase()
+              .concat(item.substring(1)).replace('_', ' ');
+            return <option key={item} value={item}>{visual}</option>;
+          })}
         </select>
       </div>
     );
   }
 
   selectComparison() {
-    const { comparison, passingComparison } = this.props;
+    const { comparison } = this.state;
     return (
       <div>
         <select
-          onChange={(e) => passingComparison(e.target.value, 'comparison')}
+          onChange={(e) => this.handleChange(e)}
+          name="comparison"
           value={comparison}
         >
           <option value="" hidden>Escolha uma comparador</option>
-          <option value=">">Maior que</option>
-          <option value="<">Menor que</option>
-          <option value="=">Igual a</option>
+          <option value="maior que">Maior que</option>
+          <option value="menor que">Menor que</option>
+          <option value="igual a">Igual a</option>
         </select>
       </div>
     );
   }
 
   inputValue() {
-    const { value, passingValue } = this.props;
+    const { value } = this.state;
     return (
       <div>
         <input
-          type="text"
+          type="number"
           placeholder="Digite aqui"
-          onChange={(e) => passingValue(e.target.value, 'value')}
+          onChange={(e) => this.handleChange(e)}
+          name="value"
           value={value}
         />
       </div>
@@ -62,30 +81,16 @@ class Filters extends Component {
   }
 
   createFilter() {
-    const { column, comparison, value, filteredData, fireFilters } = this.props;
-    let filterData = [];
-    switch (comparison) {
-      case '>':
-        filterData = filteredData.filter((item) => item[column] > parseInt(value, 10));
-        break;
-      case '<':
-        filterData = filteredData.filter((item) => item[column] < parseInt(value, 10));
-        break;
-      case '=':
-        filterData = filteredData.filter((item) => item[column] === value);
-        break;
-      default:
-        filterData = null;
-    }
-
-    console.log('first map', filterData);
-    fireFilters(filterData);
+    const { column, comparison, value } = this.state;
+    const { dispatchFilter } = this.props;
+    dispatchFilter(column, comparison, value);
+    this.setState({ column: '', comparison: '', value: '' });
   }
 
   buttonFilter() {
-    const { column, comparison, value } = this.props;
-    let off = true;
-    if (column !== '' && comparison !== '' && value !== '') off = false;
+    const { column, comparison, value } = this.state;
+    let off = false;
+    if (column === '' || comparison === '' || value === '') off = true;
     return (
       <button
         type="button"
@@ -97,17 +102,25 @@ class Filters extends Component {
     );
   }
 
+  renderNumValues() {
+    const { columnsSelect } = this.props;
+    if (columnsSelect.length === 0) return <div>Não sobraram filtros para utilizar!</div>;
+    return (
+      <div className="flexy-number-filters">
+        {this.selectColumn()}
+        {this.selectComparison()}
+        {this.inputValue()}
+        {this.buttonFilter()}
+      </div>
+    );
+  }
+
   render() {
     const { name, passingName } = this.props;
     return (
-      <div>
-        <div className="flexyNumberFilters">
-          {this.selectColumn()}
-          {this.selectComparison()}
-          {this.inputValue()}
-          {this.buttonFilter()}
-        </div>
-        <p>Digite o nome do planeta:</p>
+      <div className="number-filters">
+        {this.renderNumValues()}
+        <span>Digite o nome do planeta: </span>
         <input
           type="text"
           placeholder="Digite aqui"
@@ -120,47 +133,28 @@ class Filters extends Component {
 }
 
 const mapStateToProps = ({
-  reducerPlanets: { filteredData },
   allFilters: {
     filters: [
       {
         name,
       },
-      {
-        numericValues: {
-          column,
-          comparison,
-          value,
-        },
-      }],
+    ],
+    columnsSelect,
   },
 }) => ({
-  name, column, comparison, value, filteredData,
+  name, columnsSelect,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  passingName: (param) => dispatch(nameToFilter(param)),
-  passingColumn: (param, selector) => dispatch(columnToFilter(param, selector)),
-  passingComparison: (param, selector) => dispatch(comparisonToFilter(param, selector)),
-  passingValue: (param, selector) => dispatch(valueToFilter(param, selector)),
-  fireFilters: (array) => dispatch(changeToFilter(array)),
+  passingName: (param) => dispatch(nameFilter(param)),
+  dispatchFilter: (column, comparison, value) => dispatch(numberFilter(column, comparison, value)),
 });
 
 Filters.propTypes = {
   passingName: PropTypes.func.isRequired,
-  passingColumn: PropTypes.func.isRequired,
-  passingComparison: PropTypes.func.isRequired,
-  passingValue: PropTypes.func.isRequired,
-  fireFilters: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
-  column: PropTypes.string.isRequired,
-  comparison: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
-  filteredData: PropTypes.instanceOf(Array),
-};
-
-Filters.defaultProps = {
-  filteredData: [],
+  dispatchFilter: PropTypes.func.isRequired,
+  columnsSelect: PropTypes.instanceOf(Array).isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Filters);
