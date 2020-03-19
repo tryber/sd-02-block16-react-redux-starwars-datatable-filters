@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import TextInputFilter from './TextInputFilter';
 import FiltersByNumber from './FiltersByNumber';
 import '../style/Table.css';
+
 
 const tableHeaders = () => (
   <tr>
@@ -23,62 +24,92 @@ const tableHeaders = () => (
   </tr>
 );
 
-const PlanetRows = ({ table }) => (
-  table.map(({
-    name, rotation_period: rotationPeriod, orbital_period: orbitalPeriod, diameter,
-    climate, gravity, terrain, surface_water: surfaceWater, population, films, created,
-    edited, url,
-  }) => (
-    <tr key={name}>
-      <td>{name}</td>
-      <td className="rotation-period">{rotationPeriod}</td>
-      <td className="orbital-period">{orbitalPeriod}</td>
-      <td className="diameter">{diameter}</td>
-      <td>{climate}</td>
-      <td>{gravity}</td>
-      <td>{terrain}</td>
-      <td className="surface-water">{surfaceWater}</td>
-      <td className="population">{population}</td>
-      <td className="films">{films}</td>
-      <td>{created}</td>
-      <td>{edited}</td>
-      <td>{url}</td>
-    </tr>
-  ))
-);
+const columnComparison = (column, value) => ({
+  lesserThan: () => column < value,
+  equalsThan: () => column === value,
+  higherThan: () => column > value,
+});
 
-const Table = ({ table }) => (
-  <div>
-    <h1>StarWars Datatable with Filters</h1>
-    <div>
-      <TextInputFilter />
-    </div>
-    <div>
-      <FiltersByNumber />
-    </div>
-    <div className="table-container">
-      <table className="table">
-        <thead>
-          {tableHeaders()}
-        </thead>
-        <tbody>
-          <PlanetRows table={table} />
-        </tbody>
-      </table>
-    </div>
-  </div>
-);
+const PlanetRows = ({ planets, filters }) => {
+  let filteredPlanets = planets;
+
+  const [nameFilter, ...numericFilters] = filters;
+  if (nameFilter.name) {
+    filteredPlanets = planets.filter((planet) => planet.name.includes(filters[0].name));
+  }
+
+  numericFilters.map((filter) => {
+    const { numericValues: { column, comparison, value } } = filter;
+    if (column !== '' && comparison !== '' && value !== '') {
+      filteredPlanets = filteredPlanets
+        .filter((planet) => columnComparison(planet[column], value)[comparison]());
+    }
+    return filter;
+  });
+
+  return (
+    filteredPlanets.map(({
+      name, rotation_period: rotationPeriod, orbital_period: orbitalPeriod, diameter,
+      climate, gravity, terrain, surface_water: surfaceWater, population, films, created,
+      edited, url,
+    }) => (
+      <tr key={name}>
+        <td>{name}</td>
+        <td className="rotation-period">{rotationPeriod}</td>
+        <td className="orbital-period">{orbitalPeriod}</td>
+        <td className="diameter">{diameter}</td>
+        <td>{climate}</td>
+        <td>{gravity}</td>
+        <td>{terrain}</td>
+        <td className="surface-water">{surfaceWater}</td>
+        <td className="population">{population}</td>
+        <td className="films">{films}</td>
+        <td>{created}</td>
+        <td>{edited}</td>
+        <td>{url}</td>
+      </tr>
+    ))
+  );
+};
+
+class Table extends Component {
+  render() {
+    const { planets, dispatch, filters } = this.props;
+    return (
+      <div>
+        <h1>StarWars Datatable with Filters</h1>
+        <div>
+          <TextInputFilter />
+        </div>
+        <div>
+          <FiltersByNumber />
+        </div>
+        <div className="table-container">
+          <table className="table">
+            <thead>
+              {tableHeaders()}
+            </thead>
+            <tbody>
+              <PlanetRows planets={planets} dispatch={dispatch} filters={filters} />
+            </tbody>
+          </table>
+        </div>
+      </div>
+    );
+  }
+}
 
 const mapStateToProps = ({ planetFetcher, filterByName, filterByNumericValue }) => {
-  const { isFilteredByName } = filterByName;
-  const { isFilteredByNumber } = filterByNumericValue;
-  if (isFilteredByName) return { table: filterByName.data };
-  if (isFilteredByNumber) return { table: filterByNumericValue.data };
-  return { table: planetFetcher.data };
+  const { filters: nameFilters } = filterByName;
+  const { filters: numericFilters } = filterByNumericValue;
+  const filters = [...nameFilters, ...numericFilters];
+  return { planets: planetFetcher.data, filters };
 };
 
 export default connect(mapStateToProps)(Table);
 
 Table.propTypes = {
-  table: PropTypes.arrayOf(PropTypes.object).isRequired,
+  planets: PropTypes.arrayOf(PropTypes.object).isRequired,
+  filters: PropTypes.arrayOf(PropTypes.any).isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
