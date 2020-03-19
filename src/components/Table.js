@@ -23,7 +23,7 @@ class Table extends React.Component {
 const mapStateToProps = ({ data: { isFetching } }) => ({ isFetching });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchApi: () => dispatch(fetchSwPlanets),
+  fetchApi: () => dispatch(fetchSwPlanets()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Table);
