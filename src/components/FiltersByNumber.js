@@ -58,7 +58,7 @@ function FilterCount(props) {
         id="fields"
         value={column}
       >
-        {selectors.map(([value, label]) => <option key={`${label}_selector`} value={value}>{label}</option>)}
+        {selectors[rowIndex].map(([value, label]) => <option key={`${label}_selector`} value={value}>{label}</option>)}
       </select>
     );
   }

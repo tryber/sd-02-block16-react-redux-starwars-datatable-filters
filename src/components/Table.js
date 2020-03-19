@@ -53,7 +53,8 @@ const PlanetRows = ({ planets, filters, dispatch }) => {
   const lastFilter = numericFilters[numericFilters.length - 1];
   const { numericValues: { column, comparison, value } } = lastFilter;
   if (column !== '' && comparison !== '' && value !== '') {
-    dispatch({ type: ADD_NEW_FIELD });
+    console.log(column);
+    dispatch({ type: ADD_NEW_FIELD, column });
   }
 
   return (
