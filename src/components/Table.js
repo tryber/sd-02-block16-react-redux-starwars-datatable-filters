@@ -3,6 +3,7 @@ import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { thunkPlanets } from '../actions';
 import { filterText } from '../actions/textActions';
+import Dropdowns from './Dropdowns';
 import './Table.css';
 
 function generateBody(param, text) {
@@ -47,18 +48,18 @@ function generateTable(fetch, planets, fail, filter) {
 class Table extends React.Component {
   componentDidMount() {
     const { importedThunk } = this.props;
-    console.log('***table.componentDidMount', importedThunk());
+    importedThunk();
   }
 
   render() {
     const {
       fetching, data, error, filters, importedTextReducer,
     } = this.props;
-    console.log('Name no Render:', filters);
     return (
       <div className="tableComponent">
         <h1>StarWars Datatable with Filters</h1>
         <input value={filters[0].name} onChange={(e) => importedTextReducer(e.target.value)} />
+        <Dropdowns />
         {generateTable(fetching, data, error, filters[0].name)}
       </div>
     );

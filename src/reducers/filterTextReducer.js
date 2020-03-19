@@ -9,7 +9,6 @@ const initialTextState = {
 };
 
 const FilterTextReducer = (state = initialTextState, action) => {
-  console.log('Current state:', state, 'received action:', action);
   switch (action.type) {
     case FILTER_TEXT:
       return {
