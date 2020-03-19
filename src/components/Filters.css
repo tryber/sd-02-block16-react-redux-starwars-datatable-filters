@@ -1,0 +1,12 @@
+.number-filters {
+  border: 3px solid black;
+  border-radius: 6px;
+  font-size: 20px;
+  padding: 2px;
+  text-align: center;
+}
+
+.flexy-number-filters {
+  display: flex;
+  justify-content: space-around;
+}
