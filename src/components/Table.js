@@ -67,8 +67,8 @@ class Table extends Component {
 
   handleSubmit() {
     const { column, condition, value } = this.state;
-    const { updateFilters } = this.props;
-    updateFilters(column, condition, value);
+    const { updateFilters, dataMock } = this.props;
+    updateFilters(column, condition, value, dataMock);
   }
 
   handleChange(event) {
@@ -83,6 +83,7 @@ class Table extends Component {
 
   render() {
     const { onLoad, data, dataPlanet } = this.props;
+    console.log(this.props)
     if (!onLoad) return <p>Loading...</p>;
     return (
       <div>
@@ -102,12 +103,14 @@ class Table extends Component {
   }
 }
 
-const mapStateToProps = ({ loadReducer: { data, onLoad } }) => ({ data, onLoad });
+const mapStateToProps = ({ loadReducer: { data, onLoad, updateFilters, dataMock } }) => ({
+  data, onLoad, updateFilters, dataMock
+});
 
 const mapDispatchToProps = (dispatch) => ({
   dataAPI: () => dispatch(resultAPI()),
   dataPlanet: (planet, data) => dispatch(planetAction(planet, data)),
-  updateFilters: (column, condition, value) => dispatch(dispatchFilters(column, condition, value))
+  updateFilters: (column, condition, value, dataMock) => dispatch(dispatchFilters(column, condition, value, dataMock))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Table);

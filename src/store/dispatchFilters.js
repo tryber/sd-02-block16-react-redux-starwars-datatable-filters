@@ -1,5 +1,4 @@
 import * as types from './actionTypes';
-import { connect } from 'react-redux';
 
 function updateFilters(column, condition, value) {
   return {
@@ -12,14 +11,12 @@ function updateFilters(column, condition, value) {
   };
 }
 
-const dispatchFilters = (column, condition, value) => (
+const dispatchFilters = (column, condition, value, dataMock) => (
   (dispatch) => {
     const { dataMock } = this.props;
     console.log(dataMock)
-    //return dispatch(updateFilters(column, condition, value));
+    return dispatch(updateFilters(column, condition, value));
   }
 );
 
-const mapStateToProps = ({ loadReducer: { dataMock } }) => ({ dataMock });
-
-export default connect(mapStateToProps)(dispatchFilters);
+export default dispatchFilters;
