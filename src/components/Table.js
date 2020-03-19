@@ -44,7 +44,8 @@ const PlanetRows = ({ planets, filters, dispatch }) => {
     const { numericValues: { column, comparison, value } } = filter;
     if (column !== '' && comparison !== '' && value !== '') {
       filteredPlanets = filteredPlanets
-        .filter((planet) => columnComparison(planet[column], value)[comparison]());
+        .filter((planet) => columnComparison(Number(planet[column]), Number(value))[comparison]());
+      return filter;
     }
     return filter;
   });
