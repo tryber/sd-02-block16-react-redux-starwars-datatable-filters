@@ -57,12 +57,7 @@ export default function filterByNumericValue(state = INITIAL_STATE,
         ...state,
         selectors: [
           ...state.selectors,
-          ...state.selectors.map((selectorList, index) => {
-            if (index === state.selectors.length - 1) {
-              return selectorList.filter((option) => option[0] !== column);
-            }
-            return selectorList;
-          }),
+          state.selectors[state.selectors.length - 1].filter((option) => option[0] !== column),
         ],
         filters: [
           ...state.filters, {
