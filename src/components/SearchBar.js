@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { searchByName } from '../actions';
+import { filterByName } from '../actions/filterPlanets';
 import './SearchBar.css';
-
 
 class SearchBar extends Component {
   constructor(props) {
@@ -13,16 +12,10 @@ class SearchBar extends Component {
   }
 
   onChangeHandler(event) {
-    const { searchPlanetsByName } = this.props;
-    let { results, filteredByNumber } = this.props;
-    const text = event.target.value.toLowerCase();
-    if (filteredByNumber.length) {
-      filteredByNumber = searchPlanetsByName(text, filteredByNumber).results;
-      return true;
-    }
-    searchPlanetsByName(text, results);
-    results = searchPlanetsByName(text, results).results;
-    return true;
+    const { value } = event.target;
+    const { filterPlanetsByName, data, filters } = this.props;
+
+    filterPlanetsByName(value, data, filters);
   }
 
   render() {
@@ -37,29 +30,20 @@ class SearchBar extends Component {
   }
 }
 
-const mapStateToProps = (
-  {
-    data: { results },
-    SearchFilters: { filteredByNumber },
-  },
-) => ({
-  results,
-  filteredByNumber,
+SearchBar.propTypes = {
+  data: PropTypes.instanceOf(Array).isRequired,
+  filterPlanetsByName: PropTypes.func.isRequired,
+  filters: PropTypes.instanceOf(Array).isRequired,
+};
+
+const mapStateToProps = ({ planetsData: { data }, planetsFilters: { filteredData, filters } }) => ({
+  data,
+  filteredData,
+  filters,
 });
 
-SearchBar.propTypes = {
-  results: PropTypes.instanceOf(Array),
-  filteredByNumber: PropTypes.instanceOf(Array),
-  searchPlanetsByName: PropTypes.func.isRequired,
-};
-
-SearchBar.defaultProps = {
-  results: [],
-  filteredByNumber: [],
-};
-
 const mapDispatchToProps = (dispatch) => ({
-  searchPlanetsByName: (text, results) => dispatch(searchByName(text, results)),
+  filterPlanetsByName: (name, data, filters) => dispatch(filterByName(name, data, filters)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchBar);

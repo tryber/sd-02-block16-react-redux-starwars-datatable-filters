@@ -1,45 +1,42 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { fetchSWAPIPlanets, searchByName } from '../actions';
-import './Table.css';
-import Selectors from './Selectors';
+import { getPlanets } from '../actions/getPlanets';
 import SearchBar from './SearchBar';
+import Selectors from './Selectors';
+import './Table.css';
 
 class Table extends Component {
   componentDidMount() {
-    const { getSWAPIPlanets } = this.props;
+    const { fetchPlanets } = this.props;
 
-    getSWAPIPlanets();
+    fetchPlanets();
   }
 
-  renderAllPlanets(results) {
-    const { filteredByName, filteredByNumber, activeFilter } = this.props;
-    if (activeFilter === 'name') {
-      return (
-        <tbody>
-          {filteredByName.map((planet) => (
-            <tr>
-              {Object.entries(planet).map(([key, value]) => (key === 'residents' ? false : <td>{value}</td>))}
-            </tr>
+  static renderTableHead(planets) {
+    return (
+      <thead>
+        <tr>
+          {Object.keys(planets[0] || []).map((key) => (
+            key === 'residents'
+              ? false
+              : <th>{key.replace(/_/, ' ').toUpperCase()}</th>
           ))}
-        </tbody>
-      );
-    } if (activeFilter === 'number') {
-      return (
-        <tbody>
-          {filteredByNumber.map((planet) => (
-            <tr>
-              {Object.entries(planet).map(([key, value]) => (key === 'residents' ? false : <td>{value}</td>))}
-            </tr>
-          ))}
-        </tbody>
-      );
-    } return (
+        </tr>
+      </thead>
+    );
+  }
+
+  static renderTableBody(planets) {
+    return (
       <tbody>
-        {results.map((planet) => (
+        {planets.map((planet) => (
           <tr>
-            {Object.entries(planet).map(([key, value]) => (key === 'residents' ? false : <td>{value}</td>))}
+            {Object.entries(planet).map(([key, value]) => (
+              key === 'residents'
+                ? false
+                : <td>{value}</td>
+            ))}
           </tr>
         ))}
       </tbody>
@@ -47,61 +44,46 @@ class Table extends Component {
   }
 
   render() {
-    const { results, isFetching } = this.props;
-    if (isFetching) return <div>Carregando tabela e filtros...</div>;
+    const { data, isFetching, filteredData, filters } = this.props;
+    console.log(filteredData);
+    if (isFetching) return <h1>Loading...</h1>;
     return (
-      <div>
-        <SearchBar />
-        <Selectors />
+      <section>
+        <section>
+          <SearchBar />
+        </section>
+        <section>
+          <Selectors />
+        </section>
         <table>
-          <thead>
-            <tr>
-              {Object.keys(results[0] || []).map((key) => (
-                key === 'residents'
-                  ? false
-                  : <th>{key.replace(/_/, ' ').toUpperCase()}</th>
-              ))}
-            </tr>
-          </thead>
-          {this.renderAllPlanets(results)}
+          {Table.renderTableHead(data)}
+          {filters[0].name || filters[1]
+            ? Table.renderTableBody(filteredData)
+            : Table.renderTableBody(data)}
         </table>
-      </div>
+      </section>
     );
   }
 }
 
 Table.propTypes = {
-  getSWAPIPlanets: PropTypes.func.isRequired,
-  results: PropTypes.instanceOf(Array),
-  filteredByName: PropTypes.instanceOf(Array),
-  filteredByNumber: PropTypes.instanceOf(Array),
+  data: PropTypes.instanceOf(Array).isRequired,
   isFetching: PropTypes.bool.isRequired,
-  activeFilter: PropTypes.string,
+  fetchPlanets: PropTypes.func.isRequired,
+  filteredData: PropTypes.instanceOf(Array),
+  filters: PropTypes.instanceOf(Array).isRequired,
 };
 
 Table.defaultProps = {
-  results: [],
-  filteredByName: [],
-  filteredByNumber: [],
-  activeFilter: '',
+  filteredData: [],
 };
 
 const mapStateToProps = (
-  {
-    data: { results, isFetching },
-    SearchFilters: { filteredByName, filteredByNumber, activeFilter },
-  },
-) => ({
-  results,
-  filteredByName,
-  isFetching,
-  activeFilter,
-  filteredByNumber,
-});
+  { planetsData: { data, isFetching }, planetsFilters: { filteredData, filters } },
+) => ({ data, isFetching, filteredData, filters });
 
 const mapDispatchToProps = (dispatch) => ({
-  getSWAPIPlanets: () => dispatch(fetchSWAPIPlanets()),
-  searchPlanetsByName: (text, results) => dispatch(searchByName(text, results)),
+  fetchPlanets: () => dispatch(getPlanets()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Table);

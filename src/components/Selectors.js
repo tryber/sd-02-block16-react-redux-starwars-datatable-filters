@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { searchByNumber } from '../actions';
+import { filterByColumn } from '../actions/filterPlanets';
 
 
 class Selectors extends Component {
@@ -11,53 +11,28 @@ class Selectors extends Component {
     this.state = {
       column: '',
       comparison: '',
-      value: null,
+      value: '',
     };
 
-    this.onChangeColumn = this.onChangeColumn.bind(this);
-    this.onChangeComparison = this.onChangeComparison.bind(this);
-    this.onChangeValue = this.onChangeValue.bind(this);
+    this.onChangeHandler = this.onChangeHandler.bind(this);
     this.onClickHandler = this.onClickHandler.bind(this);
   }
 
-  onChangeColumn(event) {
-    const { value } = event.target;
-    this.setState({ column: value });
-  }
-
-  onChangeComparison(event) {
-    const { value } = event.target;
-    this.setState({ comparison: value });
-  }
-
-  onChangeValue(event) {
-    const { value } = event.target;
-    this.setState({ value });
+  onChangeHandler(event) {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
   }
 
   onClickHandler() {
-    const { searchPlanetsByNumber, activeFilter } = this.props;
-    let { results, filteredByName, filteredByNumber } = this.props;
+    const { filterPlanetsByColumn, data, filters, filteredData } = this.props;
     const { column, comparison, value } = this.state;
-    if (!column || !comparison || !value) alert('Preencha todos os campos');
-    if (filteredByName.length && activeFilter === 'name') {
-      filteredByName = searchPlanetsByNumber(column, comparison, value, filteredByName).results;
-      this.setState({ column: '', comparison: '', value: null });
-      return true;
-    } if (filteredByNumber.length) {
-      filteredByNumber = searchPlanetsByNumber(column, comparison, value, filteredByNumber).results;
-      this.setState({ column: '', comparison: '', value: null });
-      return true;
-    }
-    searchPlanetsByNumber(column, comparison, value, results);
-    results = searchPlanetsByNumber(column, comparison, value, results).results;
-    this.setState({ column: '', comparison: '', value: null });
-    return true;
+    filterPlanetsByColumn(filters[0].name, data, column, comparison, value, filters, filteredData);
   }
 
   render() {
-    const columns = ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
+    const columns = ['rotation_period', 'orbital_period', 'diameter', 'surface_water', 'population'];
     const { filters } = this.props;
+    const { column, comparison, value } = this.state;
     const selectedColumn = filters.map((el) => (
       el.numericValues
         ? el.numericValues.column
@@ -65,60 +40,65 @@ class Selectors extends Component {
     ));
     return (
       <form>
-        <select onChange={this.onChangeColumn}>
+        <select name="column" onChange={this.onChangeHandler} required>
           <option value="" label=" " />
           {columns.map((element) => (
             selectedColumn.includes(element)
               ? false
-              : <option value={element}>{element}</option>
+              : <option value={element}>{element.replace('_', ' ')}</option>
           ))}
         </select>
-        <select onChange={this.onChangeComparison}>
+        <select name="comparison" onChange={this.onChangeHandler} required>
           <option value="" label=" " />
           <option value="Maior que">Maior que</option>
           <option value="Menor que">Menor que</option>
           <option value="Igual a">Igual a</option>
         </select>
-        <input type="number" onChange={this.onChangeValue} />
-        <input type="reset" value="Filtrar" onClick={this.onClickHandler} />
+        <input type="number" name="value" onChange={this.onChangeHandler} required />
+        {
+          column && comparison && value
+            ? <input type="reset" value="Filtrar" onClick={this.onClickHandler} />
+            : false
+        }
       </form>
     );
   }
 }
 
 Selectors.propTypes = {
-  searchPlanetsByNumber: PropTypes.func.isRequired,
-  results: PropTypes.instanceOf(Array),
-  filteredByName: PropTypes.instanceOf(Array),
-  filteredByNumber: PropTypes.instanceOf(Array),
+  filterPlanetsByColumn: PropTypes.func.isRequired,
+  data: PropTypes.instanceOf(Array).isRequired,
   filters: PropTypes.instanceOf(Array),
-  activeFilter: PropTypes.string,
+  filteredData: PropTypes.instanceOf(Array),
 };
 
 Selectors.defaultProps = {
-  results: [],
-  filteredByName: [],
-  filteredByNumber: [],
   filters: [],
-  activeFilter: '',
+  filteredData: [],
 };
 
 const mapStateToProps = ({
-  data: { results },
-  SearchFilters: { filteredByName, filteredByNumber, filters, activeFilter },
+  planetsData: { data },
+  planetsFilters: {
+    filteredData,
+    filters,
+  },
 }) => ({
-  results,
-  filteredByName,
+  data,
+  filteredData,
   filters,
-  filteredByNumber,
-  activeFilter,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  searchPlanetsByNumber: (column,
+  filterPlanetsByColumn: (
+    name,
+    data,
+    column,
     comparison,
     value,
-    results) => dispatch(searchByNumber(column, comparison, value, results)),
+    filters,
+    filteredData
+  ) => dispatch(filterByColumn(name, data, column, comparison, value, filters, filteredData)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Selectors);
