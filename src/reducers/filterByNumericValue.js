@@ -24,16 +24,14 @@ export default function filterByNumericValue(state = INITIAL_STATE,
   }) {
   const updateNumericValue = (field) => ({
     ...state,
-    filters: state.filters.map((filter, index) => {
-      if (index === rowIndex) {
-        return {
-          numericValues:
-          { ...filter.numericValues, [[field]]: newValue },
-        };
-      }
-      return filter;
-    }),
+    filters: state.filters.map((filter, index) => (
+      (index === rowIndex) ? ({
+        numericValues:
+        { ...filter.numericValues, [[field]]: newValue },
+      }) : filter
+    )),
   });
+
 
   switch (type) {
     case STORE_COLUMN_FILTER:
