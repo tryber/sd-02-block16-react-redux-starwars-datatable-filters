@@ -22,27 +22,35 @@ const columnsReducer = (state = initialTextState, action) => {
     case FILTER_COLUMNS:
       return {
         ...state,
-        filters: [{ numericValues: { column: action.column } }],
+        filters: [{
+          ...state.filters[0],
+          numericValues: {
+            ...state.filters[0].numericValues,
+            column: action.column,
+          },
+        }],
       };
-    // case COMPARISON_PARAM_GREATER:
-    //   return {
-    //     ...state,
-    //     filters: [{ numericValues: { comparison: action.comparison } }],
-    //   };
-    // case COMPARISON_PARAM_LOWER:
-    //   return {
-    //     ...state,
-    //     filters: [{ numericValues: { comparison: action.comparison } }],
-    //   };
     case COMPARISON_PARAM_EQUAL:
       return {
         ...state,
-        filters: [{ numericValues: { comparison: action.comparison } }],
+        filters: [{
+          ...state.filters[0],
+          numericValues: {
+            ...state.filters[0].numericValues,
+            comparison: action.comparison,
+          },
+        }],
       };
     case NUMBER_WRITTEN:
       return {
         ...state,
-        filters: [{ numericValues: { value: action.number } }],
+        filters: [{
+          ...state.filters[0],
+          numericValues: {
+            ...state.filters[0].numericValues,
+            value: action.number,
+          },
+        }],
       };
     default: return state;
   }

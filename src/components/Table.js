@@ -6,9 +6,24 @@ import { filterText } from '../actions/textActions';
 import Dropdowns from './Dropdowns';
 import './Table.css';
 
-function generateBody(param, text) {
+function filterByColumns(array, filterCriteria) {
+  const { numericValues: { column, comparison, value } } = filterCriteria[0];
+  if (comparison === 'more than' && column !== '' && value !== '') {
+    return array.filter((planet) => planet[column] > value);
+  }
+  if (comparison === 'less than' && column !== '' && value !== '') {
+    return array.filter((planet) => planet[column] < value);
+  }
+  if (comparison === 'equal' && column !== '' && value !== '') {
+    return array.filter((planet) => (planet[column] === value));
+  }
+  return array;
+}
+
+function generateBody(param, text, filterCriteria) {
+  const firstFilter = filterByColumns(param, filterCriteria);
   return (
-    param
+    firstFilter
       .filter(({ name }) => name.toLowerCase().includes(text.toLowerCase()))
       .map((values) => (
         <tbody key={values.name}>
@@ -23,7 +38,7 @@ function generateBody(param, text) {
   );
 }
 
-function generateTable(fetch, planets, fail, filter) {
+function generateTable(fetch, planets, fail, filter, columnfilter) {
   if (!fetch && planets) {
     return (
       <table>
@@ -35,7 +50,7 @@ function generateTable(fetch, planets, fail, filter) {
                 : null))}
           </tr>
         </thead>
-        {generateBody(planets, filter)}
+        {generateBody(planets, filter, columnfilter)}
       </table>
     );
   }
@@ -53,14 +68,14 @@ class Table extends React.Component {
 
   render() {
     const {
-      fetching, data, error, filters, importedTextReducer,
+      fetching, data, error, filters, importedTextReducer, numericFilters,
     } = this.props;
     return (
       <div className="tableComponent">
         <h1>StarWars Datatable with Filters</h1>
         <input value={filters[0].name} onChange={(e) => importedTextReducer(e.target.value)} />
         <Dropdowns />
-        {generateTable(fetching, data, error, filters[0].name)}
+        {generateTable(fetching, data, error, filters[0].name, numericFilters)}
       </div>
     );
   }
@@ -75,8 +90,11 @@ const mapStateToProps = ({
   filterTextReducer: {
     filters,
   },
+  columnsReducer: {
+    filters: numericFilters,
+  },
 }) => ({
-  fetching, data, error, filters,
+  fetching, data, error, filters, numericFilters,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -93,6 +111,7 @@ Table.propTypes = {
   error: propTypes.string,
   filters: propTypes.instanceOf(Array),
   importedTextReducer: propTypes.func.isRequired,
+  numericFilters: propTypes.instanceOf(Array).isRequired,
 };
 
 Table.defaultProps = {
