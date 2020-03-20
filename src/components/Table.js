@@ -7,12 +7,6 @@ import Selectors from './Selectors';
 import './Table.css';
 
 class Table extends Component {
-  componentDidMount() {
-    const { fetchPlanets } = this.props;
-
-    fetchPlanets();
-  }
-
   static renderTableHead(planets) {
     return (
       <thead>
@@ -43,9 +37,14 @@ class Table extends Component {
     );
   }
 
+  componentDidMount() {
+    const { fetchPlanets } = this.props;
+
+    fetchPlanets();
+  }
+
   render() {
     const { data, isFetching, filteredData, filters } = this.props;
-    console.log(filteredData);
     if (isFetching) return <h1>Loading...</h1>;
     return (
       <section>

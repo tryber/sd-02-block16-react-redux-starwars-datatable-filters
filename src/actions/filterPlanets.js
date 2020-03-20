@@ -3,7 +3,6 @@ export const COLUMN_OPTION = 'COLUMN';
 
 const filter = (name, data, column, comparison, value) => {
   const filtered = name ? data.filter((planet) => planet.name.toLowerCase().match(name)) : data;
-  console.log(column, comparison, value);
   switch (comparison) {
     case 'Maior que':
       return filtered.filter((planet) => parseInt(planet[column], 10) > parseInt(value, 10));
@@ -42,7 +41,6 @@ export const filterByColumn = (name, data, column, comparison, value, filters, f
   if (rest.length) {
     filteredResults = filter(name, filteredData, column, comparison, value);
   } else {
-    console.log('teste')
     filteredResults = filter(name, data, column, comparison, value);
   }
   return {
@@ -55,3 +53,7 @@ export const filterByColumn = (name, data, column, comparison, value, filters, f
     filteredData: filteredResults,
   };
 };
+
+export const deleteFilter = (name, data, column, comparison, value, filters, filteredData) => {
+
+}

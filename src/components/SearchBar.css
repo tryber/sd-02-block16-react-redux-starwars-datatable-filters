@@ -28,7 +28,7 @@ label {
   transition: 0.2s ease all;
 }
 
-input:focus ~ label, input:valid ~ label {
+input:focus ~ label , input:valid ~ label {
   color: rgb(82, 0, 34);
   font-size: 0.8rem;
   top: -20px;
