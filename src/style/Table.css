@@ -1,0 +1,26 @@
+body {
+  text-align: center;
+}
+
+.table-container {
+  align-items: center;
+  display: flex;
+  flex-flow: column nowrap;
+  max-width: 95%;
+}
+
+.table , tr {
+  border: 1px solid black;
+  border-collapse: collapse;
+  max-width: 95%;
+}
+
+.table th {
+  border: 1px solid black;
+}
+
+.table td {
+  border: 1px solid black;
+  max-width: 200px;
+  word-wrap: break-word;
+}
