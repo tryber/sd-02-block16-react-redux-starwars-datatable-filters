@@ -33,7 +33,11 @@ class Dropdowns extends React.Component {
         </select>
         {/* <button type="button" onClick={eraseColumns()}>X</button> */}
         <br />
-        <input type="number" placeholder="type a number here!" onChange={(e) => DropdownNumberWritten(e.target.value)} />
+        <input
+          type="number"
+          placeholder="type a number here!"
+          onChange={(e) => DropdownNumberWritten(e.target.value)}
+        />
         {/* <button type="button" onClick={eraseColumns()}>X</button> */}
         <br />
       </div>
