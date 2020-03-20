@@ -50,7 +50,6 @@ function renderColumnsOptions(rowIndex, column, filters, onChange) {
       onChange={(e) => onChange(e, rowIndex)}
       id="fields"
       value={column}
-      // value={selectors.find(([option, label]) => option === column)[1]}
     >
       {availableSelectors.map(([value, label]) => <option key={`${label}_selector`} value={value}>{label}</option>)}
     </select>

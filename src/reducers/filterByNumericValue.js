@@ -18,27 +18,27 @@ const INITIAL_STATE = {
   ],
 };
 
+const updateNumericValue = (field, state, rowIndex, newValue) => ({
+  ...state,
+  filters: state.filters.map((filter, index) => (
+    (index === rowIndex) ? ({
+      numericValues:
+      { ...filter.numericValues, [[field]]: newValue },
+    }) : filter
+  )),
+});
+
 export default function filterByNumericValue(state = INITIAL_STATE,
   {
     type, value: newValue, rowIndex,
   }) {
-  const updateNumericValue = (field) => ({
-    ...state,
-    filters: state.filters.map((filter, index) => (
-      (index === rowIndex) ? ({
-        numericValues:
-        { ...filter.numericValues, [[field]]: newValue },
-      }) : filter
-    )),
-  });
-
   switch (type) {
     case STORE_COLUMN_FILTER:
-      return updateNumericValue('column');
+      return updateNumericValue('column', state, rowIndex, newValue);
     case STORE_COMPARISON_FILTER:
-      return updateNumericValue('comparison');
+      return updateNumericValue('comparison', state, rowIndex, newValue);
     case STORE_VALUE_FILTER:
-      return updateNumericValue('value');
+      return updateNumericValue('value', state, rowIndex, newValue);
     case ADD_NEW_FIELD:
       return (state.filters.length < 5) ? ({
         ...state,
