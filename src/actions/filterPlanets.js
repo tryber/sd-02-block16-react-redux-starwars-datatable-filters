@@ -54,6 +54,6 @@ export const filterByColumn = (name, data, column, comparison, value, filters, f
   };
 };
 
-export const deleteFilter = (name, data, column, comparison, value, filters, filteredData) => {
+// export const deleteFilter = (name, data, column, comparison, value, filters, filteredData) => {
 
-}
+// }
