@@ -12,6 +12,14 @@ const filterFunction = (planetsData, userValue) => (
   ))
 );
 
+const newFilter = (tableColumn, comparison, userInputName) => ({
+  numericValues: {
+    column: tableColumn.value,
+    comparison: comparison.value,
+    value: userInputName.value,
+  },
+});
+
 const requestSwapi = () => ({
   type: REQUEST_SWAPI,
 });
@@ -37,17 +45,9 @@ export const filterPlanetsWithNumber = (buttonTag, filteredData, planetsData) =>
   const comparison = userInputName.previousElementSibling;
   const tableColumn = comparison.previousElementSibling;
 
-  const newFilter = () => ({
-    numericValues: {
-      column: tableColumn.value,
-      comparison: comparison.value,
-      value: userInputName.value,
-    },
-  });
-
   return ({
     type: FILTER_PLANETS_WITH_NUMBER,
-    numericValuesObj: newFilter(),
+    numericValuesObj: newFilter(tableColumn, comparison, userInputName),
     noFilter: planetsData,
     filtered: filteredData,
   });
@@ -55,14 +55,12 @@ export const filterPlanetsWithNumber = (buttonTag, filteredData, planetsData) =>
 };
 
 const apiReturn = () => (
-  async (dispatch) => {
+  (dispatch) => {
     dispatch(requestSwapi());
-    try {
-      const values = await requestSWAPIdata();
-      return dispatch(requestSwapiSuccess(values));
-    } catch (error) {
-      return dispatch(requestSwapiFailure(error));
-    }
+    return requestSWAPIdata().then(
+      (values) => dispatch(requestSwapiSuccess(values)),
+      (error) => dispatch(requestSwapiFailure(error)),
+    );
   }
 );
 

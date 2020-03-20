@@ -24,7 +24,6 @@ const tableTitle = [
   'URL',
 ];
 
-
 class Table extends React.Component {
   componentDidMount() {
     const { initialRequisition } = this.props;

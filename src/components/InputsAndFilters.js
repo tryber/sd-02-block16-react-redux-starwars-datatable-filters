@@ -23,14 +23,6 @@ const comparativeValues = [
   'equal_to',
 ];
 
-const NameInput = (planetsData, dispatchFilter) => (
-  <input
-    type="text"
-    placeholder="Search a name"
-    onChange={(userInfo) => dispatchFilter(planetsData, userInfo.target.value)}
-  />
-);
-
 const NumberInput = () => (
   <input
     type="number"
@@ -38,20 +30,57 @@ const NumberInput = () => (
   />
 );
 
+const NameInput = (planetsData, dispatchFilter) => {
+  return (
+    <input
+      type="text"
+      placeholder="Search a name"
+      onChange={(userInfo) => dispatchFilter(planetsData, userInfo.target.value)}
+    />
+  );
+};
+
 class InputsAndFilters extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      nameInput: {
+        name: '',
+      },
+      numbersInput: {
+        numericFilters: {
+          column: '',
+          comparison: '',
+          value: '',
+        },
+      },
+    };
+  }
+
+  teste(input) {
+    console.log(this.state);
+    this.setState({
+      nameInput: input,
+    });
+  }
+
   render() {
     const {
       planetsData,
       dispatchFilter,
       dispatchNumberFilter,
     } = this.props;
+
     return (
       <div className="InputsAndFilters_stylish">
 
         {NameInput(planetsData, dispatchFilter)}
 
         <div className="InputsAndFilters_selectors">
-          <select key={`${columns.length}`}>
+          <select
+            onChange={(element) => this.teste({ name: element.target.value })}
+            key={`${columns.length}`}
+          >
             {columns.map((keyValue) => (
               <option key={keyValue} value={keyValue}>{keyValue}</option>
             ))}
@@ -67,7 +96,7 @@ class InputsAndFilters extends React.Component {
           <button
             className="InputsAndFilters_button"
             type="button"
-            onClick={(button) => dispatchNumberFilter(button.target, filteredData, planetsData)}
+            onClick={(button) => dispatchNumberFilter(button.target, planetsData)}
           >
             Search
           </button>
