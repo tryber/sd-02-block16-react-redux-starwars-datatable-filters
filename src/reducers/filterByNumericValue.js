@@ -32,7 +32,6 @@ export default function filterByNumericValue(state = INITIAL_STATE,
     )),
   });
 
-
   switch (type) {
     case STORE_COLUMN_FILTER:
       return updateNumericValue('column');
@@ -41,17 +40,15 @@ export default function filterByNumericValue(state = INITIAL_STATE,
     case STORE_VALUE_FILTER:
       return updateNumericValue('value');
     case ADD_NEW_FIELD:
-      if (state.filters.length < 5) {
-        return {
-          ...state,
-          filters: [
-            ...state.filters, {
-              numericValues: { column: '', comparison: '', value: '' },
-            },
-          ],
-        };
-      }
-      return state;
+      return (state.filters.length < 5) ? ({
+        ...state,
+        filters: [
+          ...state.filters, {
+            numericValues: { column: '', comparison: '', value: '' },
+          },
+        ],
+      })
+        : state;
     case REMOVE_FILTER:
       return (state.filters.length === 1) ? ({
         ...state,
@@ -61,10 +58,11 @@ export default function filterByNumericValue(state = INITIAL_STATE,
           },
         ],
       }
-      ) : ({
-        ...state,
-        filters: state.filters.filter((el, index) => index !== rowIndex),
-      });
+      )
+        : ({
+          ...state,
+          filters: state.filters.filter((el, index) => index !== rowIndex),
+        });
     default:
       return state;
   }

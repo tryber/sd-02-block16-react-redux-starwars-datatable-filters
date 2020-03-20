@@ -42,10 +42,8 @@ function renderColumnsOptions(rowIndex, column, filters, onChange) {
 
   const usedColumns = filters.map(({ numericValues: { column: usedColumn } }) => usedColumn);
 
-  const availableSelectors = selectors.filter((selector) => {
-    const [selectorColumn, _name] = selector;
-    return selectorColumn === '' || !(usedColumns.includes(selectorColumn)) || selectorColumn === column;
-  });
+  const availableSelectors = selectors.filter((selector) => (
+    selector[0] === '' || !(usedColumns.includes(selector[0])) || selector[0] === column));
 
   return (
     <select
