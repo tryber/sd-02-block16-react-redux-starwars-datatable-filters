@@ -7,16 +7,6 @@ import {
 import { ADD_NEW_FIELD } from '../components/Table';
 
 const INITIAL_STATE = {
-  selectors: [
-    [
-      ['', '   '],
-      ['population', 'Population'],
-      ['orbital_period', 'Orbital period'],
-      ['diameter', 'Diameter'],
-      ['rotation_period', 'Rotation period'],
-      ['surface_water', 'Surface water'],
-    ],
-  ],
   filters: [
     {
       numericValues: {
@@ -30,7 +20,7 @@ const INITIAL_STATE = {
 
 export default function filterByNumericValue(state = INITIAL_STATE,
   {
-    type, value: newValue, rowIndex, column,
+    type, value: newValue, rowIndex,
   }) {
   const updateNumericValue = (field) => ({
     ...state,
@@ -53,19 +43,28 @@ export default function filterByNumericValue(state = INITIAL_STATE,
     case STORE_VALUE_FILTER:
       return updateNumericValue('value');
     case ADD_NEW_FIELD:
-      return {
-        ...state,
-        selectors: [
-          ...state.selectors,
-          state.selectors[state.selectors.length - 1].filter((option) => option[0] !== column),
-        ],
-        filters: [
-          ...state.filters, {
-            numericValues: { column: '', comparison: '', value: '' },
-          },
-        ],
-      };
+      if (state.filters.length < 5) {
+        return {
+          ...state,
+          filters: [
+            ...state.filters, {
+              numericValues: { column: '', comparison: '', value: '' },
+            },
+          ],
+        };
+      }
+      return state;
     case REMOVE_FILTER:
+      if (state.filters.length === 1) {
+        return {
+          ...state,
+          filters: [
+            {
+              numericValues: { column: '', comparison: '', value: '' },
+            },
+          ],
+        };
+      }
       return {
         ...state,
         filters: state.filters.filter((el, index) => {
