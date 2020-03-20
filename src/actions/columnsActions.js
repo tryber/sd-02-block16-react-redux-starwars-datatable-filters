@@ -1,7 +1,9 @@
 export const FILTER_COLUMNS = 'FILTER_COLUMN';
 export const COMPARISON_PARAM_EQUAL = 'COMPARISON_PARAM_EQUAL';
 export const NUMBER_WRITTEN = 'NUMBER_WRITTEN';
-// export const ERASE_COLUMNS = 'ERASE_COLUMNS';
+export const DELETE_COLUMNS = 'DELETE_COLUMNS';
+export const DELETE_COMPARISON = 'DELETE_COMPARISON';
+export const DELETE_NUMBER = 'DELETE_NUMBER';
 
 export const filterColumns = (column) => (
   {
@@ -24,6 +26,23 @@ export const numberWritten = (number) => (
   }
 );
 
-// export const eraseColumns = () => ({
-//   type: ERASE_COLUMNS,
-// });
+export const deleteColumns = (column) => (
+  {
+    type: DELETE_COLUMNS,
+    column,
+  }
+);
+
+export const deleteComparison = (comparison) => (
+  {
+    type: DELETE_COMPARISON,
+    comparison,
+  }
+);
+
+export const deleteNumber = (number) => (
+  {
+    type: DELETE_NUMBER,
+    number,
+  }
+);
