@@ -17,8 +17,8 @@ class Table extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      column: '',
-      condition: '',
+      column: 'population',
+      condition: 'Maior que',
       value: '',
     };
     this.handleChange = this.handleChange.bind(this);
@@ -83,7 +83,6 @@ class Table extends Component {
 
   render() {
     const { onLoad, data, dataPlanet } = this.props;
-    console.log(this.props)
     if (!onLoad) return <p>Loading...</p>;
     return (
       <div>
@@ -110,7 +109,8 @@ const mapStateToProps = ({ loadReducer: { data, onLoad, updateFilters, dataMock 
 const mapDispatchToProps = (dispatch) => ({
   dataAPI: () => dispatch(resultAPI()),
   dataPlanet: (planet, data) => dispatch(planetAction(planet, data)),
-  updateFilters: (column, condition, value, dataMock) => dispatch(dispatchFilters(column, condition, value, dataMock))
+  updateFilters: (column, condition, value, dataMock) =>
+    dispatch(dispatchFilters(column, condition, value, dataMock)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Table);

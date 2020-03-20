@@ -1,16 +1,16 @@
 const conditionCase = (info, condition, value) => {
   switch(condition) {
     case 'Maior que':
-      const popFilter = console.log('oie');
-      return popFilter;
+      const moreThan = (value < info);
+      return moreThan;
     case 'Menor que':
-      const popFilter = console.log('oie');
-      return popFilter;
+      const lessThan = (value > info);
+      return lessThan;
     case 'Igual a':
-      const popFilter = console.log('oie');
-      return popFilter;
+      const equalThan = (value === info);
+      return equalThan;
     default:
-      return [];
+      return undefined;
   }
 }
 

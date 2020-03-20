@@ -6,6 +6,7 @@ export default function reduce(state = initialState, action) {
     case types.RESULT_FILTER_TYPE:
       return {
         ...state,
+        dataMock: action.dataMock,
         filters: [
           ...state.filters,
           { numericValues: action.numericValues },
