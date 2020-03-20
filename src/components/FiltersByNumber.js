@@ -30,87 +30,83 @@ const FiltersByNumber = ({
   </div>
 );
 
+function renderColumnsOptions(rowIndex, column, filters, onChange) {
+  const selectors = [
+    ['', '   '],
+    ['population', 'Population'],
+    ['orbital_period', 'Orbital period'],
+    ['diameter', 'Diameter'],
+    ['rotation_period', 'Rotation period'],
+    ['surface_water', 'Surface water'],
+  ];
+
+  const usedColumns = filters.map(({ numericValues: { column: usedColumn } }) => usedColumn);
+
+  const availableSelectors = selectors.filter((selector) => {
+    const [selectorColumn, _name] = selector;
+    return selectorColumn === '' || !(usedColumns.includes(selectorColumn)) || selectorColumn === column;
+  });
+
+  return (
+    <select
+      onChange={(e) => onChange(e, rowIndex)}
+      id="fields"
+      value={column}
+      // value={selectors.find(([option, label]) => option === column)[1]}
+    >
+      {availableSelectors.map(([value, label]) => <option key={`${label}_selector`} value={value}>{label}</option>)}
+    </select>
+  );
+}
+
+function renderComparisonOptions(rowIndex, comparison, onChange) {
+  return (
+    <select
+      onChange={(e) => onChange(e, rowIndex)}
+      id="operator"
+      value={comparison}
+    >
+      <option label=" " value="" defaultValue />
+      <option value="lesserThan">{'<'}</option>
+      <option value="equalsThan">=</option>
+      <option value="higherThan">{'>'}</option>
+    </select>
+
+  );
+}
+
+function renderNumberInput(rowIndex, value, onChange) {
+  return (
+    <input
+      onChange={(e) => onChange(e, rowIndex)}
+      type="number"
+      id="number"
+      width="100px"
+      value={value}
+    />
+  );
+}
+
+function renderRemoveButton(rowIndex, onChange) {
+  return (
+    <button
+      type="button"
+      onClick={(e) => onChange(e, rowIndex)}
+      id="remove"
+    >
+      X
+    </button>
+  );
+}
+
+
 function FilterCount(props) {
   const {
     dispatch,
     filters,
   } = props;
 
-  console.log('filters: ', filters);
-
   const onChange = (e, rowIndex) => (dispatch(numberFilterDispatch(e, rowIndex)));
-
-  function renderColumnsOptions(rowIndex, column) {
-    console.log('current column: ', column);
-    const selectors = [
-      ['', '   '],
-      ['population', 'Population'],
-      ['orbital_period', 'Orbital period'],
-      ['diameter', 'Diameter'],
-      ['rotation_period', 'Rotation period'],
-      ['surface_water', 'Surface water'],
-    ];
-
-    const usedColumns = filters.map(({ numericValues: { column: usedColumn } }) => usedColumn);
-
-    const availableSelectors = selectors.filter((selector) => {
-      const [selectorColumn, _name] = selector;
-      return selectorColumn === '' || !(usedColumns.includes(selectorColumn)) || selectorColumn === column;
-    });
-
-    console.log('available selectors: ', availableSelectors);
-
-    return (
-      <select
-        onChange={(e) => onChange(e, rowIndex)}
-        id="fields"
-        value={column}
-        // value={selectors.find(([option, label]) => option === column)[1]}
-      >
-        {availableSelectors.map(([value, label]) => <option key={`${label}_selector`} value={value}>{label}</option>)}
-      </select>
-    );
-  }
-
-  function renderComparisonOptions(rowIndex, comparison) {
-    return (
-      <select
-        onChange={(e) => onChange(e, rowIndex)}
-        id="operator"
-        value={comparison}
-      >
-        <option label=" " value="" defaultValue />
-        <option value="lesserThan">{'<'}</option>
-        <option value="equalsThan">=</option>
-        <option value="higherThan">{'>'}</option>
-      </select>
-
-    );
-  }
-
-  function renderNumberInput(rowIndex, value) {
-    return (
-      <input
-        onChange={(e) => onChange(e, rowIndex)}
-        type="number"
-        id="number"
-        width="100px"
-        value={value}
-      />
-    );
-  }
-
-  function renderRemoveButton(rowIndex) {
-    return (
-      <button
-        type="button"
-        onClick={(e) => onChange(e, rowIndex)}
-        id="remove"
-      >
-        X
-      </button>
-    );
-  }
 
   return (
     filters.map((item, rowIndex) => {
@@ -118,13 +114,13 @@ function FilterCount(props) {
 
       return (
         <div key={`${item}_${rowIndex + 1}`}>
-          {renderColumnsOptions(rowIndex, column)}
+          {renderColumnsOptions(rowIndex, column, filters, onChange)}
 
-          {renderComparisonOptions(rowIndex, comparison)}
+          {renderComparisonOptions(rowIndex, comparison, onChange)}
 
-          {renderNumberInput(rowIndex, value)}
+          {renderNumberInput(rowIndex, value, onChange)}
 
-          { renderRemoveButton(rowIndex)}
+          { renderRemoveButton(rowIndex, onChange)}
         </div>
       );
     })

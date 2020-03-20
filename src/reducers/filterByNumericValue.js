@@ -55,23 +55,18 @@ export default function filterByNumericValue(state = INITIAL_STATE,
       }
       return state;
     case REMOVE_FILTER:
-      if (state.filters.length === 1) {
-        return {
-          ...state,
-          filters: [
-            {
-              numericValues: { column: '', comparison: '', value: '' },
-            },
-          ],
-        };
-      }
-      return {
+      return (state.filters.length === 1) ? ({
         ...state,
-        filters: state.filters.filter((el, index) => {
-          if (index !== rowIndex) return true;
-          return false;
-        }),
-      };
+        filters: [
+          {
+            numericValues: { column: '', comparison: '', value: '' },
+          },
+        ],
+      }
+      ) : ({
+        ...state,
+        filters: state.filters.filter((el, index) => index !== rowIndex),
+      });
     default:
       return state;
   }
