@@ -2,7 +2,7 @@ import React from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
-  comparisonParamEqual, numberWritten, filterColumns, deleteColumns, deleteComparison, deleteNumber,
+  comparisonParamEqual, numberWritten, filterColumns, deleteColumns,
 } from '../actions/columnsActions';
 
 class Dropdowns extends React.Component {
@@ -14,20 +14,20 @@ class Dropdowns extends React.Component {
   }
 
   render() {
-    const { DropdownFilterColumns, DropdownComparisonEql, DropdownNumberWritten } = this.props;
+    const { DropdownFilterColumns, DropdownComparisonEql, DropdownNumberWritten, DropdownDeleteColumn, hide } = this.props;
     const { filters } = this.props;
     const columns = ['surface_water', 'population', 'rotation_period', 'orbital_period', 'diameter'];
     const comparisonArr = ['more than', 'less than', 'equal'];
     return (
       <div className="Dropdowns">
-        <select onChange={(e) => DropdownFilterColumns(e.target.value)}>
+        <select onChange={(e) => DropdownFilterColumns(e.target.value)} hidden={hide}>
           <option value="" disabled selected hidden>Select Column</option>
           {columns
             .map((column) => (<option key={column} value={column}>{column}</option>
             ))}
         </select>
-        <select onChange={(e) => DropdownComparisonEql(e.target.value)}>
-          <option value="" disabled selected hidden>Select your comparison</option>
+        <select onChange={(e) => DropdownComparisonEql(e.target.value)} hidden={hide}>
+          <option value="true" disabled selected hidden>Select your comparison</option>
           {comparisonArr.map((item) => <option key={item} value={item}>{item}</option>)}
         </select>
         <input
@@ -35,8 +35,9 @@ class Dropdowns extends React.Component {
           type="number"
           placeholder="type a number here!"
           onChange={(e) => DropdownNumberWritten(e.target.value)}
+          hidden={hide}
         />
-        <button type="button" value="" onClick={(e) => this.deleteField(e)}>X</button>
+        <button type="button" value="true" onClick={(e) => DropdownDeleteColumn(e.target.value)}>X</button>
       </div>
     );
   }
@@ -44,17 +45,15 @@ class Dropdowns extends React.Component {
 
 const mapStateToProps = ({
   columnsReducer: {
-    filters,
+    filters, hide,
   },
-}) => ({ filters });
+}) => ({ filters, hide });
 
 const mapDispatchToProps = (dispatch) => ({
   DropdownFilterColumns: (column) => dispatch(filterColumns(column)),
   DropdownComparisonEql: (equal) => dispatch(comparisonParamEqual(equal)),
   DropdownNumberWritten: (number) => dispatch(numberWritten(number)),
-  DropdownDeleteColumn: (column) => dispatch(deleteColumns(column)),
-  DropdownDeleteComparison: (equal) => dispatch(deleteComparison(equal)),
-  DropdownDeleteNumber: (number) => dispatch(deleteNumber(number)),
+  DropdownDeleteColumn: (hide) => dispatch(deleteColumns(hide)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dropdowns);
