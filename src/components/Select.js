@@ -2,15 +2,12 @@ import React from 'react';
 
 class Select extends React.Component {
   render() {
+    const columns = ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
     return (
       <section>
         <select onChange={(e) => console.log(e.target.value)}>
           <option value="" label="Escolha uma coluna" selected="selected" />
-          <option value="population">population</option>
-          <option value="orbital_period">orbital_period</option>
-          <option value="diameter">diameter</option>
-          <option value="rotation_period">rotation_period</option>
-          <option value="surface_water">surface_water</option>
+          {columns.map((item) => <option value={item} key={item}>{item}</option>)}
         </select>
         <select onChange={(e) => console.log(e.target.value)}>
           <option value="Maior que" selected="selected">Maior que</option>
