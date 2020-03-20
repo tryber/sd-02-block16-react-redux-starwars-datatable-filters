@@ -31,20 +31,26 @@ const columnComparison = (column, value) => ({
   higherThan: () => column > value,
 });
 
+const filterByPlanetsNames = (planets, filters) => (
+  planets.filter((planet) => planet.name.includes(filters[0].name)));
+
+const filterByNumericValues = (filteredPlanets, { column, value, comparison }) => (
+  filteredPlanets.filter(
+    (planet) => columnComparison(Number(planet[column]), Number(value))[comparison](),
+  )
+);
+
 const PlanetRows = ({ planets, filters, dispatch }) => {
   let filteredPlanets = planets;
 
   const [nameFilter, ...numericFilters] = filters;
 
-  if (nameFilter.name) {
-    filteredPlanets = planets.filter((planet) => planet.name.includes(filters[0].name));
-  }
+  if (nameFilter.name) filteredPlanets = filterByPlanetsNames(planets, filters);
 
   numericFilters.map((filter) => {
-    const { numericValues: { column, comparison, value } } = filter;
+    const { numericValues, numericValues: { column, comparison, value } } = filter;
     if (column !== '' && comparison !== '' && value !== '') {
-      filteredPlanets = filteredPlanets
-        .filter((planet) => columnComparison(Number(planet[column]), Number(value))[comparison]());
+      filteredPlanets = filterByNumericValues(filteredPlanets, numericValues);
       return filter;
     }
     return filter;
@@ -53,7 +59,6 @@ const PlanetRows = ({ planets, filters, dispatch }) => {
   const lastFilter = numericFilters[numericFilters.length - 1];
   const { numericValues: { column, comparison, value } } = lastFilter;
   if (column !== '' && comparison !== '' && value !== '') {
-    console.log(column);
     dispatch({ type: ADD_NEW_FIELD, column });
   }
 
