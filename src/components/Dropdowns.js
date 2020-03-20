@@ -1,6 +1,7 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
+// eraseColumns,
 import {
   comparisonParamEqual, numberWritten, filterColumns,
 } from '../actions/columnsActions';
@@ -24,11 +25,17 @@ class Dropdowns extends React.Component {
               </option>
             ))}
         </select>
+        {/* <button type="button" onClick={eraseColumns()}>X</button> */}
+        <br />
         <select onChange={(e) => DropdownComparisonEql(e.target.value)}>
           <option value="" disabled selected hidden>Select your comparison</option>
           {comparison.map((item) => <option key={item} value={item}>{item}</option>)}
         </select>
+        {/* <button type="button" onClick={eraseColumns()}>X</button> */}
+        <br />
         <input type="number" placeholder="type a number here!" onChange={(e) => DropdownNumberWritten(e.target.value)} />
+        {/* <button type="button" onClick={eraseColumns()}>X</button> */}
+        <br />
       </div>
     );
   }
@@ -44,6 +51,7 @@ const mapDispatchToProps = (dispatch) => ({
   DropdownFilterColumns: (column) => dispatch(filterColumns(column)),
   DropdownComparisonEql: (equal) => dispatch(comparisonParamEqual(equal)),
   DropdownNumberWritten: (number) => dispatch(numberWritten(number)),
+  // clearFilters: () => dispatch(eraseColumns()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dropdowns);

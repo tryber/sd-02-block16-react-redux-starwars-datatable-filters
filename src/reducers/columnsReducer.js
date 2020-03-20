@@ -2,6 +2,7 @@ import {
   FILTER_COLUMNS,
   COMPARISON_PARAM_EQUAL,
   NUMBER_WRITTEN,
+  // ERASE_COLUMNS,
 } from '../actions/columnsActions';
 
 const initialTextState = {
@@ -17,17 +18,13 @@ const initialTextState = {
 };
 
 const columnsReducer = (state = initialTextState, action) => {
-  console.log('***columnsReducer actions:', action);
   switch (action.type) {
     case FILTER_COLUMNS:
       return {
         ...state,
         filters: [{
           ...state.filters[0],
-          numericValues: {
-            ...state.filters[0].numericValues,
-            column: action.column,
-          },
+          numericValues: { ...state.filters[0].numericValues, column: action.column },
         }],
       };
     case COMPARISON_PARAM_EQUAL:
@@ -35,10 +32,7 @@ const columnsReducer = (state = initialTextState, action) => {
         ...state,
         filters: [{
           ...state.filters[0],
-          numericValues: {
-            ...state.filters[0].numericValues,
-            comparison: action.comparison,
-          },
+          numericValues: { ...state.filters[0].numericValues, comparison: action.comparison },
         }],
       };
     case NUMBER_WRITTEN:
@@ -46,10 +40,7 @@ const columnsReducer = (state = initialTextState, action) => {
         ...state,
         filters: [{
           ...state.filters[0],
-          numericValues: {
-            ...state.filters[0].numericValues,
-            value: action.number,
-          },
+          numericValues: { ...state.filters[0].numericValues, value: action.number },
         }],
       };
     default: return state;
