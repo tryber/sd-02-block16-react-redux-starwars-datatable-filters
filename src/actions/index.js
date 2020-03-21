@@ -12,11 +12,38 @@ const filterFunction = (planetsData, userValue) => (
   ))
 );
 
-const newFilter = (tableColumn, comparison, userInputName) => ({
+const comparativeValues = [
+  '-',
+  'bigger_than',
+  'less_than',
+  'equal_to',
+];
+
+const filterNumber = (column, comparison, value, planetsData) => {
+  const readWithNumberValue = (planet) => planet[column];
+  let filtered = [];
+  console.log(column);
+  console.log(comparison);
+  console.log(value);
+  switch (comparison) {
+    case ('bigger_than'):
+      filtered = planetsData.filter((planet) => readWithNumberValue(planet) > value);
+      return filtered;
+    case ('less_than'):
+      filtered = planetsData.filter((planet) => readWithNumberValue(planet) < value);
+      return filtered;
+    case ('equal_to'):
+      filtered = planetsData.filter((planet) => readWithNumberValue(planet) === value);
+      return filtered;
+    default: return planetsData;
+  }
+};
+
+const newFilter = (column, comparison, value) => ({
   numericValues: {
-    column: tableColumn.value,
-    comparison: comparison.value,
-    value: userInputName.value,
+    column,
+    comparison,
+    value,
   },
 });
 
@@ -40,16 +67,12 @@ export const filterPlanetsWithName = (planetsData, userValue) => ({
   filterData: filterFunction(planetsData, userValue),
 });
 
-export const filterPlanetsWithNumber = (buttonTag, filteredData, planetsData) => {
-  const userInputName = buttonTag.previousElementSibling;
-  const comparison = userInputName.previousElementSibling;
-  const tableColumn = comparison.previousElementSibling;
-
+export const filterPlanetsWithNumber = (column, comparison, value, planetsData) => {
+  console.log(column, comparison, value);
   return ({
     type: FILTER_PLANETS_WITH_NUMBER,
-    numericValuesObj: newFilter(tableColumn, comparison, userInputName),
-    noFilter: planetsData,
-    filtered: filteredData,
+    numericValuesObj: newFilter(column, comparison, value),
+    filterData: filterNumber(column, comparison, value, planetsData),
   });
   // Aqui limparia as seleções e o input.
 };

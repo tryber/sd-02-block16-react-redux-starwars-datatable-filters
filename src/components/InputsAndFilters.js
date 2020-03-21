@@ -23,17 +23,12 @@ const comparativeValues = [
   'equal_to',
 ];
 
-const NumberInput = () => (
-  <input
-    type="number"
-    placeholder="Search a number"
-  />
-);
 
 const NameInput = (planetsData, dispatchFilter) => {
   return (
     <input
       type="text"
+      name="value"
       placeholder="Search a name"
       onChange={(userInfo) => dispatchFilter(planetsData, userInfo.target.value)}
     />
@@ -44,31 +39,40 @@ class InputsAndFilters extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      nameInput: {
-        name: '',
-      },
-      numbersInput: {
-        numericFilters: {
-          column: '',
-          comparison: '',
-          value: '',
-        },
-      },
+      column: '',
+      comparison: '',
+      value: '',
     };
   }
 
-  teste(input) {
-    console.log(this.state);
+  setStateFunc(param) {
+    const { value, name } = param;
     this.setState({
-      nameInput: input,
+      [name]: value,
     });
+  }
+
+  handleSubmit() {
+    const { column, comparison, value } = this.state;
+    const { dispatchNumberFilter, planetsData } = this.props;
+    dispatchNumberFilter(column, comparison, value, planetsData);
+  }
+
+  NumberInput() {
+    return (
+      <input
+        type="number"
+        name="value"
+        placeholder="Search a number"
+        onChange={(element) => this.setStateFunc(element.target)} // refatorar
+      />
+    );
   }
 
   render() {
     const {
       planetsData,
       dispatchFilter,
-      dispatchNumberFilter,
     } = this.props;
 
     return (
@@ -78,25 +82,29 @@ class InputsAndFilters extends React.Component {
 
         <div className="InputsAndFilters_selectors">
           <select
-            onChange={(element) => this.teste({ name: element.target.value })}
             key={`${columns.length}`}
+            name="column"
+            onChange={(element) => this.setStateFunc(element.target)} // refatorar
           >
             {columns.map((keyValue) => (
               <option key={keyValue} value={keyValue}>{keyValue}</option>
             ))}
           </select>
-          <select key={`${comparativeValues.length}`}>
+          <select
+            name="comparison"
+            onChange={(element) => this.setStateFunc(element.target)} // refatorar
+            key={`${comparativeValues.length}`}>
             {comparativeValues.map((keyValue) => (
               <option key={keyValue} value={keyValue}>{keyValue}</option>
             ))}
           </select>
 
-          {NumberInput()}
+          {this.NumberInput()}
 
           <button
             className="InputsAndFilters_button"
             type="button"
-            onClick={(button) => dispatchNumberFilter(button.target, planetsData)}
+            onClick={() => this.handleSubmit()}
           >
             Search
           </button>
@@ -110,17 +118,13 @@ const mapDispatchToProps = (dispatch) => ({
   dispatchFilter: (planetsData, userInfo) => (
     dispatch(filterPlanetsWithName(planetsData, userInfo))
   ),
-  dispatchNumberFilter: (buttonTag, filteredData, planetsData) => {
-    const userInputName = buttonTag.previousElementSibling;
-    const comparison = userInputName.previousElementSibling;
-    const tableColumn = comparison.previousElementSibling;
-    console.log(userInputName.value);
-    if (userInputName.value.length === 0 || comparison.value === '-' || tableColumn.value === '-') {
+  dispatchNumberFilter: (column, comparison, value, planetsData) => {
+    if (value <= 0 || comparison === '-' || column === '-') {
       alert('Fill in all fields to continue.');
       return '';
     }
     return (
-      dispatch(filterPlanetsWithNumber(buttonTag, filteredData, planetsData))
+      dispatch(filterPlanetsWithNumber(column, comparison, value, planetsData))
     );
   },
 });
