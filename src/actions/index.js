@@ -22,9 +22,7 @@ const comparativeValues = [
 const filterNumber = (column, comparison, value, planetsData) => {
   const readWithNumberValue = (planet) => planet[column];
   let filtered = [];
-  console.log(column);
-  console.log(comparison);
-  console.log(value);
+  // inserir aqui a filtragem do nome e trazê-la para filtered;
   switch (comparison) {
     case ('bigger_than'):
       filtered = planetsData.filter((planet) => readWithNumberValue(planet) > value);
