@@ -12,13 +12,6 @@ const filterFunction = (planetsData, userValue) => (
   ))
 );
 
-const comparativeValues = [
-  '-',
-  'bigger_than',
-  'less_than',
-  'equal_to',
-];
-
 const filterNumber = (column, comparison, value, planetsData) => {
   const readWithNumberValue = (planet) => planet[column];
   let filtered = [];

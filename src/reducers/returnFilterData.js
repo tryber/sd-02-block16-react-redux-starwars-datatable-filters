@@ -7,15 +7,9 @@ const INITIAL_STATE = {
   filters: [],
 };
 
-const filterName = (newFilter, prevState) => {
-  const nextState = [prevState];
-  nextState[0] = newFilter;
-};
-
 const returnFilterData = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case FILTER_PLANETS_WITH_NAME:
-      filterName({ name: action.name }, state.filters);
       return {
         ...state,
         filters: [
@@ -26,8 +20,9 @@ const returnFilterData = (state = INITIAL_STATE, action) => {
       };
 
     case FILTER_PLANETS_WITH_NUMBER:
-      console.log(action.filterData);
-      return '';
+      return {
+        filteredData: action.filterData,
+      };
     default: return state;
   }
 };
