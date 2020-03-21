@@ -16,15 +16,17 @@ const filter = (name, data, column, comparison, value) => {
 
 export const filterByName = (name, data, filters) => {
   const [, ...rest] = filters;
-  let filteredResults = [];
+  let filteredResults = data;
   if (rest.length) {
-    [filteredResults] = rest.map(({
+    rest.forEach(({
       numericValues: {
         column,
         comparison,
         value,
       },
-    }) => filter(name, data, column, comparison, value));
+    }) => {
+      filteredResults = filter(name, filteredResults, column, comparison, value);
+    });
   } else {
     filteredResults = filter(name, data);
   }
