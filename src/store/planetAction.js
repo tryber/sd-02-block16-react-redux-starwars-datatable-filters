@@ -14,10 +14,11 @@ function filterData(results, planet) {
   };
 }
 
-const planetAction = (planet, data) => (
+const planetAction = (planet, data, results, dataMockOn) => (
   (dispatch) => {
-    const { results } = data;
-    const filteredResult = results.map((result) => {
+    let inputFilter = data.results;
+    if (dataMockOn) inputFilter = results;
+    const filteredResult = inputFilter.map((result) => {
       const filter = (result.name.toUpperCase().includes(planet.toUpperCase()))
     ? result
     : [];

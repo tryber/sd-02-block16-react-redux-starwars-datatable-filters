@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 class Celltable extends Component {
 
   render() {
-    const { results } = this.props;
+    let { results, dataMock } = this.props;
     return (
-      results.map((result) => (
+      (results || dataMock).map((result) => (
         <tbody key={result.name}>
           <tr>
             {Object.values(result).map((item, index) => {
@@ -25,7 +25,10 @@ class Celltable extends Component {
   }
 }
 
-const mapStateToProps = ({ loadReducer: { dataMock: { results } } }) => ({ results });
+const mapStateToProps = ({
+  loadReducer: { dataMock: { results } }, dropSelecReducer: { dataMock, dataMockOn } }) => ({
+    results, dataMock, dataMockOn
+  });
 
 export default connect(mapStateToProps)(Celltable);
 

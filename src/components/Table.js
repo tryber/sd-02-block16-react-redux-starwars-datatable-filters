@@ -8,9 +8,9 @@ import Celltable from './Celltable';
 import dispatchFilters from '../store/dispatchFilters';
 import './Table.css';
 
-const filterPlanet = (e, dataPlanet, data) => {
+const filterPlanet = (e, dataPlanet, data, results, dataMockOn) => {
   const planet = e.target.value;
-  dataPlanet(planet, data);
+  dataPlanet(planet, data, results, dataMockOn);
 };
 
 class Table extends Component {
@@ -65,9 +65,9 @@ class Table extends Component {
     );
   }
 
-  handleSubmit() {
+  handleSubmit(dataMock) {
     const { column, condition, value } = this.state;
-    const { updateFilters, dataMock } = this.props;
+    const { updateFilters } = this.props;
     updateFilters(column, condition, value, dataMock);
   }
 
@@ -82,15 +82,15 @@ class Table extends Component {
   }
 
   render() {
-    const { onLoad, data, dataPlanet } = this.props;
+    const { onLoad, data, dataPlanet, results, dataMockOn } = this.props;
     if (!onLoad) return <p>Loading...</p>;
     return (
       <div>
-        <input type="text" onChange={(e) => filterPlanet(e, dataPlanet, data)} />
+        <input type="text" onChange={(e) => filterPlanet(e, dataPlanet, data, results, dataMockOn)} />
         {this.selecDropDown()}
         {this.selecCondition()}
         <input type="number" name="value" onChange={(e) => this.handleChange(e.target)} />
-        <button onClick={() => this.handleSubmit()}>Search</button>
+        <button onClick={() => this.handleSubmit(data)}>Search</button>
         <button>Clear</button>
         <div>StarWars DataTable with Filters</div>
         <table>
@@ -102,13 +102,15 @@ class Table extends Component {
   }
 }
 
-const mapStateToProps = ({ loadReducer: { data, onLoad, updateFilters, dataMock } }) => ({
-  data, onLoad, updateFilters, dataMock
+const mapStateToProps = ({
+  loadReducer: { data, onLoad, updateFilters, dataMock },
+  dropSelecReducer: { dataMock: { results }, dataMockOn } }) => ({
+  data, onLoad, updateFilters, dataMock, results, dataMockOn
 });
 
 const mapDispatchToProps = (dispatch) => ({
   dataAPI: () => dispatch(resultAPI()),
-  dataPlanet: (planet, data) => dispatch(planetAction(planet, data)),
+  dataPlanet: (planet, data, results, dataMockOn) => dispatch(planetAction(planet, data, results, dataMockOn)),
   updateFilters: (column, condition, value, dataMock) =>
     dispatch(dispatchFilters(column, condition, value, dataMock)),
 });

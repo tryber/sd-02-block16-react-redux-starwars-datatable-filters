@@ -3,7 +3,7 @@ import verifyCondition from './switchCases/conditionCase';
 
 function updateFilters(column, condition, value, results) {
   return {
-    type: types.RESULT_FILTER_TYPE,
+    type: types.RESULT_FILTER_TYPE,    
     dataMock: {
       results,
     },
@@ -19,7 +19,8 @@ const dispatchFilters = (column, condition, value, dataMock) => (
   (dispatch) => {
     const { results } = dataMock;
     const mappedMock = results.map((result) => {
-      const filtered = (Object.keys(result).includes(column)) && (verifyCondition(result[column], condition, value))
+      const filtered = (Object.keys(result).includes(column))
+      && (verifyCondition(Number(result[column]), condition, Number(value)))
       ? result
       : undefined;
       return filtered;

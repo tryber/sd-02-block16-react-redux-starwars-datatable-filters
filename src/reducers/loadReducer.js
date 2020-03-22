@@ -1,5 +1,23 @@
 import * as types from '../store/actionTypes';
-import initialState from './initialState';
+
+const initialState = {
+  data: [],
+  dataMock: [],
+  onLoad: false,
+  error: '',
+  filters: [
+    {
+      name: '',
+    },
+    {
+      numericValues: {
+        column: '',
+        condition: '',
+        value: '',
+      },
+    },
+  ],
+};
 
 export default function reduce(state = initialState, action) {
   switch (action.type) {
@@ -22,6 +40,15 @@ export default function reduce(state = initialState, action) {
         dataMock: action.dataMock,
         filters: action.filters,
       };
+      case types.RESULT_FILTER_TYPE:
+        return {
+          ...state,
+          dataMock: action.dataMock,
+          filters: [
+            ...state.filters,
+            { numericValues: action.numericValues },
+          ],
+        };
     default:
       return state;
   }
