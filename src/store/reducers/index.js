@@ -1,12 +1,10 @@
 import { combineReducers } from 'redux';
-import data from './swPlanets';
-import selectors from './selectors';
-import table from './table';
+import data from './APIreducers';
+import filterReducer from './filterReducer';
 
 const rootReducer = combineReducers({
   data,
-  selectors,
-  table,
+  filterReducer,
 });
 
 export default rootReducer;
