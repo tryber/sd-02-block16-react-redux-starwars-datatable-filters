@@ -15,7 +15,7 @@ const filterPlanet = (e, dataPlanet, dataMock, dataMockFilterOn, data) => {
 
 class Table extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       column: 'population',
       condition: 'Maior que',
@@ -25,6 +25,10 @@ class Table extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentDidMount() {
+    const { dataAPI } = this.props;
+    dataAPI();
+  }
 
   selecDropDown() {
     return (
@@ -73,12 +77,7 @@ class Table extends Component {
 
   handleChange(event) {
     const { name, value } = event;
-    this.setState({[name]: value})
-  }
-
-  componentDidMount() {
-    const { dataAPI } = this.props;
-    dataAPI();
+    this.setState({ [name]: value })
   }
 
   render() {
@@ -86,10 +85,16 @@ class Table extends Component {
     if (!onLoad) return <p>Loading...</p>;
     return (
       <div>
-        <input type="text" onChange={(e) => filterPlanet(e, dataPlanet, dataMock, dataMockFilterOn, data)} />
+        <input
+          type="text"
+          onChange={(e) => filterPlanet(e, dataPlanet, dataMock, dataMockFilterOn, data)}
+        />
         {this.selecDropDown()}
         {this.selecCondition()}
-        <input type="number" name="value" onChange={(e) => this.handleChange(e.target)} required/>
+        <input
+          type="number"
+          name="value" onChange={(e) => this.handleChange(e.target)} required
+        />
         <button onClick={() => this.handleSubmit(data)}>Search</button>
         <button>Clear</button>
         <div>StarWars DataTable with Filters</div>
@@ -103,9 +108,9 @@ class Table extends Component {
 }
 
 const mapStateToProps = ({
-  loadReducer: { data, onLoad, updateFilters, dataMock, dataMockFilterOn }}) => ({
-  data, onLoad, updateFilters, dataMock, dataMockFilterOn,
-});
+  loadReducer: { data, onLoad, updateFilters, dataMock, dataMockFilterOn } }) => ({
+    data, onLoad, updateFilters, dataMock, dataMockFilterOn,
+  });
 
 const mapDispatchToProps = (dispatch) => ({
   dataAPI: () => dispatch(resultAPI()),
@@ -122,6 +127,9 @@ Table.propTypes = {
   dataPlanet: PropTypes.func.isRequired,
   onLoad: PropTypes.bool.isRequired,
   data: PropTypes.instanceOf(Object).isRequired,
+  updateFilters: PropTypes.func.isRequired,
+  dataMockFilterOn: PropTypes.bool.isRequired,
+  dataMock: PropTypes.instanceOf(Object).isRequired,
 };
 
 Table.defaultProps = {
