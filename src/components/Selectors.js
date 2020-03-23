@@ -38,6 +38,49 @@ class Selectors extends Component {
   //   deleteFilter(data, name, filters);
   // }
 
+  renderForm() {
+    const columns = ['rotation_period', 'orbital_period', 'diameter', 'surface_water', 'population'];
+    const { filters } = this.props;
+    const selectedColumn = filters.map((el) => (
+      el.numericValues ? el.numericValues.column : false));
+    return (
+      <form>
+        <div>
+          <span className="selector-label">Choose a column:</span>
+          <select name="column" onChange={this.onChangeHandler} required>
+            <option value="" label=" " />
+            {columns.map((element) => (
+              selectedColumn.includes(element)
+                ? false
+                : <option value={element}>{element.replace('_', ' ')}</option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <span className="selector-label">Choose a comparison:</span>
+          <select name="comparison" onChange={this.onChangeHandler} required>
+            <option value="" label=" " />
+            <option value="Maior que">Maior que</option>
+            <option value="Menor que">Menor que</option>
+            <option value="Igual a">Igual a</option>
+          </select>
+        </div>
+        <div className="group number-selector">
+          <input
+            type="number"
+            name="value"
+            onChange={this.onChangeHandler}
+            required
+            id="number-bar"
+          />
+          <span className="highlight" />
+          <span className="bar" />
+          <label htmlFor="number-bar">Type a number</label>
+        </div>
+      </form>
+    );
+  }
+
   renderFilters() {
     const { filters } = this.props;
     const [, ...rest] = filters;
@@ -58,41 +101,10 @@ class Selectors extends Component {
   }
 
   render() {
-    const columns = ['rotation_period', 'orbital_period', 'diameter', 'surface_water', 'population'];
-    const { filters } = this.props;
     const { column, comparison, value } = this.state;
-    const selectedColumn = filters.map((el) => (
-      el.numericValues ? el.numericValues.column : false));
     return (
       <div>
-        <form>
-          <div>
-            <span className="selector-label">Choose a column:</span>
-            <select name="column" onChange={this.onChangeHandler} required>
-              <option value="" label=" " />
-              {columns.map((element) => (
-                selectedColumn.includes(element)
-                  ? false
-                  : <option value={element}>{element.replace('_', ' ')}</option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <span className="selector-label">Choose a comparison:</span>
-            <select name="comparison" onChange={this.onChangeHandler} required>
-              <option value="" label=" " />
-              <option value="Maior que">Maior que</option>
-              <option value="Menor que">Menor que</option>
-              <option value="Igual a">Igual a</option>
-            </select>
-          </div>
-          <div className="group number-selector">
-            <input type="number" name="value" onChange={this.onChangeHandler} required id="number-bar" />
-            <span className="highlight" />
-            <span className="bar" />
-            <label htmlFor="number-bar">Type a number</label>
-          </div>
-        </form>
+        {this.renderForm()}
         {
           column && comparison && value
             ? (
