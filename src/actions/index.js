@@ -14,18 +14,18 @@ const filterFunction = (planetsData, userValue) => (
 
 const filterNumber = (column, comparison, value, planetsData) => {
   const readWithNumberValue = (planet) => planet[column];
-  let filtered = [];
-  // inserir aqui a filtragem do nome e trazê-la para filtered;
+  let filteredNumber = [];
+  // inserir aqui a filtragem do nome e trazê-la para filteredNumber;
   switch (comparison) {
     case ('bigger_than'):
-      filtered = planetsData.filter((planet) => readWithNumberValue(planet) > value);
-      return filtered;
+      filteredNumber = planetsData.filter((planet) => readWithNumberValue(planet) > value);
+      return filteredNumber;
     case ('less_than'):
-      filtered = planetsData.filter((planet) => readWithNumberValue(planet) < value);
-      return filtered;
+      filteredNumber = planetsData.filter((planet) => readWithNumberValue(planet) < value);
+      return filteredNumber;
     case ('equal_to'):
-      filtered = planetsData.filter((planet) => readWithNumberValue(planet) === value);
-      return filtered;
+      filteredNumber = planetsData.filter((planet) => readWithNumberValue(planet) === value);
+      return filteredNumber;
     default: return planetsData;
   }
 };
@@ -62,7 +62,7 @@ export const filterPlanetsWithNumber = (column, comparison, value, planetsData) 
   console.log(column, comparison, value);
   return ({
     type: FILTER_PLANETS_WITH_NUMBER,
-    numericValuesObj: newFilter(column, comparison, value),
+    numObj: newFilter(column, comparison, value),
     filterData: filterNumber(column, comparison, value, planetsData),
   });
   // Aqui limparia as seleções e o input.

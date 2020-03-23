@@ -13,13 +13,19 @@ const returnFilterData = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         filters: [
+          ...state.filters,
           { name: action.name },
         ],
         filteredData: action.filterData,
       };
 
     case FILTER_PLANETS_WITH_NUMBER:
+      console.log(state.filters);
       return {
+        filters: [
+          ...state.filters,
+          { numericValues: action.numObj.numericValues },
+        ],
         filteredData: action.filterData,
       };
     default: return state;
