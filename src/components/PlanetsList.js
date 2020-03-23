@@ -24,8 +24,6 @@ const PlanetList = ({ filterResults }) => {
 
   function tableTBody() {
     const residentsIndex = Object.keys(filterResults[0] || []).findIndex((element) => element === 'residents');
-    // console.log(filterResults);
-    // console.log(filters);
 
     return (
       filterResults.map((value) => (
@@ -34,7 +32,7 @@ const PlanetList = ({ filterResults }) => {
             {Object.values(value).map((element, index) => {
               if (index !== residentsIndex) {
                 return (
-                  <td key={index}>
+                  <td key={element}>
                     {element}
                   </td>
                 );
@@ -58,16 +56,12 @@ const PlanetList = ({ filterResults }) => {
 };
 
 const mapStateToProps = () => ({
-  data: {
-    results,
-  },
   filterReducer: {
     filterResults,
     filters,
   },
 }) => ({
   filterResults,
-  results,
   filters,
 });
 
@@ -75,5 +69,4 @@ export default connect(mapStateToProps)(PlanetList);
 
 PlanetList.propTypes = {
   filterResults: propTypes.instanceOf(Array).isRequired,
-  results: propTypes.instanceOf(Array).isRequired,
 };

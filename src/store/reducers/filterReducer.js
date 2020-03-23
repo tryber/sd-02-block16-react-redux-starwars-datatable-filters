@@ -20,6 +20,29 @@ const INITIAL_STATE_FILTER_REDUCER = {
   ],
 };
 
+const newState = (state, filterResults, numericValues) => (
+  {
+    ...state,
+    filterResults,
+    filters: (state.filters[1].numericValues.column)
+      ? [
+        ...state.filters,
+        {
+          numericValues,
+        },
+      ]
+      : [
+        state.filters[0],
+        {
+          numericValues: {
+            ...state.filters[1].numericValues,
+            ...numericValues,
+          },
+        },
+      ],
+  }
+);
+
 const filterReducer = (state = INITIAL_STATE_FILTER_REDUCER, action) => {
   switch (action.type) {
     case CREATE_FILTER_RESULTS:
@@ -41,26 +64,7 @@ const filterReducer = (state = INITIAL_STATE_FILTER_REDUCER, action) => {
       };
     }
     case FILTER_RESULTS_BY_COLUMN: {
-      return {
-        ...state,
-        filterResults: action.filterResults,
-        filters: (state.filters[1].numericValues.column)
-          ? [
-            ...state.filters,
-            {
-              numericValues: action.numericValues,
-            },
-          ]
-          : [
-            state.filters[0],
-            {
-              numericValues: {
-                ...state.filters[1].numericValues,
-                ...action.numericValues,
-              },
-            },
-          ],
-      };
+      return newState(state, action.filterResults, action.numericValues);
     }
     default:
       return state;

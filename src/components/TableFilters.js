@@ -76,7 +76,7 @@ class TableFIlters extends React.Component {
             <option key={dropdown} value={dropdown}>{dropdown}</option>
           ))
         }
-      </select >
+      </select>
     );
   }
 
