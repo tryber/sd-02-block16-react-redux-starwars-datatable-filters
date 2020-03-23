@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes, { string } from 'prop-types';
 import { connect } from 'react-redux';
 import {
   filterPlanetsWithName,
@@ -24,16 +23,14 @@ const comparativeValues = [
 ];
 
 
-const NameInput = (planetsData, dispatchFilter) => {
-  return (
-    <input
-      type="text"
-      name="value"
-      placeholder="Search a name"
-      onChange={(userInfo) => dispatchFilter(planetsData, userInfo.target.value)}
-    />
-  );
-};
+const NameInput = (planetsData, dispatchFilter) => (
+  <input
+    type="text"
+    name="value"
+    placeholder="Search a name"
+    onChange={(userInfo) => dispatchFilter(planetsData, userInfo.target.value)}
+  />
+);
 
 class InputsAndFilters extends React.Component {
   constructor(props) {
