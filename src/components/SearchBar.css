@@ -1,0 +1,92 @@
+.group {
+  position: relative;
+}
+
+.search-bar {
+  margin-bottom: 2rem;
+}
+
+input {
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid rgb(82, 0, 34);
+  color: white;
+  display: block;
+  font-size: 1rem;
+  padding: 0.8rem 0.8rem 0.8rem 0.3rem;
+  width: 300px;
+}
+
+label {
+  color: rgb(170, 0, 71);
+  font-weight: 400;
+  left: 5px;
+  pointer-events: none;
+  position: absolute;
+  top: 10px;
+  transition: 0.2s ease all;
+}
+
+input:focus ~ label , input:valid ~ label {
+  color: rgb(82, 0, 34);
+  font-size: 0.8rem;
+  top: -20px;
+}
+
+.bar {
+  display: block;
+  position: relative;
+  width: 300px;
+}
+
+.bar:before , .bar:after {
+  background: rgb(170, 0, 71);
+  bottom: 1px;
+  content: '';
+  height: 2px;
+  position: absolute;
+  transition: 0.2s ease all;
+  width: 0;
+}
+
+.bar:before {
+  left: 50%;
+}
+
+.bar:after {
+  right: 50%;
+}
+
+input:focus ~ .bar:before , input:focus ~ .bar:after {
+  width: 50%;
+}
+
+.highlight {
+  height: 60%;
+  left: 0;
+  opacity: 0.5;
+  pointer-events: none;
+  position: absolute;
+  top: 25%;
+  width: 100px;
+}
+
+input:focus ~ .highlight {
+  animation: inputHighlighter 0.3s ease;
+}
+
+@keyframes inputHighlighter {
+
+  from {
+    background: rgb(82, 0, 34);
+  }
+
+  to {
+    background: transparent;
+    width: 0;
+  }
+}
+
+select {
+  margin-right: 1rem;
+}
