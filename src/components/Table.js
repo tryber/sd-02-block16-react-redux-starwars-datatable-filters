@@ -45,7 +45,7 @@ class Table extends Component {
 
   render() {
     const { data, isFetching, filteredData, filters } = this.props;
-    if (isFetching) return <h1>Loading...</h1>;
+    if (isFetching) return <div className="spinner" />;
     return (
       <section>
         <section>

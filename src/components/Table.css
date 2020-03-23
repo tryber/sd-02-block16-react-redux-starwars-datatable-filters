@@ -17,3 +17,25 @@ th {
   border-bottom: 1px solid rgb(82, 0, 34);
   color: rgb(255, 217, 0);
 }
+
+.spinner {
+  animation: sk-scaleout 1.0s infinite ease-in-out;
+  background-color: white;
+  border-radius: 100%;
+  height: 15rem;
+  margin: 4rem auto;
+  width: 15rem;
+}
+
+@keyframes sk-scaleout {
+
+  0% {
+    transform: scale(0);
+  }
+
+  100% {
+    background-color: rgb(82, 0, 34);
+    opacity: 0;
+    transform: scale(1.0);
+  }
+}

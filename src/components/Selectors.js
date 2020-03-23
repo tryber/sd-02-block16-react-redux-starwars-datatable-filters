@@ -58,6 +58,15 @@ class Selectors extends Component {
     );
   }
 
+  renderFilterButton() {
+    const { column, comparison, value } = this.state;
+    return (
+      column && comparison && value
+        ? <input type="reset" value="Filtrar" onClick={this.onClickHandler} />
+        : false
+    );
+  }
+
   renderFilters() {
     const { filters } = this.props;
     const [, ...rest] = filters;
@@ -78,7 +87,6 @@ class Selectors extends Component {
   }
 
   render() {
-    const { column, comparison, value } = this.state;
     return (
       <div>
         <form>
@@ -93,17 +101,19 @@ class Selectors extends Component {
             </select>
           </div>
           <div className="group number-selector">
-            <input type="number" name="value" onChange={this.onChangeHandler} required id="number-bar" />
+            <input
+              type="number"
+              name="value"
+              onChange={this.onChangeHandler}
+              required
+              id="number-bar"
+            />
             <span className="highlight" />
             <span className="bar" />
             <label htmlFor="number-bar">Type a number</label>
           </div>
         </form>
-        {
-          column && comparison && value
-            ? <input type="reset" value="Filtrar" onClick={this.onClickHandler} />
-            : false
-        }
+        {this.renderFilterButton()}
         {this.renderFilters()}
       </div>
     );
