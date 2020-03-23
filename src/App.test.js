@@ -10,6 +10,6 @@ test('renders learn react link', () => {
       <App />
     </Provider>,
   );
-  const linkElement = getByText(/loading/i);
+  const linkElement = getByText(/PLANETS TABLE/i);
   expect(linkElement).toBeInTheDocument();
 });
