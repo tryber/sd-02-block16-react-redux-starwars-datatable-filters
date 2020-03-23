@@ -14,7 +14,6 @@ const returnFilterData = (state = INITIAL_STATE, action) => {
         ...state,
         filters: [
           { name: action.name },
-          ...state.filters,
         ],
         filteredData: action.filterData,
       };

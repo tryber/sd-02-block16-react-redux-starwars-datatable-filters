@@ -69,6 +69,42 @@ class InputsAndFilters extends React.Component {
     );
   }
 
+  filterNumbersComponent() {
+    return (
+      <div className="InputsAndFilters_selectors">
+        <select
+          key={`${columns.length}`}
+          name="column"
+          onChange={(element) => this.setStateFunc(element.target)} // refatorar
+        >
+          {columns.map((column) => (
+            <option key={column} value={column}>{column}</option>
+          ))}
+        </select>
+
+        <select
+          name="comparison"
+          onChange={(element) => this.setStateFunc(element.target)} // refatorar
+          key={`${comparativeValues.length}`}
+        >
+          {comparativeValues.map((comparativeValue) => (
+            <option key={comparativeValue} value={comparativeValue}>{comparativeValue}</option>
+          ))}
+        </select>
+
+        {this.NumberInput()}
+
+        <button
+          className="InputsAndFilters_button"
+          type="button"
+          onClick={() => this.handleSubmit()}
+        >
+          Search
+        </button>
+      </div>
+    );
+  }
+
   render() {
     const {
       planetsData,
@@ -79,36 +115,8 @@ class InputsAndFilters extends React.Component {
       <div className="InputsAndFilters_stylish">
 
         {NameInput(planetsData, dispatchFilter)}
+        {this.filterNumbersComponent()}
 
-        <div className="InputsAndFilters_selectors">
-          <select
-            key={`${columns.length}`}
-            name="column"
-            onChange={(element) => this.setStateFunc(element.target)} // refatorar
-          >
-            {columns.map((keyValue) => (
-              <option key={keyValue} value={keyValue}>{keyValue}</option>
-            ))}
-          </select>
-          <select
-            name="comparison"
-            onChange={(element) => this.setStateFunc(element.target)} // refatorar
-            key={`${comparativeValues.length}`}>
-            {comparativeValues.map((keyValue) => (
-              <option key={keyValue} value={keyValue}>{keyValue}</option>
-            ))}
-          </select>
-
-          {this.NumberInput()}
-
-          <button
-            className="InputsAndFilters_button"
-            type="button"
-            onClick={() => this.handleSubmit()}
-          >
-            Search
-          </button>
-        </div>
       </div>
     );
   }
