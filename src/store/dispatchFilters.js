@@ -15,7 +15,7 @@ function updateFilters(column, condition, value, results) {
       column,
       condition,
       value,
-    }
+    },
   };
 }
 

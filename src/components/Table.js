@@ -26,7 +26,7 @@ class Table extends Component {
   }
 
 
-  selecDropDown = () => {
+  selecDropDown() {
     return (
       <form>
         <label htmlFor="filterType">
@@ -46,7 +46,7 @@ class Table extends Component {
     );
   }
 
-  selecCondition = () => {
+  selecCondition() {
     return (
       <form>
         <label htmlFor="conditionType">

@@ -36,7 +36,7 @@ const planetAction = (planet, dataMock, dataMockFilterOn, data) => (
     let whosFilter = data.results;
     if (dataMockFilterOn) {
       whosFilter = dataMock.results;
-    };
+    }
     const filteredResult = whosFilter.map((result) => {
       const filter = (result.name.toUpperCase().includes(planet.toUpperCase()))
     ? result

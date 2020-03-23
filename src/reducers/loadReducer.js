@@ -47,7 +47,7 @@ function resultDataFiltered(state, action) {
     filters: [
       ...state.filters,
       action.filters,
-    ]
+    ],
   };
 }
 
@@ -58,7 +58,7 @@ export default function reduce(state = initialState, action) {
     case types.RESULT_FALSE:
       return resultFalse(state, action);
     case types.RESULT_PLANET:
-      return resultPlanet(state,action);
+      return resultPlanet(state, action);
     case types.RESULT_FILTER_TYPE:
       return resultFilterType(state, action);
     case types.RESULT_DATA_FILTERED:

@@ -9,7 +9,7 @@ class Celltable extends Component {
     const { results, dataMockFilterOn } = this.props;
     if (dataMockFilterOn) {
       return (<CellFiltered />);
-    };
+    }
     return (
       results.map((result) => (
         <tbody key={result.name}>
@@ -30,12 +30,13 @@ class Celltable extends Component {
 }
 
 const mapStateToProps = ({
-  loadReducer: { dataMock: { results }, dataMockFilterOn }}) => ({
-    results, dataMockFilterOn
+  loadReducer: { dataMock: { results }, dataMockFilterOn } }) => ({
+    results, dataMockFilterOn,
   });
 
 export default connect(mapStateToProps)(Celltable);
 
 Celltable.propTypes = {
   results: PropTypes.instanceOf(Object).isRequired,
+  dataMockFilterOn: PropTypes.bool.isRequired,
 };
