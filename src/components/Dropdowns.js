@@ -32,23 +32,26 @@ class Dropdowns extends React.Component {
   }
 
   render() {
-    const {
-      DropdownFilterColumns,
-      DropdownComparisonEql,
-      hide,
-    } = this.props;
+    const { DropdownFilterColumns, DropdownComparisonEql, hide } = this.props;
     const columns = ['surface_water', 'population', 'rotation_period', 'orbital_period', 'diameter'];
     const comparisonArr = ['more than', 'less than', 'equal'];
     return (
       <div className="Dropdowns">
-        <select onChange={({ target }) => DropdownFilterColumns(target.value)} hidden={hide} defaultValue="DEFAULT">
+        <select
+          onChange={({ target }) => DropdownFilterColumns(target.value)}
+          hidden={hide}
+          defaultValue="DEFAULT"
+        >
           <option value="DEFAULT" hidden>Select Column</option>
           {columns
-            .map((column) => (<option key={column} value={column}>{column}</option>
-            ))}
+            .map((column) => (<option key={column} value={column}>{column}</option>))}
         </select>
-        <select onChange={({ target }) => DropdownComparisonEql(target.value)} hidden={hide} defaultValue="DEFAULT">
-          <option value="DEFAULT" disabled hidden>Select your comparison</option>
+        <select
+          onChange={({ target }) => DropdownComparisonEql(target.value)}
+          hidden={hide}
+          defaultValue="DEFAULT"
+        >
+          <option value="DEFAULT" hidden>Select your comparison</option>
           {comparisonArr.map((item) => <option key={item} value={item}>{item}</option>)}
         </select>
         {this.inputAndDeleteBUttons()}
