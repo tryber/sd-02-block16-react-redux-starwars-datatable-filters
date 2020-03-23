@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { string } from 'prop-types';
 import { connect } from 'react-redux';
 import {
   filterPlanetsWithName,
@@ -130,21 +130,10 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 InputsAndFilters.propTypes = {
-  planetsData: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string,
-    rotation_period: PropTypes.string,
-    orbital_period: PropTypes.string,
-    diameter: PropTypes.string,
-    climate: PropTypes.string,
-    gravity: PropTypes.string,
-    terrain: PropTypes.string,
-    surface_water: PropTypes.string,
-    population: PropTypes.string,
-    films: PropTypes.array,
-    created: PropTypes.string,
-    edited: PropTypes.string,
-    url: PropTypes.string,
-  })),
+  planetsData: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.array,
+  ]),
   dispatchFilter: PropTypes.func.isRequired,
   dispatchNumberFilter: PropTypes.func.isRequired,
 };
