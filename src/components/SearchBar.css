@@ -1,6 +1,9 @@
 .group {
-  margin-bottom: 2.5rem;
   position: relative;
+}
+
+.search-bar {
+  margin-bottom: 2rem;
 }
 
 input {
@@ -12,10 +15,6 @@ input {
   font-size: 1rem;
   padding: 0.8rem 0.8rem 0.8rem 0.3rem;
   width: 300px;
-}
-
-input:required:invalid {
-  border: none;
 }
 
 label {
@@ -86,4 +85,8 @@ input:focus ~ .highlight {
     background: transparent;
     width: 0;
   }
+}
+
+select {
+  margin-right: 1rem;
 }

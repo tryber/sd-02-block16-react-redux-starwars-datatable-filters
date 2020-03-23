@@ -1,3 +1,7 @@
+table {
+  margin-top: 2rem;
+}
+
 td , th {
   padding: 1rem;
   text-align: center;

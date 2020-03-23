@@ -20,7 +20,7 @@ class SearchBar extends Component {
 
   render() {
     return (
-      <div className="group">
+      <div className="group search-bar">
         <input onChange={this.onChangeHandler} id="search-bar" required />
         <span className="highlight" />
         <span className="bar" />

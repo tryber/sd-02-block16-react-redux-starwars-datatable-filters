@@ -27,6 +27,17 @@ const planetsFilters = (state = INITIAL_STATE, action) => {
           },
         ],
       };
+    // case DELETE_OPTION:
+    //   return {
+    //     ...state,
+    //     filteredData: action.filteredData,
+    //     filters: [
+    //       ...state.filters[0],
+    //       {
+    //         numericValues: action.numericValues,
+    //       },
+    //     ],
+    //   };
     default: return state;
   }
 };

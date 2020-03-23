@@ -1,7 +1,8 @@
 export const NAME_INPUT = 'NAME_INPUT';
-export const COLUMN_OPTION = 'COLUMN';
+export const COLUMN_OPTION = 'COLUMN_OPTION';
+// export const DELETE_OPTION = 'DELETE_OPTION';
 
-const filter = (name, data, column, comparison, value) => {
+const filterAll = (name, data, column, comparison, value) => {
   const filtered = name ? data.filter((planet) => planet.name.toLowerCase().match(name)) : data;
   switch (comparison) {
     case 'Maior que':
@@ -25,10 +26,10 @@ export const filterByName = (name, data, filters) => {
         value,
       },
     }) => {
-      filteredResults = filter(name, filteredResults, column, comparison, value);
+      filteredResults = filterAll(name, filteredResults, column, comparison, value);
     });
   } else {
-    filteredResults = filter(name, data);
+    filteredResults = filterAll(name, data);
   }
   return {
     type: NAME_INPUT,
@@ -41,9 +42,9 @@ export const filterByColumn = (name, data, column, comparison, value, filters, f
   const [, ...rest] = filters;
   let filteredResults = [];
   if (rest.length) {
-    filteredResults = filter(name, filteredData, column, comparison, value);
+    filteredResults = filterAll(name, filteredData, column, comparison, value);
   } else {
-    filteredResults = filter(name, data, column, comparison, value);
+    filteredResults = filterAll(name, data, column, comparison, value);
   }
   return {
     type: COLUMN_OPTION,
@@ -56,6 +57,29 @@ export const filterByColumn = (name, data, column, comparison, value, filters, f
   };
 };
 
-// export const deleteFilter = (name, data, column, comparison, value, filters, filteredData) => {
-
-// }
+// export const deleteFilters = (data, column, filters) => {
+//   const [name, ...rest] = filters;
+//   const filteredFilters = rest.filter(({ numericValues }) => numericValues.column !== column);
+//   console.log(filteredFilters)
+//   let filteredResults = data;
+//   if (filteredFilters.length) {
+//     filteredFilters.forEach(({
+//       numericValues,
+//     }) => {
+//       filteredResults = filterAll(
+//         name.name,
+//         data,
+//         numericValues.column,
+//         numericValues.comparison,
+//         numericValues.value,
+//       );
+//     });
+//   } else {
+//     filteredResults = filterAll(name.name, data);
+//   }
+//   return {
+//     type: DELETE_OPTION,
+//     numericValues: filteredFilters,
+//     filteredData: filteredResults,
+//   };
+// };
