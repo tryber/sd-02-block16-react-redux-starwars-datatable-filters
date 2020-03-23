@@ -5,6 +5,7 @@ function apiSucess(infos) {
   return {
     type: types.RESULT_TRUE,
     data: infos,
+    dataMock: infos,
   };
 }
 

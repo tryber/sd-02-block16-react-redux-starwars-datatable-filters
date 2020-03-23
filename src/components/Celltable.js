@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import CellFiltered from './CellFiltered';
 
 class Celltable extends Component {
 
   render() {
-    let { results, dataMock } = this.props;
+    const { results, dataMockFilterOn } = this.props;
+    if (dataMockFilterOn) {
+      return (<CellFiltered />);
+    };
     return (
-      (results || dataMock).map((result) => (
+      results.map((result) => (
         <tbody key={result.name}>
           <tr>
             {Object.values(result).map((item, index) => {
@@ -26,8 +30,8 @@ class Celltable extends Component {
 }
 
 const mapStateToProps = ({
-  loadReducer: { dataMock: { results } }, dropSelecReducer: { dataMock, dataMockOn } }) => ({
-    results, dataMock, dataMockOn
+  loadReducer: { dataMock: { results }, dataMockFilterOn }}) => ({
+    results, dataMockFilterOn
   });
 
 export default connect(mapStateToProps)(Celltable);
