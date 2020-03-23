@@ -18,7 +18,7 @@ const conditionCase = (info, condition, value) => {
     }
     default:
       return undefined;
-  };
-}
+  }
+};
 
 export default conditionCase;

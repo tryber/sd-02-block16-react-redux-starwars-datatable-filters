@@ -77,7 +77,7 @@ class Table extends Component {
 
   handleChange(event) {
     const { name, value } = event;
-    this.setState({ [name]: value })
+    this.setState({ [name]: value });
   }
 
   render() {
