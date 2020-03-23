@@ -18,6 +18,22 @@ const initialTextState = {
   hide: false,
 };
 
+function functionDelete(state, action) {
+  return {
+    ...state,
+    filters: [
+      {
+        numericValues: {
+          column: '',
+          comparison: '',
+          value: '',
+        },
+      },
+    ],
+    hide: action.hide,
+  };
+}
+
 const columnsReducer = (state = initialTextState, action) => {
   switch (action.type) {
     case FILTER_COLUMNS:
@@ -45,19 +61,7 @@ const columnsReducer = (state = initialTextState, action) => {
         }],
       };
     case DELETE_COLUMNS:
-      return {
-        ...state,
-        filters: [
-          {
-            numericValues: {
-              column: '',
-              comparison: '',
-              value: '',
-            },
-          },
-        ],
-        hide: action.hide,
-      };
+      return functionDelete(state, action);
     default: return state;
   }
 };
