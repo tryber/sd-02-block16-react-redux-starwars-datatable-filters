@@ -13,7 +13,7 @@ class App extends React.Component {
             <img src={starWarsLogo} alt="star wars logo" className="sw-logo" />
           </div>
           <div>
-            <h1 className="title">PLANETS TABLE</h1>
+            <h1 className="title">PLANETS DATATABLE</h1>
           </div>
         </header>
         <section>
