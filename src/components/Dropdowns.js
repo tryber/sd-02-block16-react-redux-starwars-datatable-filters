@@ -41,14 +41,14 @@ class Dropdowns extends React.Component {
     const comparisonArr = ['more than', 'less than', 'equal'];
     return (
       <div className="Dropdowns">
-        <select onChange={({ target }) => DropdownFilterColumns(target.value)} hidden={hide}>
-          <option value="" disabled selected hidden>Select Column</option>
+        <select onChange={({ target }) => DropdownFilterColumns(target.value)} hidden={hide} defaultValue="DEFAULT">
+          <option value="DEFAULT" hidden>Select Column</option>
           {columns
             .map((column) => (<option key={column} value={column}>{column}</option>
             ))}
         </select>
-        <select onChange={({ target }) => DropdownComparisonEql(target.value)} hidden={hide}>
-          <option value="true" disabled selected hidden>Select your comparison</option>
+        <select onChange={({ target }) => DropdownComparisonEql(target.value)} hidden={hide} defaultValue="DEFAULT">
+          <option value="DEFAULT" disabled hidden>Select your comparison</option>
           {comparisonArr.map((item) => <option key={item} value={item}>{item}</option>)}
         </select>
         {this.inputAndDeleteBUttons()}
@@ -73,9 +73,9 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(mapStateToProps, mapDispatchToProps)(Dropdowns);
 
 Dropdowns.propTypes = {
-  DropdownFilterColumns: propTypes.string.isRequired,
-  DropdownComparisonEql: propTypes.string.isRequired,
-  DropdownNumberWritten: propTypes.string.isRequired,
+  DropdownFilterColumns: propTypes.func.isRequired,
+  DropdownComparisonEql: propTypes.func.isRequired,
+  DropdownNumberWritten: propTypes.func.isRequired,
   DropdownDeleteColumn: propTypes.func.isRequired,
   filters: propTypes.instanceOf(Array).isRequired,
   hide: propTypes.bool.isRequired,
