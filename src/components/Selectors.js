@@ -93,13 +93,7 @@ class Selectors extends Component {
             </select>
           </div>
           <div className="group number-selector">
-            <input
-              type="number"
-              name="value"
-              onChange={this.onChangeHandler}
-              required
-              id="number-bar"
-            />
+            <input type="number" name="value" onChange={this.onChangeHandler} required id="number-bar" />
             <span className="highlight" />
             <span className="bar" />
             <label htmlFor="number-bar">Type a number</label>
@@ -107,9 +101,7 @@ class Selectors extends Component {
         </form>
         {
           column && comparison && value
-            ? (
-              <input type="reset" value="Filtrar" onClick={this.onClickHandler} />
-            )
+            ? <input type="reset" value="Filtrar" onClick={this.onClickHandler} />
             : false
         }
         {this.renderFilters()}
