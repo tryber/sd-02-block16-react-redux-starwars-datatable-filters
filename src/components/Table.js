@@ -20,9 +20,15 @@ class Table extends Component {
       column: 'population',
       condition: 'Maior que',
       value: '',
+      popOn: false,
+      orbOn: false,
+      diamOn: false,
+      rotOn: false,
+      surfOn: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.checkBoolean = this.checkBoolean.bind(this);
   }
 
   componentDidMount() {
@@ -38,12 +44,13 @@ class Table extends Component {
             id="filterType"
             name="column"
             onChange={(e) => this.handleChange(e.target)}
+            onClick={(e) => this.checkBoolean(e.target)}
           >
-            <option value="population">population</option>
-            <option value="orbital_period">orbital_period</option>
-            <option value="diameter">diameter</option>
-            <option value="rotation_period">rotation_period</option>
-            <option value="surface_water">surface_water</option>
+            <option value="population" name="popOn">population</option>
+            <option value="orbital_period" name="orbOn">orbital_period</option>
+            <option value="diameter" name="diamOn">diameter</option>
+            <option value="rotation_period" name="rotOn">rotation_period</option>
+            <option value="surface_water" name="surfOn">surface_water</option>
           </select>
         </label>
       </form>
@@ -67,6 +74,13 @@ class Table extends Component {
         </label>
       </form>
     );
+  }
+
+  checkBoolean(event) {
+    console.log(this.state)
+    //const { boolean } = event;
+    console.log(event.options[event.selectedIndex].attributes.name.value)
+    //this.setState({ [boolean]: true })
   }
 
   handleSubmit(data) {
@@ -93,7 +107,7 @@ class Table extends Component {
         {this.selecCondition()}
         <input
           type="number"
-          name="value" onChange={(e) => this.handleChange(e.target)} required
+          name="value" onChange={(e) => this.handleChange(e.target)}
         />
         <button onClick={() => this.handleSubmit(data)}>Search</button>
         <button>Clear</button>
