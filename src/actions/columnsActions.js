@@ -26,10 +26,9 @@ export const numberWritten = (number) => (
   }
 );
 
-export const deleteColumns = (hide, number, comparison, column) => (
+export const deleteColumns = (number, comparison, column) => (
   {
     type: DELETE_COLUMNS,
-    hide,
     number,
     comparison,
     column,

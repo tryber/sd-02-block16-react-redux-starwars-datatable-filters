@@ -8,7 +8,7 @@ import {
 class Dropdowns extends React.Component {
   inputAndDeleteBUttons() {
     const {
-      DropdownNumberWritten, DropdownDeleteColumn, filters, hide,
+      DropdownNumberWritten, DropdownDeleteColumn, filters,
     } = this.props;
     return (
       <div>
@@ -17,13 +17,11 @@ class Dropdowns extends React.Component {
           type="number"
           placeholder="type a number here!"
           onChange={({ target }) => DropdownNumberWritten(target.value)}
-          hidden={hide}
         />
         <button
           type="button"
-          value="true"
+          value=""
           onClick={({ target }) => DropdownDeleteColumn(target.value)}
-          hidden={hide}
         >
           X
         </button>
@@ -32,23 +30,21 @@ class Dropdowns extends React.Component {
   }
 
   render() {
-    const { DropdownFilterColumns, DropdownComparisonEql, hide } = this.props;
+    const { DropdownFilterColumns, DropdownComparisonEql } = this.props;
     const columns = ['surface_water', 'population', 'rotation_period', 'orbital_period', 'diameter'];
     const comparisonArr = ['more than', 'less than', 'equal'];
     return (
       <div className="Dropdowns">
         <select
           onChange={({ target }) => DropdownFilterColumns(target.value)}
-          hidden={hide}
           defaultValue="DEFAULT"
         >
-          <option value="DEFAULT" hidden>Select Column</option>
+          <option value="DEFAULT">Select Column</option>
           {columns
             .map((column) => (<option key={column} value={column}>{column}</option>))}
         </select>
         <select
           onChange={({ target }) => DropdownComparisonEql(target.value)}
-          hidden={hide}
           defaultValue="DEFAULT"
         >
           <option value="DEFAULT" hidden>Select your comparison</option>
@@ -62,15 +58,15 @@ class Dropdowns extends React.Component {
 
 const mapStateToProps = ({
   columnsReducer: {
-    filters, hide,
+    filters,
   },
-}) => ({ filters, hide });
+}) => ({ filters });
 
 const mapDispatchToProps = (dispatch) => ({
   DropdownFilterColumns: (column) => dispatch(filterColumns(column)),
   DropdownComparisonEql: (equal) => dispatch(comparisonParamEqual(equal)),
   DropdownNumberWritten: (number) => dispatch(numberWritten(number)),
-  DropdownDeleteColumn: (hide) => dispatch(deleteColumns(hide)),
+  DropdownDeleteColumn: () => dispatch(deleteColumns()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dropdowns);
@@ -81,5 +77,4 @@ Dropdowns.propTypes = {
   DropdownNumberWritten: propTypes.func.isRequired,
   DropdownDeleteColumn: propTypes.func.isRequired,
   filters: propTypes.instanceOf(Array).isRequired,
-  hide: propTypes.bool.isRequired,
 };

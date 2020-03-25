@@ -1,7 +1,7 @@
 const APIURL = 'https://swapi.co/api/planets/';
 
 const fetchPlanetFromServices = () => (
-  fetch(`${APIURL}`)
+  fetch(APIURL)
     .then((response) => (
       response
         .json()

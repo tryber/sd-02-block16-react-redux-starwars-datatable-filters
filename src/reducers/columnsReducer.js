@@ -9,16 +9,16 @@ const initialTextState = {
   filters: [
     {
       numericValues: {
-        column: '',
-        comparison: '',
-        value: '',
+        column: 'DEFAULT',
+        comparison: 'DEFAULT',
+        value: 'DEFAULT',
       },
     },
   ],
   hide: false,
 };
 
-function functionDelete(state, action) {
+function functionDelete(state) {
   return {
     ...state,
     filters: [
@@ -30,7 +30,6 @@ function functionDelete(state, action) {
         },
       },
     ],
-    hide: action.hide,
   };
 }
 
@@ -61,7 +60,7 @@ const columnsReducer = (state = initialTextState, action) => {
         }],
       };
     case DELETE_COLUMNS:
-      return functionDelete(state, action);
+      return functionDelete(state);
     default: return state;
   }
 };

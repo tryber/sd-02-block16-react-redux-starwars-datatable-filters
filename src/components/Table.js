@@ -8,14 +8,15 @@ import './Table.css';
 
 function filterByColumns(array, filterCriteria) {
   const { numericValues: { column, comparison, value } } = filterCriteria[0];
-  if (comparison === 'more than' && column !== '' && value !== '') {
-    return array.filter((planet) => planet[column] > value);
+  const columAndValue = function () { return column !== '' && value !== ''; };
+  if (comparison === 'more than' && columAndValue()) {
+    return array.filter((planet) => Number(planet[column]) > value);
   }
-  if (comparison === 'less than' && column !== '' && value !== '') {
-    return array.filter((planet) => planet[column] < value);
+  if (comparison === 'less than' && columAndValue()) {
+    return array.filter((planet) => Number(planet[column]) < value);
   }
-  if (comparison === 'equal' && column !== '' && value !== '') {
-    return array.filter((planet) => (planet[column] === value));
+  if (comparison === 'equal' && columAndValue()) {
+    return array.filter((planet) => (Number(planet[column]) === value));
   }
   return array;
 }
@@ -70,12 +71,13 @@ class Table extends React.Component {
     const {
       fetching, data, error, filters, importedTextReducer, numericFilters,
     } = this.props;
+    const { name } = filters[0];
     return (
       <div className="tableComponent">
         <h1>StarWars Data Table with Filters</h1>
-        <input value={filters[0].name} onChange={(e) => importedTextReducer(e.target.value)} />
+        <input value={name} onChange={(e) => importedTextReducer(e.target.value)} />
         <Dropdowns />
-        {generateTable(fetching, data, error, filters[0].name, numericFilters)}
+        {generateTable(fetching, data, error, name, numericFilters)}
       </div>
     );
   }
