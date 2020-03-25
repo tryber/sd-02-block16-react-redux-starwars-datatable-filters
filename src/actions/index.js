@@ -25,6 +25,7 @@ const columnsSelect = [
 const filterNumber = (column, comparison, value, planetsData) => {
   const readWithNumberValue = (planet) => planet[column];
   let filteredNumber = [];
+  // Não é para acessar a store aqui. É pra enviar a coluna como parâmetro, rodar e retirar.
   // Inserir aqui a filtragem do nome e trazê-la para filteredNumber;
   // Utilizar o mapStateToProps para enviar informações do store;
   // Depois que pegar as informações da Store, iterar no store.filters;
