@@ -48,19 +48,19 @@ class Table extends Component {
             onChange={(e) => this.handleChange(e.target)}
             onClick={(e) => this.changeBoolean(e.target.options[e.target.selectedIndex])}
           >
-            <option value="population" name="popOn" disabled={popOn ? `disabled` : null}>
+            <option value="population" name="popOn" disabled={popOn ? 'disabled' : null}>
               population
             </option>
-            <option value="orbital_period" name="orbOn" disabled={orbOn ? `disabled` : null}>
+            <option value="orbital_period" name="orbOn" disabled={orbOn ? 'disabled' : null}>
               orbital_period
             </option>
-            <option value="diameter" name="diamOn" disabled={diamOn ? `disabled` : null}>
+            <option value="diameter" name="diamOn" disabled={diamOn ? 'disabled' : null}>
               diameter
             </option>
-            <option value="rotation_period" name="rotOn" disabled={rotOn ? `disabled` : null}>
+            <option value="rotation_period" name="rotOn" disabled={rotOn ? 'disabled' : null}>
               rotation_period
             </option>
-            <option value="surface_water" name="surfOn" disabled={surfOn ? `disabled` : null}>
+            <option value="surface_water" name="surfOn" disabled={surfOn ? 'disabled' : null}>
               surface_water
             </option>
           </select>
@@ -90,7 +90,7 @@ class Table extends Component {
 
   changeBoolean(event) {
     const name = event.attributes.name.value;
-    this.setState({ name: name })
+    this.setState({ name });
   }
 
   handleSubmit(data) {
@@ -106,7 +106,7 @@ class Table extends Component {
   }
 
   render() {
-    const { value } = this.state
+    const { value } = this.state;
     const { onLoad, data, dataPlanet, dataMockFilterOn, dataMock } = this.props;
     if (!onLoad) return <p>Loading...</p>;
     return (
@@ -158,7 +158,6 @@ Table.propTypes = {
   updateFilters: PropTypes.func.isRequired,
   dataMockFilterOn: PropTypes.bool.isRequired,
   dataMock: PropTypes.instanceOf(Object).isRequired,
-  changeBoolean: PropTypes.func,
 };
 
 Table.defaultProps = {
