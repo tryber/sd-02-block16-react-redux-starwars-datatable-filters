@@ -19,7 +19,8 @@ class Table extends Component {
     this.state = {
       column: 'population',
       condition: 'Maior que',
-      value: '',
+      name: 'popOn',
+      value: 0,
       popOn: false,
       orbOn: false,
       diamOn: false,
@@ -28,7 +29,7 @@ class Table extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.checkBoolean = this.checkBoolean.bind(this);
+    this.changeBoolean = this.changeBoolean.bind(this);
   }
 
   componentDidMount() {
@@ -37,6 +38,7 @@ class Table extends Component {
   }
 
   selecDropDown() {
+    const { popOn, orbOn, diamOn, rotOn, surfOn } = this.state;
     return (
       <form>
         <label htmlFor="filterType">
@@ -44,13 +46,23 @@ class Table extends Component {
             id="filterType"
             name="column"
             onChange={(e) => this.handleChange(e.target)}
-            onClick={(e) => this.checkBoolean(e.target)}
+            onClick={(e) => this.changeBoolean(e.target.options[e.target.selectedIndex])}
           >
-            <option value="population" name="popOn">population</option>
-            <option value="orbital_period" name="orbOn">orbital_period</option>
-            <option value="diameter" name="diamOn">diameter</option>
-            <option value="rotation_period" name="rotOn">rotation_period</option>
-            <option value="surface_water" name="surfOn">surface_water</option>
+            <option value="population" name="popOn" disabled={popOn ? `disabled` : null}>
+              population
+            </option>
+            <option value="orbital_period" name="orbOn" disabled={orbOn ? `disabled` : null}>
+              orbital_period
+            </option>
+            <option value="diameter" name="diamOn" disabled={diamOn ? `disabled` : null}>
+              diameter
+            </option>
+            <option value="rotation_period" name="rotOn" disabled={rotOn ? `disabled` : null}>
+              rotation_period
+            </option>
+            <option value="surface_water" name="surfOn" disabled={surfOn ? `disabled` : null}>
+              surface_water
+            </option>
           </select>
         </label>
       </form>
@@ -76,17 +88,16 @@ class Table extends Component {
     );
   }
 
-  checkBoolean(event) {
-    console.log(this.state)
-    //const { boolean } = event;
-    console.log(event.options[event.selectedIndex].attributes.name.value)
-    //this.setState({ [boolean]: true })
+  changeBoolean(event) {
+    const name = event.attributes.name.value;
+    this.setState({ name: name })
   }
 
   handleSubmit(data) {
-    const { column, condition, value } = this.state;
+    const { column, condition, value, name } = this.state;
     const { updateFilters } = this.props;
     updateFilters(column, condition, value, data);
+    this.setState({ [name]: true });
   }
 
   handleChange(event) {
@@ -95,6 +106,7 @@ class Table extends Component {
   }
 
   render() {
+    const { value } = this.state
     const { onLoad, data, dataPlanet, dataMockFilterOn, dataMock } = this.props;
     if (!onLoad) return <p>Loading...</p>;
     return (
@@ -107,7 +119,9 @@ class Table extends Component {
         {this.selecCondition()}
         <input
           type="number"
-          name="value" onChange={(e) => this.handleChange(e.target)}
+          name="value"
+          value={value}
+          onChange={(e) => this.handleChange(e.target)}
         />
         <button onClick={() => this.handleSubmit(data)}>Search</button>
         <button>Clear</button>
@@ -144,6 +158,7 @@ Table.propTypes = {
   updateFilters: PropTypes.func.isRequired,
   dataMockFilterOn: PropTypes.bool.isRequired,
   dataMock: PropTypes.instanceOf(Object).isRequired,
+  changeBoolean: PropTypes.func,
 };
 
 Table.defaultProps = {
