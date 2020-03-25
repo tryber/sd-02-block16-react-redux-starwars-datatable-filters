@@ -5,6 +5,7 @@ import {
 
 const INITIAL_STATE = {
   filters: [],
+  columnsSelect: [],
 };
 
 const returnFilterData = (state = INITIAL_STATE, action) => {

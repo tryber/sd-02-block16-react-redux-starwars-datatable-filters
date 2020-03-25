@@ -5,6 +5,7 @@ export const REQUEST_SWAPI_SUCCESS = 'REQUEST_SWAPI_SUCCESS';
 export const REQUEST_SWAPI_FAILURE = 'REQUEST_SWAPI_FAILURE';
 export const FILTER_PLANETS_WITH_NAME = 'FILTER_PLANETS_WITH_NAME';
 export const FILTER_PLANETS_WITH_NUMBER = 'FILTER_PLANETS_WITH_NUMBER';
+export const REMOVE_NUMERIC_FILTER = 'REMOVE_NUMERIC_FILTER';
 
 const filterFunction = (planetsData, userValue) => (
   planetsData.filter((planet) => (
@@ -12,10 +13,23 @@ const filterFunction = (planetsData, userValue) => (
   ))
 );
 
+const columnsSelect = [
+  '-',
+  'population',
+  'orbital_period',
+  'diameter',
+  'rotation_period',
+  'surface_water',
+];
+
 const filterNumber = (column, comparison, value, planetsData) => {
   const readWithNumberValue = (planet) => planet[column];
   let filteredNumber = [];
-  // inserir aqui a filtragem do nome e trazê-la para filteredNumber;
+  // Inserir aqui a filtragem do nome e trazê-la para filteredNumber;
+  // Utilizar o mapStateToProps para enviar informações do store;
+  // Depois que pegar as informações da Store, iterar no store.filters;
+  // o Array do Column deve permanecer na store, pois quando eu clicar no valor para fechar,
+  // deve ser reinserido no select.
   switch (comparison) {
     case ('bigger_than'):
       filteredNumber = planetsData.filter((planet) => readWithNumberValue(planet) > value);

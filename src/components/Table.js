@@ -36,7 +36,6 @@ class Table extends React.Component {
     if (isFetching) {
       return <Loading />;
     }
-
     return (
       <div className="allTable">
         <InputsAndFilters
