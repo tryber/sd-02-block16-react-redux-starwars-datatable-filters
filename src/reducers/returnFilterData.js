@@ -22,6 +22,7 @@ const columnsFiltered = (columnsToFilter, columnUsed) => {
 const INITIAL_STATE = {
   filters: [],
   columnsSelect: columns,
+  filtersToShow: [],
 };
 
 const returnFilterData = (state = INITIAL_STATE, action) => {
@@ -39,6 +40,7 @@ const returnFilterData = (state = INITIAL_STATE, action) => {
     case FILTER_PLANETS_WITH_NUMBER:
       console.log(state.filters);
       return {
+        ...state,
         filters: [
           ...state.filters,
           { numericValues: action.numObj.numericValues },

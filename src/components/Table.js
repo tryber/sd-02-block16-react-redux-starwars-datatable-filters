@@ -39,8 +39,8 @@ class Table extends React.Component {
     return (
       <div className="allTable">
         <InputsAndFilters
-          planetsData={planetsData}
-          filteredData={filteredData}
+          planetsData={consumerData}
+          filteredData={consumerData}
         />
         <table>
           {TableHeader(tableTitle)}

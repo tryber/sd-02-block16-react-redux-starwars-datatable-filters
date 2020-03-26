@@ -14,7 +14,6 @@ const comparativeValues = [
   'equal_to',
 ];
 
-
 const NameInput = (planetsData, dispatchFilter) => (
   <input
     type="text"
@@ -53,7 +52,7 @@ class InputsAndFilters extends React.Component {
         type="number"
         name="value"
         placeholder="Search a number"
-        onChange={(element) => this.setStateFunc(element.target)} // refatorar
+        onChange={(element) => this.setStateFunc(element.target)}
       />
     );
   }
@@ -62,9 +61,9 @@ class InputsAndFilters extends React.Component {
     return (
       <div className="InputsAndFilters_selectors">
         <select
-          key={`${columns.length}`}
+          key="columnValue"
           name="column"
-          onChange={(element) => this.setStateFunc(element.target)} // refatorar
+          onChange={(element) => this.setStateFunc(element.target)}
         >
           {columns.map((column) => (
             <option key={column} value={column}>{column}</option>
@@ -73,8 +72,8 @@ class InputsAndFilters extends React.Component {
 
         <select
           name="comparison"
-          onChange={(element) => this.setStateFunc(element.target)} // refatorar
-          key={`${comparativeValues.length}`}
+          onChange={(element) => this.setStateFunc(element.target)}
+          key="comparativeValue"
         >
           {comparativeValues.map((comparativeValue) => (
             <option key={comparativeValue} value={comparativeValue}>{comparativeValue}</option>

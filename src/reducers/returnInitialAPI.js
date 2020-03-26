@@ -21,6 +21,7 @@ const returnInitialAPI = (state = INITIAL_STATE, action) => {
         ...state,
         isFetching: false,
         planetsData: action.data.results,
+        filteredData: action.data.results,
       };
 
     case REQUEST_SWAPI_FAILURE:

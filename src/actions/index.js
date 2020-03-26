@@ -7,30 +7,40 @@ export const FILTER_PLANETS_WITH_NAME = 'FILTER_PLANETS_WITH_NAME';
 export const FILTER_PLANETS_WITH_NUMBER = 'FILTER_PLANETS_WITH_NUMBER';
 export const REMOVE_NUMERIC_FILTER = 'REMOVE_NUMERIC_FILTER';
 
-const filterFunction = (planetsData, userValue) => (
-  planetsData.filter((planet) => (
-    planet.name.toLowerCase().includes(userValue.toLowerCase())
-  ))
-);
+// Não é para acessar a store aqui. É pra enviar a coluna como parâmetro, rodar e retirar.
+// Inserir aqui a filtragem do nome e trazê-la para filteredNumber;
+// Utilizar o mapStateToProps para enviar informações do store;
+// Depois que pegar as informações da Store, iterar no store.filters;
+// o Array do Column deve permanecer na store, pois quando eu clicar no valor para fechar,
+// deve ser reinserido no select.
+
+const filterFunction = (planetsData, userValue) => {
+  console.log(planetsData);
+  return (
+    planetsData.filter((planet) => (
+      planet.name.toLowerCase().includes(userValue.toLowerCase())
+    )))
+}
+
 
 const filterNumber = (column, comparison, value, planetsData) => {
   const readWithNumberValue = (planet) => planet[column];
   let filteredNumber = [];
-  // Não é para acessar a store aqui. É pra enviar a coluna como parâmetro, rodar e retirar.
-  // Inserir aqui a filtragem do nome e trazê-la para filteredNumber;
-  // Utilizar o mapStateToProps para enviar informações do store;
-  // Depois que pegar as informações da Store, iterar no store.filters;
-  // o Array do Column deve permanecer na store, pois quando eu clicar no valor para fechar,
-  // deve ser reinserido no select.
   switch (comparison) {
     case ('bigger_than'):
-      filteredNumber = planetsData.filter((planet) => readWithNumberValue(planet) > value);
+      filteredNumber = planetsData.filter((planet) => Number(
+        readWithNumberValue(planet),
+      ) > Number(value));
       return filteredNumber;
     case ('less_than'):
-      filteredNumber = planetsData.filter((planet) => readWithNumberValue(planet) < value);
+      filteredNumber = planetsData.filter((planet) => Number(
+        readWithNumberValue(planet),
+      ) < Number(value));
       return filteredNumber;
     case ('equal_to'):
-      filteredNumber = planetsData.filter((planet) => readWithNumberValue(planet) === value);
+      filteredNumber = planetsData.filter((planet) => Number(
+        readWithNumberValue(planet),
+      ) === (value));
       return filteredNumber;
     default: return planetsData;
   }
@@ -65,7 +75,6 @@ export const filterPlanetsWithName = (planetsData, userValue) => ({
 });
 
 export const filterPlanetsWithNumber = (column, comparison, value, planetsData, columnsSelect) => {
-  console.log(column, comparison, value);
   return ({
     type: FILTER_PLANETS_WITH_NUMBER,
     numObj: newFilter(column, comparison, value),
@@ -73,7 +82,6 @@ export const filterPlanetsWithNumber = (column, comparison, value, planetsData, 
     columnUsed: column,
     columnsToFilter: columnsSelect,
   });
-  // Aqui limparia as seleções e o input.
 };
 
 const apiReturn = () => (
