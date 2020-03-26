@@ -64,12 +64,14 @@ export const filterPlanetsWithName = (planetsData, userValue) => ({
   filterData: filterFunction(planetsData, userValue),
 });
 
-export const filterPlanetsWithNumber = (column, comparison, value, planetsData) => {
+export const filterPlanetsWithNumber = (column, comparison, value, planetsData, columnsSelect) => {
   console.log(column, comparison, value);
   return ({
     type: FILTER_PLANETS_WITH_NUMBER,
     numObj: newFilter(column, comparison, value),
     filterData: filterNumber(column, comparison, value, planetsData),
+    columnUsed: column,
+    columnsToFilter: columnsSelect,
   });
   // Aqui limparia as seleções e o input.
 };

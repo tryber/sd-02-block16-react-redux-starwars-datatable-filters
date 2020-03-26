@@ -12,6 +12,13 @@ const columns = [
   'surface_water',
 ];
 
+const columnsFiltered = (columnsToFilter, columnUsed) => {
+  const prevState = [...columnsToFilter];
+  const indexColumn = prevState.indexOf(columnUsed);
+  const newColumns = prevState.slice(0, indexColumn).concat(prevState.slice(indexColumn + 1));
+  return newColumns;
+};
+
 const INITIAL_STATE = {
   filters: [],
   columnsSelect: columns,
@@ -37,6 +44,7 @@ const returnFilterData = (state = INITIAL_STATE, action) => {
           { numericValues: action.numObj.numericValues },
         ],
         filteredData: action.filterData,
+        columnsSelect: columnsFiltered(action.columnsToFilter, action.columnUsed),
       };
     default: return state;
   }

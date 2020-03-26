@@ -43,8 +43,8 @@ class InputsAndFilters extends React.Component {
 
   handleSubmit() {
     const { column, comparison, value } = this.state;
-    const { dispatchNumberFilter, planetsData } = this.props;
-    dispatchNumberFilter(column, comparison, value, planetsData);
+    const { dispatchNumberFilter, planetsData, columnsSelect } = this.props;
+    dispatchNumberFilter(column, comparison, value, planetsData, columnsSelect);
   }
 
   NumberInput() {
@@ -127,13 +127,13 @@ const mapDispatchToProps = (dispatch) => ({
   dispatchFilter: (planetsData, userInfo) => (
     dispatch(filterPlanetsWithName(planetsData, userInfo))
   ),
-  dispatchNumberFilter: (column, comparison, value, planetsData) => {
+  dispatchNumberFilter: (column, comparison, value, planetsData, columnsSelect) => {
     if (value <= 0 || comparison === '-' || column === '-') {
       alert('Fill in all fields to continue.');
       return '';
     }
     return (
-      dispatch(filterPlanetsWithNumber(column, comparison, value, planetsData))
+      dispatch(filterPlanetsWithNumber(column, comparison, value, planetsData, columnsSelect))
     );
   },
 });
