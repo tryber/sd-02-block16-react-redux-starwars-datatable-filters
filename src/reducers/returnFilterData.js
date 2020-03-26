@@ -3,9 +3,18 @@ import {
   FILTER_PLANETS_WITH_NUMBER,
 } from '../actions';
 
+const columns = [
+  '-',
+  'population',
+  'orbital_period',
+  'diameter',
+  'rotation_period',
+  'surface_water',
+];
+
 const INITIAL_STATE = {
   filters: [],
-  columnsSelect: [],
+  columnsSelect: columns,
 };
 
 const returnFilterData = (state = INITIAL_STATE, action) => {

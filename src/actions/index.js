@@ -13,15 +13,6 @@ const filterFunction = (planetsData, userValue) => (
   ))
 );
 
-const columnsSelect = [
-  '-',
-  'population',
-  'orbital_period',
-  'diameter',
-  'rotation_period',
-  'surface_water',
-];
-
 const filterNumber = (column, comparison, value, planetsData) => {
   const readWithNumberValue = (planet) => planet[column];
   let filteredNumber = [];

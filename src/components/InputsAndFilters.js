@@ -7,15 +7,6 @@ import {
 } from '../actions';
 import '../styles/InputsAndFilters_stylish.css';
 
-const columns = [
-  '-',
-  'population',
-  'orbital_period',
-  'diameter',
-  'rotation_period',
-  'surface_water',
-];
-
 const comparativeValues = [
   '-',
   'bigger_than',
@@ -67,7 +58,7 @@ class InputsAndFilters extends React.Component {
     );
   }
 
-  filterNumbersComponent() {
+  filterNumbersComponent(columns) {
     return (
       <div className="InputsAndFilters_selectors">
         <select
@@ -107,18 +98,30 @@ class InputsAndFilters extends React.Component {
     const {
       planetsData,
       dispatchFilter,
+      columnsSelect,
     } = this.props;
-
+    console.log(columnsSelect);
     return (
       <div className="InputsAndFilters_stylish">
 
         {NameInput(planetsData, dispatchFilter)}
-        {this.filterNumbersComponent()}
+        {this.filterNumbersComponent(columnsSelect)}
 
       </div>
     );
   }
 }
+
+const mapStateToProps = (
+  {
+    returnInitialAPI: { planetsData },
+    returnFilterData: { filteredData, columnsSelect },
+  },
+) => ({
+  planetsData,
+  filteredData,
+  columnsSelect,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   dispatchFilter: (planetsData, userInfo) => (
@@ -142,6 +145,7 @@ InputsAndFilters.propTypes = {
   ]),
   dispatchFilter: PropTypes.func.isRequired,
   dispatchNumberFilter: PropTypes.func.isRequired,
+  columnsSelect: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 InputsAndFilters.defaultProps = {
@@ -149,4 +153,4 @@ InputsAndFilters.defaultProps = {
 };
 
 
-export default connect(null, mapDispatchToProps)(InputsAndFilters);
+export default connect(mapStateToProps, mapDispatchToProps)(InputsAndFilters);
