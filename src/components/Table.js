@@ -74,7 +74,7 @@ class Table extends React.Component {
     const { name } = filters[0];
     return (
       <div className="tableComponent">
-        <h1>StarWars Data Table with Filters</h1>
+        <h1>StarWars Data Table (with Filters)</h1>
         <input value={name} onChange={(e) => importedTextReducer(e.target.value)} />
         <Dropdowns />
         {generateTable(fetching, data, error, name, numericFilters)}

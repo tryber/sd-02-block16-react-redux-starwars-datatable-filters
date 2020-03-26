@@ -9,9 +9,9 @@ const initialTextState = {
   filters: [
     {
       numericValues: {
-        column: 'DEFAULT',
-        comparison: 'DEFAULT',
-        value: 'DEFAULT',
+        column: '',
+        comparison: '',
+        value: '',
       },
     },
   ],
