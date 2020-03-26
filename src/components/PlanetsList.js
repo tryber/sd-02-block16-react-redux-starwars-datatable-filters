@@ -31,7 +31,7 @@ const PlanetsList = ({ results }) => {
       <tbody>
         {results.map((planet) => (
           <tr key={planet.name}>
-            <td>{planet.name}</td>
+            <td className="name-line">{planet.name}</td>
             <td>{planet.rotation_period}</td>
             <td>{planet.orbital_period}</td>
             <td>{planet.diameter}</td>
