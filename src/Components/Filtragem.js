@@ -11,7 +11,7 @@ import Filter from './Filter';
 function handleClick(filters) {
   const filter = {
     numericValues: {
-      name: 'population',
+      name: '',
       condition: 'maior',
       input: undefined,
     },
