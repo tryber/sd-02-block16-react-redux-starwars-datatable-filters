@@ -30,7 +30,6 @@ class Button extends Component {
       filters,
       handle,
       name,
-      btn,
       type,
       id,
     } = this.props;
@@ -40,7 +39,7 @@ class Button extends Component {
         name={name}
         onClick={(e) => handle(e, id, filters, type)}
       >
-        {btn}
+        {name}
       </button>
     );
   }
@@ -58,7 +57,6 @@ Button.propTypes = {
   handle: PropTypes.func.isRequired,
   filters: filtersPropTypes.filters,
   id: PropTypes.number.isRequired,
-  btn: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
 };

@@ -32,6 +32,31 @@ class FilterByName extends Component {
     }
   }
 
+  renderList() {
+    const { filters, id } = this.props;
+    const filtersSelected = [];
+    for (let i = 0; i < filters.length; i += 1) {
+      const { name } = filters[i].numericValues;
+      filtersSelected.push(name);
+    }
+    let arr = [
+      'population',
+      'orbital_period',
+      'diameter',
+      'rotation_period',
+      'surface_water',
+    ];
+    arr = arr.filter((item) => !filtersSelected.some((selected) => item === selected));
+
+    return (
+      <div className="list" ref={this.list}>
+        {arr.map((item) => (
+          <Button key={item} name={item} id={id} type="FilterByName" />
+        ))}
+      </div>
+    );
+  }
+
   render() {
     const { filters, id } = this.props;
     const { name } = filters[id].numericValues;
@@ -43,13 +68,7 @@ class FilterByName extends Component {
           </i>
           <p>{name}</p>
         </div>
-        <div className="list" ref={this.list}>
-          <Button name="population" btn="population" id={id} type="FilterByName" />
-          <Button name="orbital_period" btn="orbital period" id={id} type="FilterByName" />
-          <Button name="diameter" btn="diameter" id={id} type="FilterByName" />
-          <Button name="rotation_period" btn="rotation period" id={id} type="FilterByName" />
-          <Button name="surface_water" btn="surface water" id={id} type="FilterByName" />
-        </div>
+        {this.renderList()}
       </div>
     );
   }
