@@ -26,6 +26,7 @@ function resultPlanet(state, action) {
     dataMockFilter: action.dataMockFilter,
     filters: [
       {
+        ...state.filters.name,
         [key]: state.filters[key] = action.planet,
       },
     ],
@@ -45,7 +46,7 @@ function resultPlanetFiltered(state, action) {
     ...state,
     dataMockFilter: action.dataMockFilter,
     filters: [
-      { name: action.name },
+        action.name,
       ...state.filters,
     ],
   };

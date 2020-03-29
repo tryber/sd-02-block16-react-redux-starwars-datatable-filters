@@ -19,7 +19,9 @@ function dataWithFilter(results, planet) {
     dataMockFilter: {
       results,
     },
-    planet,
+    name: {
+      name: planet,
+    }
   };
 }
 
@@ -33,7 +35,7 @@ function filterResults(whosFilter, planet) {
   return filteredResult;
 }
 
-const planetAction = (planet, dataMock, dataMockFilterOn, data, filters) => (
+const planetAction = (planet, dataMock, dataMockFilterOn, data) => (
   (dispatch) => {
     let whosFilter = data.results;
     if (dataMockFilterOn) {
@@ -41,9 +43,6 @@ const planetAction = (planet, dataMock, dataMockFilterOn, data, filters) => (
     }
     const filteredResult = filterResults(whosFilter, planet);
     const filterWithoutUndefined = filteredResult.filter((element) => element.length !== 0);
-    const filterUndefined = filters.filter((filter) =>
-    !Object.keys(filter).includes('name') && Object.keys(filter.numericValues['column'].includes('population')) );
-    console.log('eu', filterUndefined)
     const planetCase = planet.charAt(0).toUpperCase() + planet.substring(1);
     if (dataMockFilterOn) {
       return dispatch(dataWithFilter(filterWithoutUndefined, planetCase));

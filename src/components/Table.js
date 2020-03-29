@@ -6,11 +6,12 @@ import planetAction from '../store/planetAction';
 import HeadTable from './Headtable';
 import Celltable from './Celltable';
 import dispatchAllFilters from '../store/allFilters';
+import store from '../store';
 import './Table.css';
 
-const filterPlanet = (e, dataPlanet, dataMock, dataMockFilterOn, data, filters) => {
+const filterPlanet = (e, dataPlanet, dataMock, dataMockFilterOn, data) => {
   const planet = e.target.value;
-  dataPlanet(planet, dataMock, dataMockFilterOn, data, filters);
+  dataPlanet(planet, dataMock, dataMockFilterOn, data);
 };
 
 class Table extends Component {
@@ -49,7 +50,7 @@ class Table extends Component {
             onChange={(e) => this.handleChange(e.target)}
             onClick={(e) => this.changeBoolean(e.target.options[e.target.selectedIndex])}
           >
-            <option value ="" hidden>Choose Option</option>
+            <option value ="" name="choose" hidden>Choose Option</option>
             <option value="population" name="popOn" hidden={popOn ? 'none' : ''}>
               population
             </option>
@@ -81,7 +82,7 @@ class Table extends Component {
             onChange={(e) =>
             this.handleChange(e.target)}
           >
-            <option value="" hidden>Choose Option</option>
+            <option value="" name="choose" hidden>Choose Option</option>
             <option value="Maior que">Maior que</option>
             <option value="Menor que">Menor que</option>
             <option value="Igual a">Igual a</option>
@@ -175,8 +176,8 @@ const mapStateToProps = ({
 
 const mapDispatchToProps = (dispatch) => ({
   dataAPI: () => dispatch(resultAPI()),
-  dataPlanet: (planet, dataMock, dataMockFilterOn, data, filters) =>
-    dispatch(planetAction(planet, dataMock, dataMockFilterOn, data, filters)),
+  dataPlanet: (planet, dataMock, dataMockFilterOn, data) =>
+    dispatch(planetAction(planet, dataMock, dataMockFilterOn, data)),
   updateAllFilters: (column, condition, value, data) =>
     dispatch(dispatchAllFilters(column, condition, value, data)),
 });

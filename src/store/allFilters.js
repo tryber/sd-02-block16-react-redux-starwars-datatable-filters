@@ -3,7 +3,7 @@ import verifyCondition from './switchCases/conditionCase';
 import dispatchFilters from './dispatchFilters';
 import store from '../store';
 
-function allFiltersAction(results, column, condition, value, dataMocked) {
+function allFiltersAction(results, column, condition, value) {
   return {
     type: types.RESULT_ALL_FILTERS,
     dataMock: {
