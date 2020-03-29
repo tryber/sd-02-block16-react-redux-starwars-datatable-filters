@@ -33,19 +33,15 @@ function updateDataMock(results) {
   };
 }
 
-function verifyFilterStore(dataMock, filterStore) {
-  const mappedMock = dataMock.filter((result) => {
-    filterStore.forEach((filter) => {
-      if (!verifyCondition(Number(result[filter.numericValues.column]),
-                           filter.numericValues.condition,
-                           Number(filter.numericValues.value))) {
-        return false;
-      }
-    });
-    return true;
-  });
-  return mappedMock;
-}
+// function verifyFilterStore(result, filterStore) {
+//   for (let i = 0; filterStore.length > i; i += 1) {
+//     if (!verifyCondition(Number(result[filterStore[i].numericValues.column]),
+//                              filterStore[i].numericValues.condition,
+//                              Number(filterStore[i].numericValues.value))) {
+//       return false;
+//     }
+//   }
+// }
 
 const dispatchAllFilters = (column, condition, value, data) => (
   (dispatch) => {
@@ -53,7 +49,15 @@ const dispatchAllFilters = (column, condition, value, data) => (
     dispatch(updateDataMock(dataMock, column, condition, value));
     const filterStore = store.getState().loadReducer.filters.filter((element) =>
       !Object.keys(element).includes('name'));
-    const mappedMock = verifyFilterStore(dataMock, filterStore)
+    const mappedMock = dataMock.filter((result) => {
+      let isValid = true;
+      filterStore.forEach((filter) => {
+        isValid = isValid && verifyCondition(Number(result[filter.numericValues.column]),
+                                            filter.numericValues.condition,
+                                            Number(filter.numericValues.value));
+      });
+      return isValid;
+    });
     return (dispatch(allFiltersAction(mappedMock, column, condition, value)));
   });
 
