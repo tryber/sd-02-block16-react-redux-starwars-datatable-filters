@@ -113,7 +113,7 @@ class Table extends Component {
 
   callFilters(dataMockFilterOn) {
     const { filters } = this.props;
-    if (dataMockFilterOn && filters)
+    if (dataMockFilterOn && filters) {
       return (
         <div className="essa1">
           {filters.map((filter) => {
@@ -130,6 +130,11 @@ class Table extends Component {
           }
         </div>
       );
+    }
+    return (
+      <div>
+      </div>
+    );
   }
 
   render() {
@@ -169,7 +174,7 @@ class Table extends Component {
 
 const mapStateToProps = ({
   loadReducer: { data, onLoad, updateFilters, dataMock, dataMockFilterOn, filters } }) => ({
-    data, onLoad, updateFilters, dataMock, dataMockFilterOn, filters
+    data, onLoad, updateFilters, dataMock, dataMockFilterOn, filters,
   });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -190,7 +195,7 @@ Table.propTypes = {
   data: PropTypes.instanceOf(Object).isRequired,
   dataMockFilterOn: PropTypes.bool.isRequired,
   dataMock: PropTypes.instanceOf(Object).isRequired,
-  filters: PropTypes.instanceOf(Object).isRequired
+  filters: PropTypes.instanceOf(Object).isRequired,
 };
 
 Table.defaultProps = {

@@ -30,7 +30,7 @@ function updateDataMock(results) {
     dataMockFilter: {
       results,
     },
-  }
+  };
 }
 
 const dispatchAllFilters = (column, condition, value, data) => (
