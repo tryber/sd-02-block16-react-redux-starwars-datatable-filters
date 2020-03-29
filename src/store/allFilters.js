@@ -39,13 +39,14 @@ const dispatchAllFilters = (column, condition, value, data) => (
     dispatch(updateDataMock(dataMock, column, condition, value));
     const filterStore = store.getState().loadReducer.filters.filter((element) =>
       !Object.keys(element).includes('name'));
-    const mappedMock = dataMock.filter(result => {
+    const mappedMock = dataMock.filter((result) => {
       for (const filter of filterStore) {
         if (!verifyCondition(Number(result[filter.numericValues.column]),
                              filter.numericValues.condition,
-                             Number(filter.numericValues.value)))
+                             Number(filter.numericValues.value))) {                     
           return false;
-      };
+        }
+      }
       return true;
     });
     return (dispatch(allFiltersAction(mappedMock, column, condition, value)));

@@ -21,7 +21,7 @@ function dataWithFilter(results, planet) {
     },
     name: {
       name: planet,
-    }
+    },
   };
 }
 

@@ -11,6 +11,6 @@ table , th , td {
   width: fit-content;
 }
 
-.essa2 > p, button {
+.essa2 > p , button {
   margin: 2px;
 }

@@ -19,15 +19,13 @@ function resultFalse(state, action) {
 }
 
 function resultPlanet(state, action) {
-  const key = 'name';
   return {
     ...state,
     dataMock: action.dataMock,
     dataMockFilter: action.dataMockFilter,
     filters: [
       {
-        ...state.filters.name,
-        [key]: state.filters[key] = action.planet,
+        name: action.planet,
       },
     ],
   };
@@ -46,7 +44,7 @@ function resultPlanetFiltered(state, action) {
     ...state,
     dataMockFilter: action.dataMockFilter,
     filters: [
-        action.name,
+      action.name,
       ...state.filters,
     ],
   };
