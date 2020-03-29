@@ -19,11 +19,16 @@ function resultFalse(state, action) {
 }
 
 function resultPlanet(state, action) {
+  const key = 'name';
   return {
     ...state,
     dataMock: action.dataMock,
     dataMockFilter: action.dataMockFilter,
-    filters: action.filters,
+    filters: [
+      {
+        [key]: state.filters[key] = action.planet,
+      },
+    ],
   };
 }
 
@@ -32,21 +37,29 @@ function resultFilterType(state, action) {
     ...state,
     dataMock: action.dataMock,
     dataMockFilter: action.dataMockFilter,
-    dataMockFilterOn: action.dataMockFilterOn,
-    filters: [
-      ...state.filters,
-      { numericValues: action.numericValues },
-    ],
   };
 }
 
-function resultDataFiltered(state, action) {
+function resultPlanetFiltered(state, action) {
   return {
     ...state,
     dataMockFilter: action.dataMockFilter,
     filters: [
+      { name: action.name },
       ...state.filters,
-      action.filters,
+    ],
+  };
+}
+
+function resultAllFilters(state, action) {
+  return {
+    ...state,
+    dataMock: action.dataMock,
+    dataMockFilter: action.dataMockFilter,
+    dataMockFilterOn: action.dataMockFilterOn,
+    filters: [
+      ...state.filters,
+      { numericValues: action.numericValues },
     ],
   };
 }
@@ -62,7 +75,9 @@ export default function reduce(state = initialState, action) {
     case types.RESULT_FILTER_TYPE:
       return resultFilterType(state, action);
     case types.RESULT_DATA_FILTERED:
-      return resultDataFiltered(state, action);
+      return resultPlanetFiltered(state, action);
+    case types.RESULT_ALL_FILTERS:
+      return resultAllFilters(state, action);
     default:
       return state;
   }

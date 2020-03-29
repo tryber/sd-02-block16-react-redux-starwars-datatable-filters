@@ -5,21 +5,21 @@ import resultAPI from '../store/loadAction';
 import planetAction from '../store/planetAction';
 import HeadTable from './Headtable';
 import Celltable from './Celltable';
-import dispatchFilters from '../store/dispatchFilters';
+import dispatchAllFilters from '../store/allFilters';
 import './Table.css';
 
-const filterPlanet = (e, dataPlanet, dataMock, dataMockFilterOn, data) => {
+const filterPlanet = (e, dataPlanet, dataMock, dataMockFilterOn, data, filters) => {
   const planet = e.target.value;
-  dataPlanet(planet, dataMock, dataMockFilterOn, data);
+  dataPlanet(planet, dataMock, dataMockFilterOn, data, filters);
 };
 
 class Table extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      column: 'population',
-      condition: 'Maior que',
-      name: 'popOn',
+      column: '',
+      condition: '',
+      name: '',
       value: 0,
       popOn: false,
       orbOn: false,
@@ -30,6 +30,7 @@ class Table extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.changeBoolean = this.changeBoolean.bind(this);
+    this.callFilters = this.callFilters.bind(this);
   }
 
   componentDidMount() {
@@ -48,19 +49,20 @@ class Table extends Component {
             onChange={(e) => this.handleChange(e.target)}
             onClick={(e) => this.changeBoolean(e.target.options[e.target.selectedIndex])}
           >
-            <option value="population" name="popOn" disabled={popOn ? 'disabled' : null}>
+            <option value ="" hidden>Choose Option</option>
+            <option value="population" name="popOn" hidden={popOn ? 'none' : ''}>
               population
             </option>
-            <option value="orbital_period" name="orbOn" disabled={orbOn ? 'disabled' : null}>
+            <option value="orbital_period" name="orbOn" hidden={orbOn ? 'none' : ''}>
               orbital_period
             </option>
-            <option value="diameter" name="diamOn" disabled={diamOn ? 'disabled' : null}>
+            <option value="diameter" name="diamOn" hidden={diamOn ? 'none' : ''}>
               diameter
             </option>
-            <option value="rotation_period" name="rotOn" disabled={rotOn ? 'disabled' : null}>
+            <option value="rotation_period" name="rotOn" hidden={rotOn ? 'none' : ''}>
               rotation_period
             </option>
-            <option value="surface_water" name="surfOn" disabled={surfOn ? 'disabled' : null}>
+            <option value="surface_water" name="surfOn" hidden={surfOn ? 'none' : ''}>
               surface_water
             </option>
           </select>
@@ -79,6 +81,7 @@ class Table extends Component {
             onChange={(e) =>
             this.handleChange(e.target)}
           >
+            <option value="" hidden>Choose Option</option>
             <option value="Maior que">Maior que</option>
             <option value="Menor que">Menor que</option>
             <option value="Igual a">Igual a</option>
@@ -95,9 +98,12 @@ class Table extends Component {
 
   handleSubmit(data) {
     const { column, condition, value, name } = this.state;
-    const { updateFilters } = this.props;
-    updateFilters(column, condition, value, data);
-    this.setState({ [name]: true });
+    const { updateAllFilters } = this.props;
+    this.setState({
+      [name]: true,
+      column: '',
+    });
+    updateAllFilters(column, condition, value, data);
   }
 
   handleChange(event) {
@@ -105,15 +111,37 @@ class Table extends Component {
     this.setState({ [name]: value });
   }
 
+  callFilters(dataMockFilterOn) {
+    const { filters } = this.props;
+    if (dataMockFilterOn && filters) {
+      return (
+        <div className="essa1">
+          {filters.map((filter) => {
+            const filtered = (filter.numericValues)
+            ? <div className="essa2" key={filter.numericValues.column}>
+                <p>{filter.numericValues.column}</p>
+                <p>{filter.numericValues.condition}</p>
+                <p>{filter.numericValues.value}</p>
+                <button>X</button>
+              </div>
+            : '';
+            return filtered;
+            })
+          }
+        </div>
+      );
+    };
+  }
+
   render() {
-    const { value } = this.state;
-    const { onLoad, data, dataPlanet, dataMockFilterOn, dataMock } = this.props;
+    const { value, condition, column } = this.state;
+    const { onLoad, data, dataPlanet, dataMockFilterOn, dataMock, filters } = this.props;
     if (!onLoad) return <p>Loading...</p>;
     return (
       <div>
         <input
           type="text"
-          onChange={(e) => filterPlanet(e, dataPlanet, dataMock, dataMockFilterOn, data)}
+          onChange={(e) => filterPlanet(e, dataPlanet, dataMock, dataMockFilterOn, data, filters)}
         />
         {this.selecDropDown()}
         {this.selecCondition()}
@@ -123,9 +151,14 @@ class Table extends Component {
           value={value}
           onChange={(e) => this.handleChange(e.target)}
         />
-        <button onClick={() => this.handleSubmit(data)}>Search</button>
-        <button>Clear</button>
+        <button
+          onClick={() => this.handleSubmit(data)} disabled={(condition && column) ? '' : 'none'}
+        > Search
+        </button>
         <div>StarWars DataTable with Filters</div>
+        <div className="filteredButtons">
+          {this.callFilters(dataMockFilterOn)}
+        </div>
         <table>
           <HeadTable />
           <Celltable />
@@ -136,16 +169,16 @@ class Table extends Component {
 }
 
 const mapStateToProps = ({
-  loadReducer: { data, onLoad, updateFilters, dataMock, dataMockFilterOn } }) => ({
-    data, onLoad, updateFilters, dataMock, dataMockFilterOn,
+  loadReducer: { data, onLoad, updateFilters, dataMock, dataMockFilterOn, filters } }) => ({
+    data, onLoad, updateFilters, dataMock, dataMockFilterOn, filters
   });
 
 const mapDispatchToProps = (dispatch) => ({
   dataAPI: () => dispatch(resultAPI()),
-  dataPlanet: (planet, dataMock, dataMockFilterOn, data) =>
-    dispatch(planetAction(planet, dataMock, dataMockFilterOn, data)),
-  updateFilters: (column, condition, value, data) =>
-    dispatch(dispatchFilters(column, condition, value, data)),
+  dataPlanet: (planet, dataMock, dataMockFilterOn, data, filters) =>
+    dispatch(planetAction(planet, dataMock, dataMockFilterOn, data, filters)),
+  updateAllFilters: (column, condition, value, data) =>
+    dispatch(dispatchAllFilters(column, condition, value, data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Table);
@@ -155,7 +188,6 @@ Table.propTypes = {
   dataPlanet: PropTypes.func.isRequired,
   onLoad: PropTypes.bool.isRequired,
   data: PropTypes.instanceOf(Object).isRequired,
-  updateFilters: PropTypes.func.isRequired,
   dataMockFilterOn: PropTypes.bool.isRequired,
   dataMock: PropTypes.instanceOf(Object).isRequired,
 };

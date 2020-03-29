@@ -6,6 +6,7 @@ class CellFiltered extends Component {
 
   render() {
     const { dataMockFilter } = this.props;
+    console.log("entrei",dataMockFilter.results)
     return (
       dataMockFilter.results.map((element) => (
         <tbody key={element.name}>

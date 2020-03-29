@@ -6,18 +6,7 @@ const initialState = {
   dataMockFilterOn: false,
   onLoad: false,
   error: '',
-  filters: [
-    {
-      name: '',
-    },
-    {
-      numericValues: {
-        column: '',
-        condition: '',
-        value: '',
-      },
-    },
-  ],
+  filters: [],
 };
 
 export default initialState;

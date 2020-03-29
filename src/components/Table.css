@@ -3,3 +3,14 @@ table , th , td {
   text-transform: capitalize;
   width: 100%;
 }
+
+.essa2 {
+  display: flex;
+  margin: 5px;
+  text-transform: capitalize;
+  width: fit-content;
+}
+
+.essa2 > p, button {
+  margin: 2px;
+}
