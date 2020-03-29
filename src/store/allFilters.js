@@ -33,22 +33,27 @@ function updateDataMock(results) {
   };
 }
 
+function verifyFilterStore(dataMock, filterStore) {
+  const mappedMock = dataMock.filter((result) => {
+    filterStore.forEach((filter) => {
+      if (!verifyCondition(Number(result[filter.numericValues.column]),
+                           filter.numericValues.condition,
+                           Number(filter.numericValues.value))) {
+        return false;
+      }
+    });
+    return true;
+  });
+  return mappedMock;
+}
+
 const dispatchAllFilters = (column, condition, value, data) => (
   (dispatch) => {
     const dataMock = dispatchFilters(column, condition, value, data);
     dispatch(updateDataMock(dataMock, column, condition, value));
     const filterStore = store.getState().loadReducer.filters.filter((element) =>
       !Object.keys(element).includes('name'));
-    const mappedMock = dataMock.filter((result) => {
-      for (const filter of filterStore) {
-        if (!verifyCondition(Number(result[filter.numericValues.column]),
-                             filter.numericValues.condition,
-                             Number(filter.numericValues.value))) {
-          return false;
-        }
-      }
-      return true;
-    });
+    const mappedMock = verifyFilterStore(dataMock, filterStore)
     return (dispatch(allFiltersAction(mappedMock, column, condition, value)));
   });
 

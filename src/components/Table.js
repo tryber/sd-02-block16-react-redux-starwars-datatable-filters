@@ -31,6 +31,7 @@ class Table extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.changeBoolean = this.changeBoolean.bind(this);
     this.callFilters = this.callFilters.bind(this);
+    this.inputNumber = this.inputNumber.bind(this);
   }
 
   componentDidMount() {
@@ -136,8 +137,22 @@ class Table extends Component {
     );
   }
 
+  inputNumber() {
+    const { value } = this.state;
+    return (
+      <div>
+        <input
+          type="number"
+          name="value"
+          value={value}
+          onChange={(e) => this.handleChange(e.target)}
+        />
+      </div>
+    );
+  }
+
   render() {
-    const { value, condition, column } = this.state;
+    const { condition, column } = this.state;
     const { onLoad, data, dataPlanet, dataMockFilterOn, dataMock, filters } = this.props;
     if (!onLoad) return <p>Loading...</p>;
     return (
@@ -148,12 +163,7 @@ class Table extends Component {
         />
         {this.selecDropDown()}
         {this.selecCondition()}
-        <input
-          type="number"
-          name="value"
-          value={value}
-          onChange={(e) => this.handleChange(e.target)}
-        />
+        {this.inputNumber()}
         <button
           onClick={() => this.handleSubmit(data)} disabled={(condition && column) ? '' : 'none'}
         > Search
