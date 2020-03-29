@@ -43,7 +43,7 @@ const dispatchAllFilters = (column, condition, value, data) => (
       for (const filter of filterStore) {
         if (!verifyCondition(Number(result[filter.numericValues.column]),
                              filter.numericValues.condition,
-                             Number(filter.numericValues.value))) {                     
+                             Number(filter.numericValues.value))) {
           return false;
         }
       }
