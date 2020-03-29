@@ -6,7 +6,6 @@ import planetAction from '../store/planetAction';
 import HeadTable from './Headtable';
 import Celltable from './Celltable';
 import dispatchAllFilters from '../store/allFilters';
-import store from '../store';
 import './Table.css';
 
 const filterPlanet = (e, dataPlanet, dataMock, dataMockFilterOn, data) => {
@@ -50,7 +49,7 @@ class Table extends Component {
             onChange={(e) => this.handleChange(e.target)}
             onClick={(e) => this.changeBoolean(e.target.options[e.target.selectedIndex])}
           >
-            <option value ="" name="choose" hidden>Choose Option</option>
+            <option value="" name="choose" hidden>Choose Option</option>
             <option value="population" name="popOn" hidden={popOn ? 'none' : ''}>
               population
             </option>
@@ -114,24 +113,23 @@ class Table extends Component {
 
   callFilters(dataMockFilterOn) {
     const { filters } = this.props;
-    if (dataMockFilterOn && filters) {
+    if (dataMockFilterOn && filters)
       return (
         <div className="essa1">
           {filters.map((filter) => {
             const filtered = (filter.numericValues)
-            ? <div className="essa2" key={filter.numericValues.column}>
-                <p>{filter.numericValues.column}</p>
-                <p>{filter.numericValues.condition}</p>
-                <p>{filter.numericValues.value}</p>
-                <button>X</button>
-              </div>
+            ? (<div className="essa2" key={filter.numericValues.column}>
+              <p>{filter.numericValues.column}</p>
+              <p>{filter.numericValues.condition}</p>
+              <p>{filter.numericValues.value}</p>
+              <button>X</button>
+            </div>)
             : '';
             return filtered;
-            })
+          })
           }
         </div>
       );
-    };
   }
 
   render() {
@@ -187,12 +185,15 @@ export default connect(mapStateToProps, mapDispatchToProps)(Table);
 Table.propTypes = {
   dataAPI: PropTypes.func.isRequired,
   dataPlanet: PropTypes.func.isRequired,
+  updateAllFilters: PropTypes.func.isRequired,
   onLoad: PropTypes.bool.isRequired,
   data: PropTypes.instanceOf(Object).isRequired,
   dataMockFilterOn: PropTypes.bool.isRequired,
   dataMock: PropTypes.instanceOf(Object).isRequired,
+  filters: PropTypes.instanceOf(Object).isRequired
 };
 
 Table.defaultProps = {
   data: [],
+  filters: [],
 };
