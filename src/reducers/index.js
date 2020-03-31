@@ -1,12 +1,8 @@
 import { combineReducers } from 'redux';
-import showPlanetsReducer from './showPlanetsReducer';
-import filterTextReducer from './filterTextReducer';
-import columnsReducer from './columnsReducer';
+import APIreducer from './APIreducer';
 
 const rootReducer = combineReducers({
-  showPlanetsReducer,
-  filterTextReducer,
-  columnsReducer,
+  APIreducer,
 });
 
 export default rootReducer;
