@@ -67,15 +67,13 @@ export const filterPlanetsWithName = (planetsData, userValue) => ({
   filterData: filterFunction(planetsData, userValue),
 });
 
-export const filterPlanetsWithNumber = (column, comparison, value, planetsData, columnsSelect) => {
-  return ({
-    type: FILTER_PLANETS_WITH_NUMBER,
-    numObj: newFilter(column, comparison, value),
-    filterData: filterNumber(column, comparison, value, planetsData),
-    columnUsed: column,
-    columnsToFilter: columnsSelect,
-  });
-};
+export const filterPlanetsWithNumber = (column, comparison, value, planetsData, columnsSelect) => ({
+  type: FILTER_PLANETS_WITH_NUMBER,
+  numObj: newFilter(column, comparison, value),
+  filterData: filterNumber(column, comparison, value, planetsData),
+  columnUsed: column,
+  columnsToFilter: columnsSelect,
+});
 
 const apiReturn = () => (
   (dispatch) => {
