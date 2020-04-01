@@ -7,20 +7,13 @@ export const FILTER_PLANETS_WITH_NAME = 'FILTER_PLANETS_WITH_NAME';
 export const FILTER_PLANETS_WITH_NUMBER = 'FILTER_PLANETS_WITH_NUMBER';
 export const REMOVE_NUMERIC_FILTER = 'REMOVE_NUMERIC_FILTER';
 
-// Não é para acessar a store aqui. É pra enviar a coluna como parâmetro, rodar e retirar.
-// Inserir aqui a filtragem do nome e trazê-la para filteredNumber;
-// Utilizar o mapStateToProps para enviar informações do store;
-// Depois que pegar as informações da Store, iterar no store.filters;
-// o Array do Column deve permanecer na store, pois quando eu clicar no valor para fechar,
-// deve ser reinserido no select.
-
 const filterFunction = (planetsData, userValue) => {
   console.log(planetsData);
   return (
     planetsData.filter((planet) => (
       planet.name.toLowerCase().includes(userValue.toLowerCase())
-    )))
-}
+    )));
+};
 
 
 const filterNumber = (column, comparison, value, planetsData) => {

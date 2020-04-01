@@ -5,6 +5,7 @@ import apiReturn from '../actions';
 import Loading from './Loading';
 import TableHeader from './TableHeader';
 import TableBody from './TableBody';
+import ReturnFilters from './ReturnFilters';
 import InputsAndFilters from './InputsAndFilters';
 import '../styles/Table.css';
 
@@ -31,7 +32,13 @@ class Table extends React.Component {
   }
 
   render() {
-    const { planetsData, isFetching, filteredData } = this.props;
+    const {
+      planetsData,
+      isFetching,
+      filteredData,
+      filters,
+    } = this.props;
+    console.log(filters);
     const consumerData = filteredData || planetsData;
     if (isFetching) {
       return <Loading />;
@@ -42,6 +49,9 @@ class Table extends React.Component {
           planetsData={consumerData}
           filteredData={consumerData}
         />
+
+        <ReturnFilters filters={filters} />
+
         <table>
           {TableHeader(tableTitle)}
           {TableBody(consumerData)}
@@ -54,12 +64,13 @@ class Table extends React.Component {
 const mapStateToProps = (
   {
     returnInitialAPI: { isFetching, planetsData },
-    returnFilterData: { filteredData },
+    returnFilterData: { filteredData, filters },
   },
 ) => ({
   isFetching,
   planetsData,
   filteredData,
+  filters,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -75,6 +86,7 @@ Table.propTypes = {
     PropTypes.string,
     PropTypes.array,
   ]),
+  filters: PropTypes.arrayOf(PropTypes.object).isRequired,
   initialRequisition: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
 };

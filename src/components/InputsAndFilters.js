@@ -99,7 +99,6 @@ class InputsAndFilters extends React.Component {
       dispatchFilter,
       columnsSelect,
     } = this.props;
-    console.log(columnsSelect);
     return (
       <div className="InputsAndFilters_stylish">
 
