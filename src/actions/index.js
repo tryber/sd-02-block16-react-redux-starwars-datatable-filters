@@ -15,7 +15,6 @@ const filterFunction = (planetsData, userValue) => {
     )));
 };
 
-
 const filterNumber = (column, comparison, value, planetsData) => {
   const readWithNumberValue = (planet) => planet[column];
   let filteredNumber = [];
@@ -25,16 +24,19 @@ const filterNumber = (column, comparison, value, planetsData) => {
         readWithNumberValue(planet),
       ) > Number(value));
       return filteredNumber;
+
     case ('less_than'):
       filteredNumber = planetsData.filter((planet) => Number(
         readWithNumberValue(planet),
       ) < Number(value));
       return filteredNumber;
+
     case ('equal_to'):
       filteredNumber = planetsData.filter((planet) => Number(
         readWithNumberValue(planet),
       ) === (value));
       return filteredNumber;
+
     default: return planetsData;
   }
 };
