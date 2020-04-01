@@ -1,5 +1,18 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import getPlanets from '../services/starwarsAPI';
 
-const Table = () => <div>StarWars Datatable with Filters</div>;
+class Table extends Component {
+  componentDidMount() {
+    getPlanets()
+      .then((data) => console.log(data));
+  }
 
-export default Table;
+  render() {
+    return (
+      <div>StarWars Datatable with Filters</div>
+    );
+  }
+}
+
+export default connect()(Table);
