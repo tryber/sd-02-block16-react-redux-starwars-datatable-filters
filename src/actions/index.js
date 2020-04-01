@@ -63,6 +63,10 @@ const requestSwapiFailure = (error) => ({
   error,
 });
 
+// export const filterPlanets = (prevArrayFilter, nameInput, column, comparison, value) => {
+//   switch()
+// };
+
 export const filterPlanetsWithName = (planetsData, userValue) => ({
   type: FILTER_PLANETS_WITH_NAME,
   name: userValue,

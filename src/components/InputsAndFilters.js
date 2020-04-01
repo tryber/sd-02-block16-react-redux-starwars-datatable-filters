@@ -112,8 +112,7 @@ class InputsAndFilters extends React.Component {
 
 const mapStateToProps = (
   {
-    returnInitialAPI: { planetsData },
-    returnFilterData: { filteredData, columnsSelect },
+    allReducer: { planetsData, filteredData, columnsSelect },
   },
 ) => ({
   planetsData,

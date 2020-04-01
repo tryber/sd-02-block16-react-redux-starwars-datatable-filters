@@ -36,10 +36,9 @@ class Table extends React.Component {
       planetsData,
       isFetching,
       filteredData,
-      filters,
+      filtersToShow,
     } = this.props;
-    console.log(filters);
-    const consumerData = filteredData || planetsData;
+    const consumerData = filteredData;
     if (isFetching) {
       return <Loading />;
     }
@@ -50,7 +49,7 @@ class Table extends React.Component {
           filteredData={consumerData}
         />
 
-        <ReturnFilters filters={filters} />
+        <ReturnFilters filters={filtersToShow} />
 
         <table>
           {TableHeader(tableTitle)}
@@ -63,14 +62,18 @@ class Table extends React.Component {
 
 const mapStateToProps = (
   {
-    returnInitialAPI: { isFetching, planetsData },
-    returnFilterData: { filteredData, filters },
+    allReducer: {
+      isFetching,
+      planetsData,
+      filteredData,
+      filtersToShow,
+    },
   },
 ) => ({
   isFetching,
   planetsData,
   filteredData,
-  filters,
+  filtersToShow,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -86,7 +89,7 @@ Table.propTypes = {
     PropTypes.string,
     PropTypes.array,
   ]),
-  filters: PropTypes.arrayOf(PropTypes.object).isRequired,
+  filtersToShow: PropTypes.arrayOf(PropTypes.object).isRequired,
   initialRequisition: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
 };
