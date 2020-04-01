@@ -12,11 +12,14 @@ class Table extends Component {
       .then(({ results }) => createPlanets(results));
   }
 
+
   render() {
     const {
       data, wasFetched, filterPlanets, filters,
     } = this.props;
     console.log(filters);
+    const filteredData = data.filter(({ name }) => name.match(new RegExp(filters[0].name, 'i')));
+    console.log(filteredData);
     return (
       <div>
         <h1>StarWars Datatable with Filters:</h1>
@@ -25,7 +28,7 @@ class Table extends Component {
           <tr>
             {wasFetched && Object.keys(data[0]).map((key, index) => <th key={index}>{key}</th>)}
           </tr>
-          {wasFetched && data.map((planet, index) => (
+          {wasFetched && filteredData.map((planet, index) => (
             <tr key={index}>
               {Object.values(planet).map((value) => <td key={value}>{value}</td>)}
             </tr>
