@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import reducerData from './reducerData';
 import reducerName from './reducerName';
-import reducerNumbers from './reducerNumbers'
+import reducerNumbers from './reducerNumbers';
 
 const rootReducer = combineReducers({
   reducerData,

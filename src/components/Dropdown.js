@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import addFilters from '../store/actions/addFilters';
 import PropTypes from 'prop-types';
 
 
@@ -23,7 +24,8 @@ class Dropdown extends Component {
   }
 
   handleSubmit() {
-    return '';
+    const { createFilters } = this.props;
+    createFilters(this.state);
   }
 
   render() {
@@ -47,26 +49,12 @@ class Dropdown extends Component {
   }
 }
 
-// const mapDispatchToProps = (dispatch) => ({
-//   createPlanets: (results) => dispatch(addPlanets(results)),
-//   filterPlanets: (name) => dispatch(filterNames(name)),
-// });
+const mapDispatchToProps = (dispatch) => ({
+  createFilters: (filters) => dispatch(addFilters(filters)),
+});
 
-// const mapStateToProps = ({ reducerData: { data, wasFetched }, reducerNames: { filters } }) => ({
-//   data, wasFetched, filters,
-// });
+Dropdown.propTypes = {
+  createFilters: PropTypes.func.isRequired,
+};
 
-// Table.propTypes = {
-//   createPlanets: PropTypes.func.isRequired,
-//   filterPlanets: PropTypes.func.isRequired,
-//   data: PropTypes.instanceOf(Array),
-//   wasFetched: PropTypes.bool.isRequired,
-//   filters: PropTypes.instanceOf(Array),
-// };
-
-// Table.defaultProps = {
-//   data: [],
-//   filters: [],
-// };
-
-export default connect()(Dropdown);
+export default connect(null, mapDispatchToProps)(Dropdown);

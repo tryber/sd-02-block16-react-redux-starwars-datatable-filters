@@ -18,9 +18,9 @@ export default function reduce(state = INICIAL_STATE, action) {
       return {
         filters: [{
           numericValues: {
-            column: action.column, comparison: action.comparison, value: action.comparison,
-          }
-        }]
+            column: action.column, comparison: action.comparison, value: action.value,
+          },
+        }],
       };
     default:
       return state;
