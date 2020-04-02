@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux';
-import reducerStar from './reducerStar';
-import reducerFilter from './reducerFilter';
+import reducerData from './reducerData';
+import reducerName from './reducerName';
+import reducerNumbers from './reducerNumbers'
 
 const rootReducer = combineReducers({
-  reducerStar,
-  reducerFilter,
+  reducerData,
+  reducerName,
+  reducerNumbers,
 });
 
 export default rootReducer;

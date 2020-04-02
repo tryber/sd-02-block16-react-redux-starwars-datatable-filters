@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import Dropdown from './Dropdown';
 import getPlanets from '../services/starwarsAPI';
 import addPlanets from '../store/actions/addPlanets';
 import filterNames from '../store/actions/filterName';
+
 
 class Table extends Component {
   componentDidMount() {
@@ -11,7 +13,6 @@ class Table extends Component {
     getPlanets()
       .then(({ results }) => createPlanets(results));
   }
-
 
   render() {
     const {
@@ -24,6 +25,7 @@ class Table extends Component {
       <div>
         <h1>StarWars Datatable with Filters:</h1>
         <input type="text" onChange={(e) => filterPlanets(e.target.value)} />
+        <Dropdown />
         <table border="1px">
           <tr>
             {wasFetched && Object.keys(data[0]).map((key, index) => <th key={index}>{key}</th>)}
@@ -44,7 +46,7 @@ const mapDispatchToProps = (dispatch) => ({
   filterPlanets: (name) => dispatch(filterNames(name)),
 });
 
-const mapStateToProps = ({ reducerStar: { data, wasFetched }, reducerFilter: { filters } }) => ({
+const mapStateToProps = ({ reducerData: { data, wasFetched }, reducerName: { filters } }) => ({
   data, wasFetched, filters,
 });
 
