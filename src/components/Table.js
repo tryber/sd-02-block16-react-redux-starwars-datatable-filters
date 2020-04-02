@@ -18,8 +18,21 @@ class Table extends Component {
     const {
       data, wasFetched, filterPlanets, names, filters,
     } = this.props;
-    const filteredData = data.filter(({ name }) => name.match(new RegExp(names[0].name, 'i')));
-    console.log(filters);
+    const { column, comparison, value } = filters[0].numericValues;
+    let filteredData = data.filter(({ name }) => name.match(new RegExp(names[0].name, 'i')));
+    filteredData = filteredData.filter((key) => {
+      switch (comparison) {
+        case 'maior que':
+          return Number(key[column]) > Number(value);
+        case 'menor que':
+          return Number(key[column]) < Number(value);
+        case 'igual a':
+          return Number(key[column]) === Number(value);
+        default:
+          return [];
+      }
+    });
+
     return (
       <div>
         <h1>StarWars Datatable with Filters:</h1>
@@ -34,7 +47,7 @@ class Table extends Component {
           <tbody>
             {wasFetched && filteredData.map((planet) => (
               <tr key={planet.name}>
-                {Object.values(planet).map((value) => <td key={value}>{value}</td>)}
+                {Object.values(planet).map((planetValue) => <td key={planetValue}>{planetValue}</td>)}
               </tr>
             ))}
           </tbody>
