@@ -18,19 +18,21 @@ class Table extends Component {
     const {
       data, wasFetched, filterPlanets, names, filters,
     } = this.props;
-    const { column, comparison, value } = filters[0].numericValues;
     let filteredData = data.filter(({ name }) => name.match(new RegExp(names[0].name, 'i')));
-    filteredData = filteredData.filter((key) => {
-      switch (comparison) {
-        case 'maior que':
-          return Number(key[column]) > Number(value);
-        case 'menor que':
-          return Number(key[column]) < Number(value);
-        case 'igual a':
-          return Number(key[column]) === Number(value);
-        default:
-          return [];
-      }
+
+    filters.forEach(({ numericValues: { column, comparison, value } }) => {
+      filteredData = filteredData.filter((key) => {
+        switch (comparison) {
+          case 'maior que':
+            return Number(key[column]) > Number(value);
+          case 'menor que':
+            return Number(key[column]) < Number(value);
+          case 'igual a':
+            return Number(key[column]) === Number(value);
+          default:
+            return [];
+        }
+      });
     });
 
     return (
