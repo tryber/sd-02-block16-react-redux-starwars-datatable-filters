@@ -13,6 +13,7 @@ class Dropdown extends Component {
       comparison: '',
       value: '',
       options: ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'],
+
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -29,18 +30,19 @@ class Dropdown extends Component {
   handleSubmit() {
     const { createFilters } = this.props;
     this.setState((state) => ({
+      column: '',
+      comparison: '',
+      value: '',
       options: state.options.filter((option) => option !== state.column),
-    }));
+    }
+    ));
     createFilters(this.state);
   }
 
   handleRemove(index, column) {
     const { removeFilters } = this.props;
-    const { options } = this.state;
-    const newOptions = options;
-    newOptions.push(`${column}`);
-    this.setState(() => ({
-      options: newOptions,
+    this.setState((state) => ({
+      options: [...state.options, column],
     }));
     removeFilters(index);
   }
@@ -67,22 +69,15 @@ class Dropdown extends Component {
         <button disabled={isBlank} type="button" onClick={this.handleSubmit}>Pesquisar</button>
         <div>
           {filters.map(({ numericValues: { column, comparison, value } }, index) => (
-            <div>
-              <p>
-              Filtro aplicado:
-                {' '}
-                {column}
-                {' '}
-|
-                {' '}
-                {' '}
-                {comparison}
-                {' '}
-|
-                {value}
-              </p>
-              <button type="button" onClick={() => this.handleRemove(index, column)}>X</button>
-            </div>
+            (column === '') ? ''
+              : (
+                <div>
+                  <p>
+                    {`Filtro aplicado: ${column} | ${comparison} | ${value} `}
+                    <button type="button" onClick={() => this.handleRemove(index, column)}>X</button>
+                  </p>
+                </div>
+              )
           ))}
         </div>
       </div>

@@ -9,6 +9,8 @@ export default function reduce(state = INICIAL_STATE, action) {
   switch (action.type) {
     case types.GET_PLANET:
       return { ...state, data: action.data, wasFetched: true };
+    case types.ORDER_KEY:
+      return { data: [...action.sorted], wasFetched: true };
     default:
       return state;
   }

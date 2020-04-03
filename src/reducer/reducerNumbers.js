@@ -29,8 +29,9 @@ export default function reduce(state = INICIAL_STATE, action) {
           }],
       };
     case types.REMOVE_FILTER:
-      const teste = [...state.filters];
-      teste.splice(action.index, 0);
+    {
+      const removed = [...state.filters];
+      removed.splice(action.index, 1);
       return {
         filters: (state.filters.length === 1)
           ? [{
@@ -38,8 +39,9 @@ export default function reduce(state = INICIAL_STATE, action) {
               column: '', comparison: '', value: '',
             },
           }]
-          : [...teste],
+          : [...removed],
       };
+    }
     default:
       return state;
   }

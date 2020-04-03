@@ -5,6 +5,7 @@ import Dropdown from './Dropdown';
 import getPlanets from '../services/starwarsAPI';
 import addPlanets from '../store/actions/addPlanets';
 import filterNames from '../store/actions/filterName';
+import orderPlanets from '../store/actions/orderPlanets';
 
 
 class Table extends Component {
@@ -16,10 +17,10 @@ class Table extends Component {
 
   render() {
     const {
-      data, wasFetched, filterPlanets, names, filters,
+      data, wasFetched, filterPlanets, names, filters, sortPlanets
     } = this.props;
     let filteredData = data.filter(({ name }) => name.match(new RegExp(names[0].name, 'i')));
-
+    console.log('recebi nova data', data)
     filters.forEach(({ numericValues: { column, comparison, value } }) => {
       filteredData = filteredData.filter((key) => {
         switch (comparison) {
@@ -43,7 +44,11 @@ class Table extends Component {
         <table border="1px">
           <thead>
             <tr>
-              {wasFetched && Object.keys(data[0]).map((key) => <th key={key}>{key}</th>)}
+              {wasFetched && Object.keys(data[0]).map((key) => (
+                <th key={key}>
+                  <button type="button" value={key} onClick={() => sortPlanets(key, data)}>{key}</button>
+                </th>
+              ))}
             </tr>
           </thead>
           <tbody>
@@ -62,6 +67,7 @@ class Table extends Component {
 const mapDispatchToProps = (dispatch) => ({
   createPlanets: (results) => dispatch(addPlanets(results)),
   filterPlanets: (name) => dispatch(filterNames(name)),
+  sortPlanets: (key, data) => dispatch(orderPlanets(key, data)),
 });
 
 const mapStateToProps = ({
@@ -75,6 +81,7 @@ const mapStateToProps = ({
 Table.propTypes = {
   createPlanets: PropTypes.func.isRequired,
   filterPlanets: PropTypes.func.isRequired,
+  sortPlanets: PropTypes.func.isRequired,
   data: PropTypes.instanceOf(Array),
   wasFetched: PropTypes.bool.isRequired,
   names: PropTypes.instanceOf(Array),
