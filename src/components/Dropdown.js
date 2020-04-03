@@ -16,7 +16,7 @@ class Dropdown extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    // this.handleRemove = this.handleRemove.bind(this);
+    this.handleRemove = this.handleRemove.bind(this);
   }
 
   handleChange(e) {
@@ -34,18 +34,20 @@ class Dropdown extends Component {
     createFilters(this.state);
   }
 
-  // handleRemove(){
-  //   const { removeFilters } = this.props;
-  //   this.setState((state) => ({
-  //     options: state.options.push[],
-  //   }));
-  //   removeFilters(this.state);
-
-  // }
+  handleRemove(index, column) {
+    const { removeFilters } = this.props;
+    const { options } = this.state;
+    const newOptions = options;
+    newOptions.push(`${column}`);
+    this.setState(() => ({
+      options: newOptions,
+    }));
+    removeFilters(index);
+  }
 
   render() {
     const isBlank = Object.values(this.state).some((value) => value === '');
-    const { filters, removeFilters } = this.props;
+    const { filters } = this.props;
     const {
       options,
     } = this.state;
@@ -79,7 +81,7 @@ class Dropdown extends Component {
 |
                 {value}
               </p>
-              <button type="button" onClick={() => removeFilters(index)}>X</button>
+              <button type="button" onClick={() => this.handleRemove(index, column)}>X</button>
             </div>
           ))}
         </div>

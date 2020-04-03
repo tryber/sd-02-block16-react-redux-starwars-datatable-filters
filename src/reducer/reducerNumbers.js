@@ -29,7 +29,17 @@ export default function reduce(state = INICIAL_STATE, action) {
           }],
       };
     case types.REMOVE_FILTER:
-      return { filters: [...state.filters].splice(action.index, 0),  };
+      const teste = [...state.filters];
+      teste.splice(action.index, 0);
+      return {
+        filters: (state.filters.length === 1)
+          ? [{
+            numericValues: {
+              column: '', comparison: '', value: '',
+            },
+          }]
+          : [...teste],
+      };
     default:
       return state;
   }
