@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import addFilters from '../store/actions/addFilters';
+import removeFilter from '../store/actions/removeFilter';
 
 
 class Dropdown extends Component {
@@ -15,6 +16,7 @@ class Dropdown extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    // this.handleRemove = this.handleRemove.bind(this);
   }
 
   handleChange(e) {
@@ -32,9 +34,21 @@ class Dropdown extends Component {
     createFilters(this.state);
   }
 
+  // handleRemove(){
+  //   const { removeFilters } = this.props;
+  //   this.setState((state) => ({
+  //     options: state.options.push[],
+  //   }));
+  //   removeFilters(this.state);
+
+  // }
+
   render() {
     const isBlank = Object.values(this.state).some((value) => value === '');
-    const { options } = this.state;
+    const { filters, removeFilters } = this.props;
+    const {
+      options,
+    } = this.state;
     return (
       <div>
         <select name="column" onChange={(e) => this.handleChange(e)}>
@@ -49,6 +63,26 @@ class Dropdown extends Component {
         </select>
         <input name="value" type="number" onChange={(e) => this.handleChange(e)} />
         <button disabled={isBlank} type="button" onClick={this.handleSubmit}>Pesquisar</button>
+        <div>
+          {filters.map(({ numericValues: { column, comparison, value } }, index) => (
+            <div>
+              <p>
+              Filtro aplicado:
+                {' '}
+                {column}
+                {' '}
+|
+                {' '}
+                {' '}
+                {comparison}
+                {' '}
+|
+                {value}
+              </p>
+              <button type="button" onClick={() => removeFilters(index)}>X</button>
+            </div>
+          ))}
+        </div>
       </div>
     );
   }
@@ -56,10 +90,21 @@ class Dropdown extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
   createFilters: (filters) => dispatch(addFilters(filters)),
+  removeFilters: (index) => dispatch(removeFilter(index)),
+});
+
+const mapStateToProps = ({ reducerNumbers: { filters } }) => ({
+  filters,
 });
 
 Dropdown.propTypes = {
   createFilters: PropTypes.func.isRequired,
+  removeFilters: PropTypes.func.isRequired,
+  filters: PropTypes.instanceOf(Array),
 };
 
-export default connect(null, mapDispatchToProps)(Dropdown);
+Dropdown.defaultProps = {
+  filters: '',
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dropdown);

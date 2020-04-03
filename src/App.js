@@ -8,9 +8,7 @@ function App() {
   return (
     <Provider store={store}>
       <div className="App">
-        <header className="App-header">
-          <Table />
-        </header>
+        <Table />
       </div>
     </Provider>
   );

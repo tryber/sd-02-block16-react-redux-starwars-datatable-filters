@@ -14,7 +14,7 @@ const INICIAL_STATE = {
 
 export default function reduce(state = INICIAL_STATE, action) {
   switch (action.type) {
-    case types.FILTER_NUMBERS:
+    case types.ADD_FILTER:
       return {
         filters: (state.filters[0].numericValues.column === '')
           ? [{
@@ -28,6 +28,8 @@ export default function reduce(state = INICIAL_STATE, action) {
             },
           }],
       };
+    case types.REMOVE_FILTER:
+      return { filters: [...state.filters].splice(action.index, 0),  };
     default:
       return state;
   }
