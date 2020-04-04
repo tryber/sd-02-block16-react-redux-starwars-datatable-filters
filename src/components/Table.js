@@ -6,7 +6,7 @@ import getPlanets from '../services/starwarsAPI';
 import addPlanets from '../store/actions/addPlanets';
 import filterNames from '../store/actions/filterName';
 import orderPlanets from '../store/actions/orderPlanets';
-
+import filterAscDes from '../store/actions/filterAscDes';
 
 class Table extends Component {
   componentDidMount() {
@@ -15,12 +15,18 @@ class Table extends Component {
       .then(({ results }) => createPlanets(results));
   }
 
+  async handleOrder(key) {
+    const { sortAscDes } = this.props;
+    await sortAscDes(key);
+    const { sortPlanets, data, names } = this.props;
+    const { column, order } = names[0];
+    sortPlanets(column, order, data);
+  }
+
   render() {
     const {
-      data, wasFetched, filterPlanets, names, filters, sortPlanets
-    } = this.props;
+      data, wasFetched, filterPlanets, names, filters, } = this.props;
     let filteredData = data.filter(({ name }) => name.match(new RegExp(names[0].name, 'i')));
-    console.log('recebi nova data', data)
     filters.forEach(({ numericValues: { column, comparison, value } }) => {
       filteredData = filteredData.filter((key) => {
         switch (comparison) {
@@ -46,7 +52,7 @@ class Table extends Component {
             <tr>
               {wasFetched && Object.keys(data[0]).map((key) => (
                 <th key={key}>
-                  <button type="button" value={key} onClick={() => sortPlanets(key, data)}>{key}</button>
+                  <button type="button" value={key} onClick={() => this.handleOrder(key)}>{key}</button>
                 </th>
               ))}
             </tr>
@@ -54,7 +60,8 @@ class Table extends Component {
           <tbody>
             {wasFetched && filteredData.map((planet) => (
               <tr key={planet.name}>
-                {Object.values(planet).map((planetValue) => <td key={planetValue}>{planetValue}</td>)}
+                {Object.values(planet).map((planetValue) => (
+                  <td key={planetValue}>{planetValue}</td>))}
               </tr>
             ))}
           </tbody>
@@ -67,7 +74,8 @@ class Table extends Component {
 const mapDispatchToProps = (dispatch) => ({
   createPlanets: (results) => dispatch(addPlanets(results)),
   filterPlanets: (name) => dispatch(filterNames(name)),
-  sortPlanets: (key, data) => dispatch(orderPlanets(key, data)),
+  sortAscDes: (key) => dispatch(filterAscDes(key)),
+  sortPlanets: (column, order, data) => dispatch(orderPlanets(column, order, data)),
 });
 
 const mapStateToProps = ({
@@ -82,6 +90,7 @@ Table.propTypes = {
   createPlanets: PropTypes.func.isRequired,
   filterPlanets: PropTypes.func.isRequired,
   sortPlanets: PropTypes.func.isRequired,
+  sortAscDes: PropTypes.func.isRequired,
   data: PropTypes.instanceOf(Array),
   wasFetched: PropTypes.bool.isRequired,
   names: PropTypes.instanceOf(Array),

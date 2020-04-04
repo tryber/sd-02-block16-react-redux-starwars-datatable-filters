@@ -15,7 +15,11 @@ export default function reduce(state = INICIAL_STATE, action) {
     case types.FILTER_NAME:
       return { filters: [{ name: action.name }] };
     case types.FILTER_ASC_DES:
-      return { filters: }
+      return {
+        filters: [{
+          ...state.filters[0], column: action.column, order: (state.filters[0].order === 'ASC' ? 'DESC' : 'ASC'),
+        }],
+      };
     default:
       return state;
   }
