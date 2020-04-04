@@ -47,26 +47,36 @@ class Dropdown extends Component {
     removeFilters(index);
   }
 
+  createSelects() {
+    return (
+      <select name="comparison" onChange={(e) => this.handleChange(e)}>
+        <option value="" />
+        <option value="maior que">Maior que</option>
+        <option value="menor que">Menor que</option>
+        <option value="igual a">Igual a</option>
+      </select>
+    );
+  }
+
   render() {
     const isBlank = Object.values(this.state).some((value) => value === '');
     const { filters } = this.props;
-    const {
-      options,
-    } = this.state;
+    const { options } = this.state;
     return (
       <div>
         <select name="column" onChange={(e) => this.handleChange(e)}>
-          <option value=""> </option>
+          <option value="" />
           {options.map((item) => <option value={item} key={item}>{item}</option>)}
         </select>
-        <select name="comparison" onChange={(e) => this.handleChange(e)}>
-          <option value=""> </option>
-          <option value="maior que">Maior que</option>
-          <option value="menor que">Menor que</option>
-          <option value="igual a">Igual a</option>
-        </select>
+        {this.createSelects}
         <input name="value" type="number" onChange={(e) => this.handleChange(e)} />
-        <button disabled={isBlank} type="button" onClick={this.handleSubmit}>Pesquisar</button>
+        <button
+          disabled={isBlank}
+          type="button"
+          onClick={this.handleSubmit}
+        >
+          Pesquisar
+        </button>
         <div>
           {filters.map(({ numericValues: { column, comparison, value } }, index) => (
             (column === '') ? ''

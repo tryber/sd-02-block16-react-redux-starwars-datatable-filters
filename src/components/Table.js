@@ -25,7 +25,7 @@ class Table extends Component {
 
   render() {
     const {
-      data, wasFetched, filterPlanets, names, filters, } = this.props;
+      data, wasFetched, filterPlanets, names, filters } = this.props;
     let filteredData = data.filter(({ name }) => name.match(new RegExp(names[0].name, 'i')));
     filters.forEach(({ numericValues: { column, comparison, value } }) => {
       filteredData = filteredData.filter((key) => {
