@@ -13,26 +13,20 @@ const INICIAL_STATE = {
 };
 
 export default function reduce(state = INICIAL_STATE, action) {
+  const { column, comparison, value } = action;
   switch (action.type) {
     case types.ADD_FILTER:
       return {
         filters: (state.filters[0].numericValues.column === '')
           ? [{
-            numericValues: { column: action.column,
-              comparison: action.comparison,
-              value: action.value,
-            },
+            numericValues: { column, comparison, value },
           }]
           : [...state.filters, {
-            numericValues: { column: action.column,
-              comparison: action.comparison,
-              value: action.value,
-            },
+            numericValues: { column, comparison, value },
           }],
       };
     case types.REMOVE_FILTER:
-    {
-      const removed = [...state.filters];
+    { const removed = [...state.filters];
       removed.splice(action.index, 1);
       return {
         filters: (state.filters.length === 1)

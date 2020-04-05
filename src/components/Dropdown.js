@@ -90,7 +90,9 @@ class Dropdown extends Component {
                 <div>
                   <p>
                     {`Filtro aplicado: ${column} | ${comparison} | ${value} `}
-                    <button type="button" onClick={() => this.handleRemove(index, column)}>X</button>
+                    <button type="button" onClick={() => this.handleRemove(index, column)}>
+                      X
+                    </button>
                   </p>
                 </div>
               )
