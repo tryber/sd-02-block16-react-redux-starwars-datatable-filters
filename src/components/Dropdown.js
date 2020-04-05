@@ -58,8 +58,20 @@ class Dropdown extends Component {
     );
   }
 
-  render() {
+  createSubmit() {
     const isBlank = Object.values(this.state).some((value) => value === '');
+    return (
+      <button
+        disabled={isBlank}
+        type="button"
+        onClick={this.handleSubmit}
+      >
+        Pesquisar
+      </button>
+    );
+  }
+
+  render() {
     const { filters } = this.props;
     const { options } = this.state;
     return (
@@ -70,13 +82,7 @@ class Dropdown extends Component {
         </select>
         {this.createSelects()}
         <input name="value" type="number" onChange={(e) => this.handleChange(e)} />
-        <button
-          disabled={isBlank}
-          type="button"
-          onClick={this.handleSubmit}
-        >
-          Pesquisar
-        </button>
+        {this.createSubmit()}
         <div>
           {filters.map(({ numericValues: { column, comparison, value } }, index) => (
             (column === '') ? ''

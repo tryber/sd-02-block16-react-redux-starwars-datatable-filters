@@ -24,6 +24,7 @@ class Table extends Component {
   }
 
   filterComparison(comparison, key, column, value) {
+    console.log(this.state);
     switch (comparison) {
       case 'maior que':
         return Number(key[column]) > Number(value);
@@ -36,15 +37,26 @@ class Table extends Component {
     }
   }
 
+  renderTableKeys(data) {
+    const { wasFetched } = this.props;
+    if (wasFetched) {
+      return Object.keys(data[0]).map((key) => (
+        <th key={key}>
+          <button type="button" value={key} onClick={() => this.handleOrder(key)}>{key}</button>
+        </th>
+      ));
+    }
+    return '';
+  }
+
   render() {
     const {
       data, wasFetched, filterPlanets, names, filters,
     } = this.props;
-    let filteredData = data.filter(({ name }) => name.match(new RegExp(names[0].name, 'i')));
+    let goodData = data.filter(({ name }) => name.match(new RegExp(names[0].name, 'i')));
     filters.forEach(({ numericValues: { column, comparison, value } }) => {
-      filteredData = filteredData.filter((key) => this.filterComparison(comparison, key, column, value));
+      goodData = goodData.filter((key) => this.filterComparison(comparison, key, column, value));
     });
-
     return (
       <div>
         <h1>StarWars Datatable with Filters:</h1>
@@ -53,15 +65,11 @@ class Table extends Component {
         <table border="1px">
           <thead>
             <tr>
-              {wasFetched && Object.keys(data[0]).map((key) => (
-                <th key={key}>
-                  <button type="button" value={key} onClick={() => this.handleOrder(key)}>{key}</button>
-                </th>
-              ))}
+              {this.renderTableKeys(data)}
             </tr>
           </thead>
           <tbody>
-            {wasFetched && filteredData.map((planet) => (
+            {wasFetched && goodData.map((planet) => (
               <tr key={planet.name}>
                 {Object.values(planet).map((planetValue) => (
                   <td key={planetValue}>{planetValue}</td>))}
