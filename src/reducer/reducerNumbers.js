@@ -26,7 +26,7 @@ export default function reduce(state = INICIAL_STATE, action) {
           }],
       };
     case types.REMOVE_FILTER:
-      { const removed = [...state.filters];
+    { const removed = [...state.filters];
       removed.splice(action.index, 1);
       return {
         filters: (state.filters.length === 1)
