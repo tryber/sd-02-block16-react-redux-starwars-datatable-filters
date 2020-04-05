@@ -23,23 +23,26 @@ class Table extends Component {
     sortPlanets(column, order, data);
   }
 
+  filterComparison(comparison, key, column, value) {
+    switch (comparison) {
+      case 'maior que':
+        return Number(key[column]) > Number(value);
+      case 'menor que':
+        return Number(key[column]) < Number(value);
+      case 'igual a':
+        return Number(key[column]) === Number(value);
+      default:
+        return [];
+    }
+  }
+
   render() {
     const {
-      data, wasFetched, filterPlanets, names, filters } = this.props;
+      data, wasFetched, filterPlanets, names, filters,
+    } = this.props;
     let filteredData = data.filter(({ name }) => name.match(new RegExp(names[0].name, 'i')));
     filters.forEach(({ numericValues: { column, comparison, value } }) => {
-      filteredData = filteredData.filter((key) => {
-        switch (comparison) {
-          case 'maior que':
-            return Number(key[column]) > Number(value);
-          case 'menor que':
-            return Number(key[column]) < Number(value);
-          case 'igual a':
-            return Number(key[column]) === Number(value);
-          default:
-            return [];
-        }
-      });
+      filteredData = filteredData.filter((key) => this.filterComparison(comparison, key, column, value));
     });
 
     return (

@@ -68,7 +68,7 @@ class Dropdown extends Component {
           <option value="" />
           {options.map((item) => <option value={item} key={item}>{item}</option>)}
         </select>
-        {this.createSelects}
+        {this.createSelects()}
         <input name="value" type="number" onChange={(e) => this.handleChange(e)} />
         <button
           disabled={isBlank}
