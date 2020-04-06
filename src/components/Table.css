@@ -1,3 +1,7 @@
+h1 {
+  color: yellow;
+}
+
 .tableData , .tableHeader {
   border: 1px solid yellow;
   box-sizing: border-box;
@@ -6,6 +10,6 @@
   word-wrap: break-word;
 }
 
-h1 , .tableData , .tableHeader {
+.tableData , .tableHeader {
   color: white;
 }
