@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { thunkPlanets, filterText } from '../actions/APIactions';
+import Dropdowns from './Dropdowns';
 import './Table.css';
 
 class Table extends Component {
@@ -71,6 +72,7 @@ class Table extends Component {
       <div>
         <h1>Star Wars - A New Saga begins!</h1>
         <input onChange={this.onChangeHandler} />
+        <Dropdowns />
         {this.generateTable(loading, data, error, filtered)}
       </div>
     );
