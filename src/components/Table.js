@@ -128,7 +128,6 @@ Table.propTypes = {
   error: propTypes.string,
   filtered: propTypes.arrayOf(propTypes.object),
   textFilter: propTypes.arrayOf(propTypes.object),
-  name: propTypes.string,
   filters: propTypes.arrayOf(propTypes.object),
 };
 
@@ -137,6 +136,5 @@ Table.defaultProps = {
   error: null,
   filtered: null,
   textFilter: '',
-  name: '',
   filters: '',
 };
