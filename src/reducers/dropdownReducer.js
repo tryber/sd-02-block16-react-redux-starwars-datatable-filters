@@ -11,44 +11,29 @@ const initialFilter = {
   ],
 };
 
+function returnState(state, string, param) {
+  return {
+    ...state,
+    filters: [{
+      ...state.filters[0],
+      numericValues:
+      {
+        ...state.filters[0].numericValues,
+        [string]: param,
+      },
+    }],
+  };
+}
+
 const dropdownReducer = (state = initialFilter, action) => {
+  const { column, comparison, value } = action;
   switch (action.type) {
     case FILTER_COLUMNS:
-      return {
-        ...state,
-        filters: [{
-          ...state.filters[0],
-          numericValues:
-          {
-            ...state.filters[0].numericValues,
-            column: action.column,
-          },
-        }],
-      };
+      return returnState(state, 'column', column);
     case FILTER_COMPARISON:
-      return {
-        ...state,
-        filters: [{
-          ...state.filters[0],
-          numericValues:
-          {
-            ...state.filters[0].numericValues,
-            comparison: action.comparison,
-          },
-        }],
-      };
+      return returnState(state, 'comparison', comparison);
     case FILTER_NUMBER:
-      return {
-        ...state,
-        filters: [{
-          ...state.filters[0],
-          numericValues:
-          {
-            ...state.filters[0].numericValues,
-            value: action.value,
-          },
-        }],
-      };
+      return returnState(state, 'value', value);
     default: return state;
   }
 };

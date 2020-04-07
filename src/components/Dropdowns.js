@@ -1,49 +1,46 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import propTypes from 'prop-types';
 import { filterColumns, filterComparison, filterNumber } from '../actions/dropdownActions';
 
 class Dropdowns extends React.Component {
-  generateColumns() {
-    console.log(this);
-    const { filterBycolumn } = this.props;
+  static generateColumns(func) {
     const columns = ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
     return (
-      <select onChange={(e) => filterBycolumn(e.target.value)}>
+      <select onChange={(e) => func(e.target.value)}>
         {columns.map((option) => <option key={option} value={option}>{option}</option>)}
       </select>
     );
   }
 
-  generateComparison() {
-    const { filterByComparison } = this.props;
-    console.log(this);
+  static generateComparison(func) {
     const comparison = ['greater than', 'equal to', 'less than'];
     return (
-      <select onChange={(e) => filterByComparison(e.target.value)}>
+      <select onChange={(e) => func(e.target.value)}>
         {comparison.map((option) => <option key={option} value={option}>{option}</option>)}
       </select>
     );
   }
 
   render() {
-    const { filterByNumber } = this.props;
+    const {
+      filterBycolumn,
+      filterByComparison,
+      filterByNumber,
+    } = this.props;
     return (
       <div>
-        {this.generateColumns()}
-        {this.generateComparison()}
-        <input type="number" placeholder="type a number here!" onChange={(e) => filterByNumber(e.target.value)} />
+        {Dropdowns.generateColumns(filterBycolumn)}
+        {Dropdowns.generateComparison(filterByComparison)}
+        <input
+          type="number"
+          placeholder="type a number here!"
+          onChange={(e) => filterByNumber(e.target.value)}
+        />
       </div>
     );
   }
 }
-
-const mapStateToProps = ({
-  dropdownReducer: {
-    filters,
-  },
-}) => ({
-  filters,
-});
 
 const mapDispatchToProps = (dispatch) => ({
   filterBycolumn: (column) => dispatch(filterColumns(column)),
@@ -51,4 +48,10 @@ const mapDispatchToProps = (dispatch) => ({
   filterByNumber: (value) => dispatch(filterNumber(value)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Dropdowns);
+export default connect(null, mapDispatchToProps)(Dropdowns);
+
+Dropdowns.propTypes = {
+  filterBycolumn: propTypes.func.isRequired,
+  filterByComparison: propTypes.func.isRequired,
+  filterByNumber: propTypes.func.isRequired,
+};

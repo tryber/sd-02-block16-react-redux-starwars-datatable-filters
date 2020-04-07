@@ -5,7 +5,6 @@ const initialState = {
 };
 
 const APIreducer = (state = initialState, action) => {
-  console.log('APIreducer action:', action);
   switch (action.type) {
     case GET_PLANETS:
       return {

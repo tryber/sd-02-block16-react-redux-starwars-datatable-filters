@@ -6,43 +6,37 @@ import Dropdowns from './Dropdowns';
 import './Table.css';
 
 class Table extends Component {
-  constructor(props) {
-    super(props);
-    this.generateTable = this.generateTable.bind(this);
-    this.generateBody = this.generateBody.bind(this);
-    this.onChangeHandler = this.onChangeHandler.bind(this);
-  }
+  // static filterByColumns(array, filterCriteria) {
+  //   const { numericValues: { column, comparison, value } } = filterCriteria[0];
+  //   const columnValue = (column !== '' && value !== '');
+  //   if (comparison === 'more than' && columnValue) {
+  //     return array.filter((planet) => planet[column] > value);
+  //   }
+  //   if (comparison === 'less than' && columnValue) {
+  //     return array.filter((planet) => planet[column] < value);
+  //   }
+  //   if (comparison === 'equal' && columnValue) {
+  //     return array.filter((planet) => (planet[column] === value));
+  //   }
+  //   return array;
+  // }
 
-  componentDidMount() {
-    const { importedThunk } = this.props;
-    importedThunk();
-  }
-
-
-  onChangeHandler(event) {
-    const { filterByText } = this.props;
-    let { data } = this.props;
-    const text = event.target.value.toLowerCase();
-    filterByText(text, data);
-    data = filterByText(text, data).results;
-  }
-
-  generateBody(data) {
-    console.log(this);
+  static generateBody(data, filterCriteria) {
+    // const firstFilter = filterByColumns(data, filterCriteria);
     return (
-      data.map((values) => (
-        <tbody key={values.name}>
-          <tr>
-            {Object.values(values).map((box, index) => (index !== 9
-              ? <td className="tableData" key={box}>{box}</td>
-              : null))}
-          </tr>
-        </tbody>
-      )));
+      data
+        .map((values) => (
+          <tbody key={values.name}>
+            <tr>
+              {Object.values(values).map((box, index) => (index !== 9
+                ? <td className="tableData" key={box}>{box}</td>
+                : null))}
+            </tr>
+          </tbody>
+        )));
   }
 
-  generateTable(loadInfo, data, failLoad, filtered) {
-    console.log(this);
+  static generateTable(loadInfo, data, failLoad, filtered, filterCriteria) {
     if (!loadInfo && data) {
       return (
         <table>
@@ -53,12 +47,32 @@ class Table extends Component {
                 : null))}
             </tr>
           </thead>
-          {!filtered ? this.generateBody(data) : this.generateBody(filtered)}
+          {!filtered
+            ? Table.generateBody(data, filterCriteria)
+            : Table.generateBody(filtered, filterCriteria)}
         </table>
       );
     }
     if (failLoad) { return <div>{failLoad}</div>; }
     return <div>Loading...</div>;
+  }
+
+  constructor(props) {
+    super(props);
+    this.onChangeHandler = this.onChangeHandler.bind(this);
+  }
+
+  componentDidMount() {
+    const { importedThunk } = this.props;
+    importedThunk();
+  }
+
+  onChangeHandler(event) {
+    const { filterByText } = this.props;
+    let { data } = this.props;
+    const text = event.target.value.toLowerCase();
+    filterByText(text, data);
+    data = filterByText(text, data).results;
   }
 
   render() {
@@ -67,13 +81,14 @@ class Table extends Component {
       data,
       error,
       filtered,
+      filters,
     } = this.props;
     return (
       <div>
         <h1>Star Wars - A New Saga begins!</h1>
         <input onChange={this.onChangeHandler} />
         <Dropdowns />
-        {this.generateTable(loading, data, error, filtered)}
+        {Table.generateTable(loading, data, error, filtered, filters)}
       </div>
     );
   }
@@ -88,8 +103,11 @@ const mapStateToProps = ({
   textReducer: {
     filtered,
   },
+  dropdownReducer: {
+    filters,
+  },
 }) => ({
-  loading, data, error, filtered,
+  loading, data, error, filtered, filters,
 });
 
 const mapDispatchToProps = (dispatch) => ({
