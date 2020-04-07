@@ -8,7 +8,6 @@ import {
 import '../styles/InputsAndFilters_stylish.css';
 
 const comparativeValues = [
-  '-',
   'bigger_than',
   'less_than',
   'equal_to',
@@ -65,6 +64,7 @@ class InputsAndFilters extends React.Component {
           name="column"
           onChange={(element) => this.setStateFunc(element.target)}
         >
+          <option hidden>Select a Column</option>
           {columns.map((column) => (
             <option key={column} value={column}>{column}</option>
           ))}
@@ -75,6 +75,7 @@ class InputsAndFilters extends React.Component {
           onChange={(element) => this.setStateFunc(element.target)}
           key="comparativeValue"
         >
+          <option hidden>Select a comparison</option>
           {comparativeValues.map((comparativeValue) => (
             <option key={comparativeValue} value={comparativeValue}>{comparativeValue}</option>
           ))}
@@ -125,8 +126,8 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(filterPlanetsWithName(planetsData, userInfo))
   ),
   dispatchNumberFilter: (column, comparison, value, planetsData, columnsSelect) => {
-    if (value <= 0 || comparison === '-' || column === '-') {
-      alert('Fill in all fields to continue.');
+    if (value <= 0) {
+      alert('Fill value or existing value to continue.');
       return '';
     }
     return (

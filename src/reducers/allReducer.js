@@ -4,10 +4,10 @@ import {
   REQUEST_SWAPI_FAILURE,
   FILTER_PLANETS_WITH_NAME,
   FILTER_PLANETS_WITH_NUMBER,
+  REMOVE_NUMERIC_FILTER,
 } from '../actions';
 
 const columns = [
-  '-',
   'population',
   'orbital_period',
   'diameter',
@@ -27,6 +27,15 @@ const columnsFiltered = (columnsToFilter, columnUsed) => {
   const indexColumn = prevState.indexOf(columnUsed);
   const newColumns = prevState.slice(0, indexColumn).concat(prevState.slice(indexColumn + 1));
   return newColumns;
+};
+
+const filterArray = (allFilters, filterRemove) => {
+  const prevState = [...allFilters];
+  console.log(filterRemove);
+  console.log(allFilters);
+  const indexFilter = prevState.indexOf(filterRemove);
+  console.log(indexFilter);
+  return prevState.slice(0, indexFilter).concat(prevState.slice(indexFilter + 1));
 };
 
 const allReducer = (state = INITIAL_STATE, action) => {
@@ -73,8 +82,14 @@ const allReducer = (state = INITIAL_STATE, action) => {
           ...state.filtersToShow,
           { numericValues: action.numObj.numericValues },
         ],
-        filteredData: action.filterData,
         columnsSelect: columnsFiltered(action.columnsToFilter, action.columnUsed),
+      };
+
+    case REMOVE_NUMERIC_FILTER:
+      return {
+        ...state,
+        columnsSelect: [...state.columnsSelect, action.column],
+        filtersToShow: filterArray(action.allFilters, action.filter),
       };
 
     default: return state;

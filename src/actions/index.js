@@ -5,6 +5,7 @@ export const REQUEST_SWAPI_SUCCESS = 'REQUEST_SWAPI_SUCCESS';
 export const REQUEST_SWAPI_FAILURE = 'REQUEST_SWAPI_FAILURE';
 export const FILTER_PLANETS_WITH_NAME = 'FILTER_PLANETS_WITH_NAME';
 export const FILTER_PLANETS_WITH_NUMBER = 'FILTER_PLANETS_WITH_NUMBER';
+export const FILTER_PLANETS = 'FILTER_PLANETS';
 export const REMOVE_NUMERIC_FILTER = 'REMOVE_NUMERIC_FILTER';
 
 const filterFunction = (planetsData, userValue) => {
@@ -41,6 +42,13 @@ const filterNumber = (column, comparison, value, planetsData) => {
   }
 };
 
+export const removeFilter = (column, filter, allFilters) => ({
+  type: REMOVE_NUMERIC_FILTER,
+  column,
+  filter,
+  allFilters,
+});
+
 const newFilter = (column, comparison, value) => ({
   numericValues: {
     column,
@@ -63,10 +71,6 @@ const requestSwapiFailure = (error) => ({
   error,
 });
 
-// export const filterPlanets = (prevArrayFilter, nameInput, column, comparison, value) => {
-//   switch()
-// };
-
 export const filterPlanetsWithName = (planetsData, userValue) => ({
   type: FILTER_PLANETS_WITH_NAME,
   name: userValue,
@@ -76,7 +80,7 @@ export const filterPlanetsWithName = (planetsData, userValue) => ({
 export const filterPlanetsWithNumber = (column, comparison, value, planetsData, columnsSelect) => ({
   type: FILTER_PLANETS_WITH_NUMBER,
   numObj: newFilter(column, comparison, value),
-  filterData: filterNumber(column, comparison, value, planetsData),
+  // filterData: filterNumber(column, comparison, value, planetsData),
   columnUsed: column,
   columnsToFilter: columnsSelect,
 });

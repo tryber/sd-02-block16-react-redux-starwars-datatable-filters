@@ -25,6 +25,10 @@ const tableTitle = [
   'URL',
 ];
 
+const allFilters = (filters, planetsData) => {
+  filters.map((filter) => console.log(filter));
+};
+
 class Table extends React.Component {
   componentDidMount() {
     const { initialRequisition } = this.props;
@@ -33,27 +37,26 @@ class Table extends React.Component {
 
   render() {
     const {
+      filters,
       planetsData,
       isFetching,
       filteredData,
-      filtersToShow,
     } = this.props;
-    const consumerData = filteredData;
     if (isFetching) {
       return <Loading />;
     }
     return (
       <div className="allTable">
         <InputsAndFilters
-          planetsData={consumerData}
-          filteredData={consumerData}
+          planetsData={planetsData}
+          filteredData={filteredData}
         />
 
-        <ReturnFilters filters={filtersToShow} />
+        <ReturnFilters />
 
         <table>
           {TableHeader(tableTitle)}
-          {TableBody(consumerData)}
+          {TableBody(filteredData)}
         </table>
       </div>
     );
@@ -67,9 +70,11 @@ const mapStateToProps = (
       planetsData,
       filteredData,
       filtersToShow,
+      filters,
     },
   },
 ) => ({
+  filters,
   isFetching,
   planetsData,
   filteredData,
