@@ -16,7 +16,7 @@ const textReducer = (state = initialText, action) => {
         filtered: action.results,
         filters: [
           {
-            name: action.typing,
+            name: action.name,
           },
         ],
       };

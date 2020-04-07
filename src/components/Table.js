@@ -6,25 +6,26 @@ import Dropdowns from './Dropdowns';
 import './Table.css';
 
 class Table extends Component {
-  // static filterByColumns(array, filterCriteria) {
-  //   const { numericValues: { column, comparison, value } } = filterCriteria[0];
-  //   const columnValue = (column !== '' && value !== '');
-  //   if (comparison === 'more than' && columnValue) {
-  //     return array.filter((planet) => planet[column] > value);
-  //   }
-  //   if (comparison === 'less than' && columnValue) {
-  //     return array.filter((planet) => planet[column] < value);
-  //   }
-  //   if (comparison === 'equal' && columnValue) {
-  //     return array.filter((planet) => (planet[column] === value));
-  //   }
-  //   return array;
-  // }
+  static numericFilters(array, filterCriteria) {
+    const { numericValues: { column, comparison, value } } = filterCriteria[0];
+    const columnValue = (column !== '' && value !== '');
+    if (comparison === 'more than' && columnValue) {
+      return array.filter((planet) => planet[column] > value);
+    }
+    if (comparison === 'less than' && columnValue) {
+      return array.filter((planet) => planet[column] < value);
+    }
+    if (comparison === 'equal to' && columnValue) {
+      return array.filter((planet) => planet[column] === value);
+    }
+    return array;
+  }
 
-  static generateBody(data, filterCriteria) {
-    // const firstFilter = filterByColumns(data, filterCriteria);
+  static generateBody(data, text, filterCriteria) {
+    const firstFilter = Table.numericFilters(data, filterCriteria);
     return (
-      data
+      firstFilter
+        .filter(({ name }) => name.toLowerCase().includes(text.toLowerCase()))
         .map((values) => (
           <tbody key={values.name}>
             <tr>
@@ -36,7 +37,7 @@ class Table extends Component {
         )));
   }
 
-  static generateTable(loadInfo, data, failLoad, filtered, filterCriteria) {
+  static generateTable(loadInfo, data, failLoad, filtered, text, filterCriteria) {
     if (!loadInfo && data) {
       return (
         <table>
@@ -48,8 +49,8 @@ class Table extends Component {
             </tr>
           </thead>
           {!filtered
-            ? Table.generateBody(data, filterCriteria)
-            : Table.generateBody(filtered, filterCriteria)}
+            ? Table.generateBody(data, text, filterCriteria)
+            : Table.generateBody(filtered, text, filterCriteria)}
         </table>
       );
     }
@@ -81,14 +82,17 @@ class Table extends Component {
       data,
       error,
       filtered,
+      textFilter,
       filters,
     } = this.props;
+    console.log('textFilter:', textFilter);
+    console.log('filters', filters);
     return (
       <div>
         <h1>Star Wars - A New Saga begins!</h1>
         <input onChange={this.onChangeHandler} />
         <Dropdowns />
-        {Table.generateTable(loading, data, error, filtered, filters)}
+        {Table.generateTable(loading, data, error, filtered, textFilter[0].name, filters)}
       </div>
     );
   }
@@ -102,12 +106,13 @@ const mapStateToProps = ({
   },
   textReducer: {
     filtered,
+    filters: textFilter,
   },
   dropdownReducer: {
     filters,
   },
 }) => ({
-  loading, data, error, filtered, filters,
+  loading, data, error, filtered, textFilter, filters,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -127,7 +132,7 @@ Table.propTypes = {
 };
 
 Table.defaultProps = {
-  data: '',
+  data: [],
   error: '',
   filtered: '',
 };

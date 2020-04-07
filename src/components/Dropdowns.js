@@ -8,15 +8,17 @@ class Dropdowns extends React.Component {
     const columns = ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
     return (
       <select onChange={(e) => func(e.target.value)}>
+        <option value="">Select Column</option>
         {columns.map((option) => <option key={option} value={option}>{option}</option>)}
       </select>
     );
   }
 
   static generateComparison(func) {
-    const comparison = ['greater than', 'equal to', 'less than'];
+    const comparison = ['more than', 'equal to', 'less than'];
     return (
       <select onChange={(e) => func(e.target.value)}>
+        <option value="">Select Comparison</option>
         {comparison.map((option) => <option key={option} value={option}>{option}</option>)}
       </select>
     );

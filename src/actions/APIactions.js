@@ -17,12 +17,12 @@ export const getPlanetsFailure = (error) => (
   { type: GET_PLANETS_FAILURE, loading: false, error }
 );
 
-export const filterText = (typing, data) => (
+export const filterText = (name, data) => (
   {
     type: FILTER_TEXT,
-    typing,
-    results: data.some((planet) => planet.name.toLowerCase().includes(typing))
-      ? data.filter((planet) => planet.name.toLowerCase().includes(typing))
+    name,
+    results: data.some((planet) => planet.name.toLowerCase().includes(name))
+      ? data.filter((planet) => planet.name.toLowerCase().includes(name))
       : null,
   }
 );
