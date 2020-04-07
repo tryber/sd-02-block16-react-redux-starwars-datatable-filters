@@ -85,8 +85,6 @@ class Table extends Component {
       textFilter,
       filters,
     } = this.props;
-    console.log('textFilter:', textFilter);
-    console.log('filters', filters);
     return (
       <div>
         <h1>Star Wars - A New Saga begins!</h1>
@@ -126,13 +124,19 @@ Table.propTypes = {
   importedThunk: propTypes.func.isRequired,
   filterByText: propTypes.func.isRequired,
   loading: propTypes.bool.isRequired,
-  data: propTypes.arrayOf(propTypes.string),
+  data: propTypes.arrayOf(propTypes.object),
   error: propTypes.string,
-  filtered: propTypes.string,
+  filtered: propTypes.arrayOf(propTypes.object),
+  textFilter: propTypes.arrayOf(propTypes.object),
+  name: propTypes.string,
+  filters: propTypes.arrayOf(propTypes.object),
 };
 
 Table.defaultProps = {
-  data: [],
-  error: '',
-  filtered: '',
+  data: null,
+  error: null,
+  filtered: null,
+  textFilter: '',
+  name: '',
+  filters: '',
 };

@@ -5,11 +5,8 @@ h1 {
 .tableData , .tableHeader {
   border: 1px solid yellow;
   box-sizing: border-box;
+  color: white;
   font-size: 12px;
   padding: 0 2px;
   word-wrap: break-word;
-}
-
-.tableData , .tableHeader {
-  color: white;
 }
