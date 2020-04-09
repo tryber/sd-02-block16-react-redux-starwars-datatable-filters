@@ -9,6 +9,7 @@ const initialFilter = {
     },
   },
   ],
+  columns: ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'],
 };
 
 function returnState(state, string, param) {

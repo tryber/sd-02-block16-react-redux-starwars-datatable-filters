@@ -4,12 +4,11 @@ import propTypes from 'prop-types';
 import { filterColumns, filterComparison, filterNumber } from '../actions/dropdownActions';
 
 class Dropdowns extends React.Component {
-  static generateColumns(func) {
-    const columns = ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
+  static generateColumns(func, arr) {
     return (
       <select onChange={(e) => func(e.target.value)}>
         <option value="">Select Column</option>
-        {columns.map((option) => <option key={option} value={option}>{option}</option>)}
+        {arr.map((option) => <option key={option} value={option}>{option}</option>)}
       </select>
     );
   }
@@ -29,10 +28,11 @@ class Dropdowns extends React.Component {
       filterBycolumn,
       filterByComparison,
       filterByNumber,
+      columns,
     } = this.props;
     return (
       <div>
-        {Dropdowns.generateColumns(filterBycolumn)}
+        {Dropdowns.generateColumns(filterBycolumn, columns)}
         {Dropdowns.generateComparison(filterByComparison)}
         <input
           type="number"
@@ -44,16 +44,25 @@ class Dropdowns extends React.Component {
   }
 }
 
+const mapStateToProps = ({
+  dropdownReducer: {
+    columns,
+  },
+}) => ({
+  columns,
+});
+
 const mapDispatchToProps = (dispatch) => ({
   filterBycolumn: (column) => dispatch(filterColumns(column)),
   filterByComparison: (comparison) => dispatch(filterComparison(comparison)),
   filterByNumber: (value) => dispatch(filterNumber(value)),
 });
 
-export default connect(null, mapDispatchToProps)(Dropdowns);
+export default connect(mapStateToProps, mapDispatchToProps)(Dropdowns);
 
 Dropdowns.propTypes = {
   filterBycolumn: propTypes.func.isRequired,
   filterByComparison: propTypes.func.isRequired,
   filterByNumber: propTypes.func.isRequired,
+  columns: propTypes.arrayOf(propTypes.string).isRequired,
 };

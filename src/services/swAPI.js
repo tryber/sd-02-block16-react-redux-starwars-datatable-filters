@@ -1,4 +1,4 @@
-const APIURL = 'https://swapi.co/api/planets/';
+const APIURL = 'https://swapi-trybe.herokuapp.com/api/planets/';
 
 const fetchPlanetFromServices = () => (
   fetch(APIURL)
