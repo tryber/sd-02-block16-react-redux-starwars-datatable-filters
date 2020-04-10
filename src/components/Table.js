@@ -7,17 +7,16 @@ import './Table.css';
 
 class Table extends Component {
   static numericFilters(array, filterCriteria) {
-    console.log(array);
     const { numericValues: { column, comparison, value } } = filterCriteria[0];
     const columnValue = (column !== '' && value !== '');
     if (comparison === 'more than' && columnValue) {
-      if (array.filter((planet) => planet[column] > value).length > 0) { return array; }
+      return array.filter((planet) => Number(planet[column]) > Number(value));
     }
     if (comparison === 'less than' && columnValue) {
-      if (array.filter((planet) => planet[column] < value).length > 0) { return array; }
+      return array.filter((planet) => Number(planet[column]) < Number(value));
     }
     if (comparison === 'equal to' && columnValue) {
-      if (array.filter((planet) => planet[column] === value).length > 0) { return array; }
+      return array.filter((planet) => Number(planet[column]) === Number(value));
     }
     return array;
   }

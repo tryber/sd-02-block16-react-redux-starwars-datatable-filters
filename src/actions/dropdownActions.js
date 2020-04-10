@@ -13,17 +13,6 @@ export const filterNumber = (value) => (
   { type: FILTER_NUMBER, value }
 );
 
-export const generateFilter = (chosenColumn, arrayColumns) => (
-  {
-    type: GENERATE_FILTER,
-    chosenColumn,
-    newColumns: arrayColumns.splice(arrayColumns.indexOf(chosenColumn), 1),
-    newValues: {
-      numericValues: {
-        column: '',
-        comparison: '',
-        value: '',
-      },
-    },
-  }
+export const generateFilter = (newNumericValues) => (
+  { type: GENERATE_FILTER, newNumericValues }
 );

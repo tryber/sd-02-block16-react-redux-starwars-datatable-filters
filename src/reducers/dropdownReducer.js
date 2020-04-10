@@ -1,4 +1,4 @@
-import { FILTER_COLUMNS, FILTER_COMPARISON, FILTER_NUMBER } from '../actions/dropdownActions';
+import { FILTER_COLUMNS, FILTER_COMPARISON, FILTER_NUMBER, GENERATE_FILTER } from '../actions/dropdownActions';
 
 const initialFilter = {
   filters: [{
@@ -28,6 +28,7 @@ function returnState(state, string, param) {
 
 const dropdownReducer = (state = initialFilter, action) => {
   const { column, comparison, value } = action;
+  console.log(state);
   switch (action.type) {
     case FILTER_COLUMNS:
       return returnState(state, 'column', column);
@@ -35,6 +36,15 @@ const dropdownReducer = (state = initialFilter, action) => {
       return returnState(state, 'comparison', comparison);
     case FILTER_NUMBER:
       return returnState(state, 'value', value);
+    case GENERATE_FILTER:
+      return {
+        ...state,
+        filters: [
+          ...state.filters,
+          state.filters.push(action.newNumericValues),
+        ],
+        columns: state.columns.filter((criteria) => criteria !== action.newNumericValues.column),
+      };
     default: return state;
   }
 };
