@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { array } from 'prop-types';
 import { connect } from 'react-redux';
 import apiReturn from '../actions';
 import Loading from './Loading';
@@ -26,7 +26,36 @@ const tableTitle = [
 ];
 
 const allFilters = (filters, planetsData) => {
-  filters.map((filter) => console.log(filter));
+  let arrayReturn = planetsData;
+  filters.forEach((filter) => {
+    // console.log(filter);
+    if (filter.numericValues) {
+      const { comparison, column, value } = filter.numericValues;
+      console.log(comparison, column, value);
+      switch (comparison) {
+        case 'bigger_than':
+          arrayReturn = arrayReturn.filter((planet) => (
+            Number(planet[column]) > Number(value)
+          ));
+          console.log(arrayReturn);
+          return arrayReturn;
+        case 'less_than':
+          arrayReturn = arrayReturn.filter((planet) => (
+            Number(planet[column]) < Number(value)
+          ));
+          console.log(arrayReturn);
+          return arrayReturn;
+        case 'equal_to':
+          arrayReturn = arrayReturn.filter((planet) => (
+            Number(planet[column]) === Number(value)
+          ));
+          console.log(arrayReturn);
+          return arrayReturn;
+        default: return planetsData;
+      }
+    }
+    return arrayReturn;
+  });
 };
 
 class Table extends React.Component {
@@ -37,11 +66,12 @@ class Table extends React.Component {
 
   render() {
     const {
-      filters,
       planetsData,
       isFetching,
       filteredData,
+      filters,
     } = this.props;
+    console.log(allFilters(filters, planetsData));
     if (isFetching) {
       return <Loading />;
     }
@@ -69,7 +99,6 @@ const mapStateToProps = (
       isFetching,
       planetsData,
       filteredData,
-      filtersToShow,
       filters,
     },
   },
@@ -78,7 +107,6 @@ const mapStateToProps = (
   isFetching,
   planetsData,
   filteredData,
-  filtersToShow,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -94,7 +122,6 @@ Table.propTypes = {
     PropTypes.string,
     PropTypes.array,
   ]),
-  filtersToShow: PropTypes.arrayOf(PropTypes.object).isRequired,
   initialRequisition: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
 };

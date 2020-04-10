@@ -19,7 +19,7 @@ const orderComp = (filter, toRemove, filtersToShow) => (
     <button
       className="Return_Filter-button"
       type="button"
-      onClick={() => toRemove(filter.numericValues.column, filter, filtersToShow)}
+      onClick={() => toRemove(filter.column, filter, filtersToShow)}
     >
       X
     </button>
@@ -55,13 +55,11 @@ const numericComp = (filter, toRemove, filtersToShow) => (
 class ReturnFilters extends React.Component {
   render() {
     const { filtersToShow, toRemove } = this.props;
-    console.log(filtersToShow);
     return (
       <div className="Return_Filters-father">
         {
           filtersToShow.map((filter) => {
             const isOrdered = Object.prototype.hasOwnProperty.call(filter, 'order');
-            console.log(isOrdered);
             if (isOrdered) {
               return orderComp(filter, toRemove, filtersToShow);
             }
