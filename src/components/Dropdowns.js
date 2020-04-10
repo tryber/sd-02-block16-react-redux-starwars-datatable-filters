@@ -143,4 +143,5 @@ Dropdowns.propTypes = {
   filterByComparison: propTypes.func.isRequired,
   filterByNumber: propTypes.func.isRequired,
   columns: propTypes.arrayOf(propTypes.string).isRequired,
+  actionStoreFilters: propTypes.func.isRequired,
 };
