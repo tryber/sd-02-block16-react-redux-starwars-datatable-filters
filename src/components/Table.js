@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { thunkPlanets, filterText } from '../actions/APIactions';
+import { eraseFilter } from '../actions/dropdownActions';
 import Dropdowns from './Dropdowns';
 import './Table.css';
 
 class Table extends Component {
-  static numericFilters(array, filterCriteria) {
-    const { numericValues: { column, comparison, value } } = filterCriteria[0];
+  static numericFilters(array, { numericValues }) {
+    const { column, comparison, value } = numericValues;
     const columnValue = (column !== '' && value !== '');
     if (comparison === 'more than' && columnValue) {
       return array.filter((planet) => Number(planet[column]) > Number(value));
@@ -22,7 +23,8 @@ class Table extends Component {
   }
 
   static generateBody(data, text, filterCriteria) {
-    const firstFilter = Table.numericFilters(data, filterCriteria);
+    let firstFilter = data;
+    filterCriteria.forEach((x) => { firstFilter = Table.numericFilters(firstFilter, x); });
     return (
       firstFilter
         .filter(({ name }) => name.toLowerCase().includes(text.toLowerCase()))
@@ -61,6 +63,7 @@ class Table extends Component {
   constructor(props) {
     super(props);
     this.onChangeHandler = this.onChangeHandler.bind(this);
+    this.showFilters = this.showFilters.bind(this);
   }
 
   componentDidMount() {
@@ -74,6 +77,27 @@ class Table extends Component {
     const text = event.target.value.toLowerCase();
     filterByText(text, data);
     data = filterByText(text, data).results;
+  }
+
+  showFilters(filters) {
+    console.log(this);
+    console.log('filters:', filters);
+    const { eraseColumn } = this.props;
+    return filters[0].numericValues.column && filters
+      .map(({ numericValues }) => (
+        <div>
+          <p>{numericValues.column}</p>
+          <p>{numericValues.comparison}</p>
+          <p>{numericValues.value}</p>
+          <button
+            type="button"
+            value={numericValues.column}
+            onClick={() => eraseColumn(filters, numericValues.column)}
+          >
+            Erase Filter
+          </button>
+        </div>
+      ));
   }
 
   render() {
@@ -90,6 +114,8 @@ class Table extends Component {
         <h1>Star Wars - A New Saga begins!</h1>
         <input onChange={this.onChangeHandler} />
         <Dropdowns />
+        <h2>Filters:</h2>
+        {this.showFilters(filters)}
         {Table.generateTable(loading, data, error, filtered, textFilter[0].name, filters)}
       </div>
     );
@@ -116,6 +142,7 @@ const mapStateToProps = ({
 const mapDispatchToProps = (dispatch) => ({
   importedThunk: () => dispatch(thunkPlanets()),
   filterByText: (typing, data) => dispatch(filterText(typing, data)),
+  eraseColumn: (array, column) => dispatch(eraseFilter(array, column)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Table);
@@ -129,6 +156,7 @@ Table.propTypes = {
   filtered: propTypes.arrayOf(propTypes.object),
   textFilter: propTypes.arrayOf(propTypes.object),
   filters: propTypes.arrayOf(propTypes.object),
+  eraseColumn: propTypes.func.isRequired,
 };
 
 Table.defaultProps = {

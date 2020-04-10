@@ -71,6 +71,7 @@ class Dropdowns extends React.Component {
   }
 
   generateColumns(arr) {
+    console.log(arr);
     return (
       <select onClick={(e) => this.setColumnsState(e)}>
         <option>Select Column</option>
@@ -90,9 +91,9 @@ class Dropdowns extends React.Component {
   }
 
   storeFilters() {
-    const { actionStoreFilters } = this.props;
+    const { actionStoreFilters, columns } = this.props;
     const { newNumericValues } = this.state;
-    actionStoreFilters(newNumericValues);
+    return columns.length > 0 && actionStoreFilters(newNumericValues);
   }
 
   render() {
