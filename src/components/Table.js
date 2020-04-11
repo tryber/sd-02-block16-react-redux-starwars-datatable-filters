@@ -3,6 +3,7 @@ import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { thunkPlanets, filterText } from '../actions/APIactions';
 import { eraseFilter } from '../actions/dropdownActions';
+import { sortColumn, changeOrder } from '../actions/sortActions';
 import Dropdowns from './Dropdowns';
 import './Table.css';
 
@@ -39,7 +40,7 @@ class Table extends Component {
         )));
   }
 
-  static generateTable(loadInfo, data, failLoad, filtered, text, filterCriteria) {
+  static generateTable(loadInfo, data, failLoad, filtered, text, filterCriteria, sFilters) {
     if (!loadInfo && data) {
       return (
         <table>
@@ -80,24 +81,51 @@ class Table extends Component {
   }
 
   showFilters(filters) {
-    console.log(this);
-    console.log('filters:', filters);
     const { eraseColumn } = this.props;
     return filters[0].numericValues.column && filters
       .map(({ numericValues }) => (
-        <div>
-          <p>{numericValues.column}</p>
-          <p>{numericValues.comparison}</p>
-          <p>{numericValues.value}</p>
+        <div className="filters">
+          <p key={numericValues.column}>{numericValues.column}</p>
+          <p key={numericValues.comparison}>{numericValues.comparison}</p>
+          <p key={numericValues.value}>{numericValues.value}</p>
           <button
             type="button"
             value={numericValues.column}
             onClick={() => eraseColumn(filters, numericValues.column)}
           >
-            Erase Filter
+            X
           </button>
         </div>
       ));
+  }
+
+  changeOrderandState(e) {
+    const { importchangeOrder, sFilters, data } = this.props;
+    const { column, order } = sFilters[0];
+    if (order === 'ASC') {
+      data.sort((a, b) => (a[column] < b[column] ? 1 : -1));
+    }
+    if ((order === 'DESC')) {
+      data.sort((a, b) => (a[column] > b[column] ? 1 : -1));
+    }
+    importchangeOrder(e.target.value);
+  }
+
+  changeOrder(data) {
+    const { importSortColumn, sFilters } = this.props;
+    return (
+      <div>
+        <select onClick={(e) => importSortColumn(e.target.value)}>
+          {Object.keys(data[0])
+            .map((item) => (
+              <option key={item} value={item}>
+                {item}
+              </option>
+            ))}
+        </select>
+        <button type="button" value={sFilters[0].order === 'ASC' ? 'DESC' : 'ASC'} onClick={(e) => this.changeOrderandState(e)}>Ascending/descending</button>
+      </div>
+    );
   }
 
   render() {
@@ -108,15 +136,19 @@ class Table extends Component {
       filtered,
       textFilter,
       filters,
+      sFilters,
     } = this.props;
     return (
       <div>
         <h1>Star Wars - A New Saga begins!</h1>
         <input onChange={this.onChangeHandler} />
         <Dropdowns />
+        {data === null ? null : this.changeOrder(data)}
         <h2>Filters:</h2>
-        {this.showFilters(filters)}
-        {Table.generateTable(loading, data, error, filtered, textFilter[0].name, filters)}
+        <div className="filterContainer">
+          {this.showFilters(filters)}
+        </div>
+        {Table.generateTable(loading, data, error, filtered, textFilter[0].name, filters, sFilters)}
       </div>
     );
   }
@@ -135,14 +167,19 @@ const mapStateToProps = ({
   dropdownReducer: {
     filters,
   },
+  sortReducer: {
+    filters: sFilters,
+  },
 }) => ({
-  loading, data, error, filtered, textFilter, filters,
+  loading, data, error, filtered, textFilter, filters, sFilters,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   importedThunk: () => dispatch(thunkPlanets()),
   filterByText: (typing, data) => dispatch(filterText(typing, data)),
   eraseColumn: (array, column) => dispatch(eraseFilter(array, column)),
+  importSortColumn: (column) => dispatch(sortColumn(column)),
+  importchangeOrder: (order) => dispatch(changeOrder(order)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Table);
@@ -157,6 +194,9 @@ Table.propTypes = {
   textFilter: propTypes.arrayOf(propTypes.object),
   filters: propTypes.arrayOf(propTypes.object),
   eraseColumn: propTypes.func.isRequired,
+  importSortColumn: propTypes.func.isRequired,
+  importchangeOrder: propTypes.func.isRequired,
+  sFilters: propTypes.arrayOf(propTypes.object),
 };
 
 Table.defaultProps = {
@@ -165,4 +205,5 @@ Table.defaultProps = {
   filtered: null,
   textFilter: '',
   filters: '',
+  sFilters: '',
 };

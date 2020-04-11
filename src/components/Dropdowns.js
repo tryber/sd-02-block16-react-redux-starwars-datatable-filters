@@ -1,12 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
-import {
-  filterColumns,
-  filterComparison,
-  filterNumber,
-  generateFilter,
-} from '../actions/dropdownActions';
+import { generateFilter } from '../actions/dropdownActions';
 
 class Dropdowns extends React.Component {
   constructor(props) {
@@ -26,7 +21,6 @@ class Dropdowns extends React.Component {
   }
 
   setColumnsState(e) {
-    const { filterBycolumn } = this.props;
     const { newNumericValues } = this.state;
     this.setState({
       newNumericValues: {
@@ -37,11 +31,9 @@ class Dropdowns extends React.Component {
         },
       },
     });
-    filterBycolumn(e.target.value);
   }
 
   setComparisonState(e) {
-    const { filterByComparison } = this.props;
     const { newNumericValues } = this.state;
     this.setState({
       newNumericValues: {
@@ -52,11 +44,9 @@ class Dropdowns extends React.Component {
         },
       },
     });
-    filterByComparison(e.target.value);
   }
 
   setValueState(e) {
-    const { filterByNumber } = this.props;
     const { newNumericValues } = this.state;
     this.setState({
       newNumericValues: {
@@ -67,11 +57,9 @@ class Dropdowns extends React.Component {
         },
       },
     });
-    filterByNumber(e.target.value);
   }
 
   generateColumns(arr) {
-    console.log(arr);
     return (
       <select onClick={(e) => this.setColumnsState(e)}>
         <option>Select Column</option>
@@ -130,18 +118,12 @@ const mapStateToProps = ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  filterBycolumn: (column) => dispatch(filterColumns(column)),
-  filterByComparison: (comparison) => dispatch(filterComparison(comparison)),
-  filterByNumber: (value) => dispatch(filterNumber(value)),
   actionStoreFilters: (newNumericValues) => dispatch(generateFilter(newNumericValues)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dropdowns);
 
 Dropdowns.propTypes = {
-  filterBycolumn: propTypes.func.isRequired,
-  filterByComparison: propTypes.func.isRequired,
-  filterByNumber: propTypes.func.isRequired,
   columns: propTypes.arrayOf(propTypes.string).isRequired,
   actionStoreFilters: propTypes.func.isRequired,
 };

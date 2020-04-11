@@ -10,3 +10,14 @@ h1 {
   padding: 0 2px;
   word-wrap: break-word;
 }
+
+.filterContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.filters {
+  display: flex;
+  flex-direction: column;
+}
