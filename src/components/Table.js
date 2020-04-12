@@ -40,7 +40,7 @@ class Table extends Component {
         )));
   }
 
-  static generateTable(loadInfo, data, failLoad, filtered, text, filterCriteria, sFilters) {
+  static generateTable(loadInfo, data, failLoad, filtered, text, filterCriteria) {
     if (!loadInfo && data) {
       return (
         <table>
