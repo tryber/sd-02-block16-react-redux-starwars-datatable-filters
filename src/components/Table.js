@@ -1,11 +1,10 @@
 import React from 'react';
-import PropTypes, { array } from 'prop-types';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import apiReturn from '../actions';
 import Loading from './Loading';
 import TableHeader from './TableHeader';
 import TableBody from './TableBody';
-import ReturnFilters from './ReturnFilters';
 import InputsAndFilters from './InputsAndFilters';
 import '../styles/Table.css';
 
@@ -25,39 +24,6 @@ const tableTitle = [
   'URL',
 ];
 
-const allFilters = (filters, planetsData) => {
-  let arrayReturn = planetsData;
-  filters.forEach((filter) => {
-    // console.log(filter);
-    if (filter.numericValues) {
-      const { comparison, column, value } = filter.numericValues;
-      console.log(comparison, column, value);
-      switch (comparison) {
-        case 'bigger_than':
-          arrayReturn = arrayReturn.filter((planet) => (
-            Number(planet[column]) > Number(value)
-          ));
-          console.log(arrayReturn);
-          return arrayReturn;
-        case 'less_than':
-          arrayReturn = arrayReturn.filter((planet) => (
-            Number(planet[column]) < Number(value)
-          ));
-          console.log(arrayReturn);
-          return arrayReturn;
-        case 'equal_to':
-          arrayReturn = arrayReturn.filter((planet) => (
-            Number(planet[column]) === Number(value)
-          ));
-          console.log(arrayReturn);
-          return arrayReturn;
-        default: return planetsData;
-      }
-    }
-    return arrayReturn;
-  });
-};
-
 class Table extends React.Component {
   componentDidMount() {
     const { initialRequisition } = this.props;
@@ -69,9 +35,7 @@ class Table extends React.Component {
       planetsData,
       isFetching,
       filteredData,
-      filters,
     } = this.props;
-    console.log(allFilters(filters, planetsData));
     if (isFetching) {
       return <Loading />;
     }
@@ -81,8 +45,6 @@ class Table extends React.Component {
           planetsData={planetsData}
           filteredData={filteredData}
         />
-
-        <ReturnFilters />
 
         <table>
           {TableHeader(tableTitle)}

@@ -3,8 +3,7 @@ import {
   REQUEST_SWAPI_SUCCESS,
   REQUEST_SWAPI_FAILURE,
   FILTER_PLANETS_WITH_NAME,
-  FILTER_PLANETS_WITH_NUMBER,
-  REMOVE_NUMERIC_FILTER,
+  FILTER_NUMBERS,
 } from '../actions';
 
 const columns = [
@@ -15,28 +14,22 @@ const columns = [
   'surface_water',
 ];
 
+const ordered = { column: 'name', order: 'ASC' };
+
+const newColumns = (allColumns, i) => {
+  const prevColumns = [...allColumns];
+  console.log(allColumns);
+  return prevColumns.slice(0, i).concat(prevColumns.slice(i + 1));
+};
+
 const INITIAL_STATE = ({
   isFetching: false,
-  filters: [],
   columnsSelect: columns,
   filtersToShow: [],
+  name: '',
+  numericValues: [],
+  order: ordered,
 });
-
-const columnsFiltered = (columnsToFilter, columnUsed) => {
-  const prevState = [...columnsToFilter];
-  const indexColumn = prevState.indexOf(columnUsed);
-  const newColumns = prevState.slice(0, indexColumn).concat(prevState.slice(indexColumn + 1));
-  return newColumns;
-};
-
-const filterArray = (allFilters, filterRemove) => {
-  const prevState = [...allFilters];
-  console.log(filterRemove);
-  console.log(allFilters);
-  const indexFilter = prevState.indexOf(filterRemove);
-  console.log(indexFilter);
-  return prevState.slice(0, indexFilter).concat(prevState.slice(indexFilter + 1));
-};
 
 const allReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -64,32 +57,18 @@ const allReducer = (state = INITIAL_STATE, action) => {
     case FILTER_PLANETS_WITH_NAME:
       return {
         ...state,
-        filters: [
-          ...state.filters,
-          { name: action.name },
-        ],
+        name: action.name,
         filteredData: action.filterData,
       };
 
-    case FILTER_PLANETS_WITH_NUMBER:
+    case FILTER_NUMBERS:
       return {
         ...state,
-        filters: [
-          ...state.filters,
-          { numericValues: action.numObj.numericValues },
+        numericValues: [
+          ...state.numericValues,
+          action.filter,
         ],
-        filtersToShow: [
-          ...state.filtersToShow,
-          { numericValues: action.numObj.numericValues },
-        ],
-        columnsSelect: columnsFiltered(action.columnsToFilter, action.columnUsed),
-      };
-
-    case REMOVE_NUMERIC_FILTER:
-      return {
-        ...state,
-        columnsSelect: [...state.columnsSelect, action.column],
-        filtersToShow: filterArray(action.allFilters, action.filter),
+        columnsSelect: newColumns(action.columns, action.index),
       };
 
     default: return state;

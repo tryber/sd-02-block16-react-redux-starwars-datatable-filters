@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   filterPlanetsWithName,
-  filterPlanetsWithNumber,
+  filterNumbers,
 } from '../actions';
 import '../styles/InputsAndFilters_stylish.css';
 
@@ -22,6 +22,7 @@ const NameInput = (planetsData, dispatchFilter) => (
   />
 );
 
+
 class InputsAndFilters extends React.Component {
   constructor(props) {
     super(props);
@@ -32,17 +33,19 @@ class InputsAndFilters extends React.Component {
     };
   }
 
+
   setStateFunc(param) {
     const { value, name } = param;
+    console.log(this.state);
     this.setState({
       [name]: value,
     });
   }
 
-  handleSubmit() {
+  handleSubmit(dispatchNumberFilter, columns) {
     const { column, comparison, value } = this.state;
-    const { dispatchNumberFilter, columnsSelect } = this.props;
-    dispatchNumberFilter(column, comparison, value, columnsSelect);
+    console.log(columns);
+    dispatchNumberFilter(column, comparison, value, columns);
   }
 
   NumberInput() {
@@ -56,7 +59,7 @@ class InputsAndFilters extends React.Component {
     );
   }
 
-  filterNumbersComponent(columns) {
+  filterNumbersComponent(columns, dispatchNumberFilter) {
     return (
       <div className="InputsAndFilters_selectors">
         <select
@@ -86,7 +89,7 @@ class InputsAndFilters extends React.Component {
         <button
           className="InputsAndFilters_button"
           type="button"
-          onClick={() => this.handleSubmit()}
+          onClick={() => this.handleSubmit(dispatchNumberFilter, columns)}
         >
           Search
         </button>
@@ -99,12 +102,13 @@ class InputsAndFilters extends React.Component {
       planetsData,
       dispatchFilter,
       columnsSelect,
+      dispatchNumberFilter,
     } = this.props;
     return (
       <div className="InputsAndFilters_stylish">
 
         {NameInput(planetsData, dispatchFilter)}
-        {this.filterNumbersComponent(columnsSelect)}
+        {this.filterNumbersComponent(columnsSelect, dispatchNumberFilter)}
 
       </div>
     );
@@ -125,15 +129,9 @@ const mapDispatchToProps = (dispatch) => ({
   dispatchFilter: (planetsData, userInfo) => (
     dispatch(filterPlanetsWithName(planetsData, userInfo))
   ),
-  dispatchNumberFilter: (column, comparison, value, columnsSelect) => {
-    if (value <= 0) {
-      alert('Fill value or existing value to continue.');
-      return '';
-    }
-    return (
-      dispatch(filterPlanetsWithNumber(column, comparison, value, columnsSelect))
-    );
-  },
+  dispatchNumberFilter: (column, comparison, value, columns) => (
+    dispatch(filterNumbers(column, comparison, value, columns))
+  ),
 });
 
 InputsAndFilters.propTypes = {
