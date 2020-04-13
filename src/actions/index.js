@@ -7,12 +7,11 @@ export const FILTER_PLANETS_WITH_NAME = 'FILTER_PLANETS_WITH_NAME';
 export const FILTER_NUMBERS = 'FILTER_PLANETS';
 export const REMOVE_NUMERIC_FILTER = 'REMOVE_NUMERIC_FILTER';
 
-const filterFunction = (planetsData, userValue) => {
-  return (
-    planetsData.filter((planet) => (
-      planet.name.toLowerCase().includes(userValue.toLowerCase())
-    )));
-};
+const filterFunction = (planetsData, userValue) => (
+  planetsData.filter((planet) => (
+    planet.name.toLowerCase().includes(userValue.toLowerCase())
+  )));
+
 
 const returnIndex = (column, columns) => {
   const arrayColumns = [...columns];

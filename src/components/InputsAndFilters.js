@@ -68,7 +68,6 @@ class InputsAndFilters extends React.Component {
             <option key={column} value={column}>{column}</option>
           ))}
         </select>
-
         <select
           name="comparison"
           onChange={(element) => this.setStateFunc(element.target)}
@@ -79,9 +78,7 @@ class InputsAndFilters extends React.Component {
             <option key={comparativeValue} value={comparativeValue}>{comparativeValue}</option>
           ))}
         </select>
-
         {this.NumberInput()}
-
         <button
           className="InputsAndFilters_button"
           type="button"
