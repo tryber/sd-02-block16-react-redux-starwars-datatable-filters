@@ -22,7 +22,6 @@ const NameInput = (planetsData, dispatchFilter) => (
   />
 );
 
-
 class InputsAndFilters extends React.Component {
   constructor(props) {
     super(props);
@@ -33,10 +32,8 @@ class InputsAndFilters extends React.Component {
     };
   }
 
-
   setStateFunc(param) {
     const { value, name } = param;
-    console.log(this.state);
     this.setState({
       [name]: value,
     });
@@ -44,7 +41,6 @@ class InputsAndFilters extends React.Component {
 
   handleSubmit(dispatchNumberFilter, columns) {
     const { column, comparison, value } = this.state;
-    console.log(columns);
     dispatchNumberFilter(column, comparison, value, columns);
   }
 

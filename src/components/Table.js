@@ -24,6 +24,36 @@ const tableTitle = [
   'URL',
 ];
 
+const filterReturn = (numericValues, filteredData) => {
+  let returnFiltered = filteredData;
+  numericValues.forEach((filter) => {
+    const { column, comparison, value } = filter;
+
+    switch (comparison) {
+      case 'bigger_than':
+        returnFiltered = returnFiltered.filter((planet) => (
+          Number(planet[column]) > Number(value)
+        ));
+        return returnFiltered;
+
+      case 'less_than':
+        returnFiltered = returnFiltered.filter((planet) => (
+          Number(planet[column]) < Number(value)
+        ));
+        return returnFiltered;
+
+      case 'equal_to':
+        returnFiltered = returnFiltered.filter((planet) => (
+          Number(planet[column]) === Number(value)
+        ));
+        return returnFiltered;
+
+      default: return filteredData;
+    }
+  });
+  return returnFiltered;
+};
+
 class Table extends React.Component {
   componentDidMount() {
     const { initialRequisition } = this.props;
@@ -35,20 +65,26 @@ class Table extends React.Component {
       planetsData,
       isFetching,
       filteredData,
+      numericValues,
     } = this.props;
+
     if (isFetching) {
       return <Loading />;
     }
+
+    const haveFilters = numericValues.length > 0
+      ? filterReturn(numericValues, filteredData)
+      : filteredData;
+
     return (
       <div className="allTable">
         <InputsAndFilters
           planetsData={planetsData}
           filteredData={filteredData}
         />
-
         <table>
           {TableHeader(tableTitle)}
-          {TableBody(filteredData)}
+          {TableBody(haveFilters)}
         </table>
       </div>
     );
@@ -62,6 +98,7 @@ const mapStateToProps = (
       planetsData,
       filteredData,
       filters,
+      numericValues,
     },
   },
 ) => ({
@@ -69,6 +106,7 @@ const mapStateToProps = (
   isFetching,
   planetsData,
   filteredData,
+  numericValues,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -86,6 +124,7 @@ Table.propTypes = {
   ]),
   initialRequisition: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
+  numericValues: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 Table.defaultProps = {

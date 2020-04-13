@@ -18,7 +18,6 @@ const ordered = { column: 'name', order: 'ASC' };
 
 const newColumns = (allColumns, i) => {
   const prevColumns = [...allColumns];
-  console.log(allColumns);
   return prevColumns.slice(0, i).concat(prevColumns.slice(i + 1));
 };
 
