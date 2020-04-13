@@ -47,6 +47,18 @@ export const filterNumbers = (column, comparison, value, columns) => ({
   index: returnIndex(column, columns),
 });
 
+export const eraseNumberFilter = (filter, numericValues) => {
+  const prevFilter = [...numericValues];
+  const indexFilter = prevFilter.indexOf(filter);
+  const returnColumn = filter.column;
+  return {
+    type: REMOVE_NUMERIC_FILTER,
+    index: indexFilter,
+    column: returnColumn,
+    filters: numericValues,
+  };
+};
+
 const apiReturn = () => (
   (dispatch) => {
     dispatch(requestSwapi());

@@ -4,6 +4,7 @@ import {
   REQUEST_SWAPI_FAILURE,
   FILTER_PLANETS_WITH_NAME,
   FILTER_NUMBERS,
+  REMOVE_NUMERIC_FILTER,
 } from '../actions';
 
 const columns = [
@@ -19,6 +20,11 @@ const ordered = { column: 'name', order: 'ASC' };
 const newColumns = (allColumns, i) => {
   const prevColumns = [...allColumns];
   return prevColumns.slice(0, i).concat(prevColumns.slice(i + 1));
+};
+
+const newFilters = (allFilters, i) => {
+  const prevFilters = [...allFilters];
+  return prevFilters.slice(0, i).concat(prevFilters.slice(i + 1));
 };
 
 const INITIAL_STATE = ({
@@ -68,6 +74,12 @@ const allReducer = (state = INITIAL_STATE, action) => {
           action.filter,
         ],
         columnsSelect: newColumns(action.columns, action.index),
+      };
+    case REMOVE_NUMERIC_FILTER:
+      return {
+        ...state,
+        numericValues: newFilters(action.filters, action.index),
+        columnsSelect: [...state.columnsSelect, action.column],
       };
 
     default: return state;

@@ -6,6 +6,7 @@ import Loading from './Loading';
 import TableHeader from './TableHeader';
 import TableBody from './TableBody';
 import InputsAndFilters from './InputsAndFilters';
+import ReturnFilters from './ReturnFilters';
 import '../styles/Table.css';
 
 const tableTitle = [
@@ -82,6 +83,7 @@ class Table extends React.Component {
           planetsData={planetsData}
           filteredData={filteredData}
         />
+        <ReturnFilters />
         <table>
           {TableHeader(tableTitle)}
           {TableBody(haveFilters)}
