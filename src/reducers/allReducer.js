@@ -5,7 +5,8 @@ import {
   FILTER_PLANETS_WITH_NAME,
   FILTER_NUMBERS,
   REMOVE_NUMERIC_FILTER,
-  ERASE_SORT
+  ERASE_SORT,
+  SORT_COLUMN,
 } from '../actions';
 
 const columns = [
@@ -60,7 +61,7 @@ const allReducer = (state = INITIAL_STATE, action) => {
     case FILTER_PLANETS_WITH_NAME:
       return {
         ...state,
-        name: action.name,
+        name: { name: action.name },
         filteredData: action.filterData,
       };
     case FILTER_NUMBERS:
@@ -82,6 +83,11 @@ const allReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         sorted: action.value,
+      };
+    case SORT_COLUMN:
+      return {
+        ...state,
+        sorted: action.toSort,
       };
     default: return state;
   }

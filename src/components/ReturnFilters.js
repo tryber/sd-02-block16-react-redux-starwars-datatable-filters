@@ -32,8 +32,8 @@ class ReturnFilters extends React.Component {
         ))}
         {sorted.column
           ? (
-            <div className="Return Filters-father">
-              <p className="Return_Filters-text">{`${sorted.column} | ${sorted.order}`}</p>
+            <div className="Return_Filters-sort">
+              <p className="Return_Filter-text">{`${sorted.column} | ${sorted.order}`}</p>
               <button
                 className="Return_Filter-button"
                 type="button"

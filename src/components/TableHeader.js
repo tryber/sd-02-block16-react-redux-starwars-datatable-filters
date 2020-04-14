@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
+import { orderedPlanets } from '../actions';
 import '../styles/Table.css';
 
 class TableHeader extends React.Component {
@@ -12,18 +13,18 @@ class TableHeader extends React.Component {
     };
   }
 
-  changeOrder(...string) {
+  changeOrder(icon, order, column, sortData) {
+    const prevState = this.state;
+    sortData(column, prevState.ascDesc);
     this.setState({
-      order: string[0],
-      ascDesc: string[1],
+      order: icon,
+      ascDesc: order,
     });
   }
 
   render() {
-    const { headerData, sort } = this.props;
-    console.log(sort);
-    const { order, ascDesc } = this.state;
-    console.log(order, ascDesc);
+    const { headerData, sorted, sortData } = this.props;
+    const { order } = this.state;
     return (
       <thead>
         <tr>
@@ -32,10 +33,10 @@ class TableHeader extends React.Component {
               {title}
               <button
                 type="button"
-                disabled={sort}
+                disabled={sorted.column}
                 onClick={() => (order === '▲'
-                  ? this.changeOrder('▼', 'DESC', title)
-                  : this.changeOrder('▲', 'ASC', title)
+                  ? this.changeOrder('▼', 'DESC', title, sortData)
+                  : this.changeOrder('▲', 'ASC', title, sortData)
                 )}
               >
                 {order}
@@ -50,20 +51,20 @@ class TableHeader extends React.Component {
 
 TableHeader.propTypes = {
   headerData: propTypes.arrayOf(propTypes.string).isRequired,
+  sorted: propTypes.objectOf(propTypes.string).isRequired,
+  sortData: propTypes.func.isRequired,
 };
 
 const mapStateToProps = ({
   allReducer: {
-    sort,
+    sorted,
   },
 }) => ({
-  sort,
+  sorted,
 });
 
-// const mapDispatchToProps = (dispatch) => ({
-//   sortData: dispatch(orderedPlanets())
-// });
+const mapDispatchToProps = (dispatch) => ({
+  sortData: (column, ascDesc) => dispatch(orderedPlanets(column, ascDesc)),
+});
 
-export default connect(mapStateToProps, null)(TableHeader);
-
-// export default TableHeader;
+export default connect(mapStateToProps, mapDispatchToProps)(TableHeader);

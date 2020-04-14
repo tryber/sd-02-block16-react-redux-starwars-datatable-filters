@@ -65,6 +65,11 @@ export const eraseNumberFilter = (filter, numericValues) => {
   };
 };
 
+export const orderedPlanets = (columnSort, value) => ({
+  type: SORT_COLUMN,
+  toSort: { column: columnSort, order: value },
+});
+
 const apiReturn = () => (
   (dispatch) => {
     dispatch(requestSwapi());
