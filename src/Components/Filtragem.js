@@ -9,7 +9,7 @@ import {
 import Filter from './Filter';
 
 function handleClick(filters) {
-  const filter = {
+  const newfilter = {
     numericValues: {
       name: '',
       condition: 'maior',
@@ -17,7 +17,7 @@ function handleClick(filters) {
     },
   };
   const coisa = filters;
-  coisa.push(filter);
+  coisa.push(newfilter);
   return {
     type: 'add',
     filters: coisa,
@@ -32,10 +32,12 @@ class Filtragem extends Component {
 
   filters() {
     const { filters } = this.props;
+    const coisa = [...filters];
+    coisa.shift();
     return (
       <div>
-        {filters.map((item, index) => (
-          <Filter key={uuid()} id={index} />
+        {coisa.map((item, index) => (
+          <Filter key={uuid()} id={index + 1} />
         ))}
       </div>
     );

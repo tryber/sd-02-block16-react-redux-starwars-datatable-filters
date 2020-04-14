@@ -26,7 +26,7 @@ class Filter extends Component {
       <div className="comp_filter_cont" name={id}>
         <button type="button" onClick={(e) => handle(e, id, filters)}>
           <i className="material-icons">
-              close
+            close
           </i>
         </button>
         <FilterByName id={id} />

@@ -45,6 +45,9 @@ const planetsDefault = {
 const filtersPropTypes = {
   filters: PropTypes.arrayOf(
     PropTypes.shape({
+      name: PropTypes.string,
+    }).isRequired,
+    PropTypes.shape({
       numericValues: PropTypes.shape({
         name: PropTypes.string,
         condition: PropTypes.string,
@@ -56,6 +59,9 @@ const filtersPropTypes = {
 
 const filtersDefault = {
   filters: [
+    {
+      name: '',
+    },
     {
       numericValues: {
         name: '',

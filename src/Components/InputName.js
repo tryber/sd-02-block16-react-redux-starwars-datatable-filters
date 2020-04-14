@@ -2,24 +2,30 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import {
+  filtersPropTypes, filtersDefault,
+} from './PropTypes';
 import './input.css';
 
-function handleChange(e) {
+function handleChange(e, filters) {
+  const coisa = filters;
+  coisa[0].name = e.target.value;
   return {
-    type: 'InputName',
-    value: e.target.value,
+    type: 'Name',
+    filters: coisa,
   };
 }
 
 class InputName extends Component {
   render() {
     const {
-      handle, input,
+      handle, filters,
     } = this.props;
+    const { name } = filters;
     return (
       <div className="comp_input">
         <p>Nome planeta: </p>
-        <input type="text" value={input} onChange={(e) => handle(e)} />
+        <input type="text" value={name} onChange={(e) => handle(e, filters)} />
       </div>
     );
   }
@@ -27,16 +33,20 @@ class InputName extends Component {
 
 
 const mapStateToProps = (state) => ({
-  input: state.input.name,
+  filters: state.filter.filters,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handle: (e) => dispatch(handleChange(e)),
+  handle: (e, filters) => dispatch(handleChange(e, filters)),
 });
 
 InputName.propTypes = {
   handle: PropTypes.func.isRequired,
-  input: PropTypes.string.isRequired,
+  filters: filtersPropTypes.filters,
+};
+
+InputName.defaultProps = {
+  filters: filtersDefault,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputName);

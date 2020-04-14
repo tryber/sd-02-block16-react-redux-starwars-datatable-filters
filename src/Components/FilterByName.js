@@ -36,7 +36,7 @@ class FilterByName extends Component {
     const { filters, id } = this.props;
     const filtersSelected = [];
     for (let i = 0; i < filters.length; i += 1) {
-      const { name } = filters[i].numericValues;
+      const { name } = filters[id].numericValues;
       filtersSelected.push(name);
     }
     let arr = [

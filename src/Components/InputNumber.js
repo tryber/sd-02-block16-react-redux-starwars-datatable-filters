@@ -17,21 +17,16 @@ function handleChange(e, id, filters) {
 }
 
 class InputNumber extends Component {
-  constructor(props) {
-    super(props);
-    this.id = props.id;
-  }
-
   render() {
-    const { filters, handle } = this.props;
-    const { input } = filters[this.id].numericValues;
+    const { filters, handle, id } = this.props;
+    const { input } = filters[id].numericValues;
     return (
       <div className="comp_input">
         <p>Quantidade: </p>
         <input
           type="text"
           value={input}
-          onChange={(e) => handle(e, this.id, filters)}
+          onChange={(e) => handle(e, id, filters)}
         />
       </div>
     );

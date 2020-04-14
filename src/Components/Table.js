@@ -80,18 +80,21 @@ class Table extends Component {
   }
 
   planetName(planets) {
-    const { inputName } = this.props;
-    switch (inputName) {
+    const { filters } = this.props;
+    const { name } = filters[0];
+    switch (name) {
       case '':
         return planets;
       default:
-        return planets.filter((planet) => planet.name.includes(inputName));
+        return planets.filter((planet) => planet.name.includes(name));
     }
   }
 
   inputNumbers(planets) {
     const { filters } = this.props;
-    return filters.reduce((acc, filter) => inputNumber(filter, acc), planets);
+    const coisa = [...filters];
+    coisa.shift();
+    return coisa.reduce((acc, filter) => inputNumber(filter, acc), planets);
   }
 
   byOrder(planets) {
@@ -114,9 +117,10 @@ class Table extends Component {
           {theadRender(planets)}
         </thead>
         <tbody>
-          {this.byOrder(this.inputNumbers(this.planetName(planets))).map((planet) => (
-            tbodyRender(planet)
-          ))}
+          {this.byOrder(this.inputNumbers(this.planetName(planets)))
+            .map((planet) => (
+              tbodyRender(planet)
+            ))}
         </tbody>
       </table>
     );
@@ -127,7 +131,6 @@ Table.propTypes = {
   planets: planetsPropTypes.planets,
   filters: filtersPropTypes.filters,
   order: orderPropTypes.order,
-  inputName: PropTypes.string,
   requestApi: PropTypes.func.isRequired,
 };
 
@@ -135,13 +138,11 @@ Table.defaultProps = {
   planets: planetsDefault,
   filters: filtersDefault,
   order: orderDefault,
-  inputName: '',
 };
 
 const mapStateToProps = (state) => ({
   planets: state.data.planets,
   filters: state.filter.filters,
-  inputName: state.input.name,
   order: state.filter.order,
 });
 

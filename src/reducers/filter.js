@@ -2,6 +2,9 @@
 const INITIAL_STATE = {
   filters: [
     {
+      name: '',
+    },
+    {
       numericValues: {
         name: 'population',
         condition: 'maior',
@@ -15,7 +18,7 @@ const INITIAL_STATE = {
   },
 };
 
-const types = ['FilterByName', 'InputNumber', 'FilterByCondition', 'add', 'delete'];
+const types = ['FilterByName', 'InputNumber', 'FilterByCondition', 'add', 'delete', 'Name'];
 
 export default (state = INITIAL_STATE, action) => {
   function returnState() {

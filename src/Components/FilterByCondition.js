@@ -58,7 +58,6 @@ const mapStateToProps = (state) => ({
   filters: state.filter.filters,
 });
 
-
 FilterByCondition.propTypes = {
   filters: filtersPropTypes.filters,
   id: PropTypes.number.isRequired,
