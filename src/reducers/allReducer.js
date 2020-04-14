@@ -5,6 +5,7 @@ import {
   FILTER_PLANETS_WITH_NAME,
   FILTER_NUMBERS,
   REMOVE_NUMERIC_FILTER,
+  ERASE_SORT
 } from '../actions';
 
 const columns = [
@@ -33,7 +34,7 @@ const INITIAL_STATE = ({
   filtersToShow: [],
   name: '',
   numericValues: [],
-  order: ordered,
+  sorted: ordered,
 });
 
 const allReducer = (state = INITIAL_STATE, action) => {
@@ -43,7 +44,6 @@ const allReducer = (state = INITIAL_STATE, action) => {
         ...state,
         isFetching: true,
       };
-
     case REQUEST_SWAPI_SUCCESS:
       return {
         ...state,
@@ -51,21 +51,18 @@ const allReducer = (state = INITIAL_STATE, action) => {
         planetsData: action.data.results,
         filteredData: action.data.results,
       };
-
     case REQUEST_SWAPI_FAILURE:
       return {
         ...state,
         isFetching: false,
         error: action.error,
       };
-
     case FILTER_PLANETS_WITH_NAME:
       return {
         ...state,
         name: action.name,
         filteredData: action.filterData,
       };
-
     case FILTER_NUMBERS:
       return {
         ...state,
@@ -81,7 +78,11 @@ const allReducer = (state = INITIAL_STATE, action) => {
         numericValues: newFilters(action.filters, action.index),
         columnsSelect: [...state.columnsSelect, action.column],
       };
-
+    case ERASE_SORT:
+      return {
+        ...state,
+        sorted: action.value,
+      };
     default: return state;
   }
 };

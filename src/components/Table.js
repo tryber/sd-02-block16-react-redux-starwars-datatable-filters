@@ -73,9 +73,7 @@ class Table extends React.Component {
       return <Loading />;
     }
 
-    const haveFilters = numericValues.length > 0
-      ? filterReturn(numericValues, filteredData)
-      : filteredData;
+    const haveFilters = filterReturn(numericValues, filteredData);
 
     return (
       <div className="allTable">
@@ -85,7 +83,7 @@ class Table extends React.Component {
         />
         <ReturnFilters />
         <table>
-          {TableHeader(tableTitle)}
+          <TableHeader headerData={tableTitle} />
           {TableBody(haveFilters)}
         </table>
       </div>

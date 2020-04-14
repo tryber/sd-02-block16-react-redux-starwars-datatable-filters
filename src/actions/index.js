@@ -6,12 +6,14 @@ export const REQUEST_SWAPI_FAILURE = 'REQUEST_SWAPI_FAILURE';
 export const FILTER_PLANETS_WITH_NAME = 'FILTER_PLANETS_WITH_NAME';
 export const FILTER_NUMBERS = 'FILTER_PLANETS';
 export const REMOVE_NUMERIC_FILTER = 'REMOVE_NUMERIC_FILTER';
+export const SORT_COLUMN = 'SORT_COLUMN';
+export const ERASE_SORT = 'ERASE_SORT';
 
 const filterFunction = (planetsData, userValue) => (
   planetsData.filter((planet) => (
     planet.name.toLowerCase().includes(userValue.toLowerCase())
-  )));
-
+  ))
+);
 
 const returnIndex = (column, columns) => {
   const arrayColumns = [...columns];
@@ -44,6 +46,11 @@ export const filterNumbers = (column, comparison, value, columns) => ({
   column,
   columns,
   index: returnIndex(column, columns),
+});
+
+export const eraseSortedFilter = () => ({
+  type: ERASE_SORT,
+  value: {},
 });
 
 export const eraseNumberFilter = (filter, numericValues) => {

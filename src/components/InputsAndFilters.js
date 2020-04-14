@@ -41,7 +41,13 @@ class InputsAndFilters extends React.Component {
 
   handleSubmit(dispatchNumberFilter, columns) {
     const { column, comparison, value } = this.state;
-    dispatchNumberFilter(column, comparison, value, columns);
+    const condition = column.length <= 0 || comparison.length <= 0 || value <= 0
+      ? alert('Fill the fields to continue')
+      : dispatchNumberFilter(column, comparison, value, columns);
+    this.setState({
+      column: '',
+    });
+    return condition;
   }
 
   NumberInput() {

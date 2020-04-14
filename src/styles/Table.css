@@ -11,7 +11,7 @@ table {
   border-top: 0.1vh solid black;
 }
 
-tr , td , th {
+tr, td, th {
   border-bottom: 0.1vh solid black;
   border-left: 0.1vw solid black;
   border-right: 0.1vw solid black;
