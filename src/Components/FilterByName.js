@@ -36,7 +36,7 @@ class FilterByName extends Component {
     const { filters, id } = this.props;
     const filtersSelected = [];
     for (let i = 0; i < filters.length; i += 1) {
-      const { name } = filters[id].numericValues;
+      const { name } = filters[id + 2].numericValues;
       filtersSelected.push(name);
     }
     let arr = [
@@ -51,7 +51,7 @@ class FilterByName extends Component {
     return (
       <div className="list" ref={this.list}>
         {arr.map((item) => (
-          <Button key={item} name={item} id={id} type="FilterByName" />
+          <Button key={item} name={item} id={id + 2} type="FilterByName" />
         ))}
       </div>
     );
@@ -59,7 +59,7 @@ class FilterByName extends Component {
 
   render() {
     const { filters, id } = this.props;
-    const { name } = filters[id].numericValues;
+    const { name } = filters[id + 2].numericValues;
     return (
       <div className="comp_filter">
         <div className="container">

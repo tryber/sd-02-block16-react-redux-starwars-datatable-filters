@@ -7,8 +7,6 @@ import {
   planetsDefault,
   filtersPropTypes,
   filtersDefault,
-  orderPropTypes,
-  orderDefault,
 } from './PropTypes';
 import evento from '../action';
 import './style.css';
@@ -94,11 +92,13 @@ class Table extends Component {
     const { filters } = this.props;
     const coisa = [...filters];
     coisa.shift();
+    coisa.shift();
     return coisa.reduce((acc, filter) => inputNumber(filter, acc), planets);
   }
 
   byOrder(planets) {
-    const { order: { asc, name } } = this.props;
+    const { filters } = this.props;
+    const { order: { asc, name } } = filters[1];
     switch (asc) {
       case 'Asc':
         return planets.sort((a, b) => sortStringNumber(a, b, name, 1, -1));
@@ -130,20 +130,17 @@ class Table extends Component {
 Table.propTypes = {
   planets: planetsPropTypes.planets,
   filters: filtersPropTypes.filters,
-  order: orderPropTypes.order,
   requestApi: PropTypes.func.isRequired,
 };
 
 Table.defaultProps = {
   planets: planetsDefault,
   filters: filtersDefault,
-  order: orderDefault,
 };
 
 const mapStateToProps = (state) => ({
   planets: state.data.planets,
   filters: state.filter.filters,
-  order: state.filter.order,
 });
 
 

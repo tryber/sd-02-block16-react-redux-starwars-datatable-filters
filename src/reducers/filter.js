@@ -5,6 +5,12 @@ const INITIAL_STATE = {
       name: '',
     },
     {
+      order: {
+        name: '',
+        asc: '',
+      },
+    },
+    {
       numericValues: {
         name: 'population',
         condition: 'maior',
@@ -12,13 +18,17 @@ const INITIAL_STATE = {
       },
     },
   ],
-  order: {
-    name: '',
-    asc: '',
-  },
 };
 
-const types = ['FilterByName', 'InputNumber', 'FilterByCondition', 'add', 'delete', 'Name'];
+const types = [
+  'FilterByName',
+  'InputNumber',
+  'FilterByCondition',
+  'add',
+  'delete',
+  'Name',
+  'Order',
+];
 
 export default (state = INITIAL_STATE, action) => {
   function returnState() {
@@ -30,16 +40,6 @@ export default (state = INITIAL_STATE, action) => {
 
   if (types.some((type) => action.type === type)) {
     return returnState();
-  }
-
-  if (action.type === 'Order') {
-    return {
-      ...state,
-      order: {
-        ...state.action,
-        ...action.order,
-      },
-    };
   }
 
   return state;

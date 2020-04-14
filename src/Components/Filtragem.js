@@ -8,6 +8,7 @@ import {
 } from './PropTypes';
 import Filter from './Filter';
 
+
 function handleClick(filters) {
   const newfilter = {
     numericValues: {
@@ -34,10 +35,11 @@ class Filtragem extends Component {
     const { filters } = this.props;
     const coisa = [...filters];
     coisa.shift();
+    coisa.shift();
     return (
       <div>
         {coisa.map((item, index) => (
-          <Filter key={uuid()} id={index + 1} />
+          <Filter key={uuid()} id={index} />
         ))}
       </div>
     );

@@ -19,14 +19,14 @@ function handleChange(e, id, filters) {
 class InputNumber extends Component {
   render() {
     const { filters, handle, id } = this.props;
-    const { input } = filters[id].numericValues;
+    const { input } = filters[id + 2].numericValues;
     return (
       <div className="comp_input">
         <p>Quantidade: </p>
         <input
           type="text"
           value={input}
-          onChange={(e) => handle(e, id, filters)}
+          onChange={(e) => handle(e, id + 2, filters)}
         />
       </div>
     );

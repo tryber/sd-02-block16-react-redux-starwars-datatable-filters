@@ -54,6 +54,12 @@ const filtersPropTypes = {
         input: PropTypes.string,
       }).isRequired,
     }).isRequired,
+    PropTypes.shape({
+      order: PropTypes.shape({
+        name: PropTypes.string,
+        asc: PropTypes.string,
+      }),
+    }).isRequired,
   ),
 };
 
@@ -69,21 +75,13 @@ const filtersDefault = {
         input: undefined,
       },
     },
+    {
+      order: {
+        name: '',
+        asc: '',
+      },
+    },
   ],
-};
-
-const orderPropTypes = {
-  order: PropTypes.shape({
-    name: PropTypes.string,
-    asc: PropTypes.string,
-  }),
-};
-
-const orderDefault = {
-  order: {
-    name: '',
-    asc: '',
-  },
 };
 
 export {
@@ -91,6 +89,4 @@ export {
   planetsDefault,
   filtersPropTypes,
   filtersDefault,
-  orderPropTypes,
-  orderDefault,
 };

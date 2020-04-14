@@ -34,7 +34,7 @@ class FilterByCondition extends Component {
 
   render() {
     const { filters, id } = this.props;
-    const { condition } = filters[id].numericValues;
+    const { condition } = filters[id + 2].numericValues;
     return (
       <div className="comp_filter">
         <div className="container">
@@ -44,10 +44,10 @@ class FilterByCondition extends Component {
           <p>{condition}</p>
         </div>
         <div className="list" ref={this.ref2}>
-          <Button name="all" btn="all" id={id} type="FilterByCondition" />
-          <Button name="maior" btn="Maior que" id={id} type="FilterByCondition" />
-          <Button name="menor" btn="Menor que" id={id} type="FilterByCondition" />
-          <Button name="igual" btn="Igual a" id={id} type="FilterByCondition" />
+          <Button name="all" btn="all" id={id + 2} type="FilterByCondition" />
+          <Button name="maior" btn="Maior que" id={id + 2} type="FilterByCondition" />
+          <Button name="menor" btn="Menor que" id={id + 2} type="FilterByCondition" />
+          <Button name="igual" btn="Igual a" id={id + 2} type="FilterByCondition" />
         </div>
       </div>
     );

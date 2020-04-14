@@ -6,8 +6,9 @@ import {
   filtersPropTypes, filtersDefault,
 } from './PropTypes';
 
+
 function handleClick(e, id, filters, type) {
-  const coisa = filters;
+  const coisa = [...filters];
   switch (type) {
     case 'FilterByName':
       coisa[id].numericValues.name = e.target.name;

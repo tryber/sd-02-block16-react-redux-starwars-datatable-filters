@@ -2,16 +2,19 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import {
+  filtersPropTypes,
+  filtersDefault,
+} from './PropTypes';
 import './Dropdown.css';
 
 
-function actionName(e, order) {
+function actionName(e, filters) {
+  const coisa = [...filters];
+  coisa[1].order.name = e.target.outerText;
   return {
     type: 'Order',
-    order: {
-      ...order,
-      name: e.target.outerText,
-    },
+    filters: coisa,
   };
 }
 
@@ -24,10 +27,10 @@ class Dropdown extends Component {
   }
 
   clickHandle(e) {
-    const { order, dispatch } = this.props;
+    const { filters, dispatch } = this.props;
     this.selected.current.innerText = e.target.outerText;
     this.dropDonw();
-    dispatch(actionName(e, order));
+    dispatch(actionName(e, filters));
   }
 
   dropDonw() {
@@ -81,22 +84,16 @@ Dropdown.propTypes = {
   options: PropTypes.arrayOf(
     PropTypes.string.isRequired,
   ).isRequired,
-  order: PropTypes.shape({
-    name: PropTypes.string,
-    asc: PropTypes.string,
-  }),
+  filters: filtersPropTypes.filters,
   dispatch: PropTypes.func.isRequired,
 };
 
 Dropdown.defaultProps = {
-  order: {
-    name: '',
-    asc: '',
-  },
+  filters: filtersDefault,
 };
 
 const mapStateToProps = (state) => ({
-  order: state.filter.order,
+  filters: state.filter.filters,
   planets: state.data.planets,
 });
 

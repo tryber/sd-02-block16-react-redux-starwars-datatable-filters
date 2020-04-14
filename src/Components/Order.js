@@ -5,19 +5,19 @@ import PropTypes from 'prop-types';
 import {
   planetsPropTypes,
   planetsDefault,
-  orderPropTypes,
-  orderDefault,
+  filtersPropTypes,
+  filtersDefault,
 } from './PropTypes';
 import Dropdown from './Dropdown';
 import './filterBy.css';
 
-function actionAsc(e, order) {
+
+function actionAsc(e, filters) {
+  const coisa = [...filters];
+  coisa[1].order.asc = e.target.outerText;
   return {
     type: 'Order',
-    order: {
-      ...order,
-      asc: e.target.outerText,
-    },
+    filters: coisa,
   };
 }
 
@@ -29,14 +29,14 @@ class Order extends Component {
 
   render() {
     const {
-      handle, planets, order,
+      handle, planets, filters,
     } = this.props;
     return (
       <div className="comp_order">
         <div>
           <p>Order</p>
-          <button type="button" onClick={(e) => handle(e, order)}>Asc</button>
-          <button type="button" onClick={(e) => handle(e, order)}>Desc</button>
+          <button type="button" onClick={(e) => handle(e, filters)}>Asc</button>
+          <button type="button" onClick={(e) => handle(e, filters)}>Desc</button>
         </div>
         <Dropdown
           options={Object.keys(planets[0])}
@@ -47,23 +47,23 @@ class Order extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  order: state.filter.order,
+  filters: state.filter.filters,
   planets: state.data.planets,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handle: (e, order) => dispatch(actionAsc(e, order)),
+  handle: (e, filters) => dispatch(actionAsc(e, filters)),
 });
 
 Order.propTypes = {
   handle: PropTypes.func.isRequired,
   planets: planetsPropTypes.planets,
-  order: orderPropTypes.order,
+  filters: filtersPropTypes.filters,
 };
 
 Order.defaultProps = {
   planets: planetsDefault,
-  order: orderDefault,
+  filters: filtersDefault,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Order);
