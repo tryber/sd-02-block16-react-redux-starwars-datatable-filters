@@ -61,19 +61,25 @@ class InputsAndFilters extends React.Component {
     );
   }
 
+  SelectValue(columns) {
+    return (
+      <select
+        key="columnValue"
+        name="column"
+        onChange={(element) => this.setStateFunc(element.target)}
+      >
+        <option hidden>Select a Column</option>
+        {columns.map((column) => (
+          <option key={column} value={column}>{column}</option>
+        ))}
+      </select>
+    );
+  }
+
   filterNumbersComponent(columns, dispatchNumberFilter) {
     return (
       <div className="InputsAndFilters_selectors">
-        <select
-          key="columnValue"
-          name="column"
-          onChange={(element) => this.setStateFunc(element.target)}
-        >
-          <option hidden>Select a Column</option>
-          {columns.map((column) => (
-            <option key={column} value={column}>{column}</option>
-          ))}
-        </select>
+        {this.SelectValue(columns)}
         <select
           name="comparison"
           onChange={(element) => this.setStateFunc(element.target)}

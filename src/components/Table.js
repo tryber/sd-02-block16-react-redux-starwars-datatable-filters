@@ -82,10 +82,11 @@ class Table extends React.Component {
     const toTable = arrayFilters.length > 0 && sorted.column
       ? arrayFilters.sort((next, prev) => {
         const value = sorted.column.toLowerCase();
-        const nextColumn = next[value].toLowerCase();
-        const prevColumn = prev[value].toLowerCase();
+        console.log(value);
+        const nextColumn = next[value];
+        console.log(nextColumn);
+        const prevColumn = prev[value];
         isBigger = nextColumn > prevColumn ? 1 : -1;
-        console.log(sorted.order);
         return sorted.order === 'ASC'
           ? isBigger : isBigger * -1;
       })
