@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import uuid from 'react-uuid';
+import shortid from 'shortid';
 
 import {
   filtersPropTypes, filtersDefault,
@@ -36,10 +36,11 @@ class Filtragem extends Component {
     const coisa = [...filters];
     coisa.shift();
     coisa.shift();
+
     return (
       <div>
         {coisa.map((item, index) => (
-          <Filter key={uuid()} id={index} />
+          <Filter key={index} id={index} />
         ))}
       </div>
     );
