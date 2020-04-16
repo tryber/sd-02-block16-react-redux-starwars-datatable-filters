@@ -25,8 +25,6 @@ const tableTitle = [
   'URL',
 ];
 
-// Terminar esse sort
-
 const filterReturn = (numericValues, filteredData) => {
   let returnFiltered = filteredData;
   numericValues.forEach((filter) => {
@@ -57,6 +55,23 @@ const filterReturn = (numericValues, filteredData) => {
   return returnFiltered;
 };
 
+const allSort = (numericValues, filteredData, sorted) => {
+  const haveFilters = filterReturn(numericValues, filteredData, sorted);
+  const arrayFilters = haveFilters ? [...haveFilters] : [];
+  let isBigger = 0;
+  const isSorted = arrayFilters.length > 0 && sorted.column
+    ? arrayFilters.sort((next, prev) => {
+      const value = sorted.column.toLowerCase();
+      const nextColumn = next[value];
+      const prevColumn = prev[value];
+      isBigger = nextColumn > prevColumn ? 1 : -1;
+      return sorted.order === 'ASC'
+        ? isBigger : isBigger * -1;
+    })
+    : arrayFilters;
+  return isSorted;
+};
+
 class Table extends React.Component {
   componentDidMount() {
     const { initialRequisition } = this.props;
@@ -72,25 +87,9 @@ class Table extends React.Component {
       sorted,
     } = this.props;
 
-    if (isFetching) {
-      return <Loading />;
-    }
+    if (isFetching) return <Loading />;
 
-    const haveFilters = filterReturn(numericValues, filteredData, sorted);
-    const arrayFilters = haveFilters ? [...haveFilters] : [];
-    let isBigger = 0;
-    const toTable = arrayFilters.length > 0 && sorted.column
-      ? arrayFilters.sort((next, prev) => {
-        const value = sorted.column.toLowerCase();
-        console.log(value);
-        const nextColumn = next[value];
-        console.log(nextColumn);
-        const prevColumn = prev[value];
-        isBigger = nextColumn > prevColumn ? 1 : -1;
-        return sorted.order === 'ASC'
-          ? isBigger : isBigger * -1;
-      })
-      : arrayFilters;
+    const toTable = allSort(numericValues, filteredData, sorted);
 
     return (
       <div className="allTable">
