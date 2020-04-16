@@ -55,21 +55,17 @@ const filterReturn = (numericValues, filteredData) => {
   return returnFiltered;
 };
 
-const allSort = (numericValues, filteredData, sorted) => {
-  const haveFilters = filterReturn(numericValues, filteredData, sorted);
+const allSort = (sorted, haveFilters) => {
   const arrayFilters = haveFilters ? [...haveFilters] : [];
   let isBigger = 0;
-  const isSorted = arrayFilters.length > 0 && sorted.column
+  return arrayFilters.length > 0 && sorted.column
     ? arrayFilters.sort((next, prev) => {
       const value = sorted.column.toLowerCase();
-      const nextColumn = next[value];
-      const prevColumn = prev[value];
-      isBigger = nextColumn > prevColumn ? 1 : -1;
+      isBigger = next[value] > prev[value] ? 1 : -1;
       return sorted.order === 'ASC'
         ? isBigger : isBigger * -1;
     })
     : arrayFilters;
-  return isSorted;
 };
 
 class Table extends React.Component {
@@ -89,7 +85,8 @@ class Table extends React.Component {
 
     if (isFetching) return <Loading />;
 
-    const toTable = allSort(numericValues, filteredData, sorted);
+    const haveFilters = filterReturn(numericValues, filteredData);
+    const toTable = allSort(sorted, haveFilters);
 
     return (
       <div className="allTable">
