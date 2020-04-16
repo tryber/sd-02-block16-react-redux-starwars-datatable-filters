@@ -4,6 +4,24 @@ import propTypes from 'prop-types';
 import { eraseNumberFilter, eraseSortedFilter } from '../actions';
 import '../styles/ReturnFilters.css';
 
+const sortReturn = (sorted, eraseSorted) => (
+  <div>
+    {sorted.column
+      ? (
+        <div className="Return_Filters-sort">
+          <p className="Return_Filter-text">{`${sorted.column} | ${sorted.order}`}</p>
+          <button
+            className="Return_Filter-button"
+            type="button"
+            onClick={() => eraseSorted()}
+          >
+            X
+          </button>
+        </div>
+      ) : <p>No Sorted</p>}
+  </div>
+);
+
 class ReturnFilters extends React.Component {
   render() {
     const {
@@ -30,19 +48,7 @@ class ReturnFilters extends React.Component {
             </button>
           </div>
         ))}
-        {sorted.column
-          ? (
-            <div className="Return_Filters-sort">
-              <p className="Return_Filter-text">{`${sorted.column} | ${sorted.order}`}</p>
-              <button
-                className="Return_Filter-button"
-                type="button"
-                onClick={() => eraseSorted()}
-              >
-                X
-              </button>
-            </div>
-          ) : <p>No Sorted</p>}
+        {sortReturn(sorted, eraseSorted)}
       </div>
     );
   }
