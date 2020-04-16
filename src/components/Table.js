@@ -25,6 +25,8 @@ const tableTitle = [
   'URL',
 ];
 
+// Terminar esse sort
+
 const filterReturn = (numericValues, filteredData) => {
   let returnFiltered = filteredData;
   numericValues.forEach((filter) => {
@@ -67,13 +69,27 @@ class Table extends React.Component {
       isFetching,
       filteredData,
       numericValues,
+      sorted,
     } = this.props;
 
     if (isFetching) {
       return <Loading />;
     }
 
-    const haveFilters = filterReturn(numericValues, filteredData);
+    const haveFilters = filterReturn(numericValues, filteredData, sorted);
+    const arrayFilters = haveFilters ? [...haveFilters] : [];
+    let isBigger = 0;
+    const toTable = arrayFilters.length > 0 && sorted.column
+      ? arrayFilters.sort((next, prev) => {
+        const value = sorted.column.toLowerCase();
+        const nextColumn = next[value].toLowerCase();
+        const prevColumn = prev[value].toLowerCase();
+        isBigger = nextColumn > prevColumn ? 1 : -1;
+        console.log(sorted.order);
+        return sorted.order === 'ASC'
+          ? isBigger : isBigger * -1;
+      })
+      : arrayFilters;
 
     return (
       <div className="allTable">
@@ -84,7 +100,7 @@ class Table extends React.Component {
         <ReturnFilters />
         <table>
           <TableHeader headerData={tableTitle} />
-          {TableBody(haveFilters)}
+          {TableBody(toTable)}
         </table>
       </div>
     );
@@ -99,6 +115,7 @@ const mapStateToProps = (
       filteredData,
       filters,
       numericValues,
+      sorted,
     },
   },
 ) => ({
@@ -107,6 +124,7 @@ const mapStateToProps = (
   planetsData,
   filteredData,
   numericValues,
+  sorted,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -125,6 +143,7 @@ Table.propTypes = {
   initialRequisition: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
   numericValues: PropTypes.arrayOf(PropTypes.object).isRequired,
+  sorted: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 
 Table.defaultProps = {
