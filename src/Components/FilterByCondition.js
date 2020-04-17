@@ -21,6 +21,9 @@ class FilterByCondition extends Component {
     this.ref.current.addEventListener('click', () => {
       this.dropDown();
     });
+    this.ref2.current.addEventListener('click', () => {
+      this.drop();
+    });
   }
 
   dropDown() {

@@ -10,7 +10,7 @@ import FilterByCondition from './FilterByCondition';
 import InputNumber from './InputNumber';
 
 
-function handleClick(e, id, filters) {
+function handleClick(id, filters) {
   const coisa = filters;
   coisa.splice(id, 1);
   return {
@@ -24,7 +24,7 @@ class Filter extends Component {
     const { id, handle, filters } = this.props;
     return (
       <div className="comp_filter_cont" name={id}>
-        <button type="button" onClick={(e) => handle(e, id, filters)}>
+        <button type="button" onClick={() => handle(id, filters)}>
           <i className="material-icons">
             close
           </i>

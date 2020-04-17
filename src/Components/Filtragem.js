@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import shortid from 'shortid';
 
 import {
   filtersPropTypes, filtersDefault,
@@ -9,10 +8,10 @@ import {
 import Filter from './Filter';
 
 
-function handleClick(filters) {
+function handleClick(filters, tag) {
   const newfilter = {
     numericValues: {
-      name: '',
+      name: tag,
       condition: 'maior',
       input: undefined,
     },
@@ -22,6 +21,13 @@ function handleClick(filters) {
   return {
     type: 'add',
     filters: coisa,
+  };
+}
+
+function tagAction(tags) {
+  return {
+    type: 'tag',
+    tags,
   };
 }
 
@@ -40,18 +46,25 @@ class Filtragem extends Component {
     return (
       <div>
         {coisa.map((item, index) => (
-          <Filter key={index} id={index} />
+          <Filter key={item.numericValues.name} id={index} />
         ))}
       </div>
     );
   }
 
+  handle(filters) {
+    const { dispatch, tags } = this.props;
+    const tag = tags.pop();
+    dispatch(handleClick(filters, tag));
+    dispatch(tagAction(tags));
+  }
+
   render() {
-    const { handle, filters } = this.props;
+    const { filters } = this.props;
     return (
       <div className="comp_fitragem" ref={this.ref}>
         {this.filters()}
-        <button type="button" onClick={() => handle(filters)}>Adicionar filtro</button>
+        <button type="button" onClick={() => this.handle(filters)}>Adicionar filtro</button>
       </div>
     );
   }
@@ -59,19 +72,17 @@ class Filtragem extends Component {
 
 const mapStateToProps = (state) => ({
   filters: state.filter.filters,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  handle: (filters) => dispatch(handleClick(filters)),
+  tags: state.filterByName.tags,
 });
 
 Filtragem.propTypes = {
-  handle: PropTypes.func.isRequired,
   filters: filtersPropTypes.filters,
+  dispatch: PropTypes.func.isRequired,
+  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 Filtragem.defaultProps = {
   filters: filtersDefault,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Filtragem);
+export default connect(mapStateToProps)(Filtragem);

@@ -21,6 +21,9 @@ class FilterByName extends Component {
     this.ref.current.addEventListener('click', () => {
       this.drop();
     });
+    this.list.current.addEventListener('click', () => {
+      this.drop();
+    });
   }
 
   drop() {
@@ -33,25 +36,16 @@ class FilterByName extends Component {
   }
 
   renderList() {
-    const { filters, id } = this.props;
-    const filtersSelected = [];
-    for (let i = 0; i < filters.length; i += 1) {
-      const { name } = filters[id + 2].numericValues;
-      filtersSelected.push(name);
-    }
-    let arr = [
-      'population',
-      'orbital_period',
-      'diameter',
-      'rotation_period',
-      'surface_water',
-    ];
-    arr = arr.filter((item) => !filtersSelected.some((selected) => item === selected));
-
+    const { id, tags } = this.props;
     return (
       <div className="list" ref={this.list}>
-        {arr.map((item) => (
-          <Button key={item} name={item} id={id + 2} type="FilterByName" />
+        {tags.map((item) => (
+          <Button
+            key={item}
+            name={item}
+            id={id + 2}
+            type="FilterByName"
+          />
         ))}
       </div>
     );
@@ -76,11 +70,13 @@ class FilterByName extends Component {
 
 const mapStateToProps = (state) => ({
   filters: state.filter.filters,
+  tags: state.filterByName.tags,
 });
 
 FilterByName.propTypes = {
   filters: filtersPropTypes.filters,
   id: PropTypes.number.isRequired,
+  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 FilterByName.defaultProps = {

@@ -7,29 +7,62 @@ import {
 } from './PropTypes';
 
 
-function handleClick(e, id, filters, type) {
-  const coisa = [...filters];
-  switch (type) {
-    case 'FilterByName':
-      coisa[id].numericValues.name = e.target.name;
-      break;
-    case 'FilterByCondition':
-      coisa[id].numericValues.condition = e.target.name;
-      break;
-    default:
-      break;
-  }
+function filtersAction(filters, type) {
   return {
     type,
-    filters: coisa,
+    filters,
+  };
+}
+
+function tagAction(tags, tag, filters, id) {
+  const { numericValues: { name } } = filters[id];
+  const coisas = tags;
+  coisas.splice(coisas.indexOf(tag), 1);
+  coisas.push(name);
+  return {
+    type: 'filterByName',
+    tags: coisas,
   };
 }
 
 class Button extends Component {
+  handleClick(e, id, filters, type) {
+    const { name: tag } = e.target;
+    const { tags } = this.props;
+    this.filterSwitch(tag, id, filters, type, tags);
+  }
+
+  filterSwitch(tag, id, filters, type, tags) {
+    switch (type) {
+      case 'FilterByName':
+        this.filterByName(tag, id, filters, type, tags);
+        break;
+      case 'FilterByCondition':
+        this.filterByCondition(tag, id, filters, type);
+        break;
+      default:
+        break;
+    }
+  }
+
+  filterByName(tag, id, filters, type, tags) {
+    const { dispatch } = this.props;
+    dispatch(tagAction(tags, tag, filters, id));
+    const filters2 = filters;
+    filters2[id].numericValues.name = tag;
+    dispatch(filtersAction(filters2, type));
+  }
+
+  filterByCondition(tag, id, filters, type) {
+    const { dispatch } = this.props;
+    const filters2 = filters;
+    filters2[id].numericValues.condition = tag;
+    dispatch(filtersAction(filters2, type));
+  }
+
   render() {
     const {
       filters,
-      handle,
       name,
       type,
       id,
@@ -38,7 +71,7 @@ class Button extends Component {
       <button
         type="button"
         name={name}
-        onClick={(e) => handle(e, id, filters, type)}
+        onClick={(e) => this.handleClick(e, id, filters, type)}
       >
         {name}
       </button>
@@ -48,22 +81,21 @@ class Button extends Component {
 
 const mapStateToProps = (state) => ({
   filters: state.filter.filters,
+  tags: state.filterByName.tags,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  handle: (e, id, filters, type) => dispatch(handleClick(e, id, filters, type)),
-});
 
 Button.propTypes = {
-  handle: PropTypes.func.isRequired,
   filters: filtersPropTypes.filters,
   id: PropTypes.number.isRequired,
   type: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 Button.defaultProps = {
   filters: filtersDefault,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Button);
+export default connect(mapStateToProps)(Button);
