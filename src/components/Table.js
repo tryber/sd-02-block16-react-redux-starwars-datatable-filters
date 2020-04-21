@@ -1,5 +1,42 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import propTypes from 'prop-types';
+import PlanetsList from './PlanetsList';
+import { fetchSWPlanets } from '../actions/APIActions';
 
-const Table = () => <div>StarWars Datatable with Filters</div>;
+class Table extends React.Component {
+  componentDidMount() {
+    const { fetchApi } = this.props;
 
-export default Table;
+    fetchApi();
+  }
+
+  render() {
+    const { results, isFetching } = this.props;
+    console.log(results, isFetching);
+    if (isFetching) return <p>Loading...</p>;
+    return (
+      <PlanetsList />
+    );
+  }
+}
+
+const mapStateToProps = (state) => {
+  const { data: { isFetching, results } } = state;
+  return {
+    isFetching,
+    results,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchApi: () => dispatch(fetchSWPlanets()),
+});
+
+Table.propTypes = {
+  results: propTypes.instanceOf(Array).isRequired,
+  isFetching: propTypes.bool.isRequired,
+  fetchApi: propTypes.func.isRequired,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Table);
