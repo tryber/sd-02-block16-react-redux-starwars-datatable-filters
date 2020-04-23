@@ -12,13 +12,13 @@ class Table extends Component {
     const { column, comparison, value } = numericValues;
     const columnValue = (column !== '' && value !== '');
     if (comparison === 'more than' && columnValue) {
-      return array.filter((planet) => Number(planet[column]) > Number(value));
+      return array.filter((planet) => planet[column] > parseInt(value, 10));
     }
     if (comparison === 'less than' && columnValue) {
-      return array.filter((planet) => Number(planet[column]) < Number(value));
+      return array.filter((planet) => planet[column] < parseInt(value, 10));
     }
     if (comparison === 'equal to' && columnValue) {
-      return array.filter((planet) => Number(planet[column]) === Number(value));
+      return array.filter((planet) => planet[column] === parseInt(value, 10));
     }
     return array;
   }
@@ -103,12 +103,18 @@ class Table extends Component {
     const { importchangeOrder, sFilters, data } = this.props;
     const { column, order } = sFilters[0];
     if (order === 'ASC') {
-      data.sort((a, b) => (a[column] < b[column] ? 1 : -1));
+      if (column === 'terrain') {
+        data.sort((a, b) => (a[column] < b[column] ? 1 : -1));
+      }
+      data.sort((a, b) => (parseInt(a[column], 10) < parseInt(b[column], 10) ? 1 : -1));
     }
     if ((order === 'DESC')) {
-      data.sort((a, b) => (a[column] > b[column] ? 1 : -1));
+      if (column === 'terrain') {
+        data.sort((a, b) => (a[column] > b[column] ? 1 : -1));
+      }
+      data.sort((a, b) => (parseInt(a[column], 10) > parseInt(b[column], 10) ? 1 : -1));
     }
-    importchangeOrder(e.target.value);
+    importchangeOrder(e);
   }
 
   changeOrder(data) {
@@ -123,7 +129,7 @@ class Table extends Component {
               </option>
             ))}
         </select>
-        <button type="button" value={sFilters[0].order === 'ASC' ? 'DESC' : 'ASC'} onClick={(e) => this.changeOrderandState(e)}>Ascending/descending</button>
+        <button type="button" value={sFilters[0].order === 'ASC' ? 'DESC' : 'ASC'} onClick={(e) => this.changeOrderandState(e.target.value)}>Ascending/descending</button>
       </div>
     );
   }
