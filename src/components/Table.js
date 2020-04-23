@@ -102,18 +102,14 @@ class Table extends Component {
   changeOrderandState(e) {
     const { importchangeOrder, sFilters, data } = this.props;
     const { column, order } = sFilters[0];
-    if (order === 'ASC') {
-      if (column === 'terrain') {
-        data.sort((a, b) => (a[column] < b[column] ? 1 : -1));
-      }
-      data.sort((a, b) => (parseInt(a[column], 10) < parseInt(b[column], 10) ? 1 : -1));
+    if (order === 'ASC' && column === 'terrain') {
+      data.sort((a, b) => (a[column] < b[column] ? 1 : -1));
     }
-    if ((order === 'DESC')) {
-      if (column === 'terrain') {
-        data.sort((a, b) => (a[column] > b[column] ? 1 : -1));
-      }
-      data.sort((a, b) => (parseInt(a[column], 10) > parseInt(b[column], 10) ? 1 : -1));
+    data.sort((a, b) => (parseInt(a[column], 10) < parseInt(b[column], 10) ? 1 : -1));
+    if (order === 'ASC' && column === 'terrain') {
+      data.sort((a, b) => (a[column] > b[column] ? 1 : -1));
     }
+    data.sort((a, b) => (parseInt(a[column], 10) > parseInt(b[column], 10) ? 1 : -1));
     importchangeOrder(e);
   }
 
