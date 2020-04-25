@@ -102,14 +102,12 @@ class Table extends Component {
   changeOrderandState(e) {
     const { importchangeOrder, sFilters, data } = this.props;
     const { column, order } = sFilters[0];
-    if (order === 'ASC' && column === 'terrain') {
+    if (order === 'ASC') {
       data.sort((a, b) => (a[column] < b[column] ? 1 : -1));
     }
-    data.sort((a, b) => (parseInt(a[column], 10) < parseInt(b[column], 10) ? 1 : -1));
-    if (order === 'ASC' && column === 'terrain') {
+    if ((order === 'DESC')) {
       data.sort((a, b) => (a[column] > b[column] ? 1 : -1));
     }
-    data.sort((a, b) => (parseInt(a[column], 10) > parseInt(b[column], 10) ? 1 : -1));
     importchangeOrder(e);
   }
 
@@ -125,7 +123,7 @@ class Table extends Component {
               </option>
             ))}
         </select>
-        <button type="button" value={sFilters[0].order === 'ASC' ? 'DESC' : 'ASC'} onClick={(e) => this.changeOrderandState(e.target.value)}>Ascending/descending</button>
+        <button type="button" value={sFilters[0].order === 'ASC' ? 'DESC' : 'ASC'} onClick={(e) => this.changeOrderandState(e.target.value)}>{sFilters[0].order === 'ASC' ? 'Descending' : 'Ascending'}</button>
       </div>
     );
   }
