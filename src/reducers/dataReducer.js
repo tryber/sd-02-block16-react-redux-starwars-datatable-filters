@@ -15,7 +15,7 @@ const dataReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isLoading: false,
-        arrPlanetas: action.arrayPlanetas,
+        arrPlanetas: action.arrayPlanetas.sort((a, b) => (a.name > b.name ? 1 : -1 )),
       };
     case 'ERRO_NA_API':
       return {
