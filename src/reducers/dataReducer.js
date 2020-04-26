@@ -17,6 +17,12 @@ const dataReducer = (state = INITIAL_STATE, action) => {
         isLoading: false,
         arrPlanetas: action.arrayPlanetas,
       };
+    case 'ERRO_NA_API':
+      return {
+        ...state,
+        isLoading: false,
+        error: action.error,
+      };
     default:
       return state;
   }
