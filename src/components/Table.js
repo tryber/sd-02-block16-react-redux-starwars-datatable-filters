@@ -2,33 +2,23 @@ import React from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import PlanetsList from './PlanetsList';
+import THead from './THead';
+
+const filtrarPlanetasPorNome = (arrayPlanetas, texto) => (
+  arrayPlanetas.filter((planeta) => planeta.name.toUpperCase().includes(texto.toUpperCase()))
+);
 
 class Table extends React.Component {
   render() {
-    const { arrayPlanetas } = this.props;
+    const { arrayPlanetas, texto } = this.props;
+    const arrayFiltrado = filtrarPlanetasPorNome(arrayPlanetas, texto);
     return (
       <div>
         <PlanetsList />
         <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Rotation Period</th>
-              <th>Orbital Period</th>
-              <th>Diameter</th>
-              <th>Climate</th>
-              <th>Gravity</th>
-              <th>Terrain</th>
-              <th>Surface Water</th>
-              <th>Population</th>
-              <th>Films</th>
-              <th>Created</th>
-              <th>Edited</th>
-              <th>URL</th>
-            </tr>
-          </thead>
+          <THead />
           <tbody>
-            {arrayPlanetas.map((planet) => (
+            {arrayFiltrado.map((planet) => (
               <tr key={planet.name}>
                 <td>{planet.name}</td>
                 <td>{planet.rotation_period}</td>
@@ -54,6 +44,7 @@ class Table extends React.Component {
 
 const mapStateToProps = (state) => ({
   arrayPlanetas: state.data.arrPlanetas,
+  texto: state.filters[0].name,
 });
 
 Table.propTypes = {

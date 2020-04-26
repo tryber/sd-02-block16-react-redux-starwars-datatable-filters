@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import InputFilter from './components/InputFilter';
 import Table from './components/Table';
+import './App.css';
 
 class App extends React.Component {
   render() {
@@ -10,6 +12,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <header className="App-header">
+          <InputFilter />
           <Table />
         </header>
       </div>
