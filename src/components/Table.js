@@ -23,9 +23,10 @@ class Table extends Component {
     return array;
   }
 
-  static generateBody(data, text, filterCriteria) {
+  static generateBody(data, text, filters) {
+    console.log(data);
     let firstFilter = data;
-    filterCriteria.forEach((x) => { firstFilter = Table.numericFilters(firstFilter, x); });
+    filters.forEach((x) => { firstFilter = Table.numericFilters(firstFilter, x); });
     return (
       firstFilter
         .filter(({ name }) => name.toLowerCase().includes(text.toLowerCase()))
@@ -40,7 +41,7 @@ class Table extends Component {
         )));
   }
 
-  static generateTable(loadInfo, data, failLoad, filtered, text, filterCriteria) {
+  static generateTable(loadInfo, data, failLoad, filtered, text, filters) {
     if (!loadInfo && data) {
       return (
         <table>
@@ -52,8 +53,8 @@ class Table extends Component {
             </tr>
           </thead>
           {!filtered
-            ? Table.generateBody(data, text, filterCriteria)
-            : Table.generateBody(filtered, text, filterCriteria)}
+            ? Table.generateBody(data, text, filters)
+            : Table.generateBody(filtered, text, filters)}
         </table>
       );
     }
@@ -127,7 +128,6 @@ class Table extends Component {
       Table.sortNumbers(data, column, order);
     }
     importchangeOrder(e);
-    console.log(data);
     return data;
   }
 

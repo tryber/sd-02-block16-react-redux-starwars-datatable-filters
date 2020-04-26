@@ -15,7 +15,7 @@ const APIreducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        data: action.data.results,
+        data: action.data.results.sort((a, b) => (a.name > b.name ? 1 : -1)),
       };
     case GET_PLANETS_FAILURE:
       return {
