@@ -31,11 +31,11 @@ function resultPlanet(state, action) {
   };
 }
 
-function resultFilterType(state, action) {
+function resultNumericValues(state, action) {
   return {
     ...state,
-    dataMock: action.dataMock,
-    dataMockFilter: action.dataMockFilter,
+    filters: 
+    action.numericValues,
   };
 }
 
@@ -71,8 +71,8 @@ export default function reduce(state = initialState, action) {
       return resultFalse(state, action);
     case types.RESULT_PLANET:
       return resultPlanet(state, action);
-    case types.RESULT_FILTER_TYPE:
-      return resultFilterType(state, action);
+    case types.RESULT_NUMERIC_VALUES:
+      return resultNumericValues(state, action);
     case types.RESULT_DATA_FILTERED:
       return resultPlanetFiltered(state, action);
     case types.RESULT_ALL_FILTERS:

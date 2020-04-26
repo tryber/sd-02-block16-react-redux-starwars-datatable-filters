@@ -11,7 +11,7 @@ class Celltable extends Component {
       return (<CellFiltered />);
     }
     return (
-      results.map((result) => (
+      results.sort((a, b) => a.name < b.name ? -1 : 1).map((result) => (
         <tbody key={result.name}>
           <tr>
             {Object.values(result).map((item, index) => {

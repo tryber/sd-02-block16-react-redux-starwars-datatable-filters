@@ -7,7 +7,7 @@ class CellFiltered extends Component {
   render() {
     const { dataMockFilter } = this.props;
     return (
-      dataMockFilter.results.map((element) => (
+      dataMockFilter.results.sort((a, b) => a.name < b.name ? -1 : 1).map((element) => (
         <tbody key={element.name}>
           <tr>
             {Object.values(element).map((item, index) => {

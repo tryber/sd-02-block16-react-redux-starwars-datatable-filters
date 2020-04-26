@@ -6,6 +6,7 @@ import planetAction from '../store/planetAction';
 import HeadTable from './Headtable';
 import Celltable from './Celltable';
 import dispatchAllFilters from '../store/allFilters';
+import filtersRemove from '../store/removeAction';
 import './Table.css';
 
 const filterPlanet = (e, dataPlanet, dataMock, dataMockFilterOn, data) => {
@@ -21,10 +22,10 @@ class Table extends Component {
       condition: '',
       name: '',
       value: 0,
-      popOn: false,
-      orbOn: false,
+      popuOn: false,
+      orbiOn: false,
       diamOn: false,
-      rotOn: false,
+      rotaOn: false,
       surfOn: false,
     };
     this.handleChange = this.handleChange.bind(this);
@@ -32,6 +33,7 @@ class Table extends Component {
     this.changeBoolean = this.changeBoolean.bind(this);
     this.callFilters = this.callFilters.bind(this);
     this.inputNumber = this.inputNumber.bind(this);
+    this.removeFilter = this.removeFilter.bind(this);
   }
 
   componentDidMount() {
@@ -40,7 +42,8 @@ class Table extends Component {
   }
 
   selecDropDown() {
-    const { popOn, orbOn, diamOn, rotOn, surfOn } = this.state;
+    const { popuOn, orbiOn, diamOn, rotaOn, surfOn } = this.state;
+    const arrDrop = ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
     return (
       <form>
         <label htmlFor="filterType">
@@ -51,21 +54,11 @@ class Table extends Component {
             onClick={(e) => this.changeBoolean(e.target.options[e.target.selectedIndex])}
           >
             <option value="" name="choose" hidden>Choose Option</option>
-            <option value="population" name="popOn" hidden={popOn ? 'none' : ''}>
-              population
-            </option>
-            <option value="orbital_period" name="orbOn" hidden={orbOn ? 'none' : ''}>
-              orbital_period
-            </option>
-            <option value="diameter" name="diamOn" hidden={diamOn ? 'none' : ''}>
-              diameter
-            </option>
-            <option value="rotation_period" name="rotOn" hidden={rotOn ? 'none' : ''}>
-              rotation_period
-            </option>
-            <option value="surface_water" name="surfOn" hidden={surfOn ? 'none' : ''}>
-              surface_water
-            </option>
+            {
+              arrDrop.map((arr) => (
+                <option key={arr} value={arr} name={arr.slice(0,4) + 'On'} hidden={(arr.slice(0,4) + 'On' ? '': 'none')}>{arr}</option>
+              ))
+            }
           </select>
         </label>
       </form>
@@ -82,7 +75,7 @@ class Table extends Component {
             onChange={(e) =>
             this.handleChange(e.target)}
           >
-            <option value="" name="choose" hidden>Choose Option</option>
+            <option value="" hidden>Choose Option</option>
             <option value="Maior que">Maior que</option>
             <option value="Menor que">Menor que</option>
             <option value="Igual a">Igual a</option>
@@ -101,7 +94,7 @@ class Table extends Component {
     const { column, condition, value, name } = this.state;
     const { updateAllFilters } = this.props;
     this.setState({
-      [name]: true,
+      [name]: true ,
       column: '',
     });
     updateAllFilters(column, condition, value, data);
@@ -112,6 +105,16 @@ class Table extends Component {
     this.setState({ [name]: value });
   }
 
+  removeFilter(filter, name) {
+    const { numericValues: { column, condition, value } } = filter;
+    const { updateRemoveFilters, dataMock } = this.props;
+    updateRemoveFilters(column, condition, value, dataMock);
+    this.setState({
+      [name]: false ,
+      column: '',
+    });
+  }
+
   callFilters(dataMockFilterOn) {
     const { filters } = this.props;
     if (dataMockFilterOn && filters) {
@@ -119,11 +122,18 @@ class Table extends Component {
         <div className="essa1">
           {filters.map((filter) => {
             const filtered = (filter.numericValues)
-            ? (<div className="essa2" key={filter.numericValues.column}>
-              <p>{filter.numericValues.column}</p>
-              <p>{filter.numericValues.condition}</p>
-              <p>{filter.numericValues.value}</p>
-              <button>X</button>
+            ? (<div
+                className="essa2"
+                key={filter.numericValues.column}
+              >
+              <div>{filter.numericValues.column}</div>
+              <div>{filter.numericValues.condition}</div>
+              <div>{filter.numericValues.value}</div>
+              <button
+                onClick={() => 
+                  this.removeFilter(filter, filter.numericValues.column.slice(0,4) + 'On')}
+              >X
+              </button>
             </div>)
             : '';
             return filtered;
@@ -192,6 +202,8 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(planetAction(planet, dataMock, dataMockFilterOn, data)),
   updateAllFilters: (column, condition, value, data) =>
     dispatch(dispatchAllFilters(column, condition, value, data)),
+  updateRemoveFilters: (column, condition, value, dataMock) =>
+    dispatch(filtersRemove(column, condition, value, dataMock)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Table);
@@ -199,6 +211,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(Table);
 Table.propTypes = {
   dataAPI: PropTypes.func.isRequired,
   dataPlanet: PropTypes.func.isRequired,
+  updateRemoveFilters: PropTypes.func.isRequired,
   updateAllFilters: PropTypes.func.isRequired,
   onLoad: PropTypes.bool.isRequired,
   data: PropTypes.instanceOf(Object).isRequired,

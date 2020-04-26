@@ -33,16 +33,6 @@ function updateDataMock(results) {
   };
 }
 
-// function verifyFilterStore(result, filterStore) {
-//   for (let i = 0; filterStore.length > i; i += 1) {
-//     if (!verifyCondition(Number(result[filterStore[i].numericValues.column]),
-//                              filterStore[i].numericValues.condition,
-//                              Number(filterStore[i].numericValues.value))) {
-//       return false;
-//     }
-//   }
-// }
-
 const dispatchAllFilters = (column, condition, value, data) => (
   (dispatch) => {
     const dataMock = dispatchFilters(column, condition, value, data);
