@@ -61,6 +61,24 @@ class Table extends Component {
     return <div>Loading...</div>;
   }
 
+  static sortStrings(data, column, order) {
+    if (order === 'ASC') {
+      data.sort((a, b) => (a[column] < b[column] ? 1 : -1));
+    }
+    if ((order === 'DESC')) {
+      data.sort((a, b) => (a[column] > b[column] ? 1 : -1));
+    }
+  }
+
+  static sortNumbers(data, column, order) {
+    if (order === 'ASC') {
+      data.sort((a, b) => (parseInt(a[column], 10) < parseInt(b[column], 10) ? 1 : -1));
+    }
+    if ((order === 'DESC')) {
+      data.sort((a, b) => (parseInt(a[column], 10) > parseInt(b[column], 10) ? 1 : -1));
+    }
+  }
+
   constructor(props) {
     super(props);
     this.onChangeHandler = this.onChangeHandler.bind(this);
@@ -102,13 +120,15 @@ class Table extends Component {
   changeOrderandState(e) {
     const { importchangeOrder, sFilters, data } = this.props;
     const { column, order } = sFilters[0];
-    if (order === 'ASC') {
-      data.sort((a, b) => (a[column] < b[column] ? 1 : -1));
-    }
-    if ((order === 'DESC')) {
-      data.sort((a, b) => (a[column] > b[column] ? 1 : -1));
+    const arrayStrings = ['name', 'climate', 'gravity', 'terrain', 'films', 'url'];
+    if (arrayStrings.some((param) => param === column)) {
+      Table.sortStrings(data, column, order);
+    } else {
+      Table.sortNumbers(data, column, order);
     }
     importchangeOrder(e);
+    console.log(data);
+    return data;
   }
 
   changeOrder(data) {
