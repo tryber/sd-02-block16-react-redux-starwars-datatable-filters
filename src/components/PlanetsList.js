@@ -15,8 +15,10 @@ const fetchAPIDispatchsAssincronos = () => (
 
 class PlanetsList extends React.Component {
   componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch(fetchAPIDispatchsAssincronos());
+    if (!!this.props.arrayPlanetas && this.props.arrayPlanetas.length === 0) {
+      const { dispatch } = this.props;
+      dispatch(fetchAPIDispatchsAssincronos());
+    }
   }
 
   render() {
@@ -26,4 +28,6 @@ class PlanetsList extends React.Component {
   }
 }
 
-export default connect()(PlanetsList);
+export default connect((state) => ({
+  arrayPlanetas: state.data.arrPlanetas,
+}))(PlanetsList);

@@ -6,7 +6,6 @@ import PlanetsList from './PlanetsList';
 class Table extends React.Component {
   render() {
     const { arrayPlanetas } = this.props;
-    console.log(arrayPlanetas);
     return (
       <div>
         <PlanetsList />
