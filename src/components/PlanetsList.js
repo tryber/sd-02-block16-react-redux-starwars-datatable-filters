@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import propTypes from 'prop-types';
 import getPlanets from '../services/SWAPI';
 
 const fetchAPIDispatchsAssincronos = () => (
@@ -15,8 +16,8 @@ const fetchAPIDispatchsAssincronos = () => (
 
 class PlanetsList extends React.Component {
   componentDidMount() {
-    if (!!this.props.arrayPlanetas && this.props.arrayPlanetas.length === 0) {
-      const { dispatch } = this.props;
+    const { arrayPlanetas, dispatch } = this.props;
+    if (arrayPlanetas.length === 0) {
       dispatch(fetchAPIDispatchsAssincronos());
     }
   }
@@ -27,6 +28,11 @@ class PlanetsList extends React.Component {
     );
   }
 }
+
+PlanetsList.propTypes = {
+  dispatch: propTypes.func.isRequired,
+  arrayPlanetas: propTypes.instanceOf(Array).isRequired,
+};
 
 export default connect((state) => ({
   arrayPlanetas: state.data.arrPlanetas,

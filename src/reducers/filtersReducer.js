@@ -8,6 +8,8 @@ const filtersReducer = (state = INITIAL_STATE, action) => {
       return state.map((filtro, index) => (
         index !== 0 ? filtro : { name: action.texto }
       ));
+    case 'ADICIONAR_FILTRO':
+      return [...state, { numericValues: action.valoresNumericos }];
     default:
       return state;
   }

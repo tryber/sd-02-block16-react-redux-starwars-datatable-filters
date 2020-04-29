@@ -8,6 +8,20 @@ const filtrarPlanetasPorNome = (arrayPlanetas, texto) => (
   arrayPlanetas.filter((planeta) => planeta.name.toUpperCase().includes(texto.toUpperCase()))
 );
 
+function filtrarPorComparacao(arrayParaFiltrar, objectNumericValues) {
+  const { column, comparison, value } = objectNumericValues;
+  return arrayParaFiltrar.filter((objComCadaPlaneta) => {
+    if (objComCadaPlaneta[column] === 'unknown') return false;
+
+    switch (comparison) {
+      case 'Maior que': return Number(objComCadaPlaneta[column]) > Number(value);
+      case 'Menor que': return Number(objComCadaPlaneta[column]) < Number(value);
+      case 'Igual a': return Number(objComCadaPlaneta[column]) === Number(value);
+      default: return true;
+    }
+  });
+}
+
 class Table extends React.Component {
   render() {
     const { arrayPlanetas, texto } = this.props;
@@ -43,12 +57,14 @@ class Table extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
+  arrayNumericFilters: state.filters.slice(1).map((obj) => obj.numericValues),
   arrayPlanetas: state.data.arrPlanetas,
   texto: state.filters[0].name,
 });
 
 Table.propTypes = {
   arrayPlanetas: propTypes.instanceOf(Array).isRequired,
+  texto: propTypes.string.isRequired,
 };
 
 export default connect(mapStateToProps)(Table);
