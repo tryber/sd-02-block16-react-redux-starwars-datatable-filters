@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import InputFilter from './components/InputFilter';
+import OrdenadorDeColunas from './components/OrdenadorDeColunas';
 import FiltersDropdown from './components/FiltersDropdown';
 import ExibeDiv from './components/ExibeDiv';
 import Table from './components/Table';
@@ -16,6 +17,7 @@ class App extends React.Component {
       <div className="App">
         <header className="App-header">
           <InputFilter />
+          <OrdenadorDeColunas />
           <FiltersDropdown />
           <ExibeDiv />
           <Table />

@@ -33,11 +33,44 @@ function filtrarTodasAsComparacoes(arrPlanetsComFilDeNome, arrayNumericFilters) 
   return arrayPlanetasFiltrado;
 }
 
+const callbackParaSortName = (objPlanet1, objPlanet2) => (
+  objPlanet1.name > objPlanet2.name ? 1 : -1
+);
+
+const callbackParaSortNumeros = (objPlanet1, objPlanet2, column) => (
+  Number(objPlanet1[column]) > Number(objPlanet2[column]) ? 1 : -1
+);
+
+function ordenarArray(arrTodoFiltrado, objOrdenacao) {
+  const { column, order } = objOrdenacao;
+
+  const arrayOrdenado = arrTodoFiltrado;
+
+  if (column === 'name') {
+    arrayOrdenado.sort(
+      callbackParaSortName,
+    );
+  } else {
+    arrayOrdenado.sort(
+      (obj1, obj2) => callbackParaSortNumeros(obj1, obj2, column),
+    );
+  }
+
+  if (order === 'DESC') {
+    arrayOrdenado.reverse();
+  }
+
+  return arrayOrdenado;
+}
+
 class Table extends React.Component {
   render() {
-    const { arrayPlanetas, texto, arrayNumericFilters } = this.props;
+    const {
+      arrayPlanetas, texto, arrayNumericFilters, objOrdenacao,
+    } = this.props;
     const arrPlanetsComFilDeNome = filtrarPlanetasPorNome(arrayPlanetas, texto);
     const arrTodoFiltrado = filtrarTodasAsComparacoes(arrPlanetsComFilDeNome, arrayNumericFilters);
+    const arrayOrdenado = ordenarArray(arrTodoFiltrado, objOrdenacao);
 
     return (
       <div>
@@ -45,7 +78,7 @@ class Table extends React.Component {
         <table>
           <THead />
           <tbody>
-            {arrTodoFiltrado.map((planet) => (
+            {arrayOrdenado.map((planet) => (
               <tr key={planet.name}>
                 <td>{planet.name}</td>
                 <td>{planet.rotation_period}</td>
@@ -73,12 +106,14 @@ const mapStateToProps = (state) => ({
   arrayNumericFilters: state.filters.slice(1).map((obj) => obj.numericValues) || [],
   arrayPlanetas: state.data.arrPlanetas,
   texto: state.filters[0].name,
+  objOrdenacao: state.sort,
 });
 
 Table.propTypes = {
   arrayPlanetas: propTypes.instanceOf(Array).isRequired,
   arrayNumericFilters: propTypes.instanceOf(Array).isRequired,
   texto: propTypes.string.isRequired,
+  objOrdenacao: propTypes.instanceOf(Object).isRequired,
 };
 
 export default connect(mapStateToProps)(Table);

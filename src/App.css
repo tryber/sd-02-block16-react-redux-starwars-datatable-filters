@@ -26,6 +26,13 @@ body {
   width: 400px;
 }
 
+.filtros-show {
+  background-color: rgb( 220, 225, 230, 0.4 );
+  border: 1px solid black;
+  text-transform: capitalize;
+  width: 100%;
+}
+
 .App {
   text-align: center;
 }
