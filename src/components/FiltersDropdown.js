@@ -24,48 +24,60 @@ class FiltersDropdown extends React.Component {
     });
   }
 
-  renderDrowpdown(colunasRestantes, column, comparison, value) {
+  renderColumnDrowpdown(colunasRestantes, column) {
     return (
-      <section>
-        <div>
-          <select
-            defaultValue=""
-            value={column}
-            onChange={(event) => this.setState({ column: event.target.value })}
-          >
-            <option value="" disabled>Selecione uma coluna</option>
-            {colunasRestantes.map((coluna) => <option value={coluna}>{coluna}</option>)}
-          </select>
-        </div>
-
-        <div>
-          <select
-            defaultValue=""
-            value={comparison}
-            onChange={(event) => this.setState({ comparison: event.target.value })}
-          >
-            <option value="" disabled>Selecione uma comparação</option>
-            <option value="Maior que">Maior que</option>
-            <option value="Menor que">Menor que</option>
-            <option value="Igual a">Igual a</option>
-          </select>
-        </div>
-        <div>
-          <input
-            type="number"
-            value={value}
-            placeholder="Digite um número"
-            onChange={(event) => this.setState({ value: event.target.value })}
-          />
-        </div>
-        <button
-          type="button"
-          onClick={this.adicionaFiltro}
-          disabled={!(column && comparison && value)}
+      <div>
+        <select
+          defaultValue=""
+          value={column}
+          onChange={(event) => this.setState({ column: event.target.value })}
         >
-          Filtrar
-        </button>
-      </section>
+          <option value="" disabled>Selecione uma coluna</option>
+          {colunasRestantes.map((coluna) => <option value={coluna}>{coluna}</option>)}
+        </select>
+      </div>
+    );
+  }
+
+  renderComparisonDropdown(comparison) {
+    return (
+      <div>
+        <select
+          defaultValue=""
+          value={comparison}
+          onChange={(event) => this.setState({ comparison: event.target.value })}
+        >
+          <option value="" disabled>Selecione uma comparação</option>
+          <option value="Maior que">Maior que</option>
+          <option value="Menor que">Menor que</option>
+          <option value="Igual a">Igual a</option>
+        </select>
+      </div>
+    );
+  }
+
+  renderNumberComparison(value) {
+    return (
+      <div>
+        <input
+          type="number"
+          value={value}
+          placeholder="Digite um número"
+          onChange={(event) => this.setState({ value: event.target.value })}
+        />
+      </div>
+    );
+  }
+
+  renderComparButton(column, comparison, value) {
+    return (
+      <button
+        type="button"
+        onClick={this.adicionaFiltro}
+        disabled={!(column && comparison && value)}
+      >
+        Filtrar
+      </button>
     );
   }
 
@@ -89,7 +101,12 @@ class FiltersDropdown extends React.Component {
 
     return colunasRestantes.length !== 0 ? (
       <article>
-        {this.renderDrowpdown(colunasRestantes, column, comparison, value)}
+        <section className="comparisons">
+          {this.renderColumnDrowpdown(colunasRestantes, column)}
+          {this.renderComparisonDropdown(comparison)}
+          {this.renderNumberComparison(value)}
+          {this.renderComparButton(column, comparison, value)}
+        </section>
       </article>
     ) : null;
   }
