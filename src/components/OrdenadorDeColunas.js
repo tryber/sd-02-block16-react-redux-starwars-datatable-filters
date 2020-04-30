@@ -11,7 +11,7 @@ class OrdenadorDeColunas extends Component {
     return (
       <div>
         <label htmlFor="order">
-          Ordene alguma coluna:
+          <span className="order-text">Ordene alguma coluna:</span>
           <select
             defaultValue="name"
             onChange={(event) => dispatch({ type: 'ALTERAR_COLUNA_DE_ORDENAÇÃO', coluna: event.target.value })}

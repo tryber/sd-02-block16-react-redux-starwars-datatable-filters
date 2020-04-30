@@ -73,6 +73,7 @@ class FiltersDropdown extends React.Component {
     return (
       <button
         type="button"
+        className="filter-btn"
         onClick={this.adicionaFiltro}
         disabled={!(column && comparison && value)}
       >
