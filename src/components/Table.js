@@ -27,7 +27,6 @@ function filtrarTodasAsComparacoes(arrPlanetsComFilDeNome, arrayNumericFilters) 
 
   arrayNumericFilters.forEach((objectNumericValues, index) => {
     arrayPlanetasFiltrado = filtrarPorComparacao(arrayPlanetasFiltrado, objectNumericValues);
-    console.log(index, arrayPlanetasFiltrado)
   });
 
   // console.log('uhuhu', arrayPlanetasFiltrado)
@@ -39,7 +38,8 @@ class Table extends React.Component {
     const { arrayPlanetas, texto, arrayNumericFilters } = this.props;
     const arrPlanetsComFilDeNome = filtrarPlanetasPorNome(arrayPlanetas, texto);
     const arrFiltradoPorNums = filtrarPorComparacao(arrPlanetsComFilDeNome, arrayNumericFilters[0]);
-    const arrFiltradoCompletamente = filtrarTodasAsComparacoes(arrPlanetsComFilDeNome, arrayNumericFilters)
+    const arrFiltradoCompletamente = filtrarTodasAsComparacoes(arrPlanetsComFilDeNome, arrayNumericFilters);
+
     return (
       <div>
         <PlanetsList />

@@ -34,7 +34,8 @@ class FiltersDropdown extends React.Component {
       'surface_water'];
 
     const colunasRestantes = todasAsColunas.filter((coluna) => (
-      (arrayColunasJaSelecionadas.includes(coluna))? false : true
+      // !(arrayColunasJaSelecionadas.includes(coluna))
+      (arrayColunasJaSelecionadas.includes(coluna)) ? false : true
     ));
 
     const { column, comparison, value } = this.state;
@@ -47,7 +48,7 @@ class FiltersDropdown extends React.Component {
             onChange={(event) => this.setState({ column: event.target.value })}
           >
             <option value="" disabled>Selecione uma coluna</option>
-            {colunasDisponiveis.map((coluna) => <option value={coluna}>{coluna}</option>)}
+            {colunasRestantes.map((coluna) => <option value={coluna}>{coluna}</option>)}
           </select>
         </div>
 
