@@ -8,9 +8,9 @@ const filtrarPlanetasPorNome = (arrayPlanetas, texto) => (
   arrayPlanetas.filter((planeta) => planeta.name.toUpperCase().includes(texto.toUpperCase()))
 );
 
-function filtrarPorComparacao(arrayParaFiltrar, objectNumericValues) {
-  const { column, comparison, value } = objectNumericValues;
-  return arrayParaFiltrar.filter((objComCadaPlaneta) => {
+function filtrarPorComparacao(arrayPlanetasComFiltroDeNome, objFiltrosFiltrando) {
+  const { column, comparison, value } = objFiltrosFiltrando || {};
+  return arrayPlanetasComFiltroDeNome.filter((objComCadaPlaneta) => {
     if (objComCadaPlaneta[column] === 'unknown') return false;
 
     switch (comparison) {
@@ -24,15 +24,17 @@ function filtrarPorComparacao(arrayParaFiltrar, objectNumericValues) {
 
 class Table extends React.Component {
   render() {
-    const { arrayPlanetas, texto } = this.props;
-    const arrayFiltrado = filtrarPlanetasPorNome(arrayPlanetas, texto);
+    const { arrayPlanetas, texto, arrayNumericFilters } = this.props;
+    const arrayPlanetasComFiltroDeNome = filtrarPlanetasPorNome(arrayPlanetas, texto);
+    const arrayFiltradoPorNums = filtrarPorComparacao(arrayPlanetasComFiltroDeNome, arrayNumericFilters[0]);
+
     return (
       <div>
         <PlanetsList />
         <table>
           <THead />
           <tbody>
-            {arrayFiltrado.map((planet) => (
+            {arrayFiltradoPorNums.map((planet) => (
               <tr key={planet.name}>
                 <td>{planet.name}</td>
                 <td>{planet.rotation_period}</td>
@@ -57,13 +59,14 @@ class Table extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  arrayNumericFilters: state.filters.slice(1).map((obj) => obj.numericValues),
+  arrayNumericFilters: state.filters.slice(1).map((obj) => obj.numericValues) || [],
   arrayPlanetas: state.data.arrPlanetas,
   texto: state.filters[0].name,
 });
 
 Table.propTypes = {
   arrayPlanetas: propTypes.instanceOf(Array).isRequired,
+  arrayNumericFilters: propTypes.instanceOf(Array).isRequired,
   texto: propTypes.string.isRequired,
 };
 
