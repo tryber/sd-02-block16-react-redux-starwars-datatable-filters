@@ -24,12 +24,18 @@ class FiltersDropdown extends React.Component {
   }
 
   render() {
-    const colunasDisponiveis = [
+    const { arrayColunasJaSelecionadas } = this.props;
+
+    const todasAsColunas = [
       'population',
       'orbital_period',
       'diameter',
       'rotation_period',
       'surface_water'];
+
+    const colunasRestantes = todasAsColunas.filter((coluna) => (
+      (arrayColunasJaSelecionadas.includes(coluna))? false : true
+    ));
 
     const { column, comparison, value } = this.state;
     return (
@@ -78,8 +84,12 @@ class FiltersDropdown extends React.Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  arrayColunasJaSelecionadas: state.filters.slice(1).map((obj) => obj.numericValues.column),
+});
+
 FiltersDropdown.propTypes = {
   dispatch: propTypes.func.isRequired,
 };
 
-export default connect()(FiltersDropdown);
+export default connect(mapStateToProps)(FiltersDropdown);
