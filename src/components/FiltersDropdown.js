@@ -53,7 +53,7 @@ class FiltersDropdown extends React.Component {
           >
             <option value="" disabled>Selecione uma comparação</option>
             <option value="Maior que">Maior que</option>
-            <option value="Maior que">Menor que</option>
+            <option value="Menor que">Menor que</option>
             <option value="Igual a">Igual a</option>
           </select>
         </div>

@@ -8,9 +8,9 @@ const filtrarPlanetasPorNome = (arrayPlanetas, texto) => (
   arrayPlanetas.filter((planeta) => planeta.name.toUpperCase().includes(texto.toUpperCase()))
 );
 
-function filtrarPorComparacao(arrayPlanetasComFiltroDeNome, objFiltrosFiltrando) {
+function filtrarPorComparacao(arrPlanetsComFilDeNome, objFiltrosFiltrando) {
   const { column, comparison, value } = objFiltrosFiltrando || {};
-  return arrayPlanetasComFiltroDeNome.filter((objComCadaPlaneta) => {
+  return arrPlanetsComFilDeNome.filter((objComCadaPlaneta) => {
     if (objComCadaPlaneta[column] === 'unknown') return false;
 
     switch (comparison) {
@@ -22,19 +22,31 @@ function filtrarPorComparacao(arrayPlanetasComFiltroDeNome, objFiltrosFiltrando)
   });
 }
 
+function filtrarTodasAsComparacoes(arrPlanetsComFilDeNome, arrayNumericFilters) {
+  let arrayPlanetasFiltrado = arrPlanetsComFilDeNome;
+
+  arrayNumericFilters.forEach((objectNumericValues, index) => {
+    arrayPlanetasFiltrado = filtrarPorComparacao(arrayPlanetasFiltrado, objectNumericValues);
+    console.log(index, arrayPlanetasFiltrado)
+  });
+
+  // console.log('uhuhu', arrayPlanetasFiltrado)
+  return arrayPlanetasFiltrado;
+}
+
 class Table extends React.Component {
   render() {
     const { arrayPlanetas, texto, arrayNumericFilters } = this.props;
-    const arrayPlanetasComFiltroDeNome = filtrarPlanetasPorNome(arrayPlanetas, texto);
-    const arrayFiltradoPorNums = filtrarPorComparacao(arrayPlanetasComFiltroDeNome, arrayNumericFilters[0]);
-
+    const arrPlanetsComFilDeNome = filtrarPlanetasPorNome(arrayPlanetas, texto);
+    const arrFiltradoPorNums = filtrarPorComparacao(arrPlanetsComFilDeNome, arrayNumericFilters[0]);
+    const arrFiltradoCompletamente = filtrarTodasAsComparacoes(arrPlanetsComFilDeNome, arrayNumericFilters)
     return (
       <div>
         <PlanetsList />
         <table>
           <THead />
           <tbody>
-            {arrayFiltradoPorNums.map((planet) => (
+            {arrFiltradoCompletamente.map((planet) => (
               <tr key={planet.name}>
                 <td>{planet.name}</td>
                 <td>{planet.rotation_period}</td>
