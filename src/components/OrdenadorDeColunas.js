@@ -10,7 +10,7 @@ class OrdenadorDeColunas extends Component {
 
     return (
       <div>
-        <label>
+        <label htmlFor="order">
           Ordene alguma coluna:
           <select
             defaultValue="name"

@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 
+
 class FiltersDropdown extends React.Component {
   constructor(props) {
     super(props);
@@ -23,23 +24,8 @@ class FiltersDropdown extends React.Component {
     });
   }
 
-  render() {
-    const { arrayColunasJaSelecionadas } = this.props;
-
-    const todasAsColunas = [
-      'population',
-      'orbital_period',
-      'diameter',
-      'rotation_period',
-      'surface_water'];
-
-    const colunasRestantes = todasAsColunas.filter((coluna) => (
-      !(arrayColunasJaSelecionadas.includes(coluna))
-      // (arrayColunasJaSelecionadas.includes(coluna)) ? false : true
-    ));
-
-    const { column, comparison, value } = this.state;
-    return colunasRestantes.length !== 0 ? (
+  renderDrowpdown(colunasRestantes, column, comparison, value) {
+    return (
       <section>
         <div>
           <select
@@ -64,7 +50,6 @@ class FiltersDropdown extends React.Component {
             <option value="Igual a">Igual a</option>
           </select>
         </div>
-
         <div>
           <input
             type="number"
@@ -81,6 +66,31 @@ class FiltersDropdown extends React.Component {
           Filtrar
         </button>
       </section>
+    );
+  }
+
+
+  render() {
+    const { arrayColunasJaSelecionadas } = this.props;
+
+    const todasAsColunas = [
+      'population',
+      'orbital_period',
+      'diameter',
+      'rotation_period',
+      'surface_water'];
+
+    const colunasRestantes = todasAsColunas.filter((coluna) => (
+      !(arrayColunasJaSelecionadas.includes(coluna))
+      // (arrayColunasJaSelecionadas.includes(coluna)) ? false : true
+    ));
+
+    const { column, comparison, value } = this.state;
+
+    return colunasRestantes.length !== 0 ? (
+      <article>
+        {this.renderDrowpdown(colunasRestantes, column, comparison, value)}
+      </article>
     ) : null;
   }
 }

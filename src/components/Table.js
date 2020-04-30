@@ -28,8 +28,6 @@ function filtrarTodasAsComparacoes(arrPlanetsComFilDeNome, arrayNumericFilters) 
   arrayNumericFilters.forEach((objectNumericValues) => {
     arrayPlanetasFiltrado = filtrarPorComparacao(arrayPlanetasFiltrado, objectNumericValues);
   });
-
-  // console.log('uhuhu', arrayPlanetasFiltrado)
   return arrayPlanetasFiltrado;
 }
 
@@ -64,6 +62,30 @@ function ordenarArray(arrTodoFiltrado, objOrdenacao) {
 }
 
 class Table extends React.Component {
+  static renderTBody(arrayOrdenado) {
+    return (
+      <tbody>
+        {arrayOrdenado.map((planet) => (
+          <tr key={planet.name}>
+            <td>{planet.name}</td>
+            <td>{planet.rotation_period}</td>
+            <td>{planet.orbital_period}</td>
+            <td>{planet.diameter}</td>
+            <td>{planet.climate}</td>
+            <td>{planet.gravity}</td>
+            <td>{planet.terrain}</td>
+            <td>{planet.surface_water}</td>
+            <td>{planet.population}</td>
+            <td>{planet.films}</td>
+            <td>{planet.created}</td>
+            <td>{planet.edited}</td>
+            <td>{planet.url}</td>
+          </tr>
+        ))}
+      </tbody>
+    );
+  }
+
   render() {
     const {
       arrayPlanetas, texto, arrayNumericFilters, objOrdenacao,
@@ -77,25 +99,7 @@ class Table extends React.Component {
         <PlanetsList />
         <table>
           <THead />
-          <tbody>
-            {arrayOrdenado.map((planet) => (
-              <tr key={planet.name}>
-                <td>{planet.name}</td>
-                <td>{planet.rotation_period}</td>
-                <td>{planet.orbital_period}</td>
-                <td>{planet.diameter}</td>
-                <td>{planet.climate}</td>
-                <td>{planet.gravity}</td>
-                <td>{planet.terrain}</td>
-                <td>{planet.surface_water}</td>
-                <td>{planet.population}</td>
-                <td>{planet.films}</td>
-                <td>{planet.created}</td>
-                <td>{planet.edited}</td>
-                <td>{planet.url}</td>
-              </tr>
-            ))}
-          </tbody>
+          {Table.renderTBody(arrayOrdenado)}
         </table>
       </div>
     );
