@@ -25,7 +25,7 @@ function filtrarPorComparacao(arrPlanetsComFilDeNome, objFiltrosFiltrando) {
 function filtrarTodasAsComparacoes(arrPlanetsComFilDeNome, arrayNumericFilters) {
   let arrayPlanetasFiltrado = arrPlanetsComFilDeNome;
 
-  arrayNumericFilters.forEach((objectNumericValues, index) => {
+  arrayNumericFilters.forEach((objectNumericValues) => {
     arrayPlanetasFiltrado = filtrarPorComparacao(arrayPlanetasFiltrado, objectNumericValues);
   });
 
@@ -37,8 +37,7 @@ class Table extends React.Component {
   render() {
     const { arrayPlanetas, texto, arrayNumericFilters } = this.props;
     const arrPlanetsComFilDeNome = filtrarPlanetasPorNome(arrayPlanetas, texto);
-    const arrFiltradoPorNums = filtrarPorComparacao(arrPlanetsComFilDeNome, arrayNumericFilters[0]);
-    const arrFiltradoCompletamente = filtrarTodasAsComparacoes(arrPlanetsComFilDeNome, arrayNumericFilters);
+    const arrTodoFiltrado = filtrarTodasAsComparacoes(arrPlanetsComFilDeNome, arrayNumericFilters);
 
     return (
       <div>
@@ -46,7 +45,7 @@ class Table extends React.Component {
         <table>
           <THead />
           <tbody>
-            {arrFiltradoCompletamente.map((planet) => (
+            {arrTodoFiltrado.map((planet) => (
               <tr key={planet.name}>
                 <td>{planet.name}</td>
                 <td>{planet.rotation_period}</td>

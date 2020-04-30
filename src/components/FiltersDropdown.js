@@ -91,6 +91,7 @@ const mapStateToProps = (state) => ({
 
 FiltersDropdown.propTypes = {
   dispatch: propTypes.func.isRequired,
+  arrayColunasJaSelecionadas: propTypes.instanceOf(Array).isRequired,
 };
 
 export default connect(mapStateToProps)(FiltersDropdown);

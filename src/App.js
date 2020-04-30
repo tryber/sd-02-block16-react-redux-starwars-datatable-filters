@@ -1,7 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import propTypes from 'prop-types';
 import InputFilter from './components/InputFilter';
 import FiltersDropdown from './components/FiltersDropdown';
+import ExibeDiv from './components/ExibeDiv';
 import Table from './components/Table';
 import './App.css';
 
@@ -15,6 +17,7 @@ class App extends React.Component {
         <header className="App-header">
           <InputFilter />
           <FiltersDropdown />
+          <ExibeDiv />
           <Table />
         </header>
       </div>
@@ -27,4 +30,8 @@ const mapStateToProps = (state) => ({
   error: state.data.error,
 });
 
+App.propTypes = {
+  isLoading: propTypes.bool.isRequired,
+  error: propTypes.bool.isRequired,
+};
 export default connect(mapStateToProps)(App);
