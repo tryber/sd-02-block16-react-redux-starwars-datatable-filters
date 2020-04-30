@@ -1,26 +1,39 @@
 import React from 'react';
-import logo from './logo.svg';
+import { connect } from 'react-redux';
+import propTypes from 'prop-types';
+import InputFilter from './components/InputFilter';
+import OrdenadorDeColunas from './components/OrdenadorDeColunas';
+import FiltersDropdown from './components/FiltersDropdown';
+import ExibeDiv from './components/ExibeDiv';
+import Table from './components/Table';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  render() {
+    const { isLoading, error } = this.props;
+    if (isLoading) return <div>Loading...</div>;
+    if (error) return <div>{error}</div>;
+    return (
+      <div className="App">
+        <header className="App-header">
+          <InputFilter />
+          <OrdenadorDeColunas />
+          <FiltersDropdown />
+          <ExibeDiv />
+          <Table />
+        </header>
+      </div>
+    );
+  }
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  isLoading: state.data.isLoading,
+  error: state.data.error,
+});
+
+App.propTypes = {
+  isLoading: propTypes.bool.isRequired,
+  error: propTypes.bool.isRequired,
+};
+export default connect(mapStateToProps)(App);
