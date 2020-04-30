@@ -34,12 +34,12 @@ class FiltersDropdown extends React.Component {
       'surface_water'];
 
     const colunasRestantes = todasAsColunas.filter((coluna) => (
-      // !(arrayColunasJaSelecionadas.includes(coluna))
-      (arrayColunasJaSelecionadas.includes(coluna)) ? false : true
+      !(arrayColunasJaSelecionadas.includes(coluna))
+      // (arrayColunasJaSelecionadas.includes(coluna)) ? false : true
     ));
 
     const { column, comparison, value } = this.state;
-    return (
+    return colunasRestantes.length !== 0 ? (
       <section>
         <div>
           <select
@@ -81,7 +81,7 @@ class FiltersDropdown extends React.Component {
           Filtrar
         </button>
       </section>
-    );
+    ) : null;
   }
 }
 
