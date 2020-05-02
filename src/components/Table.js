@@ -12,13 +12,13 @@ class Table extends Component {
     const { column, comparison, value } = numericValues;
     const columnValue = (column !== '' && value !== '');
     if (comparison === 'more than' && columnValue) {
-      return array.filter((planet) => planet[column] > parseInt(value, 10));
+      return array.filter((planet) => planet[column] > value);
     }
     if (comparison === 'less than' && columnValue) {
-      return array.filter((planet) => planet[column] < parseInt(value, 10));
+      return array.filter((planet) => planet[column] < value);
     }
     if (comparison === 'equal to' && columnValue) {
-      return array.filter((planet) => planet[column] === parseInt(value, 10));
+      return array.filter((planet) => planet[column] === value);
     }
     return array;
   }

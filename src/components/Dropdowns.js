@@ -60,22 +60,30 @@ class Dropdowns extends React.Component {
   }
 
   generateColumns(arr) {
-    return (
-      <select onClick={(e) => this.setColumnsState(e)}>
-        <option>Select Column</option>
-        {arr.map((option) => <option key={option} name="column" value={option}>{option}</option>)}
-      </select>
-    );
+    const { columns } = this.props;
+    if (columns.length !== 0) {
+      return (
+        <select onClick={(e) => this.setColumnsState(e)}>
+          <option>Select Column</option>
+          {arr.map((option) => <option key={option} name="column" value={option}>{option}</option>)}
+        </select>
+      );
+    }
+    return null;
   }
 
   generateComparison() {
     const comparison = ['more than', 'equal to', 'less than'];
-    return (
-      <select onChange={(e) => this.setComparisonState(e)}>
-        <option value="">Select Comparison</option>
-        {comparison.map((option) => <option key={option} value={option}>{option}</option>)}
-      </select>
-    );
+    const { columns } = this.props;
+    if (columns.length !== 0) {
+      return (
+        <select onChange={(e) => this.setComparisonState(e)}>
+          <option value="">Select Comparison</option>
+          {comparison.map((option) => <option key={option} value={option}>{option}</option>)}
+        </select>
+      );
+    }
+    return null;
   }
 
   storeFilters() {
@@ -92,11 +100,15 @@ class Dropdowns extends React.Component {
       <div>
         {this.generateColumns(columns)}
         {this.generateComparison()}
-        <input
-          type="number"
-          placeholder="type a number here!"
-          onChange={(e) => this.setValueState(e)}
-        />
+        {columns.length !== 0
+          ? (
+            <input
+              type="number"
+              placeholder="type a number here!"
+              onChange={(e) => this.setValueState(e)}
+            />
+          )
+          : <div>No more filters available!</div>}
         <button type="button" onClick={() => this.storeFilters()}>Filter!</button>
       </div>
     );
