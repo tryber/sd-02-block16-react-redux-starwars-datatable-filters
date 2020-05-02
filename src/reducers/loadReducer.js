@@ -34,8 +34,9 @@ function resultPlanet(state, action) {
 function resultNumericValues(state, action) {
   return {
     ...state,
-    filters: 
-    action.numericValues,
+    dataMock: action.results,
+    dataMockFilter: action.results,
+    filters: action.numericValues,
   };
 }
 

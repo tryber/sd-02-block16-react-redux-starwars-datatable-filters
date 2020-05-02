@@ -1,21 +1,28 @@
 import * as types from '../store/actionTypes';
-import dispatchAllFilters from './dispatchFilters';
+import verifyCondition from './switchCases/conditionCase';
 import store from '../store';
 
-function updateNumericValues(numericValues) {
+function updateAllRender(results, numericValues) {
   return {
     type: types.RESULT_NUMERIC_VALUES,
+    results,
     numericValues,
   };
 }
 
-const filtersRemove = (column, condition, value, dataMock) => (
-  async (dispatch) => {
-    const filterStore = store.getState().loadReducer.filters.filter((element) =>
-      !Object.keys(element).includes('name'));
-    const newFilterStore = filterStore.filter((filter) => filter.numericValues.column !== column);
-    //await dispatch(updateNumericValues(newFilterStore));
-    //return (dispatch(dispatchAllFilters(column, condition, value, dataMock)));
+const filtersRemove = (dataMock, filters) => (
+  (dispatch) => {
+    const mockMapped = dataMock.filter((result) => {
+      let isValid = true;
+      filters.forEach((filter) => {
+        isValid = isValid && verifyCondition(Number(result[filter.numericValues.column]),
+                                            filter.numericValues.condition,
+                                            Number(filter.numericValues.value));
+      });
+      return isValid;
+    });
+    console.log(mockMapped);
+    return (dispatch(updateAllRender(mockMapped, filters)));
   });
 
 

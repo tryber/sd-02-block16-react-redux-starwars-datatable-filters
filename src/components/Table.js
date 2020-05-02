@@ -110,10 +110,14 @@ class Table extends Component {
   }
 
   removeFilter(filters, name) {
-    console.log(filters)
-    const { updateRemoveFilters, dataMock } = this.props;
+    const { updateRemoveFilters, data } = this.props;
     const { arrDrop } = this.state;
+    const filtersFiltered = filters.filter((filter) => (filter.numericValues)
+      && (filter.numericValues.column !== name));
     this.setState({arrDrop: [name, ...arrDrop]});
+    // const actualNumericValues = filters.filter((filter) => filter.numericValues.column === name);
+    // const { column, condition, value } = actualNumericValues;
+    updateRemoveFilters(data, filtersFiltered);
   }
 
   callFilters(dataMockFilterOn) {
@@ -206,8 +210,8 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(planetAction(planet, dataMock, dataMockFilterOn, data)),
   updateAllFilters: (column, condition, value, data) =>
     dispatch(dispatchAllFilters(column, condition, value, data)),
-  updateRemoveFilters: (column, condition, value, dataMock) =>
-    dispatch(filtersRemove(column, condition, value, dataMock)),
+  updateRemoveFilters: (dataMock, filters) =>
+    dispatch(filtersRemove(dataMock, filters)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Table);

@@ -23,7 +23,7 @@ function updateDataMock(results) {
   };
 }
 
-const dispatchAllFilters = (column, condition, value, data, filters) => (
+const dispatchAllFilters = (column, condition, value, data) => (
   (dispatch) => {
     const dataMock = dispatchFilters(column, condition, value, data);
     dispatch(updateDataMock(dataMock, column, condition, value));
