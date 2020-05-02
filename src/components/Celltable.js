@@ -6,12 +6,12 @@ import CellFiltered from './CellFiltered';
 class Celltable extends Component {
 
   render() {
-    const { results, dataMockFilterOn } = this.props;
+    const { dataMock, dataMockFilterOn } = this.props;
     if (dataMockFilterOn) {
       return (<CellFiltered />);
     }
     return (
-      results.sort((a, b) => a.name < b.name ? -1 : 1).map((result) => (
+      dataMock.map((result) => (
         <tbody key={result.name}>
           <tr>
             {Object.values(result).map((item, index) => {
@@ -30,13 +30,13 @@ class Celltable extends Component {
 }
 
 const mapStateToProps = ({
-  loadReducer: { dataMock: { results }, dataMockFilterOn } }) => ({
-    results, dataMockFilterOn,
+  loadReducer: { dataMock, dataMockFilterOn } }) => ({
+    dataMock, dataMockFilterOn,
   });
 
 export default connect(mapStateToProps)(Celltable);
 
 Celltable.propTypes = {
-  results: PropTypes.instanceOf(Object).isRequired,
+  dataMock: PropTypes.instanceOf(Object).isRequired,
   dataMockFilterOn: PropTypes.bool.isRequired,
 };

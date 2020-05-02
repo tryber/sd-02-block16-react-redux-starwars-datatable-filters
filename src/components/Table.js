@@ -21,12 +21,11 @@ class Table extends Component {
       column: '',
       condition: '',
       name: '',
-      value: 0,
-      popuOn: false,
-      orbiOn: false,
-      diamOn: false,
-      rotaOn: false,
-      surfOn: false,
+      value: '',
+      arrDrop: ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'],
+      colOn: false,
+      condOn: false,
+      valOn: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -42,8 +41,7 @@ class Table extends Component {
   }
 
   selecDropDown() {
-    const { popuOn, orbiOn, diamOn, rotaOn, surfOn } = this.state;
-    const arrDrop = ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
+    const { arrDrop } = this.state;
     return (
       <form>
         <label htmlFor="filterType">
@@ -51,12 +49,12 @@ class Table extends Component {
             id="filterType"
             name="column"
             onChange={(e) => this.handleChange(e.target)}
-            onClick={(e) => this.changeBoolean(e.target.options[e.target.selectedIndex])}
+            onClick={(e) => this.changeBoolean(e.target.options[e.target.selectedIndex].attributes.name.value)}
           >
-            <option value="" name="choose" hidden>Choose Option</option>
+            <option value="" name="Choose" hidden>Choose Option</option>
             {
               arrDrop.map((arr) => (
-                <option key={arr} value={arr} name={arr.slice(0,4) + 'On'} hidden={(arr.slice(0,4) + 'On' ? '': 'none')}>{arr}</option>
+                <option key={arr} value={arr} name="colOn">{arr}</option>
               ))
             }
           </select>
@@ -74,45 +72,48 @@ class Table extends Component {
             name="condition"
             onChange={(e) =>
             this.handleChange(e.target)}
+            onClick={(e) => this.changeBoolean(e.target.options[e.target.selectedIndex].attributes.name.value)}
           >
-            <option value="" hidden>Choose Option</option>
-            <option value="Maior que">Maior que</option>
-            <option value="Menor que">Menor que</option>
-            <option value="Igual a">Igual a</option>
+            <option value="Choose" name="Choose" hidden>Choose Option</option>
+            <option value="Maior que" name="condOn">Maior que</option>
+            <option value="Menor que" name="condOn">Menor que</option>
+            <option value="Igual a" name="condOn">Igual a</option>
           </select>
         </label>
       </form>
     );
   }
 
-  changeBoolean(event) {
-    const name = event.attributes.name.value;
-    this.setState({ name });
+  changeBoolean(name) {
+    this.setState({ [name]: true });
   }
 
-  handleSubmit(data) {
-    const { column, condition, value, name } = this.state;
+  handleSubmit(data, filters) {
+    const { column, condition, value, name, arrDrop } = this.state;
     const { updateAllFilters } = this.props;
+    const newArr = arrDrop.filter((arr) => arr !== column);
     this.setState({
-      [name]: true ,
+      ['colOn']: false,
+      ['valOn']: false,
+      value: '',
       column: '',
+      arrDrop: newArr,
     });
-    updateAllFilters(column, condition, value, data);
+    updateAllFilters(column, condition, value, data, filters);
   }
 
   handleChange(event) {
     const { name, value } = event;
-    this.setState({ [name]: value });
+    (name === 'value')
+    ? this.setState(() => ({ value: (value >= 0) ? value : 0 }))
+    : this.setState({ [name]: value });
   }
 
-  removeFilter(filter, name) {
-    const { numericValues: { column, condition, value } } = filter;
+  removeFilter(filters, name) {
+    console.log(filters)
     const { updateRemoveFilters, dataMock } = this.props;
-    updateRemoveFilters(column, condition, value, dataMock);
-    this.setState({
-      [name]: false ,
-      column: '',
-    });
+    const { arrDrop } = this.state;
+    this.setState({arrDrop: [name, ...arrDrop]});
   }
 
   callFilters(dataMockFilterOn) {
@@ -131,7 +132,7 @@ class Table extends Component {
               <div>{filter.numericValues.value}</div>
               <button
                 onClick={() => 
-                  this.removeFilter(filter, filter.numericValues.column.slice(0,4) + 'On')}
+                  this.removeFilter(filters, filter.numericValues.column)}
               >X
               </button>
             </div>)
@@ -155,14 +156,17 @@ class Table extends Component {
           type="number"
           name="value"
           value={value}
-          onChange={(e) => this.handleChange(e.target)}
+          onChange={(e) => {
+            this.changeBoolean('valOn')
+            return this.handleChange(e.target)
+          }}
         />
       </div>
     );
   }
 
   render() {
-    const { condition, column } = this.state;
+    const { colOn, condOn, valOn } = this.state;
     const { onLoad, data, dataPlanet, dataMockFilterOn, dataMock, filters } = this.props;
     if (!onLoad) return <p>Loading...</p>;
     return (
@@ -175,7 +179,7 @@ class Table extends Component {
         {this.selecCondition()}
         {this.inputNumber()}
         <button
-          onClick={() => this.handleSubmit(data)} disabled={(condition && column) ? '' : 'none'}
+          onClick={() => this.handleSubmit(data, filters)} disabled={(colOn && condOn && valOn) ? '' : 'none'}
         > Search
         </button>
         <div>StarWars DataTable with Filters</div>

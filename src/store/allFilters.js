@@ -6,12 +6,7 @@ import store from '../store';
 function allFiltersAction(results, column, condition, value) {
   return {
     type: types.RESULT_ALL_FILTERS,
-    dataMock: {
-      results,
-    },
-    dataMockFilter: {
-      results,
-    },
+    results,
     dataMockFilterOn: true,
     numericValues: {
       column,
@@ -24,16 +19,11 @@ function allFiltersAction(results, column, condition, value) {
 function updateDataMock(results) {
   return {
     type: types.RESULT_FILTER_TYPE,
-    dataMock: {
-      results,
-    },
-    dataMockFilter: {
-      results,
-    },
+    results,
   };
 }
 
-const dispatchAllFilters = (column, condition, value, data) => (
+const dispatchAllFilters = (column, condition, value, data, filters) => (
   (dispatch) => {
     const dataMock = dispatchFilters(column, condition, value, data);
     dispatch(updateDataMock(dataMock, column, condition, value));

@@ -21,8 +21,8 @@ function resultFalse(state, action) {
 function resultPlanet(state, action) {
   return {
     ...state,
-    dataMock: action.dataMock,
-    dataMockFilter: action.dataMockFilter,
+    dataMock: action.results,
+    dataMockFilter: action.results,
     filters: [
       {
         name: action.planet,
@@ -42,7 +42,7 @@ function resultNumericValues(state, action) {
 function resultPlanetFiltered(state, action) {
   return {
     ...state,
-    dataMockFilter: action.dataMockFilter,
+    dataMockFilter: action.results,
     filters: [
       action.name,
       ...state.filters,
@@ -53,8 +53,8 @@ function resultPlanetFiltered(state, action) {
 function resultAllFilters(state, action) {
   return {
     ...state,
-    dataMock: action.dataMock,
-    dataMockFilter: action.dataMockFilter,
+    dataMock: action.results,
+    dataMockFilter: action.results,
     dataMockFilterOn: action.dataMockFilterOn,
     filters: [
       ...state.filters,

@@ -3,12 +3,7 @@ import * as types from '../store/actionTypes';
 function filterData(results, planet) {
   return {
     type: types.RESULT_PLANET,
-    dataMock: {
-      results,
-    },
-    dataMockFilter: {
-      results,
-    },
+    results,
     planet,
   };
 }
@@ -16,9 +11,7 @@ function filterData(results, planet) {
 function dataWithFilter(results, planet) {
   return {
     type: types.RESULT_DATA_FILTERED,
-    dataMockFilter: {
-      results,
-    },
+    results,
     name: {
       name: planet,
     },
@@ -37,9 +30,9 @@ function filterResults(whosFilter, planet) {
 
 const planetAction = (planet, dataMock, dataMockFilterOn, data) => (
   (dispatch) => {
-    let whosFilter = data.results;
+    let whosFilter = data;
     if (dataMockFilterOn) {
-      whosFilter = dataMock.results;
+      whosFilter = dataMock;
     }
     const filteredResult = filterResults(whosFilter, planet);
     const filterWithoutUndefined = filteredResult.filter((element) => element.length !== 0);

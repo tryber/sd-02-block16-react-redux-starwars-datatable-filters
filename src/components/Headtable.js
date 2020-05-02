@@ -5,11 +5,11 @@ import PropTypes from 'prop-types';
 class Headtable extends Component {
 
   render() {
-    const { results } = this.props;
+    const { data } = this.props;
     return (
       <thead>
         <tr>
-          {Object.keys(results[0]).map((result) => ((result !== 'residents')
+          {Object.keys(data[0]).map((result) => ((result !== 'residents')
             ? <th className="headTable" key={result}>{result.replace(/_/g, ' ')}</th>
             : null))
           }
@@ -19,10 +19,10 @@ class Headtable extends Component {
   }
 }
 
-const mapStateToProps = ({ loadReducer: { data: { results } } }) => ({ results });
+const mapStateToProps = ({ loadReducer: { data } }) => ({ data });
 
 export default connect(mapStateToProps)(Headtable);
 
 Headtable.propTypes = {
-  results: PropTypes.instanceOf(Object).isRequired,
+  data: PropTypes.instanceOf(Object).isRequired,
 };

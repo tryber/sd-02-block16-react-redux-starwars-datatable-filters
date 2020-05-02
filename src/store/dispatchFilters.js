@@ -1,8 +1,7 @@
 import verifyCondition from './switchCases/conditionCase';
 
 const dispatchFilters = (column, condition, value, data) => {
-  const { results } = data;
-  const mappedMock = results.map((result) => {
+  const mappedMock = data.map((result) => {
     const filtered = (Object.keys(result).includes(column))
     && (verifyCondition(Number(result[column]), condition, Number(value)))
     ? result
