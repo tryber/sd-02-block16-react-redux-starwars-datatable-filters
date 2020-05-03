@@ -4,7 +4,9 @@ function filterData(results, planet) {
   return {
     type: types.RESULT_PLANET,
     results,
-    planet,
+    name: {
+      name: planet,
+    },
   };
 }
 

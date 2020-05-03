@@ -5,7 +5,7 @@ function updateAllRender(results, numericValues) {
   return {
     type: types.RESULT_NUMERIC_VALUES,
     results,
-    numericValues,
+    name: numericValues,
   };
 }
 

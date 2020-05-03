@@ -175,6 +175,7 @@ class Table extends Component {
     const { colOn, condOn, valOn } = this.state;
     const { onLoad, data, dataPlanet, dataMockFilterOn, dataMock, filters } = this.props;
     if (!onLoad) return <p>Loading...</p>;
+    console.log(filters)
     return (
       <div>
         <input
@@ -185,7 +186,11 @@ class Table extends Component {
         {this.selecCondition()}
         {this.inputNumber()}
         <button
-          onClick={() => this.handleSubmit(data, filters)} disabled={(colOn && condOn && valOn) ? '' : 'none'}
+          disabled={(colOn && condOn && valOn) ? '' : 'none'}
+          onClick={(e) => {
+            e.target.parentNode.querySelector('input').value = '';
+            return this.handleSubmit(data, filters)} 
+          }
         > Search
         </button>
         <div>StarWars DataTable with Filters</div>
