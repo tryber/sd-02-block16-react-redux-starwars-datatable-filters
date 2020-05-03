@@ -21,7 +21,10 @@ const resultAPI = () => (
     getEndPointSwAPI()
       .then(
         (infos) => dispatch(() => {
-          const sorted = infos.results.sort((a, b) => a.name < b.name ? -1 : 1);
+          const sorted = infos.results.sort((a, b) => {
+            const result = (a.name < b.name) ? -1 : 1;
+            return result;
+          });
           return dispatch(apiSucess(sorted));
         }),
         (error) => dispatch(apiFailure(error.message)),

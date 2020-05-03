@@ -107,7 +107,7 @@ class Table extends Component {
   handleChange(event) {
     const { name, value } = event;
     if (name === 'value') {
-      this.setState(() => ({ value: (value >= 0) ? value : 0 }))
+      this.setState(() => ({ value: (value >= 0) ? value : 0 }));
     } else {
       this.setState({ [name]: value });
     }
