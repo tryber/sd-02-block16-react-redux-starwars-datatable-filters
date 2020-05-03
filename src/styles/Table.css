@@ -1,0 +1,19 @@
+body {
+  font-family: Times New Roman, Times, serif;
+  font-size: 2vh;
+  padding: 1%;
+}
+
+table {
+  border-bottom: 0.1vh solid black;
+  border-left: 0.1vw solid black;
+  border-right: 0.1vw solid black;
+  border-top: 0.1vh solid black;
+}
+
+tr , td , th {
+  border-bottom: 0.1vh solid black;
+  border-left: 0.1vw solid black;
+  border-right: 0.1vw solid black;
+  border-top: 0.1vh solid black;
+}

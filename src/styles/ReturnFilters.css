@@ -1,0 +1,31 @@
+.Return_Filters-father {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.Return_Filters-data {
+  border: 1px solid black;
+  display: flex;
+  margin: 1em;
+  padding: 1em;
+}
+
+.Return_Filter-text {
+  margin: 1px;
+}
+
+.Return_Filter-button {
+  background-color: rgb(68, 199, 103);
+  border: 1px solid rgb(0, 199, 103);
+  color: white;
+  cursor: pointer;
+  margin-left: 3px;
+}
+
+.Return_Filters-sort {
+  border: 1px solid black;
+  display: flex;
+  margin: 1em;
+  padding: 1em;
+}

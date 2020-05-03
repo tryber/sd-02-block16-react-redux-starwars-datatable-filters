@@ -1,9 +1,9 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import renderWithRedux from './services/renderWithRedux';
 import App from './App';
 
 test('renders learn react link', () => {
-  const { getByText } = render(<App />);
-  const linkElement = getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+  const { getByText } = renderWithRedux(<App />);
+  const reduxText = getByText(/Redux Starwars/i);
+  expect(reduxText).toBeInTheDocument();
 });
