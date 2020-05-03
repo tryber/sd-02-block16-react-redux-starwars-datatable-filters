@@ -33,6 +33,7 @@ class Table extends Component {
     this.callFilters = this.callFilters.bind(this);
     this.inputNumber = this.inputNumber.bind(this);
     this.removeFilter = this.removeFilter.bind(this);
+    this.createBonus = this.createBonus.bind(this);
   }
 
   componentDidMount() {
@@ -133,9 +134,9 @@ class Table extends Component {
               className="essa2"
               key={filter.numericValues.column}
             >
-              <div>{filter.numericValues.column}</div>
-              <div>{filter.numericValues.condition}</div>
-              <div>{filter.numericValues.value}</div>
+              <div className="essa-cl">{filter.numericValues.column}</div>
+              <div className="essa-co">{filter.numericValues.condition}</div>
+              <div className="essa-vl">{filter.numericValues.value}</div>
               <button
                 onClick={() =>
                   this.removeFilter(filters, filter.numericValues.column)}
@@ -171,6 +172,21 @@ class Table extends Component {
     );
   }
 
+  createBonus() {
+    const { filters } = this.props;
+    const ascDesc = filters.filter((filter) => !Object.keys(filter).includes('name') && !Object.keys(filter).includes('numericValues'));
+    return (
+      ascDesc.map((item) => (
+        <div className="essa2" key={item}>
+          <div className="item-column">{item.column}</div>
+          <div className="item-order">{item.order}</div>
+          <button className="item-del">X</button>
+        </div>
+      ))
+    );
+
+  }
+
   render() {
     const { colOn, condOn, valOn } = this.state;
     const { onLoad, data, dataPlanet, dataMockFilterOn, dataMock, filters } = this.props;
@@ -193,6 +209,7 @@ class Table extends Component {
         > Search
         </button>
         <div>StarWars DataTable with Filters</div>
+        {this.createBonus()}
         <div className="filteredButtons">{this.callFilters(dataMockFilterOn)}</div>
         <table><HeadTable /><Celltable /></table>
       </div>

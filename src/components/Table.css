@@ -5,12 +5,26 @@ table , th , td {
 }
 
 .essa2 {
+  border: 1px solid black;
   display: flex;
   margin: 5px;
+  padding: 2px;
   text-transform: capitalize;
   width: fit-content;
 }
 
 .essa2 > p , button {
   margin: 2px;
+}
+
+.item-column , .item-order , .item-del {
+  border: 1px solid black;
+  margin-right: 2px;
+  padding: 2px;
+}
+
+.essa-co , .essa-cl , .essa-vl {
+  border: 1px solid black;
+  margin-right: 2px;
+  padding: 2px;
 }

@@ -28,7 +28,7 @@ const dispatchAllFilters = (column, condition, value, data) => (
     const dataMock = dispatchFilters(column, condition, value, data);
     dispatch(updateDataMock(dataMock, column, condition, value));
     const filterStore = store.getState().loadReducer.filters.filter((element) =>
-      !Object.keys(element).includes('name'));
+      Object.keys(element).includes('numericValues'));
     const mappedMock = dataMock.filter((result) => {
       let isValid = true;
       filterStore.forEach((filter) => {

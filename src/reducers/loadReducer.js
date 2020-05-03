@@ -7,6 +7,13 @@ function resultTrue(state, action) {
     onLoad: true,
     data: action.data,
     dataMock: action.dataMock,
+    filters: [
+      ...state.filters,
+      {
+        column: 'Name',
+        order: 'ASC',
+      },
+    ],
   };
 }
 
