@@ -55,13 +55,20 @@ const filterReturn = (numericValues, filteredData) => {
   return returnFiltered;
 };
 
+const isNumber = (cellValue) => {
+  const cell = cellValue === 'unknown' ? 0 : cellValue;
+  return parseInt(cell, 10) >= 0
+    ? parseInt(cell, 10)
+    : cell;
+};
+
 const allSort = (sorted, haveFilters) => {
   const arrayFilters = haveFilters ? [...haveFilters] : [];
   let isBigger = 0;
   return arrayFilters.length > 0 && sorted.column
     ? arrayFilters.sort((next, prev) => {
-      const value = sorted.column.toLowerCase();
-      isBigger = next[value] > prev[value] ? 1 : -1;
+      const value = sorted.column.toLowerCase().replace(' ', '_');
+      isBigger = isNumber(next[value]) > isNumber(prev[value]) ? 1 : -1;
       return sorted.order === 'ASC'
         ? isBigger : isBigger * -1;
     })

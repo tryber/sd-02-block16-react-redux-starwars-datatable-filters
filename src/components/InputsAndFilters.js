@@ -41,7 +41,8 @@ class InputsAndFilters extends React.Component {
 
   handleSubmit(dispatchNumberFilter, columns) {
     const { column, comparison, value } = this.state;
-    const condition = column.length <= 0 || comparison.length <= 0 || value <= 0
+    console.log(comparison);
+    const condition = column.length <= 0 || comparison === '' || value < 0
       ? alert('Fill the fields to continue')
       : dispatchNumberFilter(column, comparison, value, columns);
     this.setState({
@@ -51,11 +52,13 @@ class InputsAndFilters extends React.Component {
   }
 
   NumberInput() {
+    const { value } = this.state;
     return (
       <input
         type="number"
         name="value"
         placeholder="Search a number"
+        value={value}
         onChange={(element) => this.setStateFunc(element.target)}
       />
     );
