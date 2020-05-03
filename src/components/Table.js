@@ -49,7 +49,8 @@ class Table extends Component {
             id="filterType"
             name="column"
             onChange={(e) => this.handleChange(e.target)}
-            onClick={(e) => this.changeBoolean(e.target.options[e.target.selectedIndex].attributes.name.value)}
+            onClick={(e) =>
+              this.changeBoolean(e.target.options[e.target.selectedIndex].attributes.name.value)}
           >
             <option value="" name="Choose" hidden>Choose Option</option>
             {
@@ -72,7 +73,8 @@ class Table extends Component {
             name="condition"
             onChange={(e) =>
             this.handleChange(e.target)}
-            onClick={(e) => this.changeBoolean(e.target.options[e.target.selectedIndex].attributes.name.value)}
+            onClick={(e) =>
+              this.changeBoolean(e.target.options[e.target.selectedIndex].attributes.name.value)}
           >
             <option value="Choose" name="Choose" hidden>Choose Option</option>
             <option value="Maior que" name="condOn">Maior que</option>
@@ -89,12 +91,12 @@ class Table extends Component {
   }
 
   handleSubmit(data, filters) {
-    const { column, condition, value, name, arrDrop } = this.state;
+    const { column, condition, value, arrDrop } = this.state;
     const { updateAllFilters } = this.props;
     const newArr = arrDrop.filter((arr) => arr !== column);
     this.setState({
-      ['colOn']: false,
-      ['valOn']: false,
+      colOn: false,
+      valOn: false,
       value: '',
       column: '',
       arrDrop: newArr,
@@ -104,9 +106,11 @@ class Table extends Component {
 
   handleChange(event) {
     const { name, value } = event;
-    (name === 'value')
-    ? this.setState(() => ({ value: (value >= 0) ? value : 0 }))
-    : this.setState({ [name]: value });
+    if (name === 'value') {
+      this.setState(() => ({ value: (value >= 0) ? value : 0 }))
+    } else {
+      this.setState({ [name]: value });
+    }
   }
 
   removeFilter(filters, name) {
@@ -114,9 +118,7 @@ class Table extends Component {
     const { arrDrop } = this.state;
     const filtersFiltered = filters.filter((filter) => (filter.numericValues)
       && (filter.numericValues.column !== name));
-    this.setState({arrDrop: [name, ...arrDrop]});
-    // const actualNumericValues = filters.filter((filter) => filter.numericValues.column === name);
-    // const { column, condition, value } = actualNumericValues;
+    this.setState({ arrDrop: [name, ...arrDrop] });
     updateRemoveFilters(data, filtersFiltered);
   }
 
@@ -128,14 +130,14 @@ class Table extends Component {
           {filters.map((filter) => {
             const filtered = (filter.numericValues)
             ? (<div
-                className="essa2"
-                key={filter.numericValues.column}
-              >
+              className="essa2"
+              key={filter.numericValues.column}
+            >
               <div>{filter.numericValues.column}</div>
               <div>{filter.numericValues.condition}</div>
               <div>{filter.numericValues.value}</div>
               <button
-                onClick={() => 
+                onClick={() =>
                   this.removeFilter(filters, filter.numericValues.column)}
               >X
               </button>
@@ -161,8 +163,8 @@ class Table extends Component {
           name="value"
           value={value}
           onChange={(e) => {
-            this.changeBoolean('valOn')
-            return this.handleChange(e.target)
+            this.changeBoolean('valOn');
+            return this.handleChange(e.target);
           }}
         />
       </div>
