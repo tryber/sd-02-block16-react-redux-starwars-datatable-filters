@@ -26,7 +26,7 @@ class Headtable extends Component {
             ? <th
               className="headTable"
               key={result}
-              >{result.replace(/_/g, ' ')}
+            >{result.replace(/_/g, ' ')}
               <button
                 onClick={(e) => this.setNewOrder(e.target.parentNode.innerText.slice(0, -1))}
               >{ (order !== 'DESC') ? '↑' : '↓' }
