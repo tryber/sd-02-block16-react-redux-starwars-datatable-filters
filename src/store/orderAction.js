@@ -1,12 +1,12 @@
 import * as types from './actionTypes';
 
-const updateName = (name, newOrder) => {
+function updateName(name, newOrder) {
   return {
     type: types.SET_NEW_ORDER,
     name,
     newOrder,
   };
-};
+}
 
 const orderAction = (data, dataMock, dataMockFilter, name, order) => (
   (dispatch) => {

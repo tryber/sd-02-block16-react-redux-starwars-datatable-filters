@@ -12,7 +12,7 @@ class Headtable extends Component {
 
   setNewOrder(name) {
     const { setOrder, data, dataMock, dataMockFilter, orderReducer } = this.props;
-    const { filters: [{ order }]} = orderReducer;
+    const { filters: [{ order }] } = orderReducer;
     setOrder(data, dataMock, dataMockFilter, name, order);
   }
 
@@ -23,12 +23,14 @@ class Headtable extends Component {
       <thead>
         <tr>
           {Object.keys(data[0]).map((result) => ((result !== 'residents')
-            ? <th className="headTable" key={result}
-            >{result.replace(/_/g, ' ')}
-            <button
-              onClick={(e) => this.setNewOrder(e.target.parentNode.innerText.slice(0, -1))}
-            >{ (order !== 'DESC') ? '↑' : '↓' }
-            </button>
+            ? <th
+              className="headTable"
+              key={result}
+              >{result.replace(/_/g, ' ')}
+              <button
+                onClick={(e) => this.setNewOrder(e.target.parentNode.innerText.slice(0, -1))}
+              >{ (order !== 'DESC') ? '↑' : '↓' }
+              </button>
             </th>
             : null))
           }
@@ -50,5 +52,8 @@ export default connect(mapStateToProps, mapDispatchToProps)(Headtable);
 
 Headtable.propTypes = {
   data: PropTypes.instanceOf(Object).isRequired,
+  dataMock: PropTypes.instanceOf(Object).isRequired,
+  dataMockFilter: PropTypes.instanceOf(Object).isRequired,
   orderReducer: PropTypes.instanceOf(Object).isRequired,
+  setOrder: PropTypes.func.isRequired,
 };
