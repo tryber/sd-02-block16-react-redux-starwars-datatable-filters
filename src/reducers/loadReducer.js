@@ -9,10 +9,6 @@ function resultTrue(state, action) {
     dataMock: action.dataMock,
     filters: [
       ...state.filters,
-      {
-        column: 'Name',
-        order: 'ASC',
-      },
     ],
   };
 }
@@ -30,10 +26,7 @@ function resultPlanet(state, action) {
     ...state,
     dataMock: action.results,
     dataMockFilter: action.results,
-    filters: [
-      action.name,
-      ...state.filters,
-    ],
+    filters: action.numericValues,
   };
 }
 
@@ -42,7 +35,7 @@ function resultNumericValues(state, action) {
     ...state,
     dataMock: action.results,
     dataMockFilter: action.results,
-    filters: action.name,
+    filters: action.numericValues,
   };
 }
 

@@ -1,15 +1,16 @@
 import * as types from '../store/actionTypes';
 import verifyCondition from './switchCases/conditionCase';
 
-function updateAllRender(results, numericValues) {
+function updateAllRender(results, numericValues, filtersNumeric) {
   return {
     type: types.RESULT_NUMERIC_VALUES,
     results,
-    name: numericValues,
+    numericValues,
+    filtersNumeric,
   };
 }
 
-const filtersRemove = (dataMock, filters) => (
+const filtersRemove = (dataMock, filters, filtersNumeric) => (
   (dispatch) => {
     const mockMapped = dataMock.filter((result) => {
       let isValid = true;
@@ -20,7 +21,7 @@ const filtersRemove = (dataMock, filters) => (
       });
       return isValid;
     });
-    return (dispatch(updateAllRender(mockMapped, filters)));
+    return (dispatch(updateAllRender(mockMapped, filters, filtersNumeric)));
   }
 );
 

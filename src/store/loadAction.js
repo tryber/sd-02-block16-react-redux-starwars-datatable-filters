@@ -25,6 +25,7 @@ const resultAPI = () => (
             const result = (a.name < b.name) ? -1 : 1;
             return result;
           });
+          dispatch({ type: types.SET_INITIAL_ORDER })
           return dispatch(apiSucess(sorted));
         }),
         (error) => dispatch(apiFailure(error.message)),

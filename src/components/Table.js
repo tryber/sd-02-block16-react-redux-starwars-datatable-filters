@@ -119,8 +119,10 @@ class Table extends Component {
     const { arrDrop } = this.state;
     const filtersFiltered = filters.filter((filter) => (filter.numericValues)
       && (filter.numericValues.column !== name));
+    const filtersNumeric = filters.filter((filter) => !Object.keys(filter).includes('name')
+      && !Object.keys(filter).includes('numericValues'));
     this.setState({ arrDrop: [name, ...arrDrop] });
-    updateRemoveFilters(data, filtersFiltered);
+    updateRemoveFilters(data, filtersFiltered, filtersNumeric);
   }
 
   callFilters(dataMockFilterOn) {
@@ -173,7 +175,8 @@ class Table extends Component {
   }
 
   createBonus() {
-    const { filters } = this.props;
+    const { orderReducer } = this.props;
+    const { filters } = orderReducer;
     const ascDesc = filters.filter((filter) => !Object.keys(filter).includes('name') && !Object.keys(filter).includes('numericValues'));
     return (
       ascDesc.map((item) => (
@@ -217,8 +220,9 @@ class Table extends Component {
 }
 
 const mapStateToProps = ({
-  loadReducer: { data, onLoad, updateFilters, dataMock, dataMockFilterOn, filters } }) => ({
-    data, onLoad, updateFilters, dataMock, dataMockFilterOn, filters,
+  loadReducer: { data, onLoad, updateFilters, dataMock, dataMockFilterOn, filters },
+  orderReducer }) => ({
+    data, onLoad, updateFilters, dataMock, dataMockFilterOn, filters, orderReducer,
   });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -227,8 +231,8 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(planetAction(planet, dataMock, dataMockFilterOn, data)),
   updateAllFilters: (column, condition, value, data) =>
     dispatch(dispatchAllFilters(column, condition, value, data)),
-  updateRemoveFilters: (dataMock, filters) =>
-    dispatch(filtersRemove(dataMock, filters)),
+  updateRemoveFilters: (dataMock, filters, filtersNumeric) =>
+    dispatch(filtersRemove(dataMock, filters, filtersNumeric)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Table);
@@ -243,9 +247,11 @@ Table.propTypes = {
   dataMockFilterOn: PropTypes.bool.isRequired,
   dataMock: PropTypes.instanceOf(Object).isRequired,
   filters: PropTypes.instanceOf(Object).isRequired,
+  orderReducer: PropTypes.instanceOf(Object).isRequired,
 };
 
 Table.defaultProps = {
   data: [],
   filters: [],
+  orderReducer: [],
 };
