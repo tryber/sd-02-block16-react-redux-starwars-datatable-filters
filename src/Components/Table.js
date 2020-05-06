@@ -11,6 +11,7 @@ import {
 import evento from '../action';
 import './style.css';
 
+
 function tbodyRender(planet) {
   return (
     <tr key={planet.name}>
@@ -23,7 +24,6 @@ function tbodyRender(planet) {
 
 function theadRender(planets) {
   const planet = planets[0];
-  delete planet.residents;
   return (
     <tr>
       {Object.keys(planet).map((key) => (
@@ -52,18 +52,16 @@ function inputNumber(filter, planets) {
   switch (input) {
     case '':
       return planets;
-    case undefined:
-      return planets;
     default:
       return byCondition(planets, filter);
   }
 }
 
-function sortStringNumber(a, b, name, one, one2) {
-  if (Number(a[name]) && Number(b[name])) {
-    return ((Number(a[name]) > Number(b[name])) ? one : one2);
+function sortStringNumber(a, b, column, one, one2) {
+  if (Number(a[column]) && Number(b[column])) {
+    return ((Number(a[column]) > Number(b[column])) ? one : one2);
   }
-  return ((a[name] > b[name]) ? one : one2);
+  return ((a[column] > b[column]) ? one : one2);
 }
 
 class Table extends Component {
@@ -98,15 +96,21 @@ class Table extends Component {
 
   byOrder(planets) {
     const { filters } = this.props;
-    const { order: { asc, name } } = filters[1];
-    switch (asc) {
-      case 'Asc':
-        return planets.sort((a, b) => sortStringNumber(a, b, name, 1, -1));
-      case 'Desc':
-        return planets.sort((a, b) => sortStringNumber(a, b, name, -1, 1));
+    const { order, column } = filters[1];
+    switch (order) {
+      case 'ASC':
+        return planets.sort((a, b) => sortStringNumber(a, b, column, 1, -1));
+      case 'DESC':
+        return planets.sort((a, b) => sortStringNumber(a, b, column, -1, 1));
       default:
         return planets;
     }
+  }
+
+  filterResindets(planets) {
+    Object.filter = (obj, predicate) => 
+      Object.fromEntries(Object.entries(obj).filter(predicate));
+    return planets.map((planet) => Object.filter(planet, ([key]) => key !== 'residents'))
   }
 
   render() {
@@ -114,10 +118,10 @@ class Table extends Component {
     return (
       <table>
         <thead>
-          {theadRender(planets)}
+          {theadRender(this.filterResindets(planets))}
         </thead>
         <tbody>
-          {this.byOrder(this.inputNumbers(this.planetName(planets)))
+          {this.byOrder(this.inputNumbers(this.planetName(this.filterResindets(planets))))
             .map((planet) => (
               tbodyRender(planet)
             ))}
@@ -126,6 +130,7 @@ class Table extends Component {
     );
   }
 }
+
 
 Table.propTypes = {
   planets: planetsPropTypes.planets,

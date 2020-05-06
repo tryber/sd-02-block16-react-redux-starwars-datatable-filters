@@ -5,16 +5,14 @@ const INITIAL_STATE = {
       name: '',
     },
     {
-      order: {
-        name: '',
-        asc: '',
-      },
+      column: 'name',
+      order: 'ASC',
     },
     {
       numericValues: {
         name: 'population',
         condition: 'maior',
-        input: undefined,
+        input: '',
       },
     },
   ],

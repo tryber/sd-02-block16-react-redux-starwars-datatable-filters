@@ -8,19 +8,18 @@ import {
 import Filter from './Filter';
 
 
-function handleClick(filters, tag) {
+function addAction(filters, tag) {
   const newfilter = {
     numericValues: {
       name: tag,
       condition: 'maior',
-      input: undefined,
+      input: '',
     },
   };
-  const coisa = filters;
-  coisa.push(newfilter);
+  filters.push(newfilter);
   return {
     type: 'add',
-    filters: coisa,
+    filters,
   };
 }
 
@@ -37,6 +36,12 @@ class Filtragem extends Component {
     this.ref = React.createRef();
   }
 
+  componentDidUpdate() {
+    const { filters } = this.props;
+    const { numericValues: {name, condition, input } } = filters[filters.length - 1];
+    (name && condition && input) && this.addFilter();
+  }
+
   filters() {
     const { filters } = this.props;
     const coisa = [...filters];
@@ -46,25 +51,26 @@ class Filtragem extends Component {
     return (
       <div>
         {coisa.map((item, index) => (
-          <Filter key={item.numericValues.name} id={index} />
+          <Filter key={item.numericValues.name} id={index + 2} />
         ))}
       </div>
     );
   }
 
-  handle(filters) {
-    const { dispatch, tags } = this.props;
-    const tag = tags.pop();
-    dispatch(handleClick(filters, tag));
-    dispatch(tagAction(tags));
+  addFilter() {
+    const { dispatch, tags, filters } = this.props;
+    if (tags.length > 0) {
+      const tag = tags.pop();
+      dispatch(addAction(filters, tag));
+      dispatch(tagAction(tags));
+    }
   }
 
   render() {
-    const { filters } = this.props;
     return (
       <div className="comp_fitragem" ref={this.ref}>
         {this.filters()}
-        <button type="button" onClick={() => this.handle(filters)}>Adicionar filtro</button>
+        <button type="button" onClick={() => this.addFilter()}>Adicionar filtro</button>
       </div>
     );
   }

@@ -72,7 +72,7 @@ const filtersDefault = {
       numericValues: {
         name: '',
         condition: '',
-        input: undefined,
+        input: '',
       },
     },
     {

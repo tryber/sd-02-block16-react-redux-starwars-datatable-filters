@@ -43,7 +43,7 @@ class FilterByName extends Component {
           <Button
             key={item}
             name={item}
-            id={id + 2}
+            id={id}
             type="FilterByName"
           />
         ))}
@@ -53,7 +53,7 @@ class FilterByName extends Component {
 
   render() {
     const { filters, id } = this.props;
-    const { name } = filters[id + 2].numericValues;
+    const { name } = filters[id].numericValues;
     return (
       <div className="comp_filter">
         <div className="container">

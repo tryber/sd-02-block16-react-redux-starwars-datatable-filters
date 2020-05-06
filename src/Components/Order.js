@@ -14,7 +14,7 @@ import './filterBy.css';
 
 function actionAsc(e, filters) {
   const coisa = [...filters];
-  coisa[1].order.asc = e.target.outerText;
+  coisa[1].order = e.target.outerText;
   return {
     type: 'Order',
     filters: coisa,
@@ -35,11 +35,11 @@ class Order extends Component {
       <div className="comp_order">
         <div>
           <p>Order</p>
-          <button type="button" onClick={(e) => handle(e, filters)}>Asc</button>
-          <button type="button" onClick={(e) => handle(e, filters)}>Desc</button>
+          <button type="button" onClick={(e) => handle(e, filters)}>ASC</button>
+          <button type="button" onClick={(e) => handle(e, filters)}>DESC</button>
         </div>
         <Dropdown
-          options={Object.keys(planets[0])}
+          options={Object.keys(planets[0])} initSelect="name"
         />
       </div>
     );

@@ -11,7 +11,7 @@ import './Dropdown.css';
 
 function actionName(e, filters) {
   const coisa = [...filters];
-  coisa[1].order.name = e.target.outerText;
+  coisa[1].column = e.target.outerText;
   return {
     type: 'Order',
     filters: coisa,
@@ -24,6 +24,11 @@ class Dropdown extends Component {
     this.dropdown = false;
     this.list = React.createRef();
     this.selected = React.createRef();
+  }
+
+  componentDidMount() {
+    const { initSelect } = this.props;
+    this.selected.current.innerText = initSelect;
   }
 
   clickHandle(e) {
