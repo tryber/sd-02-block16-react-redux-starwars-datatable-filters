@@ -7,6 +7,7 @@ import HeadTable from './Headtable';
 import Celltable from './Celltable';
 import dispatchAllFilters from '../store/allFilters';
 import filtersRemove from '../store/removeAction';
+import updateOrder from '../store/updateOrder';
 import './Table.css';
 
 const filterPlanet = (e, dataPlanet, dataMock, dataMockFilterOn, data) => {
@@ -34,6 +35,7 @@ class Table extends Component {
     this.inputNumber = this.inputNumber.bind(this);
     this.removeFilter = this.removeFilter.bind(this);
     this.createBonus = this.createBonus.bind(this);
+    this.removeOrder = this.removeOrder.bind(this);
   }
 
   componentDidMount() {
@@ -174,19 +176,30 @@ class Table extends Component {
     );
   }
 
+  removeOrder(data) {
+    const { callRmOrder } = this.props;
+    callRmOrder(data);
+  }
+
   createBonus() {
-    const { orderReducer } = this.props;
+    const { orderReducer, data } = this.props;
     const { filters } = orderReducer;
+    console.log(data)
     const ascDesc = filters.filter((filter) => !Object.keys(filter).includes('name') && !Object.keys(filter).includes('numericValues'));
-    return (
-      ascDesc.map((item) => (
-        <div className="essa2" key={item}>
-          <div className="item-column">{item.column}</div>
-          <div className="item-order">{item.order}</div>
-          <button className="item-del">X</button>
-        </div>
-      ))
-    );
+    if (ascDesc !== undefined) {
+      return (
+        ascDesc.map((item) => (
+          <div className="essa2" key={item}>
+            <div className="item-column">{item.column}</div>
+            <div className="item-order">{item.order}</div>
+            <button
+              className="item-del"
+              onClick={() => this.removeOrder(data)}>X</button>
+          </div>
+        ))
+      );
+    }
+    return (<div syle={{display: 'none'}} />)
   }
 
   render() {
@@ -233,6 +246,8 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(dispatchAllFilters(column, condition, value, data)),
   updateRemoveFilters: (dataMock, filters, filtersNumeric) =>
     dispatch(filtersRemove(dataMock, filters, filtersNumeric)),
+  callRmOrder: (data) =>
+    dispatch(updateOrder(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Table);
@@ -241,6 +256,7 @@ Table.propTypes = {
   dataAPI: PropTypes.func.isRequired,
   dataPlanet: PropTypes.func.isRequired,
   updateRemoveFilters: PropTypes.func.isRequired,
+  callRmOrder: PropTypes.func.isRequired,
   updateAllFilters: PropTypes.func.isRequired,
   onLoad: PropTypes.bool.isRequired,
   data: PropTypes.instanceOf(Object).isRequired,

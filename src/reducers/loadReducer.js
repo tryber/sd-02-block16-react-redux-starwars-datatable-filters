@@ -63,6 +63,14 @@ function resultAllFilters(state, action) {
   };
 }
 
+function resultUpdateData(state, action) {
+  return {
+    ...state,
+    dataMock: action.results,
+    dataMockFilter: action.data,
+  }
+}
+
 export default function reduce(state = initialState, action) {
   switch (action.type) {
     case types.RESULT_TRUE:
@@ -77,6 +85,8 @@ export default function reduce(state = initialState, action) {
       return resultPlanetFiltered(state, action);
     case types.RESULT_ALL_FILTERS:
       return resultAllFilters(state, action);
+    case types.UPDATE_DATA:
+      return resultUpdateData(state, action);
     default:
       return state;
   }

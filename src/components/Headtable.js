@@ -18,7 +18,7 @@ class Headtable extends Component {
 
   render() {
     const { data, orderReducer } = this.props;
-    const { filters: [{ order }] } = orderReducer;
+    let { filters: [{ order }] } = orderReducer;
     return (
       <thead>
         <tr>

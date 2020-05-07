@@ -1,11 +1,16 @@
 import * as types from './actionTypes';
 import getEndPointSwAPI from '../service/SwAPI';
 
-function apiSucess(infos) {
+function apiSucess(results) {
+  console.log(results)
+  const newResults = results.sort((a, b) => {
+    const resultSort = (a.name < b.name) ? -1 : 1;
+    return resultSort;
+  });
   return {
     type: types.RESULT_TRUE,
-    data: infos,
-    dataMock: infos,
+    data: results,
+    dataMock: results
   };
 }
 
@@ -21,12 +26,8 @@ const resultAPI = () => (
     getEndPointSwAPI()
       .then(
         (infos) => dispatch(() => {
-          const sorted = infos.results.sort((a, b) => {
-            const result = (a.name < b.name) ? -1 : 1;
-            return result;
-          });
           dispatch({ type: types.SET_INITIAL_ORDER });
-          return dispatch(apiSucess(sorted));
+          return dispatch(apiSucess(infos.results));
         }),
         (error) => dispatch(apiFailure(error.message)),
       )

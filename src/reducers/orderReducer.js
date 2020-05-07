@@ -23,6 +23,13 @@ export default function reduce(state = orderState, action) {
           },
         ],
       };
+    case types.REMOVE_ORDER:
+      return {
+        filters: [{
+          column: 'Escolha Coluna',
+          order: 'Escolha ordem',
+        }],
+      };
     default: return state;
   }
 }
