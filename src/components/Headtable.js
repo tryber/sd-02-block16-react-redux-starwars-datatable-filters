@@ -9,10 +9,9 @@ class Headtable extends Component {
     this.setNewOrder = this.setNewOrder.bind(this);
   }
 
-  setNewOrder(name) {
-    const { setOrder, data, dataMock, dataMockFilter, orderReducer } = this.props;
-    const { filters: [{ order }] } = orderReducer;
-    setOrder(data, dataMock, dataMockFilter, name, order);
+  setNewOrder(name, value) {
+    const { setOrder, data, dataMock, dataMockFilter } = this.props;
+    setOrder(data, dataMock, dataMockFilter, name, value);
   }
 
   render() {
@@ -27,8 +26,9 @@ class Headtable extends Component {
               key={result}
             >{result.replace(/_/g, ' ')}
               <button
-                onClick={() => this.setNewOrder(result)}
-              >{ (order !== 'DESC') ? '↑' : '↓' }
+                value={order !== 'ASC' ? 'DESC' : 'ASC'}
+                onClick={(e) => this.setNewOrder(result, e.target.value)}
+              >↓↑
               </button>
             </th>
             : null))

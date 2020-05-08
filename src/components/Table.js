@@ -44,13 +44,6 @@ class Table extends Component {
     dataAPI();
   }
 
-  // componentDidUpdate() {
-  //   const { dataMock, dataMockFilter, callUpData, orderReducer: { filters } } = this.props;
-  //   const nameOrder = filters[0].column;
-  //   console.log(nameOrder)
-  //   //callUpData(dataMock, dataMockFilter, filters);
-  // }
-
   selecDropDown() {
     const { arrDrop } = this.state;
     return (
@@ -190,7 +183,7 @@ class Table extends Component {
   }
 
   createBonus() {
-    const { orderReducer, data, dataMock, dataMockFilterOn } = this.props;
+    const { orderReducer } = this.props;
     const { filters } = orderReducer;
     const ascDesc = filters.filter((filter) =>
       !Object.keys(filter).includes('name') && !Object.keys(filter).includes('numericValues'));
@@ -200,9 +193,6 @@ class Table extends Component {
           <div className="essa2" key={item}>
             <div className="item-column">{item.column}</div>
             <div className="item-order">{item.order}</div>
-            <button
-              className="item-del"
-              onClick={() => this.removeOrder(data, dataMock, dataMockFilterOn)}>X</button>
           </div>
         ))
       );
