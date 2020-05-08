@@ -6,6 +6,12 @@
 button {
   background-color: white;
   color: black;
+  font-weight: 700;
+}
+
+button:disabled {
+  color: grey;
+  font-weight: 400;
 }
 
 input {

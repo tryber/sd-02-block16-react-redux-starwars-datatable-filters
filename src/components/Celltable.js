@@ -71,4 +71,5 @@ export default connect(mapStateToProps)(Celltable);
 Celltable.propTypes = {
   dataMock: PropTypes.instanceOf(Object).isRequired,
   dataMockFilterOn: PropTypes.bool.isRequired,
+  orderReducer: PropTypes.instanceOf(Object).isRequired,
 };

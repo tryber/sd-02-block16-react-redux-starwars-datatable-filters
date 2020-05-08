@@ -191,7 +191,7 @@ class Table extends Component {
       return (
         ascDesc.map((item) => (
           <div className="essa2" key={item}>
-            <div className="item-column">{item.column}</div>
+            <div className="item-column">{item.column.replace(/_/g, ' ')}</div>
             <div className="item-order">{item.order}</div>
           </div>
         ))
