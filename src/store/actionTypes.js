@@ -9,3 +9,4 @@ export const SET_INITIAL_ORDER = 'SET_INITIAL_ORDER';
 export const SET_NEW_ORDER = 'SET_NEW_ORDER';
 export const REMOVE_ORDER = 'REMOVE_ORDER';
 export const UPDATE_DATA = 'UPDATE_DATA';
+export const RESULT_TRUE_DATA = 'RESULT_TRUE_DATA';

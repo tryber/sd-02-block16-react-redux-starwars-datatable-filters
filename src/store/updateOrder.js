@@ -9,14 +9,18 @@ function updateOrderFilters() {
 function updateData(results) {
   return {
     type: types.UPDATE_DATA,
-    results,
+    data: results,
   }
 }
 
-const updateOrder = (data) => (
+const updateOrder = (data, dataMock, dataMockFilterOn) => (
   (dispatch) => {
+    let newData = data;
+    if (dataMockFilterOn) {
+      newData = dataMock;
+    }
     dispatch(updateOrderFilters());
-    return dispatch(updateData(data));
+    return dispatch(updateData(newData));
   }
 );
 

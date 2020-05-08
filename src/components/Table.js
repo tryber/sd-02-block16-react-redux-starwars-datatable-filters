@@ -8,6 +8,7 @@ import Celltable from './Celltable';
 import dispatchAllFilters from '../store/allFilters';
 import filtersRemove from '../store/removeAction';
 import updateOrder from '../store/updateOrder';
+import resultCallUpData from '../store/resultCallUpData';
 import './Table.css';
 
 const filterPlanet = (e, dataPlanet, dataMock, dataMockFilterOn, data) => {
@@ -42,6 +43,13 @@ class Table extends Component {
     const { dataAPI } = this.props;
     dataAPI();
   }
+
+  // componentDidUpdate() {
+  //   const { dataMock, dataMockFilter, callUpData, orderReducer: { filters } } = this.props;
+  //   const nameOrder = filters[0].column;
+  //   console.log(nameOrder)
+  //   //callUpData(dataMock, dataMockFilter, filters);
+  // }
 
   selecDropDown() {
     const { arrDrop } = this.state;
@@ -93,7 +101,7 @@ class Table extends Component {
     this.setState({ [name]: true });
   }
 
-  handleSubmit(data, filters) {
+  handleSubmit(dataMock, filters) {
     const { column, condition, value, arrDrop } = this.state;
     const { updateAllFilters } = this.props;
     const newArr = arrDrop.filter((arr) => arr !== column);
@@ -104,7 +112,7 @@ class Table extends Component {
       column: '',
       arrDrop: newArr,
     });
-    updateAllFilters(column, condition, value, data, filters);
+    updateAllFilters(column, condition, value, dataMock, filters);
   }
 
   handleChange(event) {
@@ -176,16 +184,16 @@ class Table extends Component {
     );
   }
 
-  removeOrder(data) {
+  removeOrder(data, dataMock, dataMockFilterOn) {
     const { callRmOrder } = this.props;
-    callRmOrder(data);
+    callRmOrder(data, dataMock, dataMockFilterOn);
   }
 
   createBonus() {
-    const { orderReducer, data } = this.props;
+    const { orderReducer, data, dataMock, dataMockFilterOn } = this.props;
     const { filters } = orderReducer;
-    console.log(data)
-    const ascDesc = filters.filter((filter) => !Object.keys(filter).includes('name') && !Object.keys(filter).includes('numericValues'));
+    const ascDesc = filters.filter((filter) =>
+      !Object.keys(filter).includes('name') && !Object.keys(filter).includes('numericValues'));
     if (ascDesc !== undefined) {
       return (
         ascDesc.map((item) => (
@@ -194,7 +202,7 @@ class Table extends Component {
             <div className="item-order">{item.order}</div>
             <button
               className="item-del"
-              onClick={() => this.removeOrder(data)}>X</button>
+              onClick={() => this.removeOrder(data, dataMock, dataMockFilterOn)}>X</button>
           </div>
         ))
       );
@@ -219,7 +227,7 @@ class Table extends Component {
           disabled={(colOn && condOn && valOn) ? '' : 'none'}
           onClick={(e) => {
             e.target.parentNode.querySelector('input').value = '';
-            return this.handleSubmit(data, filters);
+            return this.handleSubmit(dataMock, filters);
           }}
         > Search
         </button>
@@ -241,19 +249,21 @@ const mapStateToProps = ({
 const mapDispatchToProps = (dispatch) => ({
   dataAPI: () => dispatch(resultAPI()),
   dataPlanet: (planet, dataMock, dataMockFilterOn, data) =>
-    dispatch(planetAction(planet, dataMock, dataMockFilterOn, data)),
-  updateAllFilters: (column, condition, value, data) =>
-    dispatch(dispatchAllFilters(column, condition, value, data)),
+  dispatch(planetAction(planet, dataMock, dataMockFilterOn, data)),
+  updateAllFilters: (column, condition, value, dataMock) =>
+  dispatch(dispatchAllFilters(column, condition, value, dataMock)),
   updateRemoveFilters: (dataMock, filters, filtersNumeric) =>
-    dispatch(filtersRemove(dataMock, filters, filtersNumeric)),
-  callRmOrder: (data) =>
-    dispatch(updateOrder(data)),
+  dispatch(filtersRemove(dataMock, filters, filtersNumeric)),
+  callRmOrder: (data, dataMock, dataMockFilterOn) =>
+    dispatch(updateOrder(data, dataMock, dataMockFilterOn)),
+  callUpData: (dataMock) => dispatch(resultCallUpData(dataMock)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Table);
 
 Table.propTypes = {
   dataAPI: PropTypes.func.isRequired,
+  callUpData: PropTypes.func.isRequired,
   dataPlanet: PropTypes.func.isRequired,
   updateRemoveFilters: PropTypes.func.isRequired,
   callRmOrder: PropTypes.func.isRequired,

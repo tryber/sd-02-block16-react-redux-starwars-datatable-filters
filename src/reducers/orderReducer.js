@@ -8,7 +8,7 @@ export default function reduce(state = orderState, action) {
         ...state,
         filters: [
           {
-            column: 'Name',
+            column: 'name',
             order: 'ASC',
           },
         ],
@@ -26,8 +26,8 @@ export default function reduce(state = orderState, action) {
     case types.REMOVE_ORDER:
       return {
         filters: [{
-          column: 'Escolha Coluna',
-          order: 'Escolha ordem',
+          column: 'Coluna',
+          order: 'Ordem',
         }],
       };
     default: return state;

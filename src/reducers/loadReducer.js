@@ -7,6 +7,7 @@ function resultTrue(state, action) {
     onLoad: true,
     data: action.data,
     dataMock: action.dataMock,
+    dataMockFilter: action.dataMock,
     filters: [
       ...state.filters,
     ],
@@ -26,7 +27,10 @@ function resultPlanet(state, action) {
     ...state,
     dataMock: action.results,
     dataMockFilter: action.results,
-    filters: action.numericValues,
+    filters: [
+      action.name,
+      ...state.filters,
+    ],
   };
 }
 
@@ -66,15 +70,25 @@ function resultAllFilters(state, action) {
 function resultUpdateData(state, action) {
   return {
     ...state,
-    dataMock: action.results,
+    dataMock: action.data,
     dataMockFilter: action.data,
   }
+}
+
+function resultTrueData(state, action) {
+  return {
+    ...state,
+    dataMock: action.data,
+    dataMockFilter: action.data,
+  };
 }
 
 export default function reduce(state = initialState, action) {
   switch (action.type) {
     case types.RESULT_TRUE:
       return resultTrue(state, action);
+    case types.RESULT_TRUE_DATA:
+      return resultTrueData(state, action);
     case types.RESULT_FALSE:
       return resultFalse(state, action);
     case types.RESULT_PLANET:

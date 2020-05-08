@@ -6,7 +6,6 @@ import orderAction from '../store/orderAction';
 class Headtable extends Component {
   constructor(props) {
     super(props);
-
     this.setNewOrder = this.setNewOrder.bind(this);
   }
 
@@ -28,7 +27,7 @@ class Headtable extends Component {
               key={result}
             >{result.replace(/_/g, ' ')}
               <button
-                onClick={(e) => this.setNewOrder(e.target.parentNode.innerText.slice(0, -1))}
+                onClick={() => this.setNewOrder(result)}
               >{ (order !== 'DESC') ? '↑' : '↓' }
               </button>
             </th>

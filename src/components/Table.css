@@ -1,11 +1,27 @@
+* {
+  background-color: black;
+  color: white;
+}
+
+button {
+  background-color: white;
+  color: black;
+}
+
+input {
+  background-color: white;
+  color: black;
+}
+
 table , th , td {
-  border: 1px solid black;
+  border: 1px solid white;
+  color: internal white;
   text-transform: capitalize;
   width: 100%;
 }
 
 .essa2 {
-  border: 1px solid black;
+  border: 1px solid white;
   display: flex;
   margin: 5px;
   padding: 2px;
@@ -18,7 +34,7 @@ table , th , td {
 }
 
 .item-column , .item-order , .item-del {
-  border: 1px solid black;
+  border: 1px solid white;
   margin-right: 2px;
   padding: 2px;
 }
