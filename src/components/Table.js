@@ -57,11 +57,7 @@ class Table extends Component {
               this.changeBoolean(e.target.options[e.target.selectedIndex].attributes.name.value)}
           >
             <option value="" name="Choose" hidden>Choose Option</option>
-            {
-              arrDrop.map((arr) => (
-                <option key={arr} value={arr} name="colOn">{arr}</option>
-              ))
-            }
+            {arrDrop.map((arr) => (<option key={arr} value={arr} name="colOn">{arr}</option>))}
           </select>
         </label>
       </form>
@@ -150,8 +146,7 @@ class Table extends Component {
             </div>)
             : '';
             return filtered;
-          })
-          }
+          })}
         </div>
       );
     }
@@ -243,7 +238,7 @@ const mapDispatchToProps = (dispatch) => ({
   updateAllFilters: (column, condition, value, dataMock) =>
   dispatch(dispatchAllFilters(column, condition, value, dataMock)),
   updateRemoveFilters: (dataMock, filters, filtersNumeric) =>
-  dispatch(filtersRemove(dataMock, filters, filtersNumeric)),
+    dispatch(filtersRemove(dataMock, filters, filtersNumeric)),
   callRmOrder: (data, dataMock, dataMockFilterOn) =>
     dispatch(updateOrder(data, dataMock, dataMockFilterOn)),
   callUpData: (dataMock) => dispatch(resultCallUpData(dataMock)),
