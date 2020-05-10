@@ -1,0 +1,47 @@
+button {
+  background-color: white;
+  color: black;
+  font-weight: 700;
+}
+
+input {
+  background-color: white;
+  color: black;
+}
+
+table , th , td {
+  border: 1px solid white;
+  color: white;
+  text-transform: capitalize;
+  width: 100%;
+}
+
+.essa2 {
+  border: 1px solid white;
+  display: flex;
+  margin: 5px;
+  padding: 2px;
+  text-transform: capitalize;
+  width: fit-content;
+}
+
+.essa2 > p , button {
+  margin: 2px;
+}
+
+button:disabled {
+  color: grey;
+  font-weight: 400;
+}
+
+.item-column , .item-order , .item-del {
+  border: 1px solid white;
+  margin-right: 2px;
+  padding: 2px;
+}
+
+.essa-co , .essa-cl , .essa-vl {
+  border: 1px solid black;
+  margin-right: 2px;
+  padding: 2px;
+}
