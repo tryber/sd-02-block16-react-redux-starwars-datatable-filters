@@ -4,11 +4,6 @@ button {
   font-weight: 700;
 }
 
-button:disabled {
-  color: grey;
-  font-weight: 400;
-}
-
 input {
   background-color: white;
   color: black;
@@ -32,6 +27,11 @@ table , th , td {
 
 .essa2 > p , button {
   margin: 2px;
+}
+
+button:disabled {
+  color: grey;
+  font-weight: 400;
 }
 
 .item-column , .item-order , .item-del {
