@@ -8,7 +8,6 @@ import Celltable from './Celltable';
 import dispatchAllFilters from '../store/allFilters';
 import filtersRemove from '../store/removeAction';
 import updateOrder from '../store/updateOrder';
-import resultCallUpData from '../store/resultCallUpData';
 import './Table.css';
 
 const filterPlanet = (e, dataPlanet, dataMock, dataMockFilterOn, data) => {
@@ -241,14 +240,12 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(filtersRemove(dataMock, filters, filtersNumeric)),
   callRmOrder: (data, dataMock, dataMockFilterOn) =>
     dispatch(updateOrder(data, dataMock, dataMockFilterOn)),
-  callUpData: (dataMock) => dispatch(resultCallUpData(dataMock)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Table);
 
 Table.propTypes = {
   dataAPI: PropTypes.func.isRequired,
-  callUpData: PropTypes.func.isRequired,
   dataPlanet: PropTypes.func.isRequired,
   updateRemoveFilters: PropTypes.func.isRequired,
   callRmOrder: PropTypes.func.isRequired,

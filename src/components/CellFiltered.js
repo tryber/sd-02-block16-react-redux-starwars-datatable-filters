@@ -39,4 +39,5 @@ export default connect(mapStateToProps)(CellFiltered);
 CellFiltered.propTypes = {
   dataMockFilter: PropTypes.instanceOf(Object).isRequired,
   orderReducer: PropTypes.instanceOf(Object).isRequired,
+  columnsNum: PropTypes.instanceOf(Object).isRequired,
 };

@@ -11,11 +11,12 @@
         "Atomics": "readonly",
         "SharedArrayBuffer": "readonly"
     },
+    "parser": "babel-eslint",
     "parserOptions": {
         "ecmaFeatures": {
-            "jsx": true
+            "jsx": true,
         },
-        "ecmaVersion": 8,
+        "ecmaVersion": 6,
         "sourceType": "module"
     },
     "plugins": [
