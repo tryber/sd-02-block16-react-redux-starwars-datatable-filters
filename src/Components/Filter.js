@@ -9,22 +9,42 @@ import FilterByName from './FilterByName';
 import FilterByCondition from './FilterByCondition';
 import InputNumber from './InputNumber';
 
+function actionTags(tags) {
+  return {
+    type: 'filterByName',
+    tags,
+  };
+}
 
-function handleClick(id, filters) {
-  const coisa = filters;
-  coisa.splice(id, 1);
+function actionDelete(filters) {
   return {
     type: 'delete',
-    filters: coisa,
+    filters,
   };
 }
 
 class Filter extends Component {
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(id) {
+    const { dispatch, filters, tags } = this.props;
+    const coisa = filters;
+    tags.push(coisa[id].numericValues.name);
+    if (tags.length > 0) {
+      dispatch(actionTags(tags));
+    }
+    coisa.splice(id, 1);
+    dispatch(actionDelete(coisa));
+  }
+
   render() {
-    const { id, handle, filters } = this.props;
+    const { id } = this.props;
     return (
       <div className="comp_filter_cont" name={id}>
-        <button type="button" onClick={() => handle(id, filters)}>
+        <button type="button" onClick={() => this.handleClick(id)}>
           <i className="material-icons">
             close
           </i>
@@ -39,20 +59,17 @@ class Filter extends Component {
 
 const mapStateToProps = (state) => ({
   filters: state.filter.filters,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  handle: (e, id, filters) => dispatch(handleClick(e, id, filters)),
+  tags: state.filterByName.tags,
 });
 
 Filter.propTypes = {
-  handle: PropTypes.func.isRequired,
   filters: filtersPropTypes.filters,
   id: PropTypes.number.isRequired,
+  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 Filter.defaultProps = {
   filters: filtersDefault,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Filter);
+export default connect(mapStateToProps)(Filter);
