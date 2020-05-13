@@ -1,0 +1,72 @@
+.comp_filter_cont {
+  border-color: black;
+  border-style: solid;
+  padding: 1% 0;
+  width: 40%;
+}
+
+.comp_filter_cont > button {
+  background-color: white;
+  border-style: none;
+  left: 40%;
+  position: relative;
+}
+
+.comp_filter {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 35%;
+}
+
+.comp_filter > .container {
+  display: flex;
+}
+
+.comp_filter > .container > p {
+  margin: 0 10px;
+}
+
+.comp_filter .list {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin: 10% 0;
+  padding: 0;
+}
+
+.comp_order > div > button {
+  background-color: white;
+  border-color: black;
+  border-style: solid;
+  border-width: 1px;
+  cursor: pointer;
+  margin: 4% 3%;
+  padding: 0 5%;
+}
+
+.comp_filter .list > button {
+  background-color: white;
+  border-color: black;
+  border-style: solid;
+  cursor: pointer;
+  position: relative;
+}
+
+.comp_filter > div > .material-icons {
+  cursor: pointer;
+  font-size: 20px;
+  height: 20px;
+  width: 20px;
+}
+
+.comp_order {
+  border-color: black;
+  border-style: solid;
+  border-width: 1px;
+  width: 40%;
+}
+
+.comp_order > div {
+  display: flex;
+}

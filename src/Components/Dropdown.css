@@ -1,0 +1,58 @@
+.comp_dropdown {
+  display: flex;
+  flex-direction: column;
+  width: 99%;
+}
+
+.comp_dropdown > .selected {
+  border-color: black;
+  border-style: solid;
+  border-width: 1px;
+  display: flex;
+  height: 25px;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+}
+
+.comp_dropdown > .selected > button > p {
+  margin: auto;
+  text-align: center;
+}
+
+.comp_dropdown > .selected > button {
+  background-color: white;
+  border-style: none;
+  cursor: pointer;
+  height: 100%;
+  padding: 0;
+  position: absolute;
+  width: 100%;
+}
+
+.comp_dropdown > .selected > button > .material-icons {
+  height: 6%;
+  margin: 0 4%;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.comp_dropdown > .list {
+  display: none;
+  flex-direction: column;
+}
+
+.comp_dropdown > .list > button {
+  background-color: white;
+  border-color: black;
+  border-style: solid;
+  border-width: 1px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.comp_dropdown > .list > button:hover {
+  background-color: black;
+  color: white;
+}
