@@ -91,6 +91,7 @@ Dropdown.propTypes = {
   ).isRequired,
   filters: filtersPropTypes.filters,
   dispatch: PropTypes.func.isRequired,
+  initSelect: PropTypes.string.isRequired,
 };
 
 Dropdown.defaultProps = {

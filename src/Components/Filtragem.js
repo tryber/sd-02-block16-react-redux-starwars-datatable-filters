@@ -39,8 +39,14 @@ class Filtragem extends Component {
   componentDidUpdate() {
     const { filters } = this.props;
     if (filters[filters.length - 1].numericValues) {
-      const { numericValues: {name, condition, input } } = filters[filters.length - 1];
-      (name && condition && input) && this.addFilter();
+      const { numericValues: { name, condition, input } } = filters[filters.length - 1];
+      this.condicao(name, condition, input);
+    }
+  }
+
+  condicao(name, condition, input) {
+    if (name && condition && input) {
+      this.addFilter();
     }
   }
 

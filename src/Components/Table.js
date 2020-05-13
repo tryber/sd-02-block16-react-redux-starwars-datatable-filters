@@ -64,6 +64,12 @@ function sortStringNumber(a, b, column, one, one2) {
   return ((a[column] > b[column]) ? one : one2);
 }
 
+function filterResindets(planets) {
+  Object.filter = (obj, predicate) =>
+    Object.fromEntries(Object.entries(obj).filter(predicate));
+  return planets.map((planet) => Object.filter(planet, ([key]) => key !== 'residents'));
+}
+
 class Table extends Component {
   constructor(props) {
     super(props);
@@ -107,21 +113,15 @@ class Table extends Component {
     }
   }
 
-  filterResindets(planets) {
-    Object.filter = (obj, predicate) => 
-      Object.fromEntries(Object.entries(obj).filter(predicate));
-    return planets.map((planet) => Object.filter(planet, ([key]) => key !== 'residents'))
-  }
-
   render() {
     const { planets } = this.props;
     return (
       <table>
         <thead>
-          {theadRender(this.filterResindets(planets))}
+          {theadRender(filterResindets(planets))}
         </thead>
         <tbody>
-          {this.byOrder(this.inputNumbers(this.planetName(this.filterResindets(planets))))
+          {this.byOrder(this.inputNumbers(this.planetName(filterResindets(planets))))
             .map((planet) => (
               tbodyRender(planet)
             ))}
