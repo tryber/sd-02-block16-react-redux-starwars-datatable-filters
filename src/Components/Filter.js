@@ -66,7 +66,7 @@ Filter.propTypes = {
   filters: filtersPropTypes.filters,
   id: PropTypes.number.isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-  dispatch: PropTypes.func.isRequired,  
+  dispatch: PropTypes.func.isRequired,
 };
 
 Filter.defaultProps = {
